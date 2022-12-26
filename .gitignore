@@ -1,3 +1,6 @@
+# Specific to this project
+/workflows/
+
 # Compiled class file
 *.class
 
