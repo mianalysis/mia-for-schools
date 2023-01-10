@@ -1,13 +1,13 @@
 package io.github.mianalysis.mia.forschools.gui.css;
 
-import io.github.mianalysis.mia.forschools.gui.MainPane;
+import io.github.mianalysis.mia.forschools.gui.MIAForSchools;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
 public class BackButton extends Button {
-    public BackButton(MainPane mainPane, Pane targetPane, int width, int height) {
+    public BackButton(Pane targetPane, int width, int height) {
         setText("Back");
         setMinWidth(width);
         setMaxWidth(width);
@@ -16,7 +16,7 @@ public class BackButton extends Button {
         setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                mainPane.setControlPane(targetPane);   
+                MIAForSchools.getMainPane().setControlPane(targetPane);   
             }
         });
     }

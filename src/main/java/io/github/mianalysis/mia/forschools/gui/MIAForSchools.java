@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ij.IJ;
+import io.github.mianalysis.mia.module.Modules;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class MIAForSchools extends Application {
+    public static Modules modules;
+    private static final MainPane mainPane = new MainPane(); 
     private static String workflowsPath = new File(
             IJ.getDirectory("imagej") + File.separator + "workflows" + File.separator).getAbsolutePath();
     
@@ -23,10 +26,8 @@ public class MIAForSchools extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        MainPane mainPane = new MainPane();
-
         List<String> workflowNames = getWorkflowNames();
-        Pane workflowSelectorPane = new WorkflowSelectorPane(workflowNames, mainPane);
+        Pane workflowSelectorPane = new WorkflowSelectorPane(workflowNames);
         mainPane.setControlPane(workflowSelectorPane);
 
         ImagePane imagePane = new ImagePane();
@@ -48,5 +49,13 @@ public class MIAForSchools extends Application {
 
         return workflowNames;
 
+    }
+
+    public static MainPane getMainPane() {
+        return mainPane;
+    }
+
+    public static String getWorkflowsPath() {
+        return workflowsPath;
     }
 }
