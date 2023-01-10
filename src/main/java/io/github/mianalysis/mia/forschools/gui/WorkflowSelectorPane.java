@@ -2,27 +2,15 @@ package io.github.mianalysis.mia.forschools.gui;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
 
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import ij.ImagePlus;
-import ij.gui.ImageCanvas;
 import io.github.mianalysis.mia.forschools.gui.css.BackButton;
 import io.github.mianalysis.mia.module.Module;
 import io.github.mianalysis.mia.module.Modules;
-import io.github.mianalysis.mia.module.visualise.overlays.AddLine;
-import io.github.mianalysis.mia.module.visualise.overlays.AddText;
 import io.github.mianalysis.mia.object.Workspace;
 import io.github.mianalysis.mia.object.Workspaces;
-import io.github.mianalysis.mia.object.image.Image;
 import io.github.mianalysis.mia.process.analysishandling.Analysis;
 import io.github.mianalysis.mia.process.analysishandling.AnalysisReader;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -34,6 +22,9 @@ import javafx.scene.layout.VBox;
 public class WorkflowSelectorPane extends VBox {
     private static int buttonMinSize = 200;
     private static int buttonMaxSize = 200;
+    private Modules modules = null;
+    private Workspace workspace = null;
+    private int moduleIdx = -1;
 
     public WorkflowSelectorPane(List<String> workflowNames) {
         ObservableList<Node> workflowButtons = getChildren();
@@ -59,10 +50,12 @@ public class WorkflowSelectorPane extends VBox {
 
             @Override
             public void handle(ActionEvent event) {
+                moduleIdx = -1;
+                
                 String workflowPath = MIAForSchools.getWorkflowsPath() + workflowName;
                 Analysis analysis = loadModules(workflowPath);
 
-                Modules modules = analysis.getModules();
+                modules = analysis.getModules();
                 if (modules == null)
                     return;
                 else
@@ -77,63 +70,39 @@ public class WorkflowSelectorPane extends VBox {
                 VBox controlPane = new VBox();
                 controlPane.getChildren().add(workflowLabel);
 
+                // Display first image
+                Workspaces workspaces = new Workspaces();
+                workspace = workspaces.getNewWorkspace(analysis.getModules().getInputControl().getRootFile(),
+                        1);
+
+                // Running the first module
+                modules.get(++moduleIdx).execute(workspace);
+
+                Button nextButton = new Button();
+                nextButton.setText("Next step");
+                nextButton.setMinWidth(buttonMinSize);
+                nextButton.setMinHeight((int) Math.round(buttonMaxSize * 0.25));
+                nextButton.setMaxWidth(buttonMaxSize);
+                nextButton.setMaxHeight((int) Math.round(buttonMaxSize * 0.25));
+                nextButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        modules.get(++moduleIdx).execute(workspace);
+                    }                    
+                });       
+                controlPane.getChildren().add(nextButton);     
+                
                 BackButton backButton = new BackButton(selectorPane, buttonMinSize,
                         (int) Math.round(buttonMaxSize * 0.25));
                 controlPane.getChildren().add(backButton);
 
                 MIAForSchools.getMainPane().setControlPane(controlPane);
 
-                // Display first image
-                VBox imagePane = new VBox();
-
-                Workspaces workspaces = new Workspaces();
-                Workspace workspace = workspaces.getNewWorkspace(analysis.getModules().getInputControl().getRootFile(),
-                        1);
-
-                for (Module module : modules)
-                    module.execute(workspace);
-
-                // Getting image
-                Image image = workspace.getImage("Output");
-                ImagePlus ipl = image.getImagePlus();
-
-                final AwtInitializerTask awtInitializerTask = new AwtInitializerTask(() -> {
-                    JPanel jPanel = new JPanel();
-
-                    System.out.println("Canvas: " + image.getImagePlus().getCanvas());
-                    jPanel.add(new ImageCanvas(ipl));
-
-                    return jPanel;
-                });
-
-                SwingUtilities.invokeLater(awtInitializerTask);
-
-                SwingNode swingNode = new SwingNode();
-                try {
-                    swingNode.setContent(awtInitializerTask.get());
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
-
-                imagePane.getChildren().add(swingNode);
-                // stage.setScene(new Scene(new Group(swingNode), W, H));
-                // stage.setResizable(false);
-                // stage.show();
-
-                MIAForSchools.getMainPane().setImagePane(imagePane);
-
             }
-
         });
 
         return button;
 
-    }
-
-    private class AwtInitializerTask extends FutureTask<JPanel> {
-        public AwtInitializerTask(Callable<JPanel> callable) {
-            super(callable);
-        }
     }
 
     public static Analysis loadModules(String path) {

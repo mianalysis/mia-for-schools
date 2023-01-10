@@ -6,6 +6,7 @@ import java.util.List;
 
 import ij.IJ;
 import io.github.mianalysis.mia.module.Modules;
+import io.github.mianalysis.mia.object.image.Image;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -26,6 +27,9 @@ public class MIAForSchools extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        // Images will automatically be shown using the ImagePaneRenderer
+        Image.setDefaultRenderer(new ImagePaneRenderer());
+
         List<String> workflowNames = getWorkflowNames();
         Pane workflowSelectorPane = new WorkflowSelectorPane(workflowNames);
         mainPane.setControlPane(workflowSelectorPane);

@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 
 public class BackButton extends Button {
     public BackButton(Pane targetPane, int width, int height) {
-        setText("Back");
+        setText("List of workflows");
         setMinWidth(width);
         setMaxWidth(width);
         setMinHeight(height);
