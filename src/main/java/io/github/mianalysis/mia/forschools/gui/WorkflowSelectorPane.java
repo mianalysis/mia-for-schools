@@ -3,11 +3,6 @@ package io.github.mianalysis.mia.forschools.gui;
 import java.io.File;
 import java.util.List;
 
-import io.github.mianalysis.mia.forschools.gui.css.BackButton;
-import io.github.mianalysis.mia.module.Module;
-import io.github.mianalysis.mia.module.Modules;
-import io.github.mianalysis.mia.object.Workspace;
-import io.github.mianalysis.mia.object.Workspaces;
 import io.github.mianalysis.mia.process.analysishandling.Analysis;
 import io.github.mianalysis.mia.process.analysishandling.AnalysisReader;
 import javafx.collections.ObservableList;
@@ -15,88 +10,32 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class WorkflowSelectorPane extends VBox {
-    private static int buttonMinSize = 200;
-    private static int buttonMaxSize = 200;
-    private Modules modules = null;
-    private Workspace workspace = null;
-    private int moduleIdx = -1;
-
     public WorkflowSelectorPane(List<String> workflowNames) {
+        getStylesheets().add(MIAForSchools.class.getResource("css/style.css").toExternalForm());
+
         ObservableList<Node> workflowButtons = getChildren();
 
         for (String workflowName : workflowNames)
             workflowButtons.add(createButton(workflowName));
-
-        // pane.getStylesheets().add(MIAForSchools.class.getResource("css/style.css").toExternalForm());
 
     }
 
     public Button createButton(String workflowName) {
         Button button = new Button();
         button.setText(workflowName);
-        button.setMinWidth(buttonMinSize);
-        button.setMinHeight(buttonMinSize);
-        button.setMaxWidth(buttonMaxSize);
-        button.setMaxHeight(buttonMaxSize);
-
-        Pane selectorPane = this;
-
+        button.getStyleClass().add("cartoon-button");
+        button.setStyle(createWonkySquarePath());
+        button.setPickOnBounds(true);
         button.setOnAction(new EventHandler<ActionEvent>() {
-
             @Override
             public void handle(ActionEvent event) {
-                moduleIdx = -1;
-                
                 String workflowPath = MIAForSchools.getWorkflowsPath() + workflowName;
                 Analysis analysis = loadModules(workflowPath);
 
-                modules = analysis.getModules();
-                if (modules == null)
-                    return;
-                else
-                    MIAForSchools.modules = modules;
-
-                StringBuilder sb = new StringBuilder("Controls for " + workflowName + ":");
-                for (Module module : modules)
-                    sb.append("\n" + module.getName());
-
-                // Display controls
-                Label workflowLabel = new Label(sb.toString());
-                VBox controlPane = new VBox();
-                controlPane.getChildren().add(workflowLabel);
-
-                // Display first image
-                Workspaces workspaces = new Workspaces();
-                workspace = workspaces.getNewWorkspace(analysis.getModules().getInputControl().getRootFile(),
-                        1);
-
-                // Running the first module
-                modules.get(++moduleIdx).execute(workspace);
-
-                Button nextButton = new Button();
-                nextButton.setText("Next step");
-                nextButton.setMinWidth(buttonMinSize);
-                nextButton.setMinHeight((int) Math.round(buttonMaxSize * 0.25));
-                nextButton.setMaxWidth(buttonMaxSize);
-                nextButton.setMaxHeight((int) Math.round(buttonMaxSize * 0.25));
-                nextButton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        modules.get(++moduleIdx).execute(workspace);
-                    }                    
-                });       
-                controlPane.getChildren().add(nextButton);     
-                
-                BackButton backButton = new BackButton(selectorPane, buttonMinSize,
-                        (int) Math.round(buttonMaxSize * 0.25));
-                controlPane.getChildren().add(backButton);
-
-                MIAForSchools.getMainPane().setControlPane(controlPane);
+                MIAForSchools.getMainPane().setControlPane(new WorkflowControlPane(analysis));
 
             }
         });
@@ -119,6 +58,22 @@ public class WorkflowSelectorPane extends VBox {
         }
 
         return null;
+
+    }
+
+    public static String createWonkySquarePath() {
+        double mag = 0.2;
+        double x1 = Math.random()*mag-mag/2;
+        double y1 = Math.random()*mag-mag/2;
+        double x2 = 1+Math.random()*mag-mag/2;
+        double y2 = Math.random()*mag-mag/2;
+        double x3 = 1+Math.random()*mag-mag/2;
+        double y3 = 1+Math.random()*mag-mag/2;
+        double x4 = Math.random()*mag-mag/2;
+        double y4 = 1+Math.random()*mag-mag/2;
+        String path = "-fx-shape: \"M "+x1+", "+y1+" L "+x2+" "+y2+" L "+x3+" "+y3+" L "+x4+" "+y4+" L "+x1+" "+y1+" Z\";";
+        System.out.println(path);
+        return path;
 
     }
 }

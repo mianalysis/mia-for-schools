@@ -9,18 +9,18 @@ import io.github.mianalysis.mia.module.Modules;
 import io.github.mianalysis.mia.object.image.Image;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class MIAForSchools extends Application {
     public static Modules modules;
+    private static WorkflowSelectorPane workflowSelectorPane;
     private static final MainPane mainPane = new MainPane(); 
     private static String workflowsPath = new File(
             IJ.getDirectory("imagej") + File.separator + "workflows" + File.separator).getAbsolutePath();
     
     public static void main(String[] args) {
         workflowsPath = "C:\\Users\\steph\\Documents\\Programming\\Java Projects\\mia-for-schools\\workflows\\";
-
+    
         launch(args);
 
     }
@@ -31,7 +31,7 @@ public class MIAForSchools extends Application {
         Image.setDefaultRenderer(new ImagePaneRenderer());
 
         List<String> workflowNames = getWorkflowNames();
-        Pane workflowSelectorPane = new WorkflowSelectorPane(workflowNames);
+        workflowSelectorPane = new WorkflowSelectorPane(workflowNames);
         mainPane.setControlPane(workflowSelectorPane);
 
         ImagePane imagePane = new ImagePane();
@@ -61,5 +61,9 @@ public class MIAForSchools extends Application {
 
     public static String getWorkflowsPath() {
         return workflowsPath;
+    }
+
+    public static WorkflowSelectorPane getWorkflowSelectorPane() {
+        return workflowSelectorPane;
     }
 }
