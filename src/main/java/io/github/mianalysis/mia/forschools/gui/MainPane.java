@@ -11,6 +11,7 @@ public class MainPane extends HBox {
     public MainPane() {
         getChildren().add(new Label("Controls"));
         getChildren().add(new Label("Image"));
+        setSpacing(20);
     }
 
     public Pane getControlPane() {

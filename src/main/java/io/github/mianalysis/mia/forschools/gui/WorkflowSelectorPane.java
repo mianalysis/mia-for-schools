@@ -11,11 +11,18 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
 
 public class WorkflowSelectorPane extends VBox {
     public WorkflowSelectorPane(List<String> workflowNames) {
         getStylesheets().add(MIAForSchools.class.getResource("/styles/style.css").toExternalForm());
+        getStyleClass().add("control-pane");        
 
         ObservableList<Node> workflowButtons = getChildren();
 
@@ -42,10 +49,11 @@ public class WorkflowSelectorPane extends VBox {
             }
         });
 
+        BackgroundImage backgroundImage = new BackgroundImage( new Image(getClass().getResource("/styles/Findonioncells.jpg").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        Background background = new Background(backgroundImage);
+        button.setBackground(background);
+
         DropShadow shadow = new DropShadow();
-        // shadow.setRadius(5);
-        // shadow.setOffsetX(3);
-        // shadow.setOffsetY(3);
         button.setEffect(shadow);
 
         return button;

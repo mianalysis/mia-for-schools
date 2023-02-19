@@ -30,6 +30,7 @@ public class WorkflowControlPane extends VBox {
 
     public WorkflowControlPane(Analysis analysis) {
         getStylesheets().add(MIAForSchools.class.getResource("/styles/style.css").toExternalForm());
+        getStyleClass().add("control-pane");
 
         Workspaces workspaces = new Workspaces();
         workspace = workspaces.getNewWorkspace(analysis.getModules().getInputControl().getRootFile(), 1);

@@ -1,3 +1,8 @@
+.control-pane {
+    -fx-spacing: 20;
+    -fx-padding: 20;
+}
+
 .button {
     /* -fx-font-weight: bold; */
     -fx-font-size: 12;
@@ -5,13 +10,14 @@
 
 .cartoon-button {
     /* -fx-shape: "m 39.935594,73.494915 98.999996,-9.061019 -1.67797,33.223729 H 48.99661 L 40.606778,75.508473 Z"; */
-    -fx-background-color: red;
+    /* -fx-background-color: red; */
+    /* -fx-background-image: url("/Findonioncells.jpg"); */
     -fx-border-color: black ;
     -fx-border-width: 2 ; 
     -size: 200;
     -fx-padding: 10px;
-    -fx-border-insets: 10px;
-    -fx-background-insets: 10px;
+    /* -fx-border-insets: 10px; */
+    /* -fx-background-insets: 10px; */
     -fx-min-height: -size;
     -fx-min-width: -size;
     -fx-max-height: -size;
