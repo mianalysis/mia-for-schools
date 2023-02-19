@@ -10,11 +10,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.VBox;
 
 public class WorkflowSelectorPane extends VBox {
     public WorkflowSelectorPane(List<String> workflowNames) {
-        getStylesheets().add(MIAForSchools.class.getResource("css/style.css").toExternalForm());
+        getStylesheets().add(MIAForSchools.class.getResource("/styles/style.css").toExternalForm());
 
         ObservableList<Node> workflowButtons = getChildren();
 
@@ -25,7 +26,8 @@ public class WorkflowSelectorPane extends VBox {
 
     public Button createButton(String workflowName) {
         Button button = new Button();
-        button.setText(workflowName);
+        button.setText(workflowName.substring(0,workflowName.length()-4));
+        button.setWrapText(true);
         button.getStyleClass().add("cartoon-button");
         button.setStyle(createWonkySquarePath());
         button.setPickOnBounds(true);
@@ -39,6 +41,12 @@ public class WorkflowSelectorPane extends VBox {
 
             }
         });
+
+        DropShadow shadow = new DropShadow();
+        // shadow.setRadius(5);
+        // shadow.setOffsetX(3);
+        // shadow.setOffsetY(3);
+        button.setEffect(shadow);
 
         return button;
 
@@ -63,16 +71,18 @@ public class WorkflowSelectorPane extends VBox {
 
     public static String createWonkySquarePath() {
         double mag = 0.2;
-        double x1 = Math.random()*mag-mag/2;
-        double y1 = Math.random()*mag-mag/2;
-        double x2 = 1+Math.random()*mag-mag/2;
-        double y2 = Math.random()*mag-mag/2;
-        double x3 = 1+Math.random()*mag-mag/2;
-        double y3 = 1+Math.random()*mag-mag/2;
-        double x4 = Math.random()*mag-mag/2;
-        double y4 = 1+Math.random()*mag-mag/2;
-        String path = "-fx-shape: \"M "+x1+", "+y1+" L "+x2+" "+y2+" L "+x3+" "+y3+" L "+x4+" "+y4+" L "+x1+" "+y1+" Z\";";
-        System.out.println(path);
+        double x1 = Math.random() * mag - mag / 2;
+        double y1 = Math.random() * mag - mag / 2;
+        double x2 = 1 + Math.random() * mag - mag / 2;
+        double y2 = Math.random() * mag - mag / 2;
+        double x3 = 1 + Math.random() * mag - mag / 2;
+        double y3 = 1 + Math.random() * mag - mag / 2;
+        double x4 = Math.random() * mag - mag / 2;
+        double y4 = 1 + Math.random() * mag - mag / 2;
+
+        String path = "-fx-shape: \"M " + x1 + ", " + y1 + " L " + x2 + " " + y2 + " L " + x3 + " " + y3 + " L " + x4
+                + " " + y4 + " L " + x1 + " " + y1 + " Z\";";
+
         return path;
 
     }

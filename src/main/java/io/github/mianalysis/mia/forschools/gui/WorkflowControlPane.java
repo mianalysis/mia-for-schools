@@ -7,7 +7,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
-import io.github.mianalysis.mia.forschools.gui.css.BackButton;
 import io.github.mianalysis.mia.module.Module;
 import io.github.mianalysis.mia.module.Modules;
 import io.github.mianalysis.mia.module.system.GUISeparator;
@@ -19,8 +18,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 public class WorkflowControlPane extends VBox {
@@ -30,7 +29,7 @@ public class WorkflowControlPane extends VBox {
     private TreeMap<Integer, ArrayList<Module>> moduleGroups;
 
     public WorkflowControlPane(Analysis analysis) {
-        getStylesheets().add(MIAForSchools.class.getResource("css/style.css").toExternalForm());
+        getStylesheets().add(MIAForSchools.class.getResource("/styles/style.css").toExternalForm());
 
         Workspaces workspaces = new Workspaces();
         workspace = workspaces.getNewWorkspace(analysis.getModules().getInputControl().getRootFile(), 1);

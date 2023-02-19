@@ -1,6 +1,5 @@
-package io.github.mianalysis.mia.forschools.gui.css;
+package io.github.mianalysis.mia.forschools.gui;
 
-import io.github.mianalysis.mia.forschools.gui.MIAForSchools;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;

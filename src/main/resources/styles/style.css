@@ -7,7 +7,7 @@
     /* -fx-shape: "m 39.935594,73.494915 98.999996,-9.061019 -1.67797,33.223729 H 48.99661 L 40.606778,75.508473 Z"; */
     -fx-background-color: red;
     -fx-border-color: black ;
-    -fx-border-width: 4 ; 
+    -fx-border-width: 2 ; 
     -size: 200;
     -fx-padding: 10px;
     -fx-border-insets: 10px;
@@ -16,7 +16,9 @@
     -fx-min-width: -size;
     -fx-max-height: -size;
     -fx-max-width: -size;
-    -fx-font-size: 14;
+    -fx-font-size: 24;
+    -fx-font-family: "Shantell Sans Light";
+    -fx-text-alignment: center;
 }
 
 .cartoon-button:hover {
