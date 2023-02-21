@@ -8,6 +8,7 @@ import io.github.mianalysis.mia.process.analysishandling.AnalysisReader;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
@@ -18,11 +19,15 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextFlow;
 
 public class WorkflowSelectorPane extends VBox {
     public WorkflowSelectorPane(List<String> workflowNames) {
         getStylesheets().add(MIAForSchools.class.getResource("/styles/style.css").toExternalForm());
-        getStyleClass().add("control-pane");        
+        getStyleClass().add("control-pane");
 
         ObservableList<Node> workflowButtons = getChildren();
 
@@ -33,8 +38,8 @@ public class WorkflowSelectorPane extends VBox {
 
     public Button createButton(String workflowName) {
         Button button = new Button();
-        button.setText(workflowName.substring(0,workflowName.length()-4));
-        button.setWrapText(true);
+        button.setAlignment(Pos.CENTER);
+        button.setMaxHeight(0);
         button.getStyleClass().add("cartoon-button");
         button.setStyle(createWonkySquarePath());
         button.setPickOnBounds(true);
@@ -49,9 +54,68 @@ public class WorkflowSelectorPane extends VBox {
             }
         });
 
-        BackgroundImage backgroundImage = new BackgroundImage( new Image(getClass().getResource("/styles/Findonioncells.jpg").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
-        Background background = new Background(backgroundImage);
-        button.setBackground(background);
+        DropShadow ds = new DropShadow();
+        ds.setColor(Color.color(1.0f, 1.0f, 1.0f));
+        ds.setRadius(50);
+        ds.setSpread(0.92);
+
+        Text t = new Text();
+        t.setEffect(ds);
+        t.setText(workflowName.substring(0, workflowName.length() - 4));
+        t.setTextAlignment(TextAlignment.CENTER);
+        t.getStyleClass().add("cartoon-text");
+        TextFlow tf = new TextFlow(t);
+        tf.setMaxHeight(0);
+        tf.setTextAlignment(TextAlignment.CENTER);
+        button.setGraphic(tf);
+        
+
+        String rootPath = MIAForSchools.getWorkflowsPath() + workflowName.substring(0, workflowName.length() - 4);
+        String normalImagePath = null;
+        if (new File(rootPath + ".jpg").exists())
+            normalImagePath = "file:/" + rootPath + ".jpg";
+        else if (new File(rootPath + ".png").exists())
+            normalImagePath = "file:/" + rootPath + ".png";
+        else if (new File(rootPath + ".tif").exists())
+            normalImagePath = "file:/" + rootPath + ".tif";
+
+        Background normalBackground;
+        if (normalImagePath != null) {
+            Image normalImage = new Image(normalImagePath);
+            BackgroundImage normalBackgroundImage = new BackgroundImage(normalImage, BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+            normalBackground = new Background(normalBackgroundImage);
+            button.setBackground(normalBackground);
+        } else {
+            normalBackground = null;
+        }
+
+        String hoverImagePath = null;
+        if (new File(rootPath + ".jpg").exists())
+            hoverImagePath = "file:/" + rootPath + "_hover.jpg";
+        else if (new File(rootPath + ".png").exists())
+            hoverImagePath = "file:/" + rootPath + "_hover.png";
+        else if (new File(rootPath + ".tif").exists())
+            hoverImagePath = "file:/" + rootPath + "_hover.tif";
+
+        Background hoverBackground;
+        if (hoverImagePath != null) {
+            Image hoverImage = new Image(hoverImagePath);
+            BackgroundImage hoverBackgroundImage = new BackgroundImage(hoverImage, BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+            hoverBackground = new Background(hoverBackgroundImage);
+        } else {
+            hoverBackground = null;
+        }
+
+        if (normalBackground != null && hoverBackground != null) {
+            button.hoverProperty().addListener((obs, wasHovered, isNowHovered) -> {
+                if (isNowHovered)
+                    button.setBackground(hoverBackground);
+                else
+                    button.setBackground(normalBackground);
+            });
+        }
 
         DropShadow shadow = new DropShadow();
         button.setEffect(shadow);
@@ -67,7 +131,6 @@ public class WorkflowSelectorPane extends VBox {
             return null;
         }
         try {
-            System.out.println(file.getAbsolutePath());
             return AnalysisReader.loadAnalysis(file);
         } catch (Exception e) {
             e.printStackTrace();
