@@ -1,6 +1,7 @@
 package io.github.mianalysis.mia.forschools.gui;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
@@ -9,6 +10,7 @@ public class MainPane extends HBox {
     private static final int PANE_IMAGE = 1;
 
     public MainPane() {
+        getStyleClass().add("main-pane");
         getChildren().add(new Label("Controls"));
         getChildren().add(new Label("Image"));
         setSpacing(20);
@@ -19,7 +21,9 @@ public class MainPane extends HBox {
     }
 
     public void setControlPane(Pane pane) {
-        getChildren().set(PANE_CONTROL,pane);
+        ScrollPane scroll = new ScrollPane();
+        scroll.setContent(pane); 
+        getChildren().set(PANE_CONTROL,scroll);
     }
 
     public Pane getImagePane() {

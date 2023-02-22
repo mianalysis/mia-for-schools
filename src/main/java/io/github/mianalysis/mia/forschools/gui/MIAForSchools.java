@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 public class MIAForSchools extends Application {
     public static Modules modules;
     private static WorkflowSelectorPane workflowSelectorPane;
+    private static Scene scene;
     private static final MainPane mainPane = new MainPane(); 
     private static String workflowsPath = new File(
             IJ.getDirectory("imagej") + File.separator + "workflows" + File.separator).getAbsolutePath();
@@ -35,14 +36,11 @@ public class MIAForSchools extends Application {
 
         List<String> workflowNames = getWorkflowNames();
         workflowSelectorPane = new WorkflowSelectorPane(workflowNames);
-        mainPane.setControlPane(workflowSelectorPane);
-
-        ImagePane imagePane = new ImagePane();
-        mainPane.setImagePane(imagePane);
-
-        Scene scene = new Scene(mainPane);
-
+        scene = new Scene(workflowSelectorPane);
+        
         stage.setTitle("MIA for Schools");
+        stage.setWidth(1000);
+        stage.setHeight(800);
         stage.setScene(scene);
         stage.show();
 
@@ -64,6 +62,14 @@ public class MIAForSchools extends Application {
 
     public static String getWorkflowsPath() {
         return workflowsPath;
+    }
+
+    public static void enableWorkflowSelectorPane() {
+        scene.setRoot(workflowSelectorPane);
+    }
+
+    public static void enableMainPane() {
+        scene.setRoot(mainPane);
     }
 
     public static WorkflowSelectorPane getWorkflowSelectorPane() {

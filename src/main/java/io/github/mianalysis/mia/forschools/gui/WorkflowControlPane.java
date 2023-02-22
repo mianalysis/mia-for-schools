@@ -104,8 +104,14 @@ public class WorkflowControlPane extends VBox {
             getChildren().add(nextButton);
         }
 
-        BackButton workflowButton = new BackButton(MIAForSchools.getWorkflowSelectorPane(), GUIConstants.buttonMinSize,
-                (int) Math.round(GUIConstants.buttonMaxSize * 0.25));
+        Button workflowButton = new Button();
+        workflowButton.setText("Workflow selection");
+        workflowButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                MIAForSchools.enableWorkflowSelectorPane();
+            }
+        });
         getChildren().add(workflowButton);
 
     }

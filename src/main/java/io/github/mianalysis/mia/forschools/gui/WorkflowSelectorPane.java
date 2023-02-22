@@ -8,9 +8,11 @@ import io.github.mianalysis.mia.process.analysishandling.AnalysisReader;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -18,6 +20,8 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -27,10 +31,30 @@ import javafx.scene.text.TextFlow;
 public class WorkflowSelectorPane extends VBox {
     public WorkflowSelectorPane(List<String> workflowNames) {
         getStylesheets().add(MIAForSchools.class.getResource("/styles/style.css").toExternalForm());
-        getStyleClass().add("control-pane");
+        setAlignment(Pos.CENTER);
+        getStyleClass().add("pane");
 
-        ObservableList<Node> workflowButtons = getChildren();
+        Text t = new Text();
+        t.setText("Select an image to work with");
+        t.setTextAlignment(TextAlignment.CENTER);
+        t.getStyleClass().add("cartoon-text");
+        t.getStyleClass().add("title-text");
+        t.setEffect(new DropShadow());
+        getChildren().add(t);
+        setMargin(t, new Insets(50,50,0,50));
 
+        FlowPane buttons = new FlowPane();
+        buttons.setAlignment(Pos.CENTER);
+        buttons.getStyleClass().add("invisible");
+
+        ScrollPane scrollPane = new ScrollPane(buttons);
+        scrollPane.getStyleClass().add("invisible");
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        
+        buttons.getStyleClass().add("control-pane");
+        getChildren().add(scrollPane);
+        ObservableList<Node> workflowButtons = buttons.getChildren();
         for (String workflowName : workflowNames)
             workflowButtons.add(createButton(workflowName));
 
@@ -49,6 +73,7 @@ public class WorkflowSelectorPane extends VBox {
                 String workflowPath = MIAForSchools.getWorkflowsPath() + workflowName;
                 Analysis analysis = loadModules(workflowPath);
 
+                MIAForSchools.enableMainPane();
                 MIAForSchools.getMainPane().setControlPane(new WorkflowControlPane(analysis));
 
             }
@@ -61,14 +86,15 @@ public class WorkflowSelectorPane extends VBox {
 
         Text t = new Text();
         t.setEffect(ds);
-        t.setText(workflowName.substring(0, workflowName.length() - 4));
+        String workflowNameString = workflowName.substring(0, workflowName.length() - 4);
+        workflowNameString = workflowNameString.replace("Q$", "?");
+        t.setText(workflowNameString);
         t.setTextAlignment(TextAlignment.CENTER);
         t.getStyleClass().add("cartoon-text");
         TextFlow tf = new TextFlow(t);
         tf.setMaxHeight(0);
         tf.setTextAlignment(TextAlignment.CENTER);
         button.setGraphic(tf);
-        
 
         String rootPath = MIAForSchools.getWorkflowsPath() + workflowName.substring(0, workflowName.length() - 4);
         String normalImagePath = null;
@@ -116,9 +142,6 @@ public class WorkflowSelectorPane extends VBox {
                     button.setBackground(normalBackground);
             });
         }
-
-        DropShadow shadow = new DropShadow();
-        button.setEffect(shadow);
 
         return button;
 
