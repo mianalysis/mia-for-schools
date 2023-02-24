@@ -35,12 +35,7 @@
 .cartoon-button {
     -fx-border-color: black ;
     -fx-border-width: 2 ; 
-    -size: 240;
     -fx-padding: 10px;
-    -fx-min-height: -size;
-    -fx-min-width: -size;
-    -fx-max-height: -size;
-    -fx-max-width: -size;
     -fx-effect: dropshadow( three-pass-box, black, 10, 0.0, 0, 1);
 }
 
@@ -48,10 +43,27 @@
     -fx-border-color: cyan ;
     -fx-effect: dropshadow( three-pass-box, cyan, 10, 0.0, 0, 1);
 }
+
 .cartoon-text {
     -fx-font-size: 24;
     -fx-font-family: "Shantell Sans Light";
     -fx-fill: black;    
+}
+
+.workflow-button {
+    -size: 240;
+    -fx-min-height: -size;
+    -fx-min-width: -size;
+    -fx-max-height: -size;
+    -fx-max-width: -size;
+}
+
+.arrow-button {
+    -size: 60;
+    -fx-min-height: -size;
+    -fx-min-width: -size;
+    -fx-max-height: -size;
+    -fx-max-width: -size;
 }
 
 .title-text {

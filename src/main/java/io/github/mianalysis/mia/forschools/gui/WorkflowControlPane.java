@@ -7,6 +7,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
+import io.github.mianalysis.mia.forschools.gui.buttons.ArrowButton;
+import io.github.mianalysis.mia.forschools.gui.buttons.CartoonButton.TriangleMode;
 import io.github.mianalysis.mia.module.Module;
 import io.github.mianalysis.mia.module.Modules;
 import io.github.mianalysis.mia.module.system.GUISeparator;
@@ -70,38 +72,26 @@ public class WorkflowControlPane extends VBox {
 
         // If this isn't the first group, show the "Back" button
         if (groupIdx > 0) {
-            Button backButton = new Button();
-            backButton.setText("Previous step");
-            backButton.setMinWidth(GUIConstants.buttonMinSize);
-            backButton.setMinHeight((int) Math.round(GUIConstants.buttonMaxSize * 0.25));
-            backButton.setMaxWidth(GUIConstants.buttonMaxSize);
-            backButton.setMaxHeight((int) Math.round(GUIConstants.buttonMaxSize * 0.25));
-            backButton.setOnAction(new EventHandler<ActionEvent>() {
+            EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     groupIdx--;
                     runCurrentGroup();
                 }
-            });
-            getChildren().add(backButton);
+            };
+            getChildren().add(new ArrowButton(eventHandler,TriangleMode.LEFT));
         }
 
         // If there are more steps, show the "Next" button
         if (groupIdx < maxIdx) {
-            Button nextButton = new Button();
-            nextButton.setText("Next step");
-            nextButton.setMinWidth(GUIConstants.buttonMinSize);
-            nextButton.setMinHeight((int) Math.round(GUIConstants.buttonMaxSize * 0.25));
-            nextButton.setMaxWidth(GUIConstants.buttonMaxSize);
-            nextButton.setMaxHeight((int) Math.round(GUIConstants.buttonMaxSize * 0.25));
-            nextButton.setOnAction(new EventHandler<ActionEvent>() {
+            EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     groupIdx++;
                     runCurrentGroup();
                 }
-            });
-            getChildren().add(nextButton);
+            };
+            getChildren().add(new ArrowButton(eventHandler,TriangleMode.RIGHT));
         }
 
         Button workflowButton = new Button();
