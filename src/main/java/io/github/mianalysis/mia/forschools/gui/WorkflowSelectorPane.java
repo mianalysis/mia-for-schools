@@ -38,7 +38,7 @@ public class WorkflowSelectorPane extends VBox {
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         
-        buttons.getStyleClass().add("control-pane");
+        buttons.getStyleClass().add("selector-pane");
         getChildren().add(scrollPane);
         ObservableList<Node> workflowButtons = buttons.getChildren();
         for (String workflowName : workflowNames)

@@ -3,6 +3,7 @@ package io.github.mianalysis.mia.forschools.gui.buttons;
 import java.io.File;
 
 import io.github.mianalysis.mia.forschools.gui.MIAForSchools;
+import io.github.mianalysis.mia.forschools.gui.WonkyShapes;
 import io.github.mianalysis.mia.forschools.gui.WorkflowControlPane;
 import io.github.mianalysis.mia.process.analysishandling.Analysis;
 import io.github.mianalysis.mia.process.analysishandling.AnalysisReader;
@@ -22,7 +23,7 @@ public class WorkflowButton extends CartoonButton {
 
         setAlignment(Pos.CENTER);
         setMaxHeight(0);
-        setStyle(createWonkySquarePath(0.2));
+        setStyle(WonkyShapes.createSquarePath(0.2));
         setPickOnBounds(true);
         setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -30,8 +31,8 @@ public class WorkflowButton extends CartoonButton {
                 String workflowPath = MIAForSchools.getWorkflowsPath() + workflowName;
                 Analysis analysis = loadModules(workflowPath);
 
-                MIAForSchools.enableMainPane();
-                MIAForSchools.getMainPane().setControlPane(new WorkflowControlPane(analysis));
+                MIAForSchools.enableWorkflowPane();
+                MIAForSchools.getWorkflowPane().setControlPane(new WorkflowControlPane(analysis));
 
             }
         });

@@ -5,15 +5,18 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
-public class MainPane extends HBox {
+public class WorkflowPane extends HBox {
     private static final int PANE_CONTROL = 0;
     private static final int PANE_IMAGE = 1;
 
-    public MainPane() {
-        getStyleClass().add("main-pane");
+    public WorkflowPane() {
+        getStyleClass().add("workflow-pane");
+        
         getChildren().add(new Label("Controls"));
         getChildren().add(new Label("Image"));
+        
         setSpacing(20);
+
     }
 
     public Pane getControlPane() {

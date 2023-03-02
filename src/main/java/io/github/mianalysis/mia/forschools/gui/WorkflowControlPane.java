@@ -7,8 +7,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
+import io.github.mianalysis.mia.forschools.gui.WonkyShapes.TriangleMode;
 import io.github.mianalysis.mia.forschools.gui.buttons.ArrowButton;
-import io.github.mianalysis.mia.forschools.gui.buttons.CartoonButton.TriangleMode;
 import io.github.mianalysis.mia.module.Module;
 import io.github.mianalysis.mia.module.Modules;
 import io.github.mianalysis.mia.module.system.GUISeparator;
@@ -22,6 +22,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class WorkflowControlPane extends VBox {
@@ -33,7 +36,7 @@ public class WorkflowControlPane extends VBox {
     public WorkflowControlPane(Analysis analysis) {
         getStylesheets().add(MIAForSchools.class.getResource("/styles/style.css").toExternalForm());
         getStyleClass().add("control-pane");
-
+        
         Workspaces workspaces = new Workspaces();
         workspace = workspaces.getNewWorkspace(analysis.getModules().getInputControl().getRootFile(), 1);
 
@@ -55,14 +58,14 @@ public class WorkflowControlPane extends VBox {
                     getChildren().add(new Label(parameter.getName()));
 
                     JComponent jComponent = parameter.getControl().getComponent();
-                    if (jComponent instanceof JCheckBox) {      
+                    if (jComponent instanceof JCheckBox) {
                         CheckBox checkBox = new CheckBox();
                         checkBox.getStyleClass().add("cartoon-checkbox");
                         // checkBox.setSelected(parameter.getValue())
-                        getChildren().add(checkBox);    
+                        getChildren().add(checkBox);
                     } else if (jComponent instanceof JTextField) {
                         getChildren().add(new TextField(parameter.getRawStringValue()));
-                        
+
                     }
                 }
             }
@@ -70,29 +73,36 @@ public class WorkflowControlPane extends VBox {
             module.execute(workspace);
         }
 
-        // If this isn't the first group, show the "Back" button
-        if (groupIdx > 0) {
-            EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    groupIdx--;
-                    runCurrentGroup();
-                }
-            };
-            getChildren().add(new ArrowButton(eventHandler,TriangleMode.LEFT));
-        }
+        // Creating the back button
+        EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                groupIdx--;
+                runCurrentGroup();
+            }
+        };
+        ArrowButton backButton = new ArrowButton(eventHandler, TriangleMode.LEFT);
+        if (groupIdx <= 0)
+            backButton.setDisable(true);
 
-        // If there are more steps, show the "Next" button
-        if (groupIdx < maxIdx) {
-            EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    groupIdx++;
-                    runCurrentGroup();
-                }
-            };
-            getChildren().add(new ArrowButton(eventHandler,TriangleMode.RIGHT));
-        }
+        Pane spacer = new Pane();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        // Creating the next button
+        eventHandler = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                groupIdx++;
+                runCurrentGroup();
+            }
+        };
+        ArrowButton nextButton = new ArrowButton(eventHandler, TriangleMode.RIGHT);
+        if (groupIdx >= maxIdx)
+            nextButton.setDisable(true);
+
+        HBox buttonPane = new HBox();
+        buttonPane.getChildren().addAll(backButton,spacer,nextButton);
+        getChildren().add(buttonPane);
 
         Button workflowButton = new Button();
         workflowButton.setText("Workflow selection");

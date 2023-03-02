@@ -15,7 +15,7 @@ public class BackButton extends Button {
         setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                MIAForSchools.getMainPane().setControlPane(targetPane);   
+                MIAForSchools.getWorkflowPane().setControlPane(targetPane);   
             }
         });
     }

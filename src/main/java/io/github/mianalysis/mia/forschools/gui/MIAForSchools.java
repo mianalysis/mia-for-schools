@@ -16,7 +16,7 @@ public class MIAForSchools extends Application {
     public static Modules modules;
     private static WorkflowSelectorPane workflowSelectorPane;
     private static Scene scene;
-    private static final MainPane mainPane = new MainPane(); 
+    private static final WorkflowPane workflowPane = new WorkflowPane(); 
     private static String workflowsPath = new File(
             IJ.getDirectory("imagej") + File.separator + "workflows" + File.separator).getAbsolutePath();
     
@@ -56,8 +56,8 @@ public class MIAForSchools extends Application {
 
     }
 
-    public static MainPane getMainPane() {
-        return mainPane;
+    public static WorkflowPane getWorkflowPane() {
+        return workflowPane;
     }
 
     public static String getWorkflowsPath() {
@@ -68,8 +68,8 @@ public class MIAForSchools extends Application {
         scene.setRoot(workflowSelectorPane);
     }
 
-    public static void enableMainPane() {
-        scene.setRoot(mainPane);
+    public static void enableWorkflowPane() {
+        scene.setRoot(workflowPane);
     }
 
     public static WorkflowSelectorPane getWorkflowSelectorPane() {

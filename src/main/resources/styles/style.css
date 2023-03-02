@@ -1,9 +1,30 @@
+/* .image-pane {
+    -fx-background-color: red;
+    -fx-pref-width: 600;
+}
+
+.swing-node {
+    -fx-background-color: green;
+    -fx-pref-width: 600;
+} */
+
+.test {
+    -fx-border-style: solid inside;
+    -fx-border-color: black ;
+    -fx-border-width: 2 ; 
+    -fx-border-insets: 0;
+    -fx-border-radius: 0;
+    -fx-effect: dropshadow( three-pass-box, black, 10, 0.0, 0, 1);
+
+}
+
 .pane {
     -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, #56afcad5, #0539c9d5);
 }
 
 .scroll-pane {
     -fx-background-color:transparent;
+    -fx-min-width: 400;
 }
 
 .scroll-pane > .viewport {
@@ -20,7 +41,16 @@
     -fx-pref-height: 1200pz;
 } */
 
+.selector-pane {
+    -fx-spacing: 20;
+    -fx-padding: 20;
+    -fx-hgap: 50;
+    -fx-vgap: 50;
+}
+
 .control-pane {
+    -fx-min-width: 200;
+    -fx-pref-width: 200;
     -fx-spacing: 20;
     -fx-padding: 20;
     -fx-hgap: 50;
@@ -32,14 +62,14 @@
     -fx-font-size: 12;
 }
 
-.cartoon-button {
+.cartoon-shape {
     -fx-border-color: black ;
     -fx-border-width: 2 ; 
     -fx-padding: 10px;
     -fx-effect: dropshadow( three-pass-box, black, 10, 0.0, 0, 1);
 }
 
-.cartoon-button:hover {
+.cartoon-shape:hover {
     -fx-border-color: cyan ;
     -fx-effect: dropshadow( three-pass-box, cyan, 10, 0.0, 0, 1);
 }
@@ -59,7 +89,7 @@
 }
 
 .arrow-button {
-    -size: 60;
+    -size: 40;
     -fx-min-height: -size;
     -fx-min-width: -size;
     -fx-max-height: -size;
