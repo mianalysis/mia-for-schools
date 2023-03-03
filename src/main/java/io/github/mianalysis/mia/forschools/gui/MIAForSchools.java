@@ -3,6 +3,8 @@ package io.github.mianalysis.mia.forschools.gui;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import ij.IJ;
 import io.github.mianalysis.mia.module.Modules;
@@ -21,6 +23,7 @@ public class MIAForSchools extends Application {
             IJ.getDirectory("imagej") + File.separator + "workflows" + File.separator).getAbsolutePath();
     
     public static void main(String[] args) {
+        Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.OFF);
         workflowsPath = "C:\\Users\\steph\\Documents\\Programming\\Java Projects\\mia-for-schools\\workflows\\";
 
         Font.loadFont(MIAForSchools.class.getResourceAsStream("/styles/ShantellSans.ttf"), 16);

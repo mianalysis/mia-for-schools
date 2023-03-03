@@ -10,7 +10,8 @@ public class WorkflowPane extends HBox {
     private static final int PANE_IMAGE = 1;
 
     public WorkflowPane() {
-        getStyleClass().add("workflow-pane");
+        getStylesheets().add(MIAForSchools.class.getResource("/styles/style.css").toExternalForm());
+        getStyleClass().add("pane");
         
         getChildren().add(new Label("Controls"));
         getChildren().add(new Label("Image"));

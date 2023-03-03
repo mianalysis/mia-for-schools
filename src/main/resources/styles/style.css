@@ -8,15 +8,14 @@
     -fx-pref-width: 600;
 } */
 
-.test {
+/* .test {
     -fx-border-style: solid inside;
     -fx-border-color: black ;
-    -fx-border-width: 2 ; 
-    -fx-border-insets: 0;
+    -fx-border-width: 2 ;
     -fx-border-radius: 0;
-    -fx-effect: dropshadow( three-pass-box, black, 10, 0.0, 0, 1);
+    -fx-effect: dropshadow5869999999( three-pass-box, black, 10, 0.0, 0, 1);
 
-}
+} */
 
 .pane {
     -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, #56afcad5, #0539c9d5);

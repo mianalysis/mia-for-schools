@@ -28,9 +28,10 @@ public class ImagePaneRenderer implements ImageRenderer {
     private static double overallHeight = Double.NaN;
 
     @Override
-    public void render(Image image, String title, LUT lut, boolean normalise, boolean composite, Overlay overlay) {
+    public void render(Image image, String title, LUT lut, boolean normalise, boolean composite, Overlay overlay) {        
         // Creating a pane to put the image in
         VBox imagePane = new VBox();
+        imagePane.getStylesheets().add(MIAForSchools.class.getResource("/styles/style.css").toExternalForm());
         imagePane.setAlignment(Pos.CENTER);
         HBox.setMargin(imagePane, new Insets(20, 20, 20, 20));
         HBox.setHgrow(imagePane, Priority.ALWAYS);
