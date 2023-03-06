@@ -48,8 +48,8 @@
 }
 
 .control-pane {
-    -fx-min-width: 200;
-    -fx-pref-width: 200;
+    -fx-min-width: 300;
+    -fx-pref-width: 300;
     -fx-spacing: 20;
     -fx-padding: 20;
     -fx-hgap: 50;
@@ -79,6 +79,15 @@
     -fx-fill: black;    
 }
 
+.home-button {
+    -fx-background-color: chartreuse ;
+}
+
+.home-button:hover {
+    -fx-border-color: cyan ;
+    -fx-effect: dropshadow( three-pass-box, cyan, 10, 0.0, 0, 1);
+}
+
 .workflow-button {
     -size: 240;
     -fx-min-height: -size;
@@ -88,16 +97,20 @@
 }
 
 .arrow-button {
-    -size: 40;
-    -fx-min-height: -size;
-    -fx-min-width: -size;
-    -fx-max-height: -size;
-    -fx-max-width: -size;
+    -fx-min-height: 80;
+    -fx-min-width: 80;
+    -fx-max-height: 80;
+    -fx-max-width: 80;
+    -fx-background-color: orange;
 }
 
 .title-text {
     -fx-font-size: 32;
-    -fx-fill: black;
+    -fx-fill: darkslateblue;
+}
+
+.normal-text {
+    -fx-font-size: 18;
 }
 
 .cartoon-checkbox {

@@ -9,8 +9,10 @@ public class ArrowButton extends CartoonButton {
 
     public ArrowButton(EventHandler<ActionEvent> eventHandler, TriangleMode triangleMode) {
         getStyleClass().add("arrow-button");        
+        getStyleClass().add("cartoon-text");
+        getStyleClass().add("normal-text");
         setStyle(WonkyShapes.createTrianglePath(triangleMode, 0.1));
-        setOnAction(eventHandler);
-
+        setOnAction(eventHandler);        
+        
     }
 }
