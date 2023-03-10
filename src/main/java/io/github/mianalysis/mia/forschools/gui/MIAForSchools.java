@@ -3,6 +3,7 @@ package io.github.mianalysis.mia.forschools.gui;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,16 +19,22 @@ public class MIAForSchools extends Application {
     public static Modules modules;
     private static WorkflowSelectorPane workflowSelectorPane;
     private static Scene scene;
-    private static final WorkflowPane workflowPane = new WorkflowPane(); 
+    private static final WorkflowPane workflowPane = new WorkflowPane();
     private static String workflowsPath = new File(
             IJ.getDirectory("imagej") + File.separator + "workflows" + File.separator).getAbsolutePath();
-    
+
     public static void main(String[] args) {
-        Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.OFF);
+        Logger root = Logger.getLogger("");
+        root.setLevel(Level.OFF);
+        for (Handler handler : root.getHandlers()) {
+            handler.setLevel(Level.OFF);
+        }
+        System.out.println("level set: " + Level.OFF.getName());
+
         workflowsPath = "C:\\Users\\steph\\Documents\\Programming\\Java Projects\\mia-for-schools\\workflows\\";
 
         Font.loadFont(MIAForSchools.class.getResourceAsStream("/styles/ShantellSans.ttf"), 16);
-    
+
         launch(args);
 
     }
@@ -40,7 +47,7 @@ public class MIAForSchools extends Application {
         List<String> workflowNames = getWorkflowNames();
         workflowSelectorPane = new WorkflowSelectorPane(workflowNames);
         scene = new Scene(workflowSelectorPane);
-        
+
         stage.setTitle("MIA for Schools");
         stage.setWidth(1000);
         stage.setHeight(800);

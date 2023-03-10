@@ -34,6 +34,22 @@
     -fx-min-width: 800;
 }
 
+.slider .thumb {
+    -fx-shape: "M 0.010, -0.023 L 1.037 -0.010 L 1.002 1.045 L -0.044 0.952 L 0.010 -0.023 Z";
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-min-height: 50;
+    -fx-pref-height: 50;
+    -fx-background-color: hotpink;
+}
+
+.slider .track {
+    -fx-shape: "M0,0.1 L1,0.3 L1,0 L0,0.1z";
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-background-color: black;
+}
+
 /* .main-pane {
     -fx-max-width: 1200px;
     -fx-max-height: 800px;
@@ -106,7 +122,7 @@
 
 .title-text {
     -fx-font-size: 32;
-    -fx-fill: darkslateblue;
+    -fx-fill: black;
 }
 
 .normal-text {
