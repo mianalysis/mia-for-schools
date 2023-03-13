@@ -1,22 +1,24 @@
 package io.github.mianalysis.mia.forschools.gui;
 
-import java.util.ArrayList;
-
-import io.github.mianalysis.mia.module.Module;
-
 public class ModuleGroup {
-    ArrayList<Module> modules = new ArrayList<>();
+    int startIdx = -1;
+    int endIdx = -1;
     String title = "";
-    String description = "";
+    String description = "";    
 
-    public ModuleGroup(ArrayList<Module> modules, String title, String description) {
-        this.modules = modules;
+    public ModuleGroup(int startIdx, int endIdx, String title, String description) {
+        this.startIdx = startIdx;
+        this.endIdx = endIdx;
         this.title = title;
         this.description = description;
     }
 
-    public ArrayList<Module> getModules() {
-        return modules;
+    public int getStartIdx() {
+        return startIdx;
+    }
+
+    public int getEndIdx() {
+        return endIdx;
     }
 
     public String getTitle() {

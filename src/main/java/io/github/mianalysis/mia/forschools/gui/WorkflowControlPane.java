@@ -1,6 +1,5 @@
 package io.github.mianalysis.mia.forschools.gui;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
@@ -8,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
@@ -21,10 +21,14 @@ import io.github.mianalysis.mia.object.Workspace;
 import io.github.mianalysis.mia.object.Workspaces;
 import io.github.mianalysis.mia.object.parameters.ParameterGroup;
 import io.github.mianalysis.mia.object.parameters.Parameters;
+import io.github.mianalysis.mia.object.parameters.abstrakt.ChoiceType;
 import io.github.mianalysis.mia.object.parameters.abstrakt.Parameter;
+import io.github.mianalysis.mia.object.system.Status;
 import io.github.mianalysis.mia.process.analysishandling.Analysis;
+import io.github.mianalysis.mia.process.analysishandling.AnalysisTester;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -32,6 +36,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -41,6 +46,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class WorkflowControlPane extends VBox {
+    private Modules modules;
     private Workspace workspace = null;
     private int groupIdx = 0;
     private int maxIdx = 0;
@@ -55,7 +61,7 @@ public class WorkflowControlPane extends VBox {
         Workspaces workspaces = new Workspaces();
         workspace = workspaces.getNewWorkspace(analysis.getModules().getInputControl().getRootFile(), 1);
 
-        Modules modules = analysis.getModules();
+        modules = analysis.getModules();
         moduleGroups = getModuleGroups(modules);
 
         // If pre-processing modules are present, run these first (these are modules
@@ -68,7 +74,6 @@ public class WorkflowControlPane extends VBox {
     }
 
     private void renderCurrentGroup() {
-        System.err.println(groupIdx);
         ModuleGroup group = moduleGroups.get(groupIdx);
         getChildren().clear();
 
@@ -93,55 +98,55 @@ public class WorkflowControlPane extends VBox {
 
     private TreeMap<Integer, ModuleGroup> getModuleGroups(Modules modules) {
         TreeMap<Integer, ModuleGroup> groups = new TreeMap<>();
+        int startIdx = 0;
+        int endIdx = -1;
 
         if (modules == null || modules.size() == 0)
             return groups;
 
         // Loading any modules before the first separator (those which run by default
         // once at the beginning) and the first separator
-        ArrayList<Module> group = new ArrayList<>();
         GUISeparator prevSeparator = null;
         Iterator<Module> iterator = modules.iterator();
         while (iterator.hasNext()) {
+            endIdx++;
             Module module = iterator.next();
             if (module instanceof GUISeparator
                     && (boolean) module.getParameterValue(GUISeparator.SHOW_PROCESSING, null)) {
                 prevSeparator = (GUISeparator) module;
-                if (group.size() > 0)
-                    groups.put(-1, new ModuleGroup(group, "", ""));
+                if (endIdx != 0)
+                    groups.put(-1, new ModuleGroup(0, endIdx, "", ""));
+                startIdx = endIdx;
                 break;
-            } else {
-                group.add(module);
             }
         }
 
         // Loading the main module groups
-        group = new ArrayList<Module>();
         int count = 0;
         while (iterator.hasNext()) {
+            endIdx++;
             Module module = iterator.next();
             if (module instanceof GUISeparator
                     && (boolean) module.getParameterValue(GUISeparator.SHOW_PROCESSING, null)) {
                 maxIdx = count;
                 if (prevSeparator == null)
-                    groups.put(count++, new ModuleGroup(group, "", ""));
+                    groups.put(count++, new ModuleGroup(startIdx, endIdx, "", ""));
                 else
                     groups.put(count++,
-                            new ModuleGroup(group, prevSeparator.getNickname(), prevSeparator.getNotes()));
+                            new ModuleGroup(startIdx, endIdx, prevSeparator.getNickname(), prevSeparator.getNotes()));
 
-                group = new ArrayList<Module>();
                 prevSeparator = (GUISeparator) module;
-            } else {
-                group.add(module);
+                startIdx = endIdx;
             }
         }
 
         // Adding the final group
         maxIdx = count;
         if (prevSeparator == null)
-            groups.put(count++, new ModuleGroup(group, "", ""));
+            groups.put(count++, new ModuleGroup(startIdx, endIdx + 1, "", ""));
         else
-            groups.put(count++, new ModuleGroup(group, prevSeparator.getNickname(), prevSeparator.getNotes()));
+            groups.put(count++,
+                    new ModuleGroup(startIdx, endIdx + 1, prevSeparator.getNickname(), prevSeparator.getNotes()));
 
         return groups;
 
@@ -151,9 +156,13 @@ public class WorkflowControlPane extends VBox {
         VBox controls = new VBox();
         ObservableList<Node> children = controls.getChildren();
 
-        for (Module module : group.getModules())
+        int startIdx = group.getStartIdx();
+        int endIdx = group.getEndIdx();
+        for (int i = startIdx; i < endIdx; i++) {
+            Module module = modules.get(i);
             for (Parameter parameter : module.updateAndGetParameters().values())
                 addParameterControl(parameter, group, children);
+        }
 
         WorkflowPane.setTitle(group.getTitle());
         WorkflowPane.setDescription(group.getDescription());
@@ -210,7 +219,9 @@ public class WorkflowControlPane extends VBox {
                             sliderValue = Double.parseDouble(sliderMatcher.group(3));
                         }
                     }
-                    // Setting the current parameter value to the specified slider default.  By not using the parameter default, we can have different values for standard MIA execution
+                    // Setting the current parameter value to the specified slider default. By not
+                    // using the parameter default, we can have different values for standard MIA
+                    // execution
                     parameter.setValueFromString(String.valueOf(sliderValue));
                     Slider slider = new Slider(sliderMin, sliderMax, sliderValue);
                     slider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -233,6 +244,18 @@ public class WorkflowControlPane extends VBox {
                     });
                     parameterControls.put(parameter, textField);
                 }
+            } else if (jComponent instanceof JComboBox) {                
+                ComboBox<String> comboBox = new ComboBox<>(
+                        FXCollections.observableArrayList(((ChoiceType) parameter).getChoices()));                        
+                comboBox.setValue(parameter.getRawStringValue());
+                comboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    parameter.setValueFromString(String.valueOf(comboBox.getValue()));
+                    executeModuleGroup(group);
+                });
+                comboBox.setPrefWidth(Double.MAX_VALUE);
+                comboBox.setStyle(WonkyShapes.createSquarePath(0.1));
+                comboBox.getStyleClass().add("cartoon-shape");
+                parameterControls.put(parameter, comboBox);
             }
         }
 
@@ -241,14 +264,40 @@ public class WorkflowControlPane extends VBox {
     }
 
     private void executeModuleGroup(ModuleGroup group) {
-        for (Module module : group.getModules()) {
+        AnalysisTester.testModules(modules,workspace);
+
+        int startIdx = group.getStartIdx();
+        int endIdx = group.getEndIdx();
+        for (int idx = startIdx; idx < endIdx; idx++) {
+            Module module = modules.get(idx);
+
             for (Parameter p : module.updateAndGetParameters().values()) {
                 if (p instanceof ParameterGroup) {
                     for (Parameters pp : ((ParameterGroup) p).getCollections(true).values())
                         pp.values();
                 }
             }
-            module.execute(workspace);
+
+            if (module.isEnabled() && module.isRunnable()) {
+                try {
+                    Status success = module.execute(workspace);
+                    switch (success) {
+                        case REDIRECT:
+                            // Getting index of module before one to move to
+                            Module redirectModule = module.getRedirectModule(workspace);
+                            idx = modules.indexOf(redirectModule)-1;
+                            break;
+                        case PASS:
+                        case FAIL:
+                        case TERMINATE:
+                        case TERMINATE_SILENT:
+                            break;
+                    }
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                    break;
+                }
+            }
         }
     }
 
