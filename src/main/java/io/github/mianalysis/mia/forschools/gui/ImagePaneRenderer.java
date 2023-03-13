@@ -28,7 +28,6 @@ public class ImagePaneRenderer implements ImageRenderer {
 
     @Override
     public void render(Image image, String title, LUT lut, boolean normalise, boolean composite, Overlay overlay) {   
-        System.out.println("RENDERING NOW RENDERING NOW RENDERING NOW RENDERING NOW RENDERING NOW RENDERING NOW RENDERING NOW");
         // Creating a pane to put the image in
         VBox imagePane = new VBox();
         imagePane.getStylesheets().add(MIAForSchools.class.getResource("/styles/style.css").toExternalForm());

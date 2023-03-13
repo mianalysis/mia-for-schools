@@ -58,7 +58,8 @@ public class WorkflowControlPane extends VBox {
         Modules modules = analysis.getModules();
         moduleGroups = getModuleGroups(modules);
 
-        // If pre-processing modules are present, run these first (these are modules before the first GUISeparator)
+        // If pre-processing modules are present, run these first (these are modules
+        // before the first GUISeparator)
         if (moduleGroups.containsKey(-1))
             executeModuleGroup(moduleGroups.get(-1));
 
@@ -175,7 +176,7 @@ public class WorkflowControlPane extends VBox {
 
             Label parameterLabel = new Label(labelText);
             parameterLabel.getStyleClass().add("cartoon-text");
-            parameterLabel.getStyleClass().add("normal-text");
+            parameterLabel.getStyleClass().add("label-text");
             parameterLabel.setAlignment(Pos.CENTER);
             parameterLabel.setMaxWidth(Double.MAX_VALUE);
             parameterLabel.setPadding(new Insets(10));
@@ -209,6 +210,8 @@ public class WorkflowControlPane extends VBox {
                             sliderValue = Double.parseDouble(sliderMatcher.group(3));
                         }
                     }
+                    // Setting the current parameter value to the specified slider default.  By not using the parameter default, we can have different values for standard MIA execution
+                    parameter.setValueFromString(String.valueOf(sliderValue));
                     Slider slider = new Slider(sliderMin, sliderMax, sliderValue);
                     slider.valueProperty().addListener((observable, oldValue, newValue) -> {
                         parameter.setValueFromString(String.valueOf(slider.getValue()));
@@ -239,16 +242,13 @@ public class WorkflowControlPane extends VBox {
 
     private void executeModuleGroup(ModuleGroup group) {
         for (Module module : group.getModules()) {
-            module.execute(workspace);
-            // For some reason, adding this in lets the zoom demo work interactively
-            for (Parameter p:module.updateAndGetParameters().values()) {
+            for (Parameter p : module.updateAndGetParameters().values()) {
                 if (p instanceof ParameterGroup) {
-                    for (Parameters pp:((ParameterGroup) p).getCollections(true).values())
-                    for (Parameter ppp:pp.values())
-                        System.out.println("PP "+ppp.getNickname()+"_"+ppp.getRawStringValue());         
+                    for (Parameters pp : ((ParameterGroup) p).getCollections(true).values())
+                        pp.values();
                 }
-                System.out.println("P "+p.getNickname()+"_"+p.getRawStringValue()); 
-                }
+            }
+            module.execute(workspace);
         }
     }
 

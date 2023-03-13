@@ -23,15 +23,22 @@ public class WorkflowPane extends HBox {
         getStyleClass().add("pane");
         
         getChildren().add(new Label("Controls"));
+        // setPadding(new Insets(20));
 
+        VBox.setMargin(titleLabel, new Insets(0,0,20,0));
         titleLabel.getStyleClass().add("cartoon-text");
+        titleLabel.getStyleClass().add("label-text");
         titleLabel.setWrapText(true);
-        titleLabel.setPadding(new Insets(20));
         titleLabel.setTextAlignment(TextAlignment.CENTER);
         
-        descriptionLabel.getStyleClass().add("cartoon-text");
-        descriptionLabel.setWrapText(true);
+        VBox.setMargin(descriptionLabel, new Insets(20));
         descriptionLabel.setPadding(new Insets(20));
+        descriptionLabel.getStyleClass().add("cartoon-shape");
+        descriptionLabel.getStyleClass().add("description-label");
+        descriptionLabel.getStyleClass().add("cartoon-text");
+        descriptionLabel.getStyleClass().add("normal-text");
+        descriptionLabel.setStyle(WonkyShapes.createSquarePath(0.05));
+        descriptionLabel.setWrapText(true);
         descriptionLabel.setTextAlignment(TextAlignment.CENTER);
 
         imagePane.setPrefHeight(100);

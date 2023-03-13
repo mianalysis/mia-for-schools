@@ -1,5 +1,6 @@
 package io.github.mianalysis.mia.forschools.gui.buttons;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
@@ -27,6 +28,8 @@ public class CartoonButton extends Button {
         tf.setMaxHeight(0);
         tf.setTextAlignment(TextAlignment.CENTER);
         setGraphic(tf);
+
+        setPadding(new Insets(20));
 
     }    
 }
