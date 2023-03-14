@@ -253,6 +253,7 @@ public class WorkflowControlPane extends VBox {
                     executeModuleGroup(group);
                 });
                 comboBox.setPrefWidth(Double.MAX_VALUE);
+                comboBox.setPrefHeight(15);
                 comboBox.setStyle(WonkyShapes.createSquarePath(0.1));
                 comboBox.getStyleClass().add("cartoon-shape");
                 parameterControls.put(parameter, comboBox);

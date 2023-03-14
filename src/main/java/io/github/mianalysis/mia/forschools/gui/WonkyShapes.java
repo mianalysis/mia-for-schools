@@ -5,6 +5,10 @@ public class WonkyShapes {
         UP, DOWN, LEFT, RIGHT;
     }
 
+    // public static void main(String[] args) {
+    //     System.out.println(createTrianglePath(TriangleMode.DOWN, 0.1));
+    // }
+
     public static String createSquarePath(double wobble) {
         double x1 = Math.random() * wobble - wobble / 2;
         double y1 = Math.random() * wobble - wobble / 2;

@@ -36,6 +36,29 @@
     -fx-background-color: black;
 }
 
+.combo-box:hover {
+    -fx-border-color: cyan ;
+    -fx-effect: dropshadow( three-pass-box, cyan, 10, 0.0, 0, 1);
+}
+
+.combo-box .arrow {
+    -fx-background-color:transparent;
+}
+
+.combo-box .arrow-button {
+    -fx-shape: "M 0.002, -0.001 L 1.007 -0.036 L 0.522 0.957 L 0.002 -0.001 Z";
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-background-color:orange;
+    -fx-effect: "";
+}
+
+.combo-box .list-cell {
+    -fx-font-size: 18;
+    -fx-font-family: "Shantell Sans Light";
+    -fx-padding: 20;
+}
+
 .selector-pane {
     -fx-spacing: 20;
     -fx-padding: 20;
