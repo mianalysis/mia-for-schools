@@ -90,7 +90,7 @@
 .cartoon-text {
     -fx-font-size: 24;
     -fx-font-family: "Shantell Sans Light";
-    -fx-fill: black;    
+    -fx-text-fill: black;    
 }
 
 .home-button {
@@ -130,7 +130,7 @@
 
 .title-text {
     -fx-font-size: 32;
-    -fx-fill: black;
+    -fx-text-fill: black;
 }
 
 .label-text {
@@ -143,6 +143,10 @@
 
 .button-text {
     -fx-font-size: 18;
+}
+
+.overlay-text {
+    -fx-text-fill:white;
 }
 
 .description-label {

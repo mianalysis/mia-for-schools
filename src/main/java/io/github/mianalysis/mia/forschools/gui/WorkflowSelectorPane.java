@@ -27,7 +27,7 @@ public class WorkflowSelectorPane extends VBox {
         t.getStyleClass().add("title-text");
         t.setEffect(new DropShadow());
         getChildren().add(t);
-        setMargin(t, new Insets(50,50,0,50));
+        setMargin(t, new Insets(100,50,0,50));
 
         FlowPane buttons = new FlowPane();
         buttons.setAlignment(Pos.CENTER);

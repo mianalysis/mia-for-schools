@@ -8,9 +8,11 @@ import ij.IJ;
 import io.github.mianalysis.mia.module.Modules;
 import io.github.mianalysis.mia.object.image.Image;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class MIAForSchools extends Application {
     public static Modules modules;
