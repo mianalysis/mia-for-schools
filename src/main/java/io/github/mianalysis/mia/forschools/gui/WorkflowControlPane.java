@@ -224,6 +224,7 @@ public class WorkflowControlPane extends VBox {
                     // execution
                     parameter.setValueFromString(String.valueOf(sliderValue));
                     Slider slider = new Slider(sliderMin, sliderMax, sliderValue);
+                    slider.getStyleClass().add("param-slider");
                     slider.valueProperty().addListener((observable, oldValue, newValue) -> {
                         parameter.setValueFromString(String.valueOf(slider.getValue()));
                         executeModuleGroup(group);

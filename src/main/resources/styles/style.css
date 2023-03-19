@@ -15,7 +15,26 @@
     -fx-min-width: 800;
 }
 
-.slider .thumb {
+.dim-label {
+    -fx-pref-width: 100;
+    -fx-alignment: center-left;
+}
+
+.val-label {
+    -fx-pref-width: 50;
+    -fx-alignment: center-right;
+}
+
+.dim-slider .thumb {
+    -fx-shape: "M 0.010, -0.023 L 1.037 -0.010 L 1.002 1.045 L -0.044 0.952 L 0.010 -0.023 Z";
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-min-height: 20;
+    -fx-pref-height: 20;
+    -fx-background-color: yellow;
+}
+
+.param-slider .thumb {
     -fx-shape: "M 0.010, -0.023 L 1.037 -0.010 L 1.002 1.045 L -0.044 0.952 L 0.010 -0.023 Z";
     -fx-border-width: 2;
     -fx-border-color: black;
