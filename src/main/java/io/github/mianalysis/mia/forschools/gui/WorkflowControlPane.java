@@ -245,9 +245,9 @@ public class WorkflowControlPane extends VBox {
                     });
                     parameterControls.put(parameter, textField);
                 }
-            } else if (jComponent instanceof JComboBox) {                
+            } else if (jComponent instanceof JComboBox) {
                 ComboBox<String> comboBox = new ComboBox<>(
-                        FXCollections.observableArrayList(((ChoiceType) parameter).getChoices()));                        
+                        FXCollections.observableArrayList(((ChoiceType) parameter).getChoices()));
                 comboBox.setValue(parameter.getRawStringValue());
                 comboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
                     parameter.setValueFromString(String.valueOf(comboBox.getValue()));
@@ -266,7 +266,7 @@ public class WorkflowControlPane extends VBox {
     }
 
     private void executeModuleGroup(ModuleGroup group) {
-        AnalysisTester.testModules(modules,workspace);
+        AnalysisTester.testModules(modules, workspace);
 
         int startIdx = group.getStartIdx();
         int endIdx = group.getEndIdx();
@@ -287,12 +287,14 @@ public class WorkflowControlPane extends VBox {
                         case REDIRECT:
                             // Getting index of module before one to move to
                             Module redirectModule = module.getRedirectModule(workspace);
-                            idx = modules.indexOf(redirectModule)-1;
+                            idx = modules.indexOf(redirectModule) - 1;
                             break;
                         case PASS:
-                        case FAIL:
                         case TERMINATE:
                         case TERMINATE_SILENT:
+                            break;
+                        case FAIL:
+                            System.err.println("Module " + module.getName() + " failed to complete.");
                             break;
                     }
                 } catch (Exception e1) {

@@ -61,13 +61,17 @@ public class WorkflowButton extends CartoonButton {
     public static Background loadBackground(String workflowName, String suffix) {
         String rootPath = MIAForSchools.getWorkflowsPath() + workflowName.substring(0, workflowName.length() - 4);
         String imagePath = null;
-        if (new File(rootPath + ".jpg").exists())
-            imagePath = "file:/" + rootPath + suffix   + ".jpg";
-        else if (new File(rootPath + ".png").exists())
-            imagePath = "file:/" + rootPath + suffix   + ".png";
-        else if (new File(rootPath + ".tif").exists())
-            imagePath = "file:/" + rootPath + suffix   + ".tif";
+        System.out.println(rootPath);
+        if (new File(rootPath + suffix + ".jpg").exists())
+            imagePath = "file:/" + rootPath + suffix + ".jpg";
+        else if (new File(rootPath + suffix + ".png").exists())
+            imagePath = "file:/" + rootPath + suffix + ".png";
+        else if (new File(rootPath + suffix + ".tif").exists())
+            imagePath = "file:/" + rootPath + suffix + ".tif";
+        else if (new File(rootPath + suffix + ".gif").exists())
+            imagePath = "file:/" + rootPath + suffix + ".gif";
 
+            System.out.println(imagePath);
         if (imagePath != null) {
             Image image = new Image(imagePath);
             BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,

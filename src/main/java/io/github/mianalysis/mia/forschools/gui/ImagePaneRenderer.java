@@ -24,7 +24,6 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
@@ -56,9 +55,6 @@ public class ImagePaneRenderer implements ImageRenderer {
         HBox.setMargin(imagePane, new Insets(20, 20, 20, 20));
         HBox.setHgrow(imagePane, Priority.ALWAYS);
         VBox.setVgrow(imagePane, Priority.ALWAYS);
-
-        // This method can't handle overlays, but is fine if we flatten the overlays out
-        // first
 
         imagePane.setStyle(
                 "-fx-border-style: solid inside; -fx-border-width: 2; -fx-border-insets: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-effect: dropshadow( three-pass-box, black, 10, 0.0, 0, 1);"
@@ -193,6 +189,8 @@ public class ImagePaneRenderer implements ImageRenderer {
         tSliderBox.setVisible(ipl.getNFrames() > 1);
         tSliderBox.setManaged(ipl.getNFrames() > 1);
 
+        if (ipl.getOverlay() != null)
+            ipl.flattenStack();
 
         imageCanvas = new ImageCanvas(ipl);
         bufferedImage = new BufferedImage(ipl.getWidth(), ipl.getHeight(), BufferedImage.TYPE_INT_RGB);

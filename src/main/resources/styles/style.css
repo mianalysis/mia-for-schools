@@ -69,7 +69,6 @@
     -fx-border-width: 2;
     -fx-border-color: black;
     -fx-background-color:orange;
-    -fx-effect: "";
 }
 
 .combo-box .list-cell {
