@@ -200,9 +200,17 @@ public class WorkflowControlPane extends VBox {
         if (!parameterControls.keySet().contains(parameter)) {
             JComponent jComponent = parameter.getControl().getComponent();
             if (jComponent instanceof JCheckBox) {
-                CheckBox checkBox = new CheckBox();
-                checkBox.getStyleClass().add("cartoon-checkbox");
-                parameterControls.put(parameter, checkBox);
+                ToggleSwitch toggleSwitch = new ToggleSwitch(Boolean.parseBoolean(parameter.getRawStringValue()));
+                toggleSwitch.valueProperty().addListener(new ChangeListener<Boolean>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
+                            Boolean newValue) {
+                        System.out.println(toggleSwitch.getState() + "_" + oldValue + "_" + newValue);
+                        parameter.setValueFromString(String.valueOf(toggleSwitch.getState()));
+                        executeModuleGroup(group);
+                    }
+                });
+                parameterControls.put(parameter, toggleSwitch);
             } else if (jComponent instanceof JTextField) {
                 if (Pattern.compile("S\\{([^\\}]+)}").matcher(parameter.getNickname()).find()) {
                     Pattern pattern = Pattern.compile("S\\{([^\\}]+)}");
@@ -232,6 +240,10 @@ public class WorkflowControlPane extends VBox {
                     parameterControls.put(parameter, slider);
                 } else {
                     TextField textField = new TextField(parameter.getRawStringValue());
+                    textField.setStyle(WonkyShapes.createSquarePath(0.1));
+                    textField.getStyleClass().add("cartoon-shape");
+                    textField.getStyleClass().add("cartoon-text");
+                    textField.getStyleClass().add("normal-text");
                     textField.setPadding(new Insets(10));
                     textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
                         @Override
