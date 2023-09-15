@@ -33,7 +33,7 @@ public class WorkflowButton extends CartoonButton {
 
                 MIAForSchools.enableWorkflowPane();
                 MIAForSchools.getWorkflowPane().setControlPane(new WorkflowControlPane(analysis));
-
+               
             }
         });
 
@@ -43,7 +43,7 @@ public class WorkflowButton extends CartoonButton {
 
         Background normalBackground = loadBackground(workflowName, "");
         Background hoverBackground = loadBackground(workflowName, "_hover");
-        System.out.println(normalBackground.getImages().iterator().next().getImage().getHeight());
+
         if (normalBackground != null) {
             setBackground(normalBackground);
 
@@ -61,7 +61,7 @@ public class WorkflowButton extends CartoonButton {
     public static Background loadBackground(String workflowName, String suffix) {
         String rootPath = MIAForSchools.getWorkflowsPath() + workflowName.substring(0, workflowName.length() - 4);
         String imagePath = null;
-        System.out.println(rootPath);
+
         if (new File(rootPath + suffix + ".jpg").exists())
             imagePath = "file:" + rootPath + suffix + ".jpg";
         else if (new File(rootPath + suffix + ".png").exists())
@@ -71,11 +71,9 @@ public class WorkflowButton extends CartoonButton {
         else if (new File(rootPath + suffix + ".gif").exists())
             imagePath = "file:" + rootPath + suffix + ".gif";
 
-        System.out.println(imagePath);
-
         if (imagePath != null) {
             Image image = new Image(imagePath);
-            System.out.print(image.getHeight());
+
             BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,
                     BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
             return new Background(backgroundImage);

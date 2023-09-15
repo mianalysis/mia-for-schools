@@ -1,12 +1,20 @@
 package io.github.mianalysis.mia.forschools.gui;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import ij.IJ;
+import io.github.mianalysis.mia.module.AvailableModules;
 import io.github.mianalysis.mia.module.Modules;
 import io.github.mianalysis.mia.object.image.Image;
+import io.github.mianalysis.mia.process.analysishandling.AnalysisReader;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
@@ -22,14 +30,12 @@ public class MIAForSchools extends Application {
 
     public static void main(String[] args) {
         String topPath = MIAForSchools.class.getResource("MIAForSchools.class").getPath();
-        workflowsPath = topPath.substring(0,topPath.lastIndexOf("target")) + "workflows/";
-
-        // workflowsPath = "C:\\Users\\steph\\Documents\\Programming\\Java Projects\\mia-for-schools\\workflows\\";
+        workflowsPath = topPath.substring(0, topPath.lastIndexOf("target")) + "workflows/";
+        workflowsPath = workflowsPath.replace("%20", " ");
 
         Font.loadFont(MIAForSchools.class.getResourceAsStream("/styles/ShantellSans.ttf"), 16);
 
         launch(args);
-
     }
 
     @Override

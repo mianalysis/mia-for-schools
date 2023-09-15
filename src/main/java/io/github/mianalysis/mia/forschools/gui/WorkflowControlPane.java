@@ -70,7 +70,7 @@ public class WorkflowControlPane extends VBox {
             executeModuleGroup(moduleGroups.get(-1));
 
         renderCurrentGroup();
-
+        
     }
 
     private void renderCurrentGroup() {
