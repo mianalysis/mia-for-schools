@@ -21,7 +21,10 @@ public class MIAForSchools extends Application {
             IJ.getDirectory("imagej") + File.separator + "workflows" + File.separator).getAbsolutePath();
 
     public static void main(String[] args) {
-        workflowsPath = "C:\\Users\\steph\\Documents\\Programming\\Java Projects\\mia-for-schools\\workflows\\";
+        String topPath = MIAForSchools.class.getResource("MIAForSchools.class").getPath();
+        workflowsPath = topPath.substring(0,topPath.lastIndexOf("target")) + "workflows/";
+
+        // workflowsPath = "C:\\Users\\steph\\Documents\\Programming\\Java Projects\\mia-for-schools\\workflows\\";
 
         Font.loadFont(MIAForSchools.class.getResourceAsStream("/styles/ShantellSans.ttf"), 16);
 

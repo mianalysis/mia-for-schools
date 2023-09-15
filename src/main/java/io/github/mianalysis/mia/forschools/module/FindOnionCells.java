@@ -3,6 +3,7 @@ package io.github.mianalysis.mia.forschools.module;
 import org.scijava.Priority;
 import org.scijava.plugin.Plugin;
 
+import io.github.mianalysis.mia.module.AvailableModules;
 import io.github.mianalysis.mia.module.Categories;
 import io.github.mianalysis.mia.module.Category;
 import io.github.mianalysis.mia.module.Module;
@@ -22,13 +23,26 @@ import io.github.mianalysis.mia.object.refs.collections.ObjMeasurementRefs;
 import io.github.mianalysis.mia.object.refs.collections.ParentChildRefs;
 import io.github.mianalysis.mia.object.refs.collections.PartnerRefs;
 import io.github.mianalysis.mia.object.system.Status;
+import net.imagej.ImageJ;
 
 @Plugin(type = Module.class, priority = Priority.LOW, visible = true)
 public class FindOnionCells extends Module {
-    // Public parameters#
+    // Public parameters
     public static String INPUT_IMAGE = "Input image";
     public static String OUTPUT_CELL_OBJECTS = "Cells";
     public static String DYNAMIC = "Dynamic";
+
+    public static void main(String[] args) {
+        // Creating a new instance of ImageJ
+        new ij.ImageJ();
+
+        // Launching MIA
+        new ImageJ().command().run("io.github.mianalysis.mia.MIA", false);
+
+        // Adding the current module to MIA's list of available modules.
+        AvailableModules.addModuleName(FindOnionCells.class);
+
+    }
 
     public FindOnionCells(Modules modules) {
         super("Find onion cells", modules);
@@ -38,11 +52,16 @@ public class FindOnionCells extends Module {
     @Override
     public Category getCategory() {
         // return ForSchoolsCategories.FOR_SCHOOLS;
-        return Categories.OBJECTS_DETECT;
+        return ForSchoolsCategories.FOR_SCHOOLS;
     }
 
     public String getDescription() {
         return "";
+    }
+
+    @Override
+    public String getVersionNumber() {
+        return "1.0.0";
     }
 
     @Override
@@ -55,7 +74,7 @@ public class FindOnionCells extends Module {
         // Private parameters
         String filteredImageName = "Filtered";
         String markerImageName = "Markers";
-        
+
         FilterImage filterImage = new FilterImage(modules);
         filterImage.updateParameterValue(FilterImage.INPUT_IMAGE, rawImageName);
         filterImage.updateParameterValue(FilterImage.APPLY_TO_INPUT, false);
@@ -89,7 +108,8 @@ public class FindOnionCells extends Module {
         IdentifyObjects identifyObjects = new IdentifyObjects(modules);
         identifyObjects.updateParameterValue(IdentifyObjects.INPUT_IMAGE, markerImageName);
         identifyObjects.updateParameterValue(IdentifyObjects.OUTPUT_OBJECTS, outputCellsName);
-        identifyObjects.updateParameterValue(IdentifyObjects.BINARY_LOGIC, IdentifyObjects.BinaryLogic.BLACK_BACKGROUND);
+        identifyObjects.updateParameterValue(IdentifyObjects.BINARY_LOGIC,
+                IdentifyObjects.BinaryLogic.BLACK_BACKGROUND);
         identifyObjects.updateParameterValue(IdentifyObjects.DETECTION_MODE, IdentifyObjects.DetectionModes.THREE_D);
         identifyObjects.updateParameterValue(IdentifyObjects.SINGLE_OBJECT, false);
         identifyObjects.updateParameterValue(IdentifyObjects.CONNECTIVITY, IdentifyObjects.Connectivity.TWENTYSIX);
@@ -144,5 +164,4 @@ public class FindOnionCells extends Module {
     public boolean verify() {
         return true;
     }
-
 }

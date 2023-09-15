@@ -43,7 +43,7 @@ public class WorkflowButton extends CartoonButton {
 
         Background normalBackground = loadBackground(workflowName, "");
         Background hoverBackground = loadBackground(workflowName, "_hover");
-
+        System.out.println(normalBackground.getImages().iterator().next().getImage().getHeight());
         if (normalBackground != null) {
             setBackground(normalBackground);
 
@@ -71,9 +71,11 @@ public class WorkflowButton extends CartoonButton {
         else if (new File(rootPath + suffix + ".gif").exists())
             imagePath = "file:/" + rootPath + suffix + ".gif";
 
-            System.out.println(imagePath);
+        System.out.println(imagePath);
+
         if (imagePath != null) {
             Image image = new Image(imagePath);
+            System.out.print(image.getHeight());
             BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,
                     BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
             return new Background(backgroundImage);
