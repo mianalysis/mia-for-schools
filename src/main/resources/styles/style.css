@@ -74,7 +74,7 @@
 .combo-box .list-cell {
     -fx-font-size: 18;
     -fx-font-family: "Shantell Sans Light";
-    -fx-padding: 20;
+    -fx-padding: 10;
 }
 
 .selector-pane {
@@ -134,16 +134,19 @@
 }
 
 .arrow-button {
-    -fx-min-height: 80;
-    -fx-min-width: 80;
-    -fx-max-height: 80;
-    -fx-max-width: 80;
     -fx-background-color: orange;
 }
 
 .arrow-button:hover {
     -fx-border-color: cyan ;
     -fx-effect: dropshadow( three-pass-box, cyan, 10, 0.0, 0, 1);
+}
+
+.back-next-button {
+    -fx-min-height: 80;
+    -fx-min-width: 80;
+    -fx-max-height: 80;
+    -fx-max-width: 80;
 }
 
 .title-text {
@@ -195,6 +198,3 @@
 .toggle-switch-off {
     -fx-background-color: salmon;
 }
-/* .check-box > .box {
-    -fx-shape: "M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.26.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z";
-} */

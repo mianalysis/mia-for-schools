@@ -10,10 +10,13 @@ import ij.gui.Overlay;
 import ij.process.LUT;
 import io.github.mianalysis.mia.object.image.Image;
 import io.github.mianalysis.mia.object.image.renderer.ImageRenderer;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.PixelReader;
@@ -52,38 +55,38 @@ public class ImagePaneRenderer implements ImageRenderer {
     public ImagePaneRenderer() {
         imagePane.getStylesheets().add(MIAForSchools.class.getResource("/styles/style.css").toExternalForm());
 
+        imageAndControlPane.setAlignment(Pos.CENTER);
+
         HBox.setMargin(imagePane, new Insets(20, 20, 20, 20));
-        HBox.setHgrow(imagePane, Priority.ALWAYS);
+        // HBox.setHgrow(imagePane, Priority.ALWAYS);
         VBox.setVgrow(imagePane, Priority.ALWAYS);
 
         imagePane.setStyle(
                 "-fx-border-style: solid inside; -fx-border-width: 2; -fx-border-insets: 0; -fx-border-radius: 0; -fx-border-color: black; -fx-effect: dropshadow( three-pass-box, black, 10, 0.0, 0, 1);"
                         + squarePath);
 
-        // ChangeListener<Number> sizeListener = (observable, oldValue, newValue) -> {
-        // double width2 = imagePane.getWidth();
-        // double aspectRatio2 = ipl.getWidth() / ipl.getHeight();
+        ChangeListener<Number> sizeListener = (observable, oldValue, newValue) -> {
+            double height2 = imagePane.getHeight();
+            double aspectRatio2 = ipl.getHeight() / ipl.getWidth();
 
-        // // System.out.println(width2 + "_" + oldValue + "_" + newValue);
+            overallWidth = height2 / aspectRatio2;
+            overallHeight = height2;
 
-        // overallWidth = width2;
-        // overallHeight = width2 * aspectRatio2;
+            imagePane.setPrefWidth(overallWidth);
+            imagePane.setMinWidth(overallWidth);
+            imagePane.setMaxWidth(overallWidth);
+            imagePane.setPrefHeight(overallHeight);
 
-        // imagePane.setPrefWidth(overallWidth);
-        // imagePane.setPrefHeight(overallHeight);
+        };
 
-        // };
+        imagePane.setPrefWidth(500);
+        imagePane.setMinWidth(500);
+        imagePane.setMaxWidth(500);
+        imagePane.setPrefHeight(500);
 
-        // // Add the ChangeListener to the width and height properties of the region
-        // imagePane.widthProperty().addListener(sizeListener);
-        // imagePane.heightProperty().addListener(sizeListener);
-
-        imagePane.setMinWidth(600);
-        imagePane.setMinHeight(600);
-        imagePane.setPrefWidth(600);
-        imagePane.setPrefHeight(600);
-        imagePane.setMaxWidth(600);
-        imagePane.setMaxHeight(600);
+        // Add the ChangeListener to the width and height properties of the region
+        imagePane.widthProperty().addListener(sizeListener);
+        imagePane.heightProperty().addListener(sizeListener);
 
         imagePane.setOnMouseMoved(new EventHandler<MouseEvent>() {
             @Override
@@ -135,8 +138,8 @@ public class ImagePaneRenderer implements ImageRenderer {
         Label valLabel = new Label("1");
         valLabel.getStyleClass().add("cartoon-text");
         valLabel.getStyleClass().add("val-label");
-        cSlider = createSlider(1,valLabel);      
-        cSliderBox = new HBox(dimLabel,cSlider,valLabel);
+        cSlider = createSlider(1, valLabel);
+        cSliderBox = new HBox(dimLabel, cSlider, valLabel);
         cSliderBox.setAlignment(Pos.CENTER);
         HBox.setHgrow(cSlider, Priority.ALWAYS);
         VBox.setMargin(cSliderBox, new Insets(10));
@@ -148,8 +151,8 @@ public class ImagePaneRenderer implements ImageRenderer {
         valLabel = new Label("1");
         valLabel.getStyleClass().add("cartoon-text");
         valLabel.getStyleClass().add("val-label");
-        zSlider = createSlider(1,valLabel);
-        zSliderBox = new HBox(dimLabel,zSlider,valLabel);
+        zSlider = createSlider(1, valLabel);
+        zSliderBox = new HBox(dimLabel, zSlider, valLabel);
         zSliderBox.setAlignment(Pos.CENTER);
         HBox.setHgrow(zSlider, Priority.ALWAYS);
         VBox.setMargin(zSliderBox, new Insets(10));
@@ -161,8 +164,8 @@ public class ImagePaneRenderer implements ImageRenderer {
         valLabel = new Label("1");
         valLabel.getStyleClass().add("cartoon-text");
         valLabel.getStyleClass().add("val-label");
-        tSlider = createSlider(1,valLabel);
-        tSliderBox = new HBox(dimLabel,tSlider,valLabel);
+        tSlider = createSlider(1, valLabel);
+        tSliderBox = new HBox(dimLabel, tSlider, valLabel);
         tSliderBox.setAlignment(Pos.CENTER);
         HBox.setHgrow(tSlider, Priority.ALWAYS);
         VBox.setMargin(tSliderBox, new Insets(10));
@@ -182,8 +185,8 @@ public class ImagePaneRenderer implements ImageRenderer {
         zSlider.setMax(ipl.getNSlices());
         tSlider.setMax(ipl.getNFrames());
 
-        cSliderBox.setVisible(ipl.getNChannels() > 1 &! composite);
-        cSliderBox.setManaged(ipl.getNChannels() > 1 &! composite);
+        cSliderBox.setVisible(ipl.getNChannels() > 1 & !composite);
+        cSliderBox.setManaged(ipl.getNChannels() > 1 & !composite);
         zSliderBox.setVisible(ipl.getNSlices() > 1);
         zSliderBox.setManaged(ipl.getNSlices() > 1);
         tSliderBox.setVisible(ipl.getNFrames() > 1);

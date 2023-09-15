@@ -71,6 +71,7 @@ public class WorkflowPane extends HBox {
         VBox.setVgrow(pane, Priority.SOMETIMES);
         imageSide.setAlignment(Pos.CENTER);
         imageSide.getChildren().set(1,pane);
+        System.out.println(pane.getWidth());
     }
 
     public static void setTitle(String title) {

@@ -39,7 +39,7 @@ public class MIAForSchools extends Application {
         scene = new Scene(workflowSelectorPane);
 
         stage.setTitle("MIA for Schools");
-        stage.setWidth(1100);
+        stage.setWidth(1150);
         stage.setHeight(900);
         stage.setScene(scene);
         stage.show();

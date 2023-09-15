@@ -31,7 +31,7 @@ public class WorkflowSelectorPane extends VBox {
 
         FlowPane buttons = new FlowPane();
         buttons.setAlignment(Pos.CENTER);
-        buttons.getStyleClass().add("invisible");
+        buttons.getStyleClass().add("invisible");        
 
         ScrollPane scrollPane = new ScrollPane(buttons);
         scrollPane.getStyleClass().add("invisible");

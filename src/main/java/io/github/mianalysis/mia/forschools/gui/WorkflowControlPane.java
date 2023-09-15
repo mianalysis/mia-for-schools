@@ -266,7 +266,6 @@ public class WorkflowControlPane extends VBox {
                     executeModuleGroup(group);
                 });
                 comboBox.setPrefWidth(Double.MAX_VALUE);
-                comboBox.setPrefHeight(15);
                 comboBox.setStyle(WonkyShapes.createSquarePath(0.1));
                 comboBox.getStyleClass().add("cartoon-shape");
                 parameterControls.put(parameter, comboBox);
@@ -327,6 +326,7 @@ public class WorkflowControlPane extends VBox {
             }
         };
         ArrowButton backButton = new ArrowButton(eventHandler, TriangleMode.LEFT);
+        backButton.getStyleClass().add("back-next-button");
         backButton.setText("Back");
         backButton.setAlignment(Pos.CENTER_RIGHT);
 
@@ -345,6 +345,7 @@ public class WorkflowControlPane extends VBox {
             }
         };
         ArrowButton nextButton = new ArrowButton(eventHandler, TriangleMode.RIGHT);
+        nextButton.getStyleClass().add("back-next-button");
         nextButton.setText("Next");
         nextButton.setAlignment(Pos.CENTER_LEFT);
         if (groupIdx >= maxIdx)
