@@ -35,7 +35,7 @@ public class FindOnionCells extends Module {
     public static void main(String[] args) {
         // Creating a new instance of ImageJ
         new ij.ImageJ();
-
+        
         // Launching MIA
         new ImageJ().command().run("io.github.mianalysis.mia.MIA", false);
 

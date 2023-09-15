@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "FindOnionCells",
+            "request": "launch",
+            "mainClass": "io.github.mianalysis.mia.forschools.module.FindOnionCells",
+            "projectName": "mia-for-schools"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

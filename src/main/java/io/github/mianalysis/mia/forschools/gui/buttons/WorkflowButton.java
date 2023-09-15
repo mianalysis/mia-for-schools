@@ -63,13 +63,13 @@ public class WorkflowButton extends CartoonButton {
         String imagePath = null;
         System.out.println(rootPath);
         if (new File(rootPath + suffix + ".jpg").exists())
-            imagePath = "file:/" + rootPath + suffix + ".jpg";
+            imagePath = "file:" + rootPath + suffix + ".jpg";
         else if (new File(rootPath + suffix + ".png").exists())
-            imagePath = "file:/" + rootPath + suffix + ".png";
+            imagePath = "file:" + rootPath + suffix + ".png";
         else if (new File(rootPath + suffix + ".tif").exists())
-            imagePath = "file:/" + rootPath + suffix + ".tif";
+            imagePath = "file:" + rootPath + suffix + ".tif";
         else if (new File(rootPath + suffix + ".gif").exists())
-            imagePath = "file:/" + rootPath + suffix + ".gif";
+            imagePath = "file:" + rootPath + suffix + ".gif";
 
         System.out.println(imagePath);
 
