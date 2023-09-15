@@ -158,7 +158,7 @@
             <artifactId>imagej-legacy</artifactId>
             <scope>${scp}</scope>
         </dependency> -->
-        
+
         <dependency>
             <groupId>de.csbdresden</groupId>
             <artifactId>csbdeep</artifactId>
@@ -190,13 +190,14 @@
             <scope>${scp}</scope>
         </dependency>
 
-        <!-- THE FOLLOWING DEPENDENCY IS JUST UNTIL SCIJAVA POM MOVES FROM 1.53t, which has a Z-projector bug -->
+        <!-- THE FOLLOWING DEPENDENCY IS JUST UNTIL SCIJAVA POM MOVES FROM 1.53t, which has a
+        Z-projector bug -->
         <dependency>
             <groupId>net.imagej</groupId>
             <artifactId>ij</artifactId>
             <version>1.53u</version>
         </dependency>
-        
+
 
         <dependency>
             <groupId>mpicbg</groupId>
@@ -236,17 +237,13 @@
             <groupId>org.scijava</groupId>
             <artifactId>scijava-ui-javafx</artifactId>
             <version>0.1.0-SNAPSHOT</version>
-          </dependency> -->
+        </dependency> -->
 
         <dependency>
-            <groupId>com.github.mianalysis</groupId>
+            <groupId>io.github.mianalysis</groupId>
             <artifactId>mia</artifactId>
-            <version>v1.2.2</version>
+            <version>1.4.0</version>
             <scope>${scp}</scope>
-            <!-- <groupId>io.github.mianalysis</groupId>
-            <artifactId>mia</artifactId>
-            <version>1.2.2</version>
-            <scope>${scp}</scope> -->
         </dependency>
     </dependencies>
 

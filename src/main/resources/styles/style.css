@@ -1,0 +1,200 @@
+.pane {
+    -fx-background-color: linear-gradient(from 50% 0% to 50% 100%, #56afcad5, #0539c9d5);
+}
+
+.scroll-pane {
+    -fx-background-color:transparent;
+    -fx-min-width: 400;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color:transparent;
+}
+
+.stage {
+    -fx-min-width: 800;
+}
+
+.dim-label {
+    -fx-pref-width: 100;
+    -fx-alignment: center-left;
+}
+
+.val-label {
+    -fx-pref-width: 50;
+    -fx-alignment: center-right;
+}
+
+.dim-slider .thumb {
+    -fx-shape: "M 0.010, -0.023 L 1.037 -0.010 L 1.002 1.045 L -0.044 0.952 L 0.010 -0.023 Z";
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-min-height: 20;
+    -fx-pref-height: 20;
+    -fx-background-color: yellow;
+}
+
+.param-slider .thumb {
+    -fx-shape: "M 0.010, -0.023 L 1.037 -0.010 L 1.002 1.045 L -0.044 0.952 L 0.010 -0.023 Z";
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-min-height: 50;
+    -fx-pref-height: 50;
+    -fx-background-color: hotpink;
+}
+
+.slider .thumb:hover {
+    -fx-border-color: cyan ;
+    -fx-effect: dropshadow( three-pass-box, cyan, 10, 0.0, 0, 1);
+}
+
+.slider .track {
+    -fx-shape: "M0,0.1 L1,0.3 L1,0 L0,0.1z";
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-background-color: black;
+}
+
+.combo-box:hover {
+    -fx-border-color: cyan ;
+    -fx-effect: dropshadow( three-pass-box, cyan, 10, 0.0, 0, 1);
+}
+
+.combo-box .arrow {
+    -fx-background-color:transparent;
+}
+
+.combo-box .arrow-button {
+    -fx-shape: "M 0.002, -0.001 L 1.007 -0.036 L 0.522 0.957 L 0.002 -0.001 Z";
+    -fx-border-width: 2;
+    -fx-border-color: black;
+    -fx-background-color:orange;
+}
+
+.combo-box .list-cell {
+    -fx-font-size: 18;
+    -fx-font-family: "Shantell Sans Light";
+    -fx-padding: 10;
+}
+
+.selector-pane {
+    -fx-spacing: 20;
+    -fx-padding: 20;
+    -fx-hgap: 50;
+    -fx-vgap: 50;
+}
+
+.control-pane {
+    -fx-min-width: 300;
+    -fx-pref-width: 300;
+    -fx-spacing: 20;
+    -fx-padding: 20;
+    -fx-hgap: 50;
+    -fx-vgap: 50;
+}
+
+.button {
+    /* -fx-font-weight: bold; */
+    -fx-font-size: 12;
+}
+
+.cartoon-shape {
+    -fx-border-color: black ;
+    -fx-border-width: 2 ; 
+    -fx-padding: 10px;
+    -fx-effect: dropshadow( three-pass-box, black, 10, 0.0, 0, 1);
+}
+
+.cartoon-text {
+    -fx-font-size: 24;
+    -fx-font-family: "Shantell Sans Light";
+    -fx-text-fill: black;    
+}
+
+.home-button {
+    -fx-background-color: chartreuse ;
+}
+
+.home-button:hover {
+    -fx-border-color: cyan ;
+    -fx-effect: dropshadow( three-pass-box, cyan, 10, 0.0, 0, 1);
+}
+
+.workflow-button {
+    -size: 240;
+    -fx-min-height: -size;
+    -fx-min-width: -size;
+    -fx-max-height: -size;
+    -fx-max-width: -size;
+}
+
+.workflow-button:hover {
+    -fx-border-color: cyan ;
+    -fx-effect: dropshadow( three-pass-box, cyan, 10, 0.0, 0, 1);
+}
+
+.arrow-button {
+    -fx-background-color: orange;
+}
+
+.arrow-button:hover {
+    -fx-border-color: cyan ;
+    -fx-effect: dropshadow( three-pass-box, cyan, 10, 0.0, 0, 1);
+}
+
+.back-next-button {
+    -fx-min-height: 80;
+    -fx-min-width: 80;
+    -fx-max-height: 80;
+    -fx-max-width: 80;
+}
+
+.title-text {
+    -fx-font-size: 32;
+    -fx-text-fill: black;
+}
+
+.label-text {
+    -fx-font-size: 24;
+}
+
+.normal-text {
+    -fx-font-size: 18;
+}
+
+.button-text {
+    -fx-font-size: 18;
+}
+
+.overlay-text {
+    -fx-text-fill:white;
+}
+
+.description-label {
+    /* -fx-background-color:rgba(255,255,255,0.75); */
+    -fx-background-color:paleturquoise;
+    /* -fx-min-height: 200; */
+}
+
+.cartoon-checkbox {
+    -fx-shape: "m 39.935594,73.494915 98.999996,-9.061019 -1.67797,33.223729 H 48.99661 L 40.606778,75.508473 Z";
+    -fx-background-color: green;
+    -fx-border-color: pink;
+    -fx-border-width: 2 ; 
+}
+
+.toggle-switch-slider {
+    -fx-background-color: lightgrey;
+}
+
+.toggle-switch:hover {
+    -fx-effect: dropshadow( three-pass-box, cyan, 10, 0.0, 0, 1);
+}
+
+.toggle-switch-on {
+    -fx-background-color: lightgreen;
+}
+
+.toggle-switch-off {
+    -fx-background-color: salmon;
+}
