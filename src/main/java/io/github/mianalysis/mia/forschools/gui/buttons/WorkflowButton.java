@@ -5,6 +5,7 @@ import java.io.File;
 import io.github.mianalysis.mia.forschools.gui.MIAForSchools;
 import io.github.mianalysis.mia.forschools.gui.WonkyShapes;
 import io.github.mianalysis.mia.forschools.gui.WorkflowControlPane;
+import io.github.mianalysis.mia.gui.GUI;
 import io.github.mianalysis.mia.process.analysishandling.Analysis;
 import io.github.mianalysis.mia.process.analysishandling.AnalysisReader;
 import javafx.event.ActionEvent;
@@ -30,7 +31,9 @@ public class WorkflowButton extends CartoonButton {
             public void handle(ActionEvent event) {
                 String workflowPath = MIAForSchools.getWorkflowsPath() + workflowName;
                 Analysis analysis = loadModules(workflowPath);
+                analysis.setAnalysisFilename(workflowPath);
 
+                GUI.setAnalysis(analysis);
                 MIAForSchools.enableWorkflowPane();
                 MIAForSchools.getWorkflowPane().setControlPane(new WorkflowControlPane(analysis));
                
