@@ -1,35 +1,40 @@
-import { createSignal } from 'solid-js'
-import solidLogo from './assets/solid.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { createSignal } from 'solid-js';
+import Image from './components/Image';
 
-function App() {
-  const [count, setCount] = createSignal(0)
+const API_URL = import.meta.env.VITE_API_URL;
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://solidjs.com" target="_blank">
-          <img src={solidLogo} class="logo solid" alt="Solid logo" />
-        </a>
-      </div>
-      <h1>Vite + Solid</h1>
-      <div class="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count()}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p class="read-the-docs">
-        Click on the Vite and Solid logos to learn more
-      </p>
-    </>
-  )
+if (typeof API_URL !== 'string') {
+  throw new Error('VITE_API_URL is not defined');
 }
 
-export default App
+function App() {
+  const [threshold, setThreshold] = createSignal(1.0);
+
+  const increaseThreshold = () => setThreshold(round(threshold() + 0.1));
+  const decreaseThreshold = () => setThreshold(round(threshold() - 0.1));
+
+  const round = (value: number) => Math.round(value * 10) / 10;
+
+  const source = () => `${API_URL}/mia?threshold=${threshold()}`;
+
+  return (
+    <main class="space-y-8">
+      <h1>MIA Demo</h1>
+
+      <Image source={source()} />
+
+      <div class="space-x-2">
+        <button type="button" onclick={increaseThreshold}>
+          Increase
+        </button>
+        <button type="button" onclick={decreaseThreshold}>
+          Decrease
+        </button>
+      </div>
+
+      <p class="text-[#888] font-mono">Threshold {threshold()}</p>
+    </main>
+  );
+}
+
+export default App;
