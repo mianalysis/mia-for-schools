@@ -24,6 +24,8 @@ function App() {
         setSource(`data:${response.headers['Content-Type']};base64,${response.body}`);
         setLoading(false);
       });
+
+      updateImage();
     },
     onDisconnect: () => {
       window.alert('disconnected');
@@ -34,22 +36,21 @@ function App() {
 
   const [threshold, setThreshold] = createSignal(1.0);
 
-  const increaseThreshold = () => {
-    setThreshold(round(threshold() + 0.1));
-    update();
-  };
-  const decreaseThreshold = () => {
-    setThreshold(round(threshold() - 0.1));
-    update();
-  };
-
   const [loading, setLoading] = createSignal(true);
   const [source, setSource] = createSignal<string>();
 
-  const round = (value: number) => Math.round(value * 10) / 10;
+  function onInput(e: InputEvent) {
+    const target = e.target as HTMLInputElement;
 
-  function update() {
+    const t = parseFloat(target.value);
+
+    setThreshold(t);
+    updateImage();
+  }
+
+  function updateImage() {
     setLoading(true);
+
     client.publish({
       destination: '/app/process',
       body: JSON.stringify({ threshold: threshold() }),
@@ -64,14 +65,7 @@ function App() {
         <Image source={source()!} loading={loading()} />
       </Show>
 
-      <div class="space-x-2">
-        <button type="button" onclick={increaseThreshold}>
-          Increase
-        </button>
-        <button type="button" onclick={decreaseThreshold}>
-          Decrease
-        </button>
-      </div>
+      <input type="range" min="0" max="5" step="0.1" value={threshold()} onInput={onInput} />
 
       <p class="text-[#888] font-mono">Threshold {threshold()}</p>
     </main>
