@@ -9,9 +9,11 @@ if (typeof API_HOST !== 'string') {
   throw new Error('VITE_API_HOST is not defined');
 }
 
-function App() {
-  const brokerURL = `ws://${API_HOST}/ws`;
+const PROTOCOL = import.meta.env.VITE_SSL === 'true' ? 'wss' : 'ws';
 
+const brokerURL = `${PROTOCOL}://${API_HOST}/ws`;
+
+function App() {
   const client = new Client({
     brokerURL,
     onConnect: () => {
