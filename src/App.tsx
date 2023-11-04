@@ -15,7 +15,7 @@ function App() {
   const client = new Client({
     brokerURL,
     onConnect: () => {
-      client.subscribe('/user/queue/result', data => {
+      client.subscribe('/user/queue/result', (data) => {
         const response = JSON.parse(data.body);
 
         // Set the source of the image to the Base64-encoded image data
