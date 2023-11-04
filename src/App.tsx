@@ -1,27 +1,66 @@
-import { createSignal } from 'solid-js';
+import { Show, createSignal } from 'solid-js';
 import Image from './components/Image';
 
-const API_URL = import.meta.env.VITE_API_URL;
+import { Client } from '@stomp/stompjs';
 
-if (typeof API_URL !== 'string') {
-  throw new Error('VITE_API_URL is not defined');
+const API_HOST = import.meta.env.VITE_API_HOST;
+
+if (typeof API_HOST !== 'string') {
+  throw new Error('VITE_API_HOST is not defined');
 }
 
 function App() {
+  const brokerURL = `ws://${API_HOST}/ws`;
+
+  const client = new Client({
+    brokerURL,
+    onConnect: () => {
+      client.subscribe('/user/queue/result', data => {
+        const response = JSON.parse(data.body);
+
+        // Set the source of the image to the Base64-encoded image data
+        setSource(`data:${response.headers['Content-Type']};base64,${response.body}`);
+        setLoading(false);
+      });
+    },
+    onDisconnect: () => {
+      window.alert('disconnected');
+    },
+  });
+
+  client.activate();
+
   const [threshold, setThreshold] = createSignal(1.0);
 
-  const increaseThreshold = () => setThreshold(round(threshold() + 0.1));
-  const decreaseThreshold = () => setThreshold(round(threshold() - 0.1));
+  const increaseThreshold = () => {
+    setThreshold(round(threshold() + 0.1));
+    update();
+  };
+  const decreaseThreshold = () => {
+    setThreshold(round(threshold() - 0.1));
+    update();
+  };
+
+  const [loading, setLoading] = createSignal(true);
+  const [source, setSource] = createSignal<string>();
 
   const round = (value: number) => Math.round(value * 10) / 10;
 
-  const source = () => `${API_URL}/mia?threshold=${threshold()}`;
+  function update() {
+    setLoading(true);
+    client.publish({
+      destination: '/app/process',
+      body: JSON.stringify({ threshold: threshold() }),
+    });
+  }
 
   return (
     <main class="space-y-8">
       <h1>MIA Demo</h1>
 
-      <Image source={source()} />
+      <Show when={source()}>
+        <Image source={source()!} loading={loading()} />
+      </Show>
 
       <div class="space-x-2">
         <button type="button" onclick={increaseThreshold}>
