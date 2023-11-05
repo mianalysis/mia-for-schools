@@ -2,6 +2,7 @@ import { Show, createSignal } from 'solid-js';
 import Image from './components/Image';
 
 import { Client } from '@stomp/stompjs';
+import { debounce } from './lib/util';
 
 const API_HOST = import.meta.env.VITE_API_HOST;
 
@@ -45,8 +46,10 @@ function App() {
     const t = parseFloat(target.value);
 
     setThreshold(t);
-    updateImage();
+    debouncedUpdatedImage();
   }
+
+  const debouncedUpdatedImage = debounce(updateImage, 100);
 
   function updateImage() {
     setLoading(true);
