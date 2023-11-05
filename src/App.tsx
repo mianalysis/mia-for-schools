@@ -1,39 +1,21 @@
 import { Show, createSignal } from 'solid-js';
 import Image from './components/Image';
 
-import { Client } from '@stomp/stompjs';
 import { debounce } from './lib/util';
-
-const API_HOST = import.meta.env.VITE_API_HOST;
-
-if (typeof API_HOST !== 'string') {
-  throw new Error('VITE_API_HOST is not defined');
-}
-
-const PROTOCOL = import.meta.env.VITE_SSL === 'true' ? 'wss' : 'ws';
-
-const brokerURL = `${PROTOCOL}://${API_HOST}/ws`;
+import { client } from './lib/client';
 
 function App() {
-  const client = new Client({
-    brokerURL,
-    onConnect: () => {
-      client.subscribe('/user/queue/result', (data) => {
-        const response = JSON.parse(data.body);
+  client.onConnect = () => {
+    client.subscribe('/user/queue/result', (data) => {
+      const response = JSON.parse(data.body);
 
-        // Set the source of the image to the Base64-encoded image data
-        setSource(`data:${response.headers['Content-Type']};base64,${response.body}`);
-        setLoading(false);
-      });
+      // Set the source of the image to the Base64-encoded image data
+      setSource(`data:${response.headers['Content-Type']};base64,${response.body}`);
+      setLoading(false);
+    });
 
-      updateImage();
-    },
-    onDisconnect: () => {
-      window.alert('disconnected');
-    },
-  });
-
-  client.activate();
+    updateImage();
+  };
 
   const [threshold, setThreshold] = createSignal(1.0);
 
