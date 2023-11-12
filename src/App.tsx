@@ -2,11 +2,11 @@ import { Show, createSignal } from 'solid-js';
 import Image from './components/Image';
 
 import { debounce } from './lib/util';
-import { client } from './lib/client';
+import { socketClient } from './lib/client';
 
 function App() {
-  client.onConnect = () => {
-    client.subscribe('/user/queue/result', (data) => {
+  socketClient.onConnect = () => {
+    socketClient.subscribe('/user/queue/result', (data) => {
       const response = JSON.parse(data.body);
 
       // Set the source of the image to the Base64-encoded image data
@@ -36,7 +36,7 @@ function App() {
   function updateImage() {
     setLoading(true);
 
-    client.publish({
+    socketClient.publish({
       destination: '/app/process',
       body: JSON.stringify({ threshold: threshold() }),
     });
