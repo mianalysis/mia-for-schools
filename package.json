@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@stomp/stompjs": "^7.0.0",
+    "@thisbeyond/solid-select": "^0.14.0",
     "axios": "^1.6.1",
     "solid-js": "^1.7.8"
   },
