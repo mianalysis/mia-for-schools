@@ -7,6 +7,9 @@ import "@thisbeyond/solid-select/style.css";
 import { debounce } from './lib/util';
 import { socketClient } from './lib/client';
 
+import './App.css';
+
+
 function App() {
     socketClient.onConnect = () => {
         socketClient.subscribe('/user/queue/result', (data) => {
@@ -24,11 +27,13 @@ function App() {
             setParams(paramJson.modules);
 
             // Specifically for the schools project, once we've got the parameters back, run the workflow with the current parameters
-            debouncedProcess();
+            // debouncedProcess();
+            debouncedProcessGroup();
 
         });
 
-        debouncedRequestParameters();
+        // debouncedRequestParameters();
+        requestEnableModuleGroups();
 
     };
 
@@ -60,7 +65,20 @@ function App() {
         });
     }
 
+    function processGroup() {
+        setLoading(true);
+
+        socketClient.publish({
+            destination: '/app/processgroup',
+            body: JSON.stringify({}),
+        });
+    }
+
     const debouncedProcess = debounce(process, 100);
+    const debouncedProcessGroup = debounce(processGroup, 100);
+    const debouncedRequestParameters = debounce(requestParameters, 100);
+    const debouncedRequestPreviousGroup = debounce(requestPreviousGroup, 100);
+    const debouncedRequestNextGroup = debounce(requestNextGroup, 100);
 
     function requestParameters() {
         socketClient.publish({
@@ -69,7 +87,26 @@ function App() {
         });
     }
 
-    const debouncedRequestParameters = debounce(requestParameters, 100);
+    function requestEnableModuleGroups() {
+        socketClient.publish({
+            destination: '/app/enablemodulegroups',
+            body: JSON.stringify({})
+        });
+    }
+
+    function requestPreviousGroup() {
+        socketClient.publish({
+            destination: '/app/previousgroup',
+            body: JSON.stringify({})
+        });
+    }
+
+    function requestNextGroup() {
+        socketClient.publish({
+            destination: '/app/nextgroup',
+            body: JSON.stringify({})
+        });
+    }
 
     function sendBooleanParameter(moduleID: String, parameterName: String, e: Event) {
         const stringParameterValue = ((Boolean)((e.target as HTMLInputElement).checked)).toString();
@@ -108,18 +145,18 @@ function App() {
                             <td>
                                 <Switch>
                                     <Match when={param.type === "BooleanP"}>
-                                        <input type="checkbox" id="fname" name="fname" checked={param.value === "true"} onInput={(e) => sendBooleanParameter(module.id, param.name, e)} />
+                                        <input class="cartoon-shape" type="checkbox" name="fname" checked={param.value === "true"} onInput={(e) => sendBooleanParameter(module.id, param.name, e)} />
                                     </Match>
                                     <Match when={param.type === "ChoiceP"}>
                                         {/* Only process if value is different */}
-                                        <Select options={param.choices} initialValue={param.value} onChange={(value: String) => value !== param.value ? sendChoiceParameter(module.id, param.name, value) : null} />
+                                        <Select class="cartoon-shape" options={param.choices} initialValue={param.value} onChange={(value: String) => value !== param.value ? sendChoiceParameter(module.id, param.name, value) : null} />
                                     </Match>
                                     {/* <Match when={param.type === "FileFolderPathP"}>
                                     
                                 </Match> */}
                                     <Match when={param.type === "DoubleP" || param.type == "IntegerP" || param.type == "StringP"}>
                                         {/* <br/>{param.name}<input type="range" min="0" max="5" step="0.1" value={param.value} onChange={(e) => sendTextParameter(module.id,param.name,e)}/> {param.value} */}
-                                        <input type="text" id="fname" name="fname" value={param.value} onFocusOut={(e) => sendTextParameter(module.id, param.name, e)} style="text-align:center"/>
+                                        <input class="cartoon-shape" type="text" name="fname" value={param.value} onFocusOut={(e) => sendTextParameter(module.id, param.name, e)} style="text-align:center" />
                                     </Match>
                                 </Switch>
                             </td>
@@ -130,6 +167,18 @@ function App() {
                 </For>
             </table>
 
+            <table style="width:100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type='button' value='Previous' onClick={() => debouncedRequestPreviousGroup()} />
+                        </td>
+                        <td>
+                            <input type='button' value='Next' onClick={() => debouncedRequestNextGroup()} />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </main>
 
     );
