@@ -1,16 +1,35 @@
-import { Show, For, createSignal, Switch, Match } from 'solid-js';
+import { For, Match, Show, Switch, createSignal } from 'solid-js';
 import Image from './components/Image';
 
 import { Select } from "@thisbeyond/solid-select";
 import "@thisbeyond/solid-select/style.css";
 
-import { debounce } from './lib/util';
 import { socketClient } from './lib/client';
+import { debounce } from './lib/util';
 
 import './App.css';
 
-
 function App() {
+    type ModuleJSON = {
+        "id": string,
+        "name": string,
+        "nickname": string,
+        "canBeDisabled": boolean,
+        "enabled": boolean,
+        "visibleTitle": boolean,
+        "parameters": [ParameterJSON]
+    };
+
+    type ParameterJSON = {
+        "name": string,
+        "nickname": string,
+        "value": string,
+        "type": string,
+        "visible": boolean,
+        "choices": [string],
+        "collections": [ParameterJSON]
+    }
+
     socketClient.onConnect = () => {
         socketClient.subscribe('/user/queue/result', (data) => {
             const response = JSON.parse(data.body);
@@ -39,22 +58,7 @@ function App() {
 
     const [loading, setLoading] = createSignal(true);
     const [source, setSource] = createSignal<string>();
-    const [params, setParams] = createSignal([{
-        "id": "",
-        "name": "",
-        "nickname": "",
-        "canBeDisabled": "",
-        "enabled": "",
-        "visibleTitle": "",
-        "parameters":
-            [{
-                "name": "",
-                "nickname": "",
-                "value": "",
-                "type": "",
-                "choices": []
-            }]
-    }]);
+    const [params, setParams] = createSignal<ModuleJSON>();
 
     function process() {
         setLoading(true);
@@ -129,6 +133,47 @@ function App() {
         });
     }
 
+    function createControls(module: ModuleJSON, parameters: [ParameterJSON]) {
+        return [
+            <For each={parameters}>{(parameter) =>
+                createControl(module, parameter)
+            }
+            </For>
+        ]
+    }
+
+    function createControl(module: ModuleJSON, parameter: ParameterJSON) {
+        return [
+            <tr>
+                <td>
+                    <Show when={parameter.visible}>
+                        {parameter.nickname}
+                    </Show>
+                </td>
+                <td>
+                    <Switch>
+                        <Match when={parameter.type === "BooleanP"}>
+                            <input class="cartoon-shape" type="checkbox" name="fname" checked={parameter.value === "true"} onInput={(e) => sendBooleanParameter(module.id, parameter.name, e)} />
+                        </Match>
+                        <Match when={parameter.type === "ChoiceP"}>
+                            {/* Only process if value is different */}
+                            <Select class="cartoon-shape" options={parameter.choices} initialValue={parameter.value} onChange={(value: String) => value !== parameter.value ? sendChoiceParameter(module.id, parameter.name, value) : null} />
+                        </Match>
+                        {/* <Match when={param.type === "FileFolderPathP"}>
+                                    
+                                </Match> */}
+                        <Match when={parameter.type === "DoubleP" || parameter.type == "IntegerP" || parameter.type == "StringP"}>
+                            {/* <br/>{param.name}<input type="range" min="0" max="5" step="0.1" value={param.value} onChange={(e) => sendTextParameter(module.id,param.name,e)}/> {param.value} */}
+                            <input class="cartoon-shape" type="text" name="fname" value={parameter.value} onFocusOut={(e) => sendTextParameter(module.id, parameter.name, e)} style="text-align:center" />
+                        </Match>
+                        <Match when={parameter.type === "ParameterGroup"}>
+                            {createControls(module, parameter.collections)}
+                        </Match>
+                    </Switch>
+                </td>
+            </tr>]
+    }
+
     return (
         <main class="space-y-8">
             <Show when={source()}>
@@ -137,32 +182,7 @@ function App() {
 
             <table style="width:100%">
                 <For each={params()}>{(module) =>
-                    <For each={module.parameters}>{(param) =>
-                        <tr>
-                            <td>
-                                {param.nickname}
-                            </td>
-                            <td>
-                                <Switch>
-                                    <Match when={param.type === "BooleanP"}>
-                                        <input class="cartoon-shape" type="checkbox" name="fname" checked={param.value === "true"} onInput={(e) => sendBooleanParameter(module.id, param.name, e)} />
-                                    </Match>
-                                    <Match when={param.type === "ChoiceP"}>
-                                        {/* Only process if value is different */}
-                                        <Select class="cartoon-shape" options={param.choices} initialValue={param.value} onChange={(value: String) => value !== param.value ? sendChoiceParameter(module.id, param.name, value) : null} />
-                                    </Match>
-                                    {/* <Match when={param.type === "FileFolderPathP"}>
-                                    
-                                </Match> */}
-                                    <Match when={param.type === "DoubleP" || param.type == "IntegerP" || param.type == "StringP"}>
-                                        {/* <br/>{param.name}<input type="range" min="0" max="5" step="0.1" value={param.value} onChange={(e) => sendTextParameter(module.id,param.name,e)}/> {param.value} */}
-                                        <input class="cartoon-shape" type="text" name="fname" value={param.value} onFocusOut={(e) => sendTextParameter(module.id, param.name, e)} style="text-align:center" />
-                                    </Match>
-                                </Switch>
-                            </td>
-                        </tr>
-                    }
-                    </For>
+                    createControls(module, module.parameters)
                 }
                 </For>
             </table>
