@@ -1,8 +1,8 @@
 import { For, Match, Show, Switch, createSignal } from 'solid-js';
 import Image from './components/Image';
 
-import { Select } from "@thisbeyond/solid-select";
-import "@thisbeyond/solid-select/style.css";
+// import { Select } from "@thisbeyond/solid-select";
+// import "@thisbeyond/solid-select/style.css";
 
 import { socketClient } from './lib/client';
 import { debounce } from './lib/util';
@@ -58,16 +58,16 @@ function App() {
 
     const [loading, setLoading] = createSignal(true);
     const [source, setSource] = createSignal<string>();
-    const [params, setParams] = createSignal<ModuleJSON>();
+    const [params, setParams] = createSignal<ModuleJSON[]>();
 
-    function process() {
-        setLoading(true);
+    // function process() {
+    //     setLoading(true);
 
-        socketClient.publish({
-            destination: '/app/process',
-            body: JSON.stringify({}),
-        });
-    }
+    //     socketClient.publish({
+    //         destination: '/app/process',
+    //         body: JSON.stringify({}),
+    //     });
+    // }
 
     function processGroup() {
         setLoading(true);
@@ -78,18 +78,18 @@ function App() {
         });
     }
 
-    const debouncedProcess = debounce(process, 100);
+    // const debouncedProcess = debounce(process, 100);
     const debouncedProcessGroup = debounce(processGroup, 100);
-    const debouncedRequestParameters = debounce(requestParameters, 100);
+    // const debouncedRequestParameters = debounce(requestParameters, 100);
     const debouncedRequestPreviousGroup = debounce(requestPreviousGroup, 100);
     const debouncedRequestNextGroup = debounce(requestNextGroup, 100);
 
-    function requestParameters() {
-        socketClient.publish({
-            destination: '/app/getparameters',
-            body: JSON.stringify({})
-        });
-    }
+    // function requestParameters() {
+    //     socketClient.publish({
+    //         destination: '/app/getparameters',
+    //         body: JSON.stringify({})
+    //     });
+    // }
 
     function requestEnableModuleGroups() {
         socketClient.publish({
@@ -117,9 +117,9 @@ function App() {
         sendParameter(moduleID, parameterName, stringParameterValue);
     }
 
-    function sendChoiceParameter(moduleID: String, parameterName: String, value: String) {
-        sendParameter(moduleID, parameterName, value);
-    }
+    // function sendChoiceParameter(moduleID: String, parameterName: String, value: String) {
+    //     sendParameter(moduleID, parameterName, value);
+    // }
 
     function sendTextParameter(moduleID: String, parameterName: String, e: Event) {
         const stringParameterValue = (e.target as HTMLInputElement).value;
@@ -153,18 +153,19 @@ function App() {
                 <td>
                     <Switch>
                         <Match when={parameter.type === "BooleanP"}>
-                            <input class="cartoon-shape" type="checkbox" name="fname" checked={parameter.value === "true"} onInput={(e) => sendBooleanParameter(module.id, parameter.name, e)} />
+                            <input class="rounded-full" type="checkbox" name="fname" checked={parameter.value === "true"} onInput={(e) => sendBooleanParameter(module.id, parameter.name, e)} />
                         </Match>
                         <Match when={parameter.type === "ChoiceP"}>
                             {/* Only process if value is different */}
-                            <Select class="cartoon-shape" options={parameter.choices} initialValue={parameter.value} onChange={(value: String) => value !== parameter.value ? sendChoiceParameter(module.id, parameter.name, value) : null} />
+                            {/* <Select class="rounded-full" options={parameter.choices} initialValue={parameter.value} onChange={(value: String) => value !== parameter.value ? sendChoiceParameter(module.id, parameter.name, value) : null} /> */}
+                            <p>Choice box</p>
                         </Match>
                         {/* <Match when={param.type === "FileFolderPathP"}>
                                     
                                 </Match> */}
                         <Match when={parameter.type === "DoubleP" || parameter.type == "IntegerP" || parameter.type == "StringP"}>
                             {/* <br/>{param.name}<input type="range" min="0" max="5" step="0.1" value={param.value} onChange={(e) => sendTextParameter(module.id,param.name,e)}/> {param.value} */}
-                            <input class="cartoon-shape" type="text" name="fname" value={parameter.value} onFocusOut={(e) => sendTextParameter(module.id, parameter.name, e)} style="text-align:center" />
+                            <input class="h-8 rounded-full bg-rose-500 text-white hover:shadow-md" type="text" name="fname" value={parameter.value} onFocusOut={(e) => sendTextParameter(module.id, parameter.name, e)} style="text-align:center" />
                         </Match>
                         <Match when={parameter.type === "ParameterGroup"}>
                             {createControls(module, parameter.collections)}
@@ -191,10 +192,10 @@ function App() {
                 <tbody>
                     <tr>
                         <td>
-                            <input type='button' value='Previous' onClick={() => debouncedRequestPreviousGroup()} />
+                            <button class="font-semibold rounded-full bg-violet-500 text-white border-none hover:bg-orange-500" textContent='Previous' onClick={() => debouncedRequestPreviousGroup()} />
                         </td>
                         <td>
-                            <input type='button' value='Next' onClick={() => debouncedRequestNextGroup()} />
+                            <button class="font-semibold rounded-full bg-violet-500 text-white border-none hover:bg-orange-500" textContent='Next' onClick={() => debouncedRequestNextGroup()} />
                         </td>
                     </tr>
                 </tbody>
