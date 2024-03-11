@@ -30,13 +30,24 @@ function App() {
     "collections": [ParameterJSON]
   }
 
+  type ResultJSON = {
+    "message": string,
+    "image": string
+  }
+
   socketClient.onConnect = () => {
     socketClient.subscribe('/user/queue/result', (data) => {
       const response = JSON.parse(data.body);
+      const resultJSON = JSON.parse(response.body);
 
-      // Set the source of the image to the Base64-encoded image data
-      setSource(`data:${response.headers['Content-Type']};base64,${response.body}`);
-      setLoading(false);
+      if (resultJSON.image != undefined) {
+        setImageSource(`data:${response.headers['Content-Type']};base64,${resultJSON.image}`);
+        setImageLoading(false);
+      }
+
+      // If no message is included, this box will disappear
+      setMessage(resultJSON.message);
+
     });
 
     socketClient.subscribe('/user/queue/parameters', (data) => {
@@ -56,8 +67,9 @@ function App() {
 
   };
 
-  const [loading, setLoading] = createSignal(true);
-  const [source, setSource] = createSignal<string>();
+  const [imageLoading, setImageLoading] = createSignal(true);
+  const [imageSource, setImageSource] = createSignal<string>();
+  const [message, setMessage] = createSignal<string>();
   const [params, setParams] = createSignal<ModuleJSON[]>();
 
   // function process() {
@@ -70,7 +82,7 @@ function App() {
   // }
 
   function processGroup() {
-    setLoading(true);
+    setImageLoading(true);
 
     socketClient.publish({
       destination: '/app/processgroup',
@@ -111,6 +123,20 @@ function App() {
       body: JSON.stringify({})
     });
   }
+
+  // function requestHasPreviousGroup() {
+  //   socketClient.publish({
+  //     destination: '/app/haspreviousgroup',
+  //     body: JSON.stringify({})
+  //   });
+  // }
+
+  // function requestHasNextGroup() {
+  //   socketClient.publish({
+  //     destination: '/app/hasnextgroup',
+  //     body: JSON.stringify({})
+  //   });
+  // }
 
   function sendBooleanParameter(moduleID: String, parameterName: String, e: Event) {
     const stringParameterValue = ((Boolean)((e.target as HTMLInputElement).checked)).toString();
@@ -180,13 +206,19 @@ function App() {
   //   // return <p>Choice box</p>
   // }
 
+  function createMessage(message: String) {
+    return [<div class="rounded-lg overflow-hidden shadow-lg bg-white p-4" style="width:100%">
+      <p>message</p>
+    </div>]
+  }
+
   function createControl(module: ModuleJSON, parameter: ParameterJSON) {
     return [
       <tr>
         <td class="p-2">
           <Show when={parameter.visible}>
             <div class="font-semibold">
-            {createParameterName(parameter.nickname)}
+              {createParameterName(parameter.nickname)}
             </div>
           </Show>
         </td>
@@ -214,20 +246,27 @@ function App() {
 
   return (
     <main class="space-y-8">
-      <Show when={source()}>
-      <div class="rounded-lg overflow-hidden shadow-lg bg-white" style="width:100%">
-        <Image source={source()!} loading={loading()} />
+      <Show when={imageSource()}>
+        <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white">
+          <Image source={imageSource()!} loading={imageLoading()} />
         </div>
 
-        <div class="rounded-lg overflow-hidden shadow-lg bg-white p-4" style="width:100%">
+        <Show when={message()}>
+          <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white p-4">
+            {message()}
+          </div>
+        </Show>
+
+        <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white p-4">
           <table style="width:100%">
             <For each={params()}>{(module) =>
               createControls(module, module.parameters)
             }
             </For>
           </table>
+          </div>
 
-          <br />
+          <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white p-4">
           <table style="width:100%">
             <tbody>
               <tr>
