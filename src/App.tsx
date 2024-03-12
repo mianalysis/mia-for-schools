@@ -30,10 +30,10 @@ function App() {
     "collections": [ParameterJSON]
   }
 
-  type ResultJSON = {
-    "message": string,
-    "image": string
-  }
+  // type ResultJSON = {
+  //   "message": string,
+  //   "image": string
+  // }
 
   socketClient.onConnect = () => {
     socketClient.subscribe('/user/queue/result', (data) => {
@@ -206,11 +206,11 @@ function App() {
   //   // return <p>Choice box</p>
   // }
 
-  function createMessage(message: String) {
-    return [<div class="rounded-lg overflow-hidden shadow-lg bg-white p-4" style="width:100%">
-      <p>message</p>
-    </div>]
-  }
+  // function createMessage(message: String) {
+  //   return [<div class="rounded-lg overflow-hidden shadow-lg bg-white p-4" style="width:100%">
+  //     <p>message</p>
+  //   </div>]
+  // }
 
   function createControl(module: ModuleJSON, parameter: ParameterJSON) {
     return [
