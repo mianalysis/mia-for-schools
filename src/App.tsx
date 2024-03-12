@@ -264,9 +264,7 @@ function App() {
             }
             </For>
           </table>
-          </div>
-
-          <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white p-4">
+          
           <table style="width:100%">
             <tbody>
               <tr>
