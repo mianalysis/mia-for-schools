@@ -1,6 +1,6 @@
 import { For, Match, Show, Switch, createSignal } from 'solid-js';
 
-import Choice from './components/Choice';
+// import Choice from './components/Choice';
 import Im from './components/Im';
 import Slider from './components/Slider';
 import TextEntry from './components/TextEntry';
@@ -121,9 +121,9 @@ function App() {
             <Match when={parameter.type === "BooleanP"}>
               <Toggle module={module} parameter={parameter} />
             </Match>
-            <Match when={parameter.type === "ChoiceP"}>
+            {/* <Match when={parameter.type === "ChoiceP"}>
               <Choice module={module} parameter={parameter} />
-            </Match>
+            </Match> */}
             {/* <Match when={param.type === "FileFolderPathP"}>
             </Match> */}
             <Match when={parameter.type === "DoubleP" || parameter.type == "IntegerP" || parameter.type == "StringP"}>
