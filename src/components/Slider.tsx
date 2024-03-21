@@ -27,6 +27,6 @@ export default function Slider(props: Props) {
         max={groups[2]}
         step={groups[3]}
         value={props.parameter.value}
-        onClick={(e) => sendTextParameter(props.module.id, props.parameter.name, e)} />);
+        onchange={(e) => sendTextParameter(props.module.id, props.parameter.name, e)} />);
 
 }
