@@ -22,51 +22,47 @@ export default function Im(props: Props) {
   const hide = () => props.loading || loading();
 
   var rawImageSet = false;
-  var rawIm = undefined;
-  var rawCanvas = undefined;
-  var rawContext = undefined;
   var rawImagedata: ImageData | null | undefined = undefined;
+  var rawIm = new Image();
+  rawIm.src = props.source;
+  var rawCanvas = document.createElement('canvas');
+  rawCanvas.width = rawIm.width;
+  rawCanvas.height = rawIm.height;
+  var rawContext = rawCanvas.getContext('2d');
+  rawContext?.drawImage(rawIm, 0, 0);
 
-  var lockBC = false;
+  var lockIm = false;
 
   function setBC(value: number, channel: number) {
-    if (lockBC)
+    if (lockIm)
       return;
 
-    if (!rawImageSet) {
-      rawIm = new Image();
-      rawIm.src = props.source;
-      rawCanvas = document.createElement('canvas');
-      rawCanvas.width = rawIm.width;
-      rawCanvas.height = rawIm.height;
-      rawContext = rawCanvas.getContext('2d');
-      rawContext?.drawImage(rawIm, 0, 0);
-      rawImagedata = rawContext?.getImageData(0, 0, rawCanvas.width, rawCanvas.height);
-      rawImageSet = true;
-    }
+    lockIm = true;
 
-    rawImageSet = true;
-
-    lockBC = true;
     const currim = document.getElementById('currim') as HTMLImageElement;
     if (currim == null)
       return;
 
+    if (!rawImageSet) {
+      rawImagedata = rawContext?.getImageData(0, 0, rawIm.width, rawIm.height);
+      rawImageSet = true;
+    }
+
     var canvas = document.createElement('canvas');
-    canvas.width = currim.width;
-    canvas.height = currim.height;
+    canvas.width = rawIm.width;
+    canvas.height = rawIm.height;
 
     const context = canvas.getContext('2d');
     context?.drawImage(currim, 0, 0);
 
-    var Imagedata = context?.getImageData(0, 0, canvas.width, canvas.height);
+    var Imagedata = context?.getImageData(0, 0, rawIm.width, rawIm.height);
     if (Imagedata == null)
       return;
 
     if (rawImagedata == null)
       return;
 
-    for (let idx = channel; idx < Imagedata.width * Imagedata.height * 4; idx = idx + 4)
+    for (let idx = channel; idx < rawIm.width * rawIm.height * 4; idx = idx + 4)
       Imagedata.data[idx] = rawImagedata?.data[idx] * value;
 
     context?.putImageData(Imagedata, 0, 0);
@@ -80,7 +76,7 @@ export default function Im(props: Props) {
         <img
           id="currim"
           src={props.source}
-          onLoad={() => { setLoading(false); lockBC = false; }}
+          onLoad={() => { setLoading(false); lockIm = false; }}
           alt="image"
           classList={{ 'opacity-10': hide() }}
           class="transition-opacity"
