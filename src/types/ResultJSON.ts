@@ -1,4 +1,5 @@
 type ResultJSON = {
     "message": string,
-    "image": string
+    "image": string,
+    "showimagecontrols": boolean
 }

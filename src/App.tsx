@@ -1,6 +1,6 @@
 import { For, Match, Show, Switch, createSignal } from 'solid-js';
 
-import Choice from './components/Choice';
+// import Choice from './components/Choice';
 import Im from './components/Im';
 import Slider from './components/Slider';
 import TextEntry from './components/TextEntry';
@@ -21,6 +21,7 @@ function App() {
       if (resultJSON.image != undefined) {
         setImageSource(`data:${response.headers['Content-Type']};base64,${resultJSON.image}`);
         setImageLoading(false);
+        setShowImageControls(resultJSON.showimagecontrols);
       }
 
       // If no message is included, this box will disappear
@@ -45,6 +46,7 @@ function App() {
 
   const [imageLoading, setImageLoading] = createSignal(true);
   const [imageSource, setImageSource] = createSignal<string>();
+  const [showImageControls, setShowImageControls] = createSignal(true);
   const [message, setMessage] = createSignal<string>();
   const [params, setParams] = createSignal<ModuleJSON[]>();
 
@@ -57,7 +59,7 @@ function App() {
     });
   }
 
-  const debouncedProcessGroup = debounce(processGroup, 100);
+  const debouncedProcessGroup = debounce(processGroup, 20);
   // const debouncedRequestParameters = debounce(requestParameters, 100);
 
   // function requestParameters() {
@@ -119,16 +121,13 @@ function App() {
             <Match when={parameter.type === "BooleanP"}>
               <Toggle module={module} parameter={parameter} />
             </Match>
-            <Match when={parameter.type === "ChoiceP"}>
+            {/* <Match when={parameter.type === "ChoiceP"}>
               <Choice module={module} parameter={parameter} />
-            </Match>
+            </Match> */}
             {/* <Match when={param.type === "FileFolderPathP"}>
             </Match> */}
-            <Match when={parameter.type === "DoubleP" || parameter.type == "IntegerP"}>
+            <Match when={parameter.type === "DoubleP" || parameter.type == "IntegerP" || parameter.type == "StringP"}>
               {createTextOrSliderInput(module, parameter)}
-            </Match>
-            <Match when={parameter.type == "StringP"}>
-              <TextEntry module={module} parameter={parameter} />
             </Match>
             <Match when={parameter.type === "ParameterGroup"}>
               {createControls(module, parameter.collections)}
@@ -142,8 +141,8 @@ function App() {
   return (
     <main class="space-y-8">
       <Show when={imageSource()}>
-        <div class="max-w-lg overflow-hidden shadow-lg bg-white">
-          <Im source={imageSource()!} loading={imageLoading()} />
+        <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white">
+          <Im source={imageSource()!} loading={imageLoading()} showControls={showImageControls()} />
         </div>
 
         <Show when={message()}>
