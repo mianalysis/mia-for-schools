@@ -6,6 +6,12 @@ interface Props {
   showControls: boolean
 }
 
+function stringToHash(string: String) {
+  return string.split('').reduce((hash, char) => {
+      return char.charCodeAt(0) + (hash << 6) + (hash << 16) - hash;
+  }, 0);
+}
+
 export default function Im(props: Props) {
   const [loading, setLoading] = createSignal(true);
   const [error, setError] = createSignal(false);
@@ -21,15 +27,10 @@ export default function Im(props: Props) {
 
   const hide = () => props.loading || loading();
 
-  var rawImageSet = false;
+  var existingSourceHash = stringToHash(props.source);
   var rawImagedata: ImageData | null | undefined = undefined;
   var rawIm = new Image();
   rawIm.src = props.source;
-  var rawCanvas = document.createElement('canvas');
-  rawCanvas.width = rawIm.width;
-  rawCanvas.height = rawIm.height;
-  var rawContext = rawCanvas.getContext('2d');
-  rawContext?.drawImage(rawIm, 0, 0);
 
   var lockIm = false;
 
@@ -39,14 +40,21 @@ export default function Im(props: Props) {
 
     lockIm = true;
 
+    var currentSourceHash = stringToHash(props.source);
+    if (currentSourceHash != existingSourceHash) {
+      rawIm.src = props.source;
+      var rawCanvas = document.createElement('canvas');
+      rawCanvas.width = rawIm.width;
+      rawCanvas.height = rawIm.height;
+      var rawContext = rawCanvas.getContext('2d');
+      rawContext?.drawImage(rawIm, 0, 0);  
+      rawImagedata = rawContext?.getImageData(0, 0, rawIm.width, rawIm.height);
+      existingSourceHash = currentSourceHash;
+    }
+
     const currim = document.getElementById('currim') as HTMLImageElement;
     if (currim == null)
       return;
-
-    if (!rawImageSet) {
-      rawImagedata = rawContext?.getImageData(0, 0, rawIm.width, rawIm.height);
-      rawImageSet = true;
-    }
 
     var canvas = document.createElement('canvas');
     canvas.width = rawIm.width;
