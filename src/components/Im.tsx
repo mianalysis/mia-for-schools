@@ -8,7 +8,7 @@ interface Props {
 
 function stringToHash(string: String) {
   return string.split('').reduce((hash, char) => {
-      return char.charCodeAt(0) + (hash << 6) + (hash << 16) - hash;
+    return char.charCodeAt(0) + (hash << 6) + (hash << 16) - hash;
   }, 0);
 }
 
@@ -41,13 +41,14 @@ export default function Im(props: Props) {
     lockIm = true;
 
     var currentSourceHash = stringToHash(props.source);
-    if (currentSourceHash != existingSourceHash) {
+
+    if (currentSourceHash != existingSourceHash || rawImagedata == undefined) {
       rawIm.src = props.source;
       var rawCanvas = document.createElement('canvas');
       rawCanvas.width = rawIm.width;
       rawCanvas.height = rawIm.height;
       var rawContext = rawCanvas.getContext('2d');
-      rawContext?.drawImage(rawIm, 0, 0);  
+      rawContext?.drawImage(rawIm, 0, 0);
       rawImagedata = rawContext?.getImageData(0, 0, rawIm.width, rawIm.height);
       existingSourceHash = currentSourceHash;
     }
