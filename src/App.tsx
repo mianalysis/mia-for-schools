@@ -19,7 +19,7 @@ function App() {
       const resultJSON = JSON.parse(response.body);
 
       if (resultJSON.image != undefined) {
-        setImageSource(`data:${response.headers['Content-Type']};base64,${resultJSON.image}`);
+        setImageSource(resultJSON.image);
         setImageLoading(false);
         setShowImageControls(resultJSON.showimagecontrols);
       }
@@ -45,7 +45,7 @@ function App() {
   };
 
   const [imageLoading, setImageLoading] = createSignal(true);
-  const [imageSource, setImageSource] = createSignal<string>();
+  const [imageSource, setImageSource] = createSignal<[ChannelJSON]>();
   const [showImageControls, setShowImageControls] = createSignal(true);
   const [message, setMessage] = createSignal<string>();
   const [params, setParams] = createSignal<ModuleJSON[]>();
