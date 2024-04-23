@@ -7,6 +7,7 @@ type ResultJSON = {
 type ChannelJSON = {
     "pixels": string,
     "strength": number,
+    "index": number,
     "reds": Uint8Array,
     "greens": Uint8Array,
     "blues": Uint8Array,
