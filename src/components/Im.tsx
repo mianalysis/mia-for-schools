@@ -14,11 +14,6 @@ function stringToHash(string: String) {
 }
 
 function getChannelClass(channel: ChannelJSON) {
-  console.log(channel)
-  console.log(channel.reds[255])
-  console.log(channel.greens[255])
-  console.log(channel.blues[255])
-
   var red = 0
   if (channel.reds[255] == -1)
     red = 255
@@ -64,6 +59,7 @@ export default function Im(props: Props) {
   for (var channel = 0; channel < props.source.length; channel++) {
     var binary_string = Buffer.from(props.source[channel].pixels, 'base64');
     var png = PNG.sync.read(binary_string);
+    console.log(png);
 
     loadedIms.set(channel, png);
 
@@ -72,16 +68,39 @@ export default function Im(props: Props) {
 
   }
 
+  var compiledIm = new Float32Array(w * h * 4);
+
+  for (let idx = 0; idx < w * h * 4; idx = idx + 4) {
+    var val = 0;
+    for (let c = 0; c < loadedIms.size; c++)
+      val = val + loadedIms.get(c).data[idx] * props.source[c].strength;
+    compiledIm[idx] = val;
+  }
+  for (let idx = 1; idx < w * h * 4; idx = idx + 4) {
+    var val = 0;
+    for (let c = 0; c < loadedIms.size; c++)
+      val = val + loadedIms.get(c).data[idx] * props.source[c].strength;
+    compiledIm[idx] = val;
+  }
+  for (let idx = 2; idx < w * h * 4; idx = idx + 4) {
+    var val = 0;
+    for (let c = 0; c < loadedIms.size; c++)
+      val = val + loadedIms.get(c).data[idx] * props.source[c].strength;
+    compiledIm[idx] = val;
+  }
+
   var lockIm = false;
+
 
   function setBC(value: number, channel: number) {
     if (lockIm)
       return;
 
-    var t1 = Date.now();
+    // var t1 = Date.now();
 
     lockIm = true;
 
+    var prevStrength = props.source[channel].strength
     props.source[channel].strength = value;
 
     // var currentSourceHash = stringToHash(props.source[0].pixels);
@@ -107,31 +126,34 @@ export default function Im(props: Props) {
     if (Imagedata == null)
       return;
 
-    for (let idx = 0; idx < w * h * 4; idx = idx + 4) {
-      var val = 0;
-      for (let c = 0; c < loadedIms.size; c++)
-        val = val + loadedIms.get(c).data[idx] * props.source[c].strength;
-      Imagedata.data[idx] = val;
+    if ((props.source[channel].reds[255] == -1)) {
+      for (let idx = 0; idx < w * h * 4; idx = idx + 4) {
+        compiledIm[idx] = compiledIm[idx] + loadedIms.get(channel).data[idx] * (value - prevStrength)
+        Imagedata.data[idx] = compiledIm[idx]
+      }
     }
-    for (let idx = 1; idx < w * h * 4; idx = idx + 4) {
-      var val = 0;
-      for (let c = 0; c < loadedIms.size; c++)
-        val = val + loadedIms.get(c).data[idx] * props.source[c].strength;
-      Imagedata.data[idx] = val;
+
+    if ((props.source[channel].greens[255] == -1)) {
+      for (let idx = 1; idx < w * h * 4; idx = idx + 4) {
+        compiledIm[idx] = compiledIm[idx] + loadedIms.get(channel).data[idx] * (value - prevStrength)
+        Imagedata.data[idx] = compiledIm[idx]
+      }
     }
-    for (let idx = 2; idx < w * h * 4; idx = idx + 4) {
-      var val = 0;
-      for (let c = 0; c < loadedIms.size; c++)
-        val = val + loadedIms.get(c).data[idx] * props.source[c].strength;
-      Imagedata.data[idx] = val;
+
+    if ((props.source[channel].blues[255] == -1)) {
+      for (let idx = 2; idx < w * h * 4; idx = idx + 4) {
+        compiledIm[idx] = compiledIm[idx] + loadedIms.get(channel).data[idx] * (value - prevStrength)
+        Imagedata.data[idx] = compiledIm[idx]
+      }
     }
+
+    // console.log(compiledIm[525312].toString()+"_"+compiledIm[525313].toString()+"_"+compiledIm[525314].toString())
 
     context?.putImageData(Imagedata, 0, 0);
     (document.getElementById('currim') as HTMLImageElement).src = canvas.toDataURL();
 
-    var t2 = Date.now();
-
-    console.log((t2-t1).toString());
+    // var t2 = Date.now();
+    // console.log((t2 - t1).toString());
   }
 
   return (
