@@ -7,34 +7,30 @@ interface Props {
   showControls: boolean
 }
 
-function stringToHash(string: String) {
-  return string.split('').reduce((hash, char) => {
-    return char.charCodeAt(0) + (hash << 6) + (hash << 16) - hash;
-  }, 0);
-}
-
-function getChannelClass(channel: ChannelJSON) {
+function getChannelHex(channel: ChannelJSON) {
   var red = 0
   if (channel.reds[255] == -1)
-    red = 255
+    red = 220
 
   var green = 0
   if (channel.greens[255] == -1)
-    green = 255
+    green = 220
 
   var blue = 0
   if (channel.blues[255] == -1)
-    blue = 255
+    blue = 220
 
   var hex = "#" + ((1 << 24) + (red << 16) + (green << 8) + blue).toString(16).slice(1)
 
-  var class_str = "range h-8 w-32 m-2 rounded-full bg-[" + hex + "] appearance-none"
-
-  return class_str
+  return hex;
 
 }
 
 export default function Im(props: Props) {
+  var compiledIm = new Float32Array();
+  var loadedIms = new Map();
+  var lockIm = false;
+
   const [loading, setLoading] = createSignal(true);
   const [error, setError] = createSignal(false);
 
@@ -42,74 +38,91 @@ export default function Im(props: Props) {
     on(
       () => props.source,
       () => {
-        setLoading(true);
+        setLoading(false);
+        loadedIms = loadImages(props);
+        compiledIm = compileImage(loadedIms);
+        console.log("here0");
+        (document.getElementById('currim') as HTMLImageElement).src = "data:image/png;base64," + compiledImageToPNG(compiledIm);        
+
       }
     )
   );
 
   const hide = () => props.loading || loading();
 
-  // var existingSourceHash = stringToHash(props.source[0].pixels);
+  function loadImages(props: Props) {
+    var loadedIms = new Map<number, any>();
 
-  // Loading images
-  var w = 0;
-  var h = 0;
-  var loadedIms = new Map();
+    for (var channel = 0; channel < props.source.length; channel++) {
+      var binary_string = Buffer.from(props.source[channel].pixels, 'base64');
+      var png = PNG.sync.read(binary_string);
 
-  for (var channel = 0; channel < props.source.length; channel++) {
-    var binary_string = Buffer.from(props.source[channel].pixels, 'base64');
-    var png = PNG.sync.read(binary_string);
-    console.log(png);
+      loadedIms.set(channel, png);
 
-    loadedIms.set(channel, png);
+    }
 
-    w = png.width;
-    h = png.height;
+    return loadedIms;
 
   }
 
-  var compiledIm = new Float32Array(w * h * 4);
+  function compileImage(loadedIms: Map<number, any>) {
+    var w = loadedIms.get(0).width;
+    var h = loadedIms.get(0).height;
 
-  for (let idx = 0; idx < w * h * 4; idx = idx + 4) {
-    var val = 0;
-    for (let c = 0; c < loadedIms.size; c++)
-      val = val + loadedIms.get(c).data[idx] * props.source[c].strength;
-    compiledIm[idx] = val;
-  }
-  for (let idx = 1; idx < w * h * 4; idx = idx + 4) {
-    var val = 0;
-    for (let c = 0; c < loadedIms.size; c++)
-      val = val + loadedIms.get(c).data[idx] * props.source[c].strength;
-    compiledIm[idx] = val;
-  }
-  for (let idx = 2; idx < w * h * 4; idx = idx + 4) {
-    var val = 0;
-    for (let c = 0; c < loadedIms.size; c++)
-      val = val + loadedIms.get(c).data[idx] * props.source[c].strength;
-    compiledIm[idx] = val;
+    var compiledIm = new Float32Array(w * h * 4);
+
+    for (let idx = 0; idx < w * h * 4; idx = idx + 4) {
+      var val = 0;
+      for (let c = 0; c < loadedIms.size; c++)
+        val = val + loadedIms.get(c).data[idx] * props.source[c].strength;
+      compiledIm[idx] = val;
+    }
+    for (let idx = 1; idx < w * h * 4; idx = idx + 4) {
+      var val = 0;
+      for (let c = 0; c < loadedIms.size; c++)
+        val = val + loadedIms.get(c).data[idx] * props.source[c].strength;
+      compiledIm[idx] = val;
+    }
+    for (let idx = 2; idx < w * h * 4; idx = idx + 4) {
+      var val = 0;
+      for (let c = 0; c < loadedIms.size; c++)
+        val = val + loadedIms.get(c).data[idx] * props.source[c].strength;
+      compiledIm[idx] = val;
+    }
+    for (let idx = 3; idx < w * h * 4; idx = idx + 4)
+      compiledIm[idx] = 255;
+
+    return compiledIm;
+
   }
 
-  var lockIm = false;
 
+  function compiledImageToPNG(compiledIm: Float32Array) {
+    var w = 512;
+    var h = 512;
+
+    var png = new PNG({width: w, height: h});
+    for (let idx = 0; idx < w * h * 4; idx++)
+      png.data[idx] = compiledIm[idx]
+    
+    return PNG.sync.write(png.pack()).toString('base64');
+
+  }
 
   function setBC(value: number, channel: number) {
     if (lockIm)
       return;
 
-    // var t1 = Date.now();
-
     lockIm = true;
+
+    var w = loadedIms.get(0).width;
+    var h = loadedIms.get(0).height;
 
     var prevStrength = props.source[channel].strength
     props.source[channel].strength = value;
 
-    // var currentSourceHash = stringToHash(props.source[0].pixels);
-    // if (currentSourceHash != existingSourceHash) {
-    //   // Todo = Reload image
-
-    //   existingSourceHash = currentSourceHash;
-
-    // }
+    if (compiledIm == undefined)
+      return;
 
     const currim = document.getElementById('currim') as HTMLImageElement;
     if (currim == null)
@@ -147,13 +160,9 @@ export default function Im(props: Props) {
       }
     }
 
-    // console.log(compiledIm[525312].toString()+"_"+compiledIm[525313].toString()+"_"+compiledIm[525314].toString())
-
     context?.putImageData(Imagedata, 0, 0);
     (document.getElementById('currim') as HTMLImageElement).src = canvas.toDataURL();
 
-    // var t2 = Date.now();
-    // console.log((t2 - t1).toString());
   }
 
   return (
@@ -161,8 +170,9 @@ export default function Im(props: Props) {
       <Show when={!error()} fallback={<p class="text-red-600">Error loading image</p>}>
         <img
           id="currim"
-          src={"data:image/png;base64," + props.source[0].pixels}
-          onLoad={() => { setLoading(false); lockIm = false; }}
+          // src={compiledImageToPNG(compiledIm)}
+          // src={"data:image/png;base64," + props.source[0].pixels}
+          onLoad={() => { setLoading(false); lockIm = false; console.log("loading off")}}
           alt="image"
           classList={{ 'opacity-10': hide() }}
           class="transition-opacity"
@@ -172,8 +182,8 @@ export default function Im(props: Props) {
       <Show when={props.showControls}>
         <For each={props.source}>{(channel) =>
           <input
-            class={getChannelClass(channel)}
-            style="display:inline"
+            class="range h-8 w-32 m-2 rounded-full appearance-none"
+            style={"background: " + getChannelHex(channel)}
             type="range"
             min={0}
             max={1}
