@@ -1,34 +1,16 @@
-import { Show, For, createEffect, createSignal, on } from 'solid-js';
-import { PNG } from 'pngjs';
+import { For, Show, createEffect, createSignal, on } from 'solid-js';
+import CompositeImage from './CompositeImage';
+import BrightnessStore from './BrightnessStore';
 
 interface Props {
-  source: [ChannelJSON];
+  image: ImageJSON;
   loading?: boolean;
   showControls: boolean
 }
 
-function getChannelHex(channel: ChannelJSON) {
-  var red = 0
-  if (channel.reds[255] == -1)
-    red = 220
-
-  var green = 0
-  if (channel.greens[255] == -1)
-    green = 220
-
-  var blue = 0
-  if (channel.blues[255] == -1)
-    blue = 220
-
-  var hex = "#" + ((1 << 24) + (red << 16) + (green << 8) + blue).toString(16).slice(1)
-
-  return hex;
-
-}
 
 export default function Im(props: Props) {
-  var compiledIm = new Float32Array();
-  var loadedIms = new Map();
+  var compositeIm: CompositeImage
   var lockIm = false;
 
   const [loading, setLoading] = createSignal(true);
@@ -36,13 +18,17 @@ export default function Im(props: Props) {
 
   createEffect(
     on(
-      () => props.source,
+      () => props.image,
       () => {
+        // Checking if this has already got assigned brightness values
+        if (BrightnessStore.values.has(props.image.name))
+          BrightnessStore.updateChannelsJSON(props.image.name, props.image.channels)          
+        else
+          BrightnessStore.addNewValues(props.image.name, props.image.channels)
+
         setLoading(false);
-        loadedIms = loadImages(props);
-        compiledIm = compileImage(loadedIms);
-        console.log("here0");
-        (document.getElementById('currim') as HTMLImageElement).src = "data:image/png;base64," + compiledImageToPNG(compiledIm);        
+        compositeIm = new CompositeImage(props.image.channels);
+        (document.getElementById('currim') as HTMLImageElement).src = "data:image/png;base64," + compositeIm.getAsPNG();
 
       }
     )
@@ -50,117 +36,33 @@ export default function Im(props: Props) {
 
   const hide = () => props.loading || loading();
 
-  function loadImages(props: Props) {
-    var loadedIms = new Map<number, any>();
-
-    for (var channel = 0; channel < props.source.length; channel++) {
-      var binary_string = Buffer.from(props.source[channel].pixels, 'base64');
-      var png = PNG.sync.read(binary_string);
-
-      loadedIms.set(channel, png);
-
-    }
-
-    return loadedIms;
-
-  }
-
-  function compileImage(loadedIms: Map<number, any>) {
-    var w = loadedIms.get(0).width;
-    var h = loadedIms.get(0).height;
-
-    var compiledIm = new Float32Array(w * h * 4);
-
-    for (let idx = 0; idx < w * h * 4; idx = idx + 4) {
-      var val = 0;
-      for (let c = 0; c < loadedIms.size; c++)
-        val = val + loadedIms.get(c).data[idx] * props.source[c].strength;
-      compiledIm[idx] = val;
-    }
-    for (let idx = 1; idx < w * h * 4; idx = idx + 4) {
-      var val = 0;
-      for (let c = 0; c < loadedIms.size; c++)
-        val = val + loadedIms.get(c).data[idx] * props.source[c].strength;
-      compiledIm[idx] = val;
-    }
-    for (let idx = 2; idx < w * h * 4; idx = idx + 4) {
-      var val = 0;
-      for (let c = 0; c < loadedIms.size; c++)
-        val = val + loadedIms.get(c).data[idx] * props.source[c].strength;
-      compiledIm[idx] = val;
-    }
-    for (let idx = 3; idx < w * h * 4; idx = idx + 4)
-      compiledIm[idx] = 255;
-
-    return compiledIm;
-
-  }
-
-
-  function compiledImageToPNG(compiledIm: Float32Array) {
-    var w = 512;
-    var h = 512;
-
-    var png = new PNG({width: w, height: h});
-    for (let idx = 0; idx < w * h * 4; idx++)
-      png.data[idx] = compiledIm[idx]
-    
-    return PNG.sync.write(png.pack()).toString('base64');
-
-  }
-
   function setBC(value: number, channel: number) {
     if (lockIm)
       return;
 
     lockIm = true;
 
-    var w = loadedIms.get(0).width;
-    var h = loadedIms.get(0).height;
-
-    var prevStrength = props.source[channel].strength
-    props.source[channel].strength = value;
-
-    if (compiledIm == undefined)
-      return;
+    BrightnessStore.updateValue(props.image.name, channel, value)
 
     const currim = document.getElementById('currim') as HTMLImageElement;
     if (currim == null)
       return;
 
     var canvas = document.createElement('canvas');
-    canvas.width = w;
-    canvas.height = h;
+    canvas.width = compositeIm.getWidth();
+    canvas.height = compositeIm.getHeight();
 
     const context = canvas.getContext('2d');
     context?.drawImage(currim, 0, 0);
 
-    var Imagedata = context?.getImageData(0, 0, w, h);
-    if (Imagedata == null)
+    var imagedata = context?.getImageData(0, 0, compositeIm.getWidth(), compositeIm.getHeight());
+    if (imagedata == null)
       return;
 
-    if ((props.source[channel].reds[255] == -1)) {
-      for (let idx = 0; idx < w * h * 4; idx = idx + 4) {
-        compiledIm[idx] = compiledIm[idx] + loadedIms.get(channel).data[idx] * (value - prevStrength)
-        Imagedata.data[idx] = compiledIm[idx]
-      }
-    }
+    compositeIm.setChannelBrightness(channel, value)
+    compositeIm.updateImagedata(imagedata, channel)
 
-    if ((props.source[channel].greens[255] == -1)) {
-      for (let idx = 1; idx < w * h * 4; idx = idx + 4) {
-        compiledIm[idx] = compiledIm[idx] + loadedIms.get(channel).data[idx] * (value - prevStrength)
-        Imagedata.data[idx] = compiledIm[idx]
-      }
-    }
-
-    if ((props.source[channel].blues[255] == -1)) {
-      for (let idx = 2; idx < w * h * 4; idx = idx + 4) {
-        compiledIm[idx] = compiledIm[idx] + loadedIms.get(channel).data[idx] * (value - prevStrength)
-        Imagedata.data[idx] = compiledIm[idx]
-      }
-    }
-
-    context?.putImageData(Imagedata, 0, 0);
+    context?.putImageData(imagedata, 0, 0);
     (document.getElementById('currim') as HTMLImageElement).src = canvas.toDataURL();
 
   }
@@ -170,9 +72,7 @@ export default function Im(props: Props) {
       <Show when={!error()} fallback={<p class="text-red-600">Error loading image</p>}>
         <img
           id="currim"
-          // src={compiledImageToPNG(compiledIm)}
-          // src={"data:image/png;base64," + props.source[0].pixels}
-          onLoad={() => { setLoading(false); lockIm = false; console.log("loading off")}}
+          onLoad={() => { setLoading(false); lockIm = false; }}
           alt="image"
           classList={{ 'opacity-10': hide() }}
           class="transition-opacity"
@@ -180,15 +80,15 @@ export default function Im(props: Props) {
         />
       </Show>
       <Show when={props.showControls}>
-        <For each={props.source}>{(channel) =>
+        <For each={props.image.channels}>{(channel) =>
           <input
             class="range h-8 w-32 m-2 rounded-full appearance-none"
-            style={"background: " + getChannelHex(channel)}
+            style={"background: rgb(" + channel.red + "," + channel.green + "," + channel.blue + "); -webkit-filter: grayscale(0.2);"}
             type="range"
             min={0}
             max={1}
             step={0.01}
-            value={1}
+            value={BrightnessStore.hasValue(props.image.name, channel.index) ? BrightnessStore.getValue(props.image.name, channel.index) : channel.strength}
             oninput={(e) => setBC(parseFloat((e.target as HTMLInputElement).value), channel.index)}
           />
         }

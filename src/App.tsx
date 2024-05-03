@@ -45,7 +45,7 @@ function App() {
   };
 
   const [imageLoading, setImageLoading] = createSignal(true);
-  const [imageSource, setImageSource] = createSignal<[ChannelJSON]>();
+  const [imageSource, setImageSource] = createSignal<ImageJSON>();
   const [showImageControls, setShowImageControls] = createSignal(true);
   const [message, setMessage] = createSignal<string>();
   const [params, setParams] = createSignal<ModuleJSON[]>();
@@ -142,7 +142,7 @@ function App() {
     <main class="space-y-8">
       <Show when={imageSource()}>
         <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white">
-          <Im source={imageSource()!} loading={imageLoading()} showControls={showImageControls()} />
+          <Im image={imageSource()!} loading={imageLoading()} showControls={showImageControls()} />
         </div>
 
         <Show when={message()}>
