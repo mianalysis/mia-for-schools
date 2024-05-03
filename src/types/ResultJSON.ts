@@ -1,12 +1,12 @@
 type ResultJSON = {
     "message": string,
     "image": ImageJSON
-    "showimagecontrols": boolean
 }
 
 type ImageJSON = {
+    "channels": [ChannelJSON],
     "name": string,
-    "channels": [ChannelJSON]
+    "showcontrols": boolean
 }
 
 type ChannelJSON = {

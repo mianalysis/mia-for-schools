@@ -142,7 +142,7 @@ function App() {
     <main class="space-y-8">
       <Show when={imageSource()}>
         <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white">
-          <Im image={imageSource()!} loading={imageLoading()} showControls={showImageControls()} />
+          <Im image={imageSource()!} loading={imageLoading()} />
         </div>
 
         <Show when={message()}>

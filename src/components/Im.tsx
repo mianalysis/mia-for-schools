@@ -5,7 +5,6 @@ import BrightnessStore from './BrightnessStore';
 interface Props {
   image: ImageJSON;
   loading?: boolean;
-  showControls: boolean
 }
 
 
@@ -79,7 +78,7 @@ export default function Im(props: Props) {
           onError={() => setError(true)}
         />
       </Show>
-      <Show when={props.showControls}>
+      <Show when={props.image.showcontrols}>
         <For each={props.image.channels}>{(channel) =>
           <input
             class="range h-8 w-32 m-2 rounded-full appearance-none"
