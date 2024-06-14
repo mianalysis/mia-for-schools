@@ -8,9 +8,27 @@ interface Props {
   loading?: boolean;
 }
 
+var times = [0]
+
+function addId(id:number, array:number[]) {
+  if (array.length === 100) {
+    array.pop();
+  }
+  array = array.splice(0, 0, id);
+  return array;
+}
+
+function averageTime(array: number[]) {
+  var sum = 0
+  array.forEach(element => {
+    sum = sum + element;
+  });
+  console.log (sum/100)
+}
 
 export default function Im(props: Props) {
   var compositeIm: CompositeImage
+  var imagedata: ImageData = undefined
   var lockIm = false;
   var currZoom = 1;
   var currPan = {x:0,y:0};
@@ -30,6 +48,7 @@ export default function Im(props: Props) {
           BrightnessStore.addNewValues(props.image.name, props.image.channels)
 
         setLoading(false);
+        imagedata = undefined
         compositeIm = new CompositeImage(props.image.channels);
         (document.getElementById('currim') as HTMLImageElement).src = "data:image/png;base64," + compositeIm.getAsPNG();
 
@@ -50,6 +69,7 @@ export default function Im(props: Props) {
     if (lockIm)
       return;
 
+    // var t1 = Date.now()
     lockIm = true;
 
     BrightnessStore.updateValue(props.image.name, channel, value)
@@ -65,15 +85,20 @@ export default function Im(props: Props) {
     const context = canvas.getContext('2d');
     context?.drawImage(currim, 0, 0);
 
-    var imagedata = context?.getImageData(0, 0, compositeIm.getWidth(), compositeIm.getHeight());
+    if (imagedata == undefined)
+      imagedata = context?.getImageData(0, 0, compositeIm.getWidth(), compositeIm.getHeight());
+
     if (imagedata == null)
       return;
 
-    compositeIm.setChannelBrightness(channel, value)
-    compositeIm.updateImagedata(imagedata, channel)
-
+    compositeIm.setChannelBrightness(imagedata, channel, value)
+    
     context?.putImageData(imagedata, 0, 0);
     (document.getElementById('currim') as HTMLImageElement).src = canvas.toDataURL();
+
+    // var t2 = Date.now()
+    // addId(t2-t1,times)
+    // averageTime(times)
 
   }
 
