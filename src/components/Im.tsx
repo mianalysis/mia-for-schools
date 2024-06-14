@@ -28,7 +28,7 @@ function averageTime(array: number[]) {
 
 export default function Im(props: Props) {
   var compositeIm: CompositeImage
-  var imagedata: ImageData = undefined
+  var imagedata: ImageData = null!
   var lockIm = false;
   var currZoom = 1;
   var currPan = {x:0,y:0};
@@ -48,7 +48,7 @@ export default function Im(props: Props) {
           BrightnessStore.addNewValues(props.image.name, props.image.channels)
 
         setLoading(false);
-        imagedata = undefined
+        imagedata = null!
         compositeIm = new CompositeImage(props.image.channels);
         (document.getElementById('currim') as HTMLImageElement).src = "data:image/png;base64," + compositeIm.getAsPNG();
 
@@ -85,8 +85,8 @@ export default function Im(props: Props) {
     const context = canvas.getContext('2d');
     context?.drawImage(currim, 0, 0);
 
-    if (imagedata == undefined)
-      imagedata = context?.getImageData(0, 0, compositeIm.getWidth(), compositeIm.getHeight());
+    if (imagedata == null)
+      imagedata = context?.getImageData(0, 0, compositeIm.getWidth(), compositeIm.getHeight())!;
 
     if (imagedata == null)
       return;
