@@ -15,7 +15,7 @@ export default function Im(props: Props) {
   var currZoom = 1;
   var currPan = { x: 0, y: 0 };
 
-  const [loading, setLoading] = createSignal(true);
+  // const [loading, setLoading] = createSignal(true);
   const [zoomControls, setZoomControls] = createSignal<PanzoomObject>();
 
   createEffect(
@@ -28,7 +28,7 @@ export default function Im(props: Props) {
         else
           BrightnessStore.addNewValues(props.image.name, props.image.channels)
 
-        setLoading(false);
+        // setLoading(false);
 
         canvas = (document.getElementById('image_canvas') as HTMLCanvasElement);
         canvas.width = 512;
@@ -55,7 +55,7 @@ export default function Im(props: Props) {
     )
   );
 
-  const hide = () => props.loading || loading();
+  // const hide = () => props.loading || loading();
 
   function updateBC(value: number, channel: number) {
     BrightnessStore.updateValue(props.image.name, channel, value)

@@ -21,7 +21,7 @@ function App() {
       if (resultJSON.image != undefined) {
         setImageSource(resultJSON.image);
         setImageLoading(false);
-        setShowImageControls(resultJSON.showimagecontrols);
+        // setShowImageControls(resultJSON.showimagecontrols);
       }
 
       // If no message is included, this box will disappear
@@ -46,7 +46,7 @@ function App() {
 
   const [imageLoading, setImageLoading] = createSignal(true);
   const [imageSource, setImageSource] = createSignal<ImageJSON>();
-  const [showImageControls, setShowImageControls] = createSignal(true);
+  // const [showImageControls, setShowImageControls] = createSignal(true);
   const [message, setMessage] = createSignal<string>();
   const [params, setParams] = createSignal<ModuleJSON[]>();
 
@@ -145,7 +145,7 @@ function App() {
           </div>
         </Show>
 
-        <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white p-4">
+        <div class="max-w-lg rounded-lg shadow-lg bg-white p-4">
           <table style="width:100%">
             <For each={params()}>{(module) =>
               createControls(module, module.parameters)
