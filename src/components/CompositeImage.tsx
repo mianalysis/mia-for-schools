@@ -69,17 +69,23 @@ export default class CompositeImage {
         this.source[channel].strength = value;
 
         if (this.source[channel].red > 0)
-            for (let idx = 0; idx < this.w * this.h * 4; idx = idx + 4)
-                imagedata.data[idx] = imagedata.data[idx] + this.loadedIms.get(channel).data[idx] * diffStrength
+            for (let idx = 0; idx < this.w * this.h * 4; idx = idx + 4) {
+                this.compiledIm[idx] = this.compiledIm[idx] + this.loadedIms.get(channel).data[idx] * diffStrength
+                imagedata.data[idx] = this.compiledIm[idx]
+            }
+
 
         if (this.source[channel].green > 0)
-            for (let idx = 1; idx < this.w * this.h * 4; idx = idx + 4)
-                imagedata.data[idx] = imagedata.data[idx] + this.loadedIms.get(channel).data[idx] * diffStrength
+            for (let idx = 1; idx < this.w * this.h * 4; idx = idx + 4) {
+                this.compiledIm[idx] = this.compiledIm[idx] + this.loadedIms.get(channel).data[idx] * diffStrength
+                imagedata.data[idx] = this.compiledIm[idx]
+            }
 
         if (this.source[channel].blue > 0)
-            for (let idx = 2; idx < this.w * this.h * 4; idx = idx + 4)
-                imagedata.data[idx] = imagedata.data[idx] + this.loadedIms.get(channel).data[idx] * diffStrength
-
+            for (let idx = 2; idx < this.w * this.h * 4; idx = idx + 4) {
+                this.compiledIm[idx] = this.compiledIm[idx] + this.loadedIms.get(channel).data[idx] * diffStrength
+                imagedata.data[idx] = this.compiledIm[idx]
+            }
     }
 
     getPixelArray() {
