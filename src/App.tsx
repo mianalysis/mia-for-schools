@@ -135,26 +135,32 @@ function App() {
   return (
     <main class="space-y-8">
       <Show when={imageSource()}>
-        <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white">
-          <Im image={imageSource()!} loading={imageLoading()} />
-        </div>
 
-        <Show when={message()}>
-          <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white p-4">
-            {message()}
+        <div class="container m-auto grid md:grid-cols-2 gap-4">
+
+          <div class="max-w-lg rounded-lg shadow-lg bg-white p-4">
+            <table style="width:100%">
+              <For each={params()}>{(module) =>
+                createControls(module, module.parameters)
+              }
+              </For>
+            </table>
+
           </div>
-        </Show>
 
-        <div class="max-w-lg rounded-lg shadow-lg bg-white p-4">
-          <table style="width:100%">
-            <For each={params()}>{(module) =>
-              createControls(module, module.parameters)
-            }
-            </For>
-          </table>
+          <div class="row-span-3 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white">
+            <Im image={imageSource()!} loading={imageLoading()} />
+          </div>
 
-          <WorkflowNav/>
+          <Show when={message()}>
+            <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white p-4">
+              {message()}
+            </div>
+          </Show>
 
+          <div class="max-w-lg rounded-lg shadow-lg bg-white p-4">
+            <WorkflowNav />
+          </div>
         </div>
       </Show>
     </main>
