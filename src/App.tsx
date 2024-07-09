@@ -1,6 +1,6 @@
 import { For, Match, Show, Switch, createSignal } from 'solid-js';
 
-// import Choice from './components/Choice';
+import Choice from './components/Choice';
 import Im from './components/Im';
 import Slider from './components/Slider';
 import TextEntry from './components/TextEntry';
@@ -19,9 +19,9 @@ function App() {
       const resultJSON = JSON.parse(response.body);
 
       if (resultJSON.image != undefined) {
-        setImageSource(`data:${response.headers['Content-Type']};base64,${resultJSON.image}`);
+        setImageSource(resultJSON.image);
         setImageLoading(false);
-        setShowImageControls(resultJSON.showimagecontrols);
+        // setShowImageControls(resultJSON.showimagecontrols);
       }
 
       // If no message is included, this box will disappear
@@ -45,8 +45,8 @@ function App() {
   };
 
   const [imageLoading, setImageLoading] = createSignal(true);
-  const [imageSource, setImageSource] = createSignal<string>();
-  const [showImageControls, setShowImageControls] = createSignal(true);
+  const [imageSource, setImageSource] = createSignal<ImageJSON>();
+  // const [showImageControls, setShowImageControls] = createSignal(true);
   const [message, setMessage] = createSignal<string>();
   const [params, setParams] = createSignal<ModuleJSON[]>();
 
@@ -100,12 +100,6 @@ function App() {
       return <Slider module={module} parameter={parameter} />
   }
 
-  // function createMessage(message: String) {
-  //   return [<div class="rounded-lg overflow-hidden shadow-lg bg-white p-4" style="width:100%">
-  //     <p>message</p>
-  //   </div>]
-  // }
-
   function createControl(module: ModuleJSON, parameter: ParameterJSON) {
     return [
       <tr>
@@ -121,9 +115,9 @@ function App() {
             <Match when={parameter.type === "BooleanP"}>
               <Toggle module={module} parameter={parameter} />
             </Match>
-            {/* <Match when={parameter.type === "ChoiceP"}>
+            <Match when={parameter.type === "ChoiceP" || parameter.type === "InputImageP" || parameter.type === "InputObjectsP"}>
               <Choice module={module} parameter={parameter} />
-            </Match> */}
+            </Match>
             {/* <Match when={param.type === "FileFolderPathP"}>
             </Match> */}
             <Match when={parameter.type === "DoubleP" || parameter.type == "IntegerP" || parameter.type == "StringP"}>
@@ -141,26 +135,32 @@ function App() {
   return (
     <main class="space-y-8">
       <Show when={imageSource()}>
-        <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white">
-          <Im source={imageSource()!} loading={imageLoading()} showControls={showImageControls()} />
-        </div>
 
-        <Show when={message()}>
-          <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white p-4">
-            {message()}
+        <div class="container m-auto grid md:grid-cols-2 gap-4">
+
+          <div class="max-w-lg rounded-lg shadow-lg bg-white p-4">
+            <table style="width:100%">
+              <For each={params()}>{(module) =>
+                createControls(module, module.parameters)
+              }
+              </For>
+            </table>
+
           </div>
-        </Show>
 
-        <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white p-4">
-          <table style="width:100%">
-            <For each={params()}>{(module) =>
-              createControls(module, module.parameters)
-            }
-            </For>
-          </table>
+          <div class="row-span-3 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white">
+            <Im image={imageSource()!} loading={imageLoading()} />
+          </div>
 
-          <WorkflowNav/>
+          <Show when={message()}>
+            <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white p-4">
+              {message()}
+            </div>
+          </Show>
 
+          <div class="max-w-lg rounded-lg shadow-lg bg-white p-4">
+            <WorkflowNav />
+          </div>
         </div>
       </Show>
     </main>

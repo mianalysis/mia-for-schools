@@ -1,19 +1,72 @@
-// import { sendParameter } from '../lib/util';
+import { sendParameter } from '../lib/util';
+import {
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Transition,
+  Menu,
+  MenuItem,
+} from 'terracotta';
+import { For } from 'solid-js';
+import type { JSX } from 'solid-js';
 
-// import { Select } from "@thisbeyond/solid-select";
-// import "@thisbeyond/solid-select/style.css";
+interface Props {
+  module: ModuleJSON;
+  parameter: ParameterJSON;
+}
 
-// interface Props {
-//     module: ModuleJSON;
-//     parameter: ParameterJSON;
-// }
+var currVal: String
 
-// export default function Choice(props: Props) {
-//     return (<Select 
-//         class="h-8 w-32 rounded-full bg-rose-500 text-white hover:shadow-md" 
-//         options={props.parameter.choices} 
-//         initialValue={props.parameter.value} 
-//         onChange={(value: String) => sendParameter(props.module.id, props.parameter.name, value)} 
-//         />);
 
-// }
+export default function Choice(props: Props) {
+  return (<Popover defaultOpen={false} class="relative">
+    {({ isOpen }): JSX.Element => (
+      <>
+        <PopoverButton class="range h-10 m-0 w-32 rounded-full bg-amber-500">
+          {props.parameter.value}
+        </PopoverButton>
+        <Transition
+          show={isOpen()}
+          enter="transition duration-200"
+          enterFrom="opacity-0 -translate-y-1 scale-50"
+          enterTo="opacity-100 translate-y-0 scale-100"
+          leave="transition duration-150"
+          leaveFrom="opacity-100 translate-y-0 scale-100"
+          leaveTo="opacity-0 -translate-y-1 scale-50"
+        >
+          <PopoverPanel
+            unmount={false}
+            class="absolute z-10 px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 lg:max-w-3xl"
+          >
+            <Menu class="overflow-hidden w-64 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white flex flex-col space-y-1 p-1">
+              <For each={props.parameter.choices}>{(choice) =>
+                <MenuItem
+                  as="button"
+                  class="text-sm p-1 text-left rounded hover:bg-purple-600 hover:text-white focus:outline-none focus:bg-purple-600 focus:text-white"
+                  onClick={(event: Event) => {
+                    var value = (event.target as Element).innerHTML
+                    if (currVal != value) {
+                      sendParameter(props.module.id, props.parameter.name, value)
+                      currVal = value
+                    }
+                  }}
+                >{choice}</MenuItem>
+              }
+              </For>
+            </Menu>
+          </PopoverPanel>
+        </Transition>
+      </>
+    )}
+  </Popover>)
+  // return (<Select 
+  //     class="h-8 w-32 rounded-full bg-rose-500 text-white hover:shadow-md" 
+  //     options={props.parameter.choices} 
+  //     initialValue={props.parameter.value}
+  // onChange={(value: String) => {if (currVal != value) {
+  //     sendParameter(props.module.id, props.parameter.name, value)
+  //     currVal = value
+  // }}} 
+  //     />);
+
+}
