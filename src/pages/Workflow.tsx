@@ -1,4 +1,4 @@
-import { For, Match, Show, Switch, createEffect, createSignal} from 'solid-js';
+import { For, Match, Show, Switch, createSignal } from 'solid-js';
 
 import Choice from '../components/Choice';
 import Im from '../components/Im';
@@ -11,6 +11,7 @@ import { debounce } from '../lib/util';
 
 import WorkflowNav from '../components/WorkflowNav';
 import { useLocation } from '@solidjs/router';
+import MenuBar from '../components/MenuBar';
 
 const [imageLoading, setImageLoading] = createSignal(true);
 const [imageSource, setImageSource] = createSignal<ImageJSON>();
@@ -66,15 +67,13 @@ const awaitConnect = async (awaitConnectConfig) => {
 await awaitConnect(undefined);
 
 function App() {
-  console.log("NAME = "+useLocation().query.name);
-
   if (socketClient.connected)
     setWorkflow(useLocation().query.name);
 
   function setWorkflow(workflowName: String) {
     socketClient.publish({
       destination: '/app/setworkflow',
-      body: JSON.stringify({workflowName: workflowName})
+      body: JSON.stringify({ workflowName: workflowName })
     });
   }
 
@@ -142,37 +141,38 @@ function App() {
 
   return (
     <main class="space-y-8">
-      <Show when={imageSource()}>
-        <div class="container m-auto grid sm:grid-cols-2 gap-4">
+      <MenuBar title={useLocation().query.name} />
 
-          <div class="max-w-lg rounded-lg shadow-lg bg-white p-4">
-            <table style="width:100%">
-              <For each={params()}>{(module) =>
-                createControls(module, module.parameters)
-              }
-              </For>
-            </table>
-          </div>
-
-          <div class="row-span-3 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white">
+      <div class="container m-auto grid sm:grid-cols-2 gap-4">
+        <Show when={imageSource()}>
+          <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white">
             <Im image={imageSource()!} loading={imageLoading()} />
           </div>
+        </Show>
 
+        <div class="flex flex-col relative">
           <Show when={message()}>
-            <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white p-4">
+            <div class="flex-2 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white p-4 mb-4 ">
               {message()}
             </div>
           </Show>
 
-          <div class="max-w-lg rounded-lg shadow-lg bg-white p-4">
+          <Show when={params()}>
+            <div class="flex-1 max-w-lg rounded-lg shadow-lg bg-white p-4">
+              <table style="width:100%">
+                <For each={params()}>{(module) =>
+                  createControls(module, module.parameters)
+                }
+                </For>
+              </table>
+            </div>
+          </Show>
+
+          <div class="w-full rounded-lg shadow-lg bg-white p-4 mt-4 ">
             <WorkflowNav />
           </div>
         </div>
-      </Show>
-
-      <h1>
-        <a href='./'>Home</a>
-      </h1>
+      </div>
     </main>
 
   );

@@ -1,6 +1,7 @@
 import { For, createSignal } from 'solid-js';
 
 import { socketClient } from '../lib/client';
+import MenuBar from '../components/MenuBar';
 
 // var workflowsJson = undefined;
 
@@ -46,6 +47,7 @@ function NavPage() {
 
   return (
     <main class="space-y-8">
+      <MenuBar title="Select a workflow" />
       <div class="container m-auto grid sm:grid-cols-2 md:grid-cols-3 gap-4">
         <For each={workflows()}>{(workflow) =>
           <a href={'./workflow?name='+workflow.name}>
