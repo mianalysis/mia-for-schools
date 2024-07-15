@@ -1,4 +1,5 @@
 type ModuleJSON = {
+  "time": string,
   "id": string,
   "name": string,
   "nickname": string,

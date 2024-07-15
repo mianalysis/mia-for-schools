@@ -1,6 +1,8 @@
 import { Client } from '@stomp/stompjs';
 import axios from 'axios';
 
+import Workflow from '../pages/Workflow';
+
 const API_HOST = import.meta.env.VITE_API_HOST;
 // const API_HOST = "localhost:8080"
 
@@ -16,6 +18,7 @@ export const socketClient = new Client({
   brokerURL,
   onDisconnect: () => {
     window.alert('disconnected');
+    console.log('disconnected');
   },
 });
 

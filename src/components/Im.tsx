@@ -90,7 +90,7 @@ export default function Im(props: Props) {
         <Show when={props.image.showcontrols}>
           <For each={props.image.channels}>{(channel) =>
             <input
-              class="range h-8 w-32 m-2 rounded-full appearance-none"
+              class="range h-8 w-24 m-2 rounded-full appearance-none"
               style={"background: rgb(" + channel.red + "," + channel.green + "," + channel.blue + "); -webkit-filter: grayscale(0);"}
               type="range"
               min={0}
