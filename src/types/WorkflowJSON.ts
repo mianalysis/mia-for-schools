@@ -1,4 +1,5 @@
 type WorkflowJSON = {
-    "name": string,
-    "thumbnail": string
-  };
+  "displayname": string,
+  "fullname": string,
+  "thumbnail": string
+};

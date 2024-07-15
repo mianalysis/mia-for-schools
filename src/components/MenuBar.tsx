@@ -4,6 +4,8 @@ interface Props {
 }
 
 export default function MenuBar(props: Props) {
+    const displayTitle: string = props.title.replace("_"," ").replace("$Q","?");
+
     return (<nav class="fixed w-full top-0 left-0">
         <div class="px-2 sm:px-6 lg:px-8">
             <div class="relative flex h-16 items-center justify-between">
@@ -12,7 +14,7 @@ export default function MenuBar(props: Props) {
                         <img class="h-8 w-auto" src="src/resources/home-svgrepo-com.svg" alt="Go to home" />
                     </a>
                     <div class="hidden sm:ml-6 sm:block items-center w-full">
-                        <div class="py-2 text-lg font-medium text-white" aria-current="page">{props.title}</div>
+                        <div class="py-2 text-2xl font-medium text-white" aria-current="page">{displayTitle}</div>
                     </div>
                 </div>                
             </div>
