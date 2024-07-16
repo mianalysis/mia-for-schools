@@ -15,7 +15,6 @@ export default function Im(props: Props) {
   var currZoom = 1;
   var currPan = { x: 0, y: 0 };
 
-  // const [loading, setLoading] = createSignal(true);
   const [zoomControls, setZoomControls] = createSignal<PanzoomObject>();
 
   createEffect(
@@ -28,12 +27,11 @@ export default function Im(props: Props) {
         else
           BrightnessStore.addNewValues(props.image.name, props.image.channels)
 
-        // setLoading(false);
-
         canvas = (document.getElementById('image_canvas') as HTMLCanvasElement);
         canvas.width = 512;
         canvas.height = 512;
-        context = canvas.getContext("2d", { willReadFrequently: true })!;
+        context = canvas.getContext("2d", { willReadFrequently: false })!;
+        context.imageSmoothingEnabled = false;
 
         if (context == undefined)
           return;

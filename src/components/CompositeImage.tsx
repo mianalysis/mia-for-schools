@@ -57,7 +57,7 @@ export default class CompositeImage {
     getAsPNG() {
         var png = new PNG({ width: this.w, height: this.h });
         for (let idx = 0; idx < this.w * this.h * 4; idx++)
-            png.data[idx] = this.compiledIm[idx]
+            png.data[idx] = Math.min(255,this.compiledIm[idx]);
 
         return PNG.sync.write(png.pack()).toString('base64');
 
@@ -71,20 +71,19 @@ export default class CompositeImage {
         if (this.source[channel].red > 0)
             for (let idx = 0; idx < this.w * this.h * 4; idx = idx + 4) {
                 this.compiledIm[idx] = this.compiledIm[idx] + this.loadedIms.get(channel).data[idx] * diffStrength
-                imagedata.data[idx] = this.compiledIm[idx]
+                imagedata.data[idx] = Math.min(255,this.compiledIm[idx])
             }
-
 
         if (this.source[channel].green > 0)
             for (let idx = 1; idx < this.w * this.h * 4; idx = idx + 4) {
                 this.compiledIm[idx] = this.compiledIm[idx] + this.loadedIms.get(channel).data[idx] * diffStrength
-                imagedata.data[idx] = this.compiledIm[idx]
+                imagedata.data[idx] = Math.min(255,this.compiledIm[idx])
             }
 
         if (this.source[channel].blue > 0)
             for (let idx = 2; idx < this.w * this.h * 4; idx = idx + 4) {
                 this.compiledIm[idx] = this.compiledIm[idx] + this.loadedIms.get(channel).data[idx] * diffStrength
-                imagedata.data[idx] = this.compiledIm[idx]
+                imagedata.data[idx] = Math.min(255,this.compiledIm[idx])
             }
     }
 

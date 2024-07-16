@@ -152,13 +152,13 @@ function App() {
 
         <div class="flex flex-col relative">
           <Show when={message()}>
-            <div class="flex-2 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white p-4 mb-4 ">
-              {message()}
+            <div class="flex-1 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white p-4 ">
+              <p style="white-space: pre-line">{message()}</p>
             </div>
           </Show>
 
           <Show when={params()}>
-            <div class="flex-1 max-w-lg rounded-lg shadow-lg bg-white p-4">
+            <div class="flex-1 max-w-lg rounded-lg shadow-lg bg-white p-4 mt-4">
               <table style="width:100%">
                 <For each={params()}>{(module) =>
                   createControls(module, module.parameters)
