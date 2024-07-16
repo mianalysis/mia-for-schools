@@ -47,7 +47,7 @@ function NavPage() {
     <main class="space-y-8">
       <MenuBar title="" ismainpage={true}/>
       <h1 class="text-orange-400 text-5xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)]">Select an image</h1>
-      <div class="container m-auto grid sm:grid-cols-2 md:grid-cols-1 gap-4 items-center">
+      <div class="container m-auto grid sm:grid-cols-2 md:grid-cols-2 gap-4 items-center">
         <For each={workflows()}>{(workflow) =>
           <a href={'./workflow?name=' + workflow.fullname}>
             <div class="w-full" style="position:relative;text-align:center">
