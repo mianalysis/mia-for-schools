@@ -91,7 +91,7 @@ export default function Im(props: Props) {
           <For each={props.image.channels}>{(channel) =>
             <input
               class="range h-8 w-24 m-2 rounded-full appearance-none"
-              style={"background: rgb(" + channel.red + "," + channel.green + "," + channel.blue + "); -webkit-filter: grayscale(0);"}
+              style={"background: rgb(" + channel.red/2 + "," + channel.green/2 + "," + channel.blue/2 + "); -webkit-filter: grayscale(0);"}
               type="range"
               min={0}
               max={1}
@@ -105,15 +105,18 @@ export default function Im(props: Props) {
       </div>
       <div>
         <Show when={zoomControls()}>
-          <input
-            class="range h-8 w-64 m-2 rounded-full bg-gray-400 appearance-none"
-            type="range"
-            min="1"
-            max="10"
-            step="0.1"
-            value="1"
-            oninput={(e) => updateZoom(e.target as HTMLInputElement)}
-          />
+          <div class="container m-auto flex ">
+            <img class="flex-none ml-4 mt-2 h-8" src="./src/resources/zoom-svgrepo-com.svg" />
+            <input
+              class="flex-initial range h-8 m-2 w-full rounded-full bg-gray-400 appearance-none"
+              type="range"
+              min="1"
+              max="10"
+              step="0.1"
+              value="1"
+              oninput={(e) => updateZoom(e.target as HTMLInputElement)}
+            />
+          </div>
         </Show>
       </div>
     </div>

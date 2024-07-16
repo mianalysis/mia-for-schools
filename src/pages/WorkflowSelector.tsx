@@ -45,14 +45,14 @@ function NavPage() {
 
   return (
     <main class="space-y-8">
-      <MenuBar title="" />
-      <h1 class="top-left text-orange-400 text-7xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)]">Select an image</h1>
-      <div class="container m-auto grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <MenuBar title="" ismainpage={true}/>
+      <h1 class="text-orange-400 text-5xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)]">Select an image</h1>
+      <div class="container m-auto grid sm:grid-cols-2 md:grid-cols-1 gap-4 items-center">
         <For each={workflows()}>{(workflow) =>
-          <a href={'./workflow?name='+workflow.fullname}>
-            <div style="position:relative;text-align:center">
-              <img src={workflow.thumbnail} class="saturate-0 hover:saturate-100 max-w-lg rounded-lg shadow-lg bg-white aspect-square content-center" />
-              <div class={"text-yellow-400 text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)]"} style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">{workflow.displayname}</div>
+          <a href={'./workflow?name=' + workflow.fullname}>
+            <div class="w-full" style="position:relative;text-align:center">
+              <img src={workflow.thumbnail} class="justify-center justify-self-center w-full saturate-0 hover:saturate-100 max-w-lg rounded-lg shadow-lg bg-white aspect-square content-center" />
+              <div class={"text-yellow-400 text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)]"} style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">{workflow.displayname}</div>
             </div>
           </a>
         }

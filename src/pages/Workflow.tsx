@@ -141,7 +141,7 @@ function App() {
 
   return (
     <main class="space-y-8">
-      <MenuBar title={useLocation().query.name} />
+      <MenuBar title={useLocation().query.name} ismainpage={false} />
 
       <div class="container m-auto grid sm:grid-cols-2 gap-4">
         <Show when={imageSource()}>
