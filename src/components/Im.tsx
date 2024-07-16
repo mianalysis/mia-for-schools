@@ -106,7 +106,7 @@ export default function Im(props: Props) {
       <div>
         <Show when={zoomControls()}>
           <div class="container m-auto flex ">
-            <img class="flex-none ml-4 mt-2 h-8" src="./src/resources/zoom-svgrepo-com.svg" />
+            <img class="flex-none ml-4 mt-2 h-8" src="/images/zoom-svgrepo-com.svg" />
             <input
               class="flex-initial range h-8 m-2 w-full rounded-full bg-gray-400 appearance-none"
               type="range"
