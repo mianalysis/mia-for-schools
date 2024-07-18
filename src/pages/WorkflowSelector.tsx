@@ -13,12 +13,9 @@ const awaitConnect = async (awaitConnectConfig) => {
   } = {};
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (socketClient.connected) {
-        socketClient.subscribe('/user/queue/workflows', (data) => {
-          const response = JSON.parse(data.body);
-          const workflowsJson = JSON.parse(response.body).workflows;
-          setWorkflows(workflowsJson);
-        });
+      if (socketClient.connected) {  
+        subscribeToWorkflows();
+        requestAvailableWorkflows();
         resolve(undefined);
       } else {
         if (curr >= retries)
@@ -31,6 +28,13 @@ const awaitConnect = async (awaitConnectConfig) => {
 
 await awaitConnect(undefined);
 
+function subscribeToWorkflows() {
+  socketClient.subscribe('/user/queue/workflows', (data) => {
+    const response = JSON.parse(data.body);
+    const workflowsJson = JSON.parse(response.body).workflows;
+    setWorkflows(workflowsJson);
+  });
+}
 function requestAvailableWorkflows() {
   socketClient.publish({
     destination: '/app/getworkflows',
@@ -39,20 +43,19 @@ function requestAvailableWorkflows() {
 }
 
 function NavPage() {
-
   if (socketClient.connected)
     requestAvailableWorkflows();
 
   return (
     <main class="space-y-8">
       <MenuBar title="" ismainpage={true}/>
-      <h1 class="text-orange-400 text-5xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)]">Select an image</h1>
+      <h1 class="text-orange-400 text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)]">Select an image</h1>
       <div class="container m-auto grid sm:grid-cols-2 md:grid-cols-2 gap-4 items-center">
         <For each={workflows()}>{(workflow) =>
           <a href={'./workflow?name=' + workflow.fullname}>
             <div class="w-full" style="position:relative;text-align:center">
               <img src={workflow.thumbnail} class="justify-center justify-self-center w-full saturate-0 hover:saturate-100 max-w-lg rounded-lg shadow-lg bg-white aspect-square content-center" />
-              <div class={"text-yellow-400 text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)]"} style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">{workflow.displayname}</div>
+              <div class={"text-yellow-400 text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)]"} style="pointer-events: none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">{workflow.displayname}</div>
             </div>
           </a>
         }

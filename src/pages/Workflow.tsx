@@ -17,6 +17,22 @@ const [imageLoading, setImageLoading] = createSignal(true);
 const [imageSource, setImageSource] = createSignal<ImageJSON>();
 const [message, setMessage] = createSignal<string>();
 const [params, setParams] = createSignal<ModuleJSON[]>();
+const [hasPrevious, setHasPrevious] = createSignal(true);
+const [hasNext, setHasNext] = createSignal(true);
+
+function requestHasPreviousGroup() {
+  socketClient.publish({
+    destination: '/app/haspreviousgroup',
+    body: JSON.stringify({})
+  });
+}
+
+function requestHasNextGroup() {
+  socketClient.publish({
+    destination: '/app/hasnextgroup',
+    body: JSON.stringify({})
+  });
+}
 
 function processGroup() {
   setImageLoading(true);
@@ -48,11 +64,27 @@ const awaitConnect = async (awaitConnectConfig) => {
         });
 
         socketClient.subscribe('/user/queue/parameters', (data) => {
+          requestHasNextGroup();
+          requestHasPreviousGroup();
+
           const response = JSON.parse(data.body);
           const paramJson = JSON.parse(response.body);
           setParams(paramJson.modules);
           debouncedProcessGroup();
         });
+
+        socketClient.subscribe('/user/queue/previousstatus', (data) => {
+          const response = JSON.parse(data.body);
+          var isTrue = (response.body === 'true')
+          setHasPrevious(isTrue);
+        });
+
+        socketClient.subscribe('/user/queue/nextstatus', (data) => {
+          const response = JSON.parse(data.body);
+          var isTrue = (response.body === 'true')
+          setHasNext(isTrue);
+        });
+
         resolve(undefined);
 
       } else {
@@ -152,8 +184,8 @@ function App() {
 
         <div class="flex flex-col relative">
           <Show when={message()}>
-            <div class="flex-1 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white p-4 ">
-              <p style="white-space: pre-line">{message()}</p>
+            <div class="flex-1 max-w-lg rounded-lg shadow-lg bg-white p-4">
+              <p style="white-space: pre-line" class="text-black">{message()}</p>
             </div>
           </Show>
 
@@ -168,8 +200,17 @@ function App() {
             </div>
           </Show>
 
-          <div class="w-full rounded-lg shadow-lg bg-white p-4 mt-4 ">
-            <WorkflowNav />
+          <div class="container m-auto grid grid-cols-2 gap-4 w-full rounded-lg shadow-lg bg-white p-4 mt-4">
+            <div class="col-start-1">
+              {/* <Show when={hasPrevious()}> */}
+                <WorkflowNav mode="Previous" disabled={!hasPrevious()}/>
+              {/* </Show> */}
+            </div>
+            <div class="col-start-2">
+              {/* <Show when={hasNext()}> */}
+                <WorkflowNav mode="Next" disabled={!hasNext()}/>
+              {/* </Show> */}
+            </div>
           </div>
         </div>
       </div>
