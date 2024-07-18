@@ -64,27 +64,36 @@ export default class CompositeImage {
     }
 
     setChannelBrightness(imagedata: ImageData, channel: number, value: number) {
-        var prevStrength = this.source[channel].strength
-        var diffStrength = value - prevStrength
+        var prevStrength = this.source[channel].strength;
+        var diffStrength = value - prevStrength;
         this.source[channel].strength = value;
 
         if (this.source[channel].red > 0)
             for (let idx = 0; idx < this.w * this.h * 4; idx = idx + 4) {
                 this.compiledIm[idx] = this.compiledIm[idx] + this.loadedIms.get(channel).data[idx] * diffStrength
-                imagedata.data[idx] = Math.min(255,this.compiledIm[idx])
+                imagedata.data[idx] = Math.min(255,this.compiledIm[idx]);
             }
 
         if (this.source[channel].green > 0)
             for (let idx = 1; idx < this.w * this.h * 4; idx = idx + 4) {
                 this.compiledIm[idx] = this.compiledIm[idx] + this.loadedIms.get(channel).data[idx] * diffStrength
-                imagedata.data[idx] = Math.min(255,this.compiledIm[idx])
+                imagedata.data[idx] = Math.min(255,this.compiledIm[idx]);
             }
 
         if (this.source[channel].blue > 0)
             for (let idx = 2; idx < this.w * this.h * 4; idx = idx + 4) {
                 this.compiledIm[idx] = this.compiledIm[idx] + this.loadedIms.get(channel).data[idx] * diffStrength
-                imagedata.data[idx] = Math.min(255,this.compiledIm[idx])
+                imagedata.data[idx] = Math.min(255,this.compiledIm[idx]);
             }
+    }
+
+    getChannelSum(channel: number) {
+        var sum = 0;
+        for (let idx = channel; idx < this.w * this.h * 4; idx = idx + 4)
+            sum = sum + this.compiledIm[idx];
+
+        return sum;
+
     }
 
     getPixelArray() {

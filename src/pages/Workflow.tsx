@@ -12,6 +12,7 @@ import { debounce } from '../lib/util';
 import WorkflowNav from '../components/WorkflowNav';
 import { useLocation } from '@solidjs/router';
 import MenuBar from '../components/MenuBar';
+import Graph from '../components/Graph';
 
 const [imageLoading, setImageLoading] = createSignal(true);
 const [imageSource, setImageSource] = createSignal<ImageJSON>();
@@ -19,6 +20,8 @@ const [message, setMessage] = createSignal<string>();
 const [params, setParams] = createSignal<ModuleJSON[]>();
 const [hasPrevious, setHasPrevious] = createSignal(true);
 const [hasNext, setHasNext] = createSignal(true);
+const [dataStore, setDataStore] = createSignal<DataJSON>();
+
 
 function requestHasPreviousGroup() {
   socketClient.publish({
@@ -178,7 +181,7 @@ function App() {
       <div class="container m-auto grid sm:grid-cols-2 gap-4">
         <Show when={imageSource()}>
           <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white">
-            <Im image={imageSource()!} loading={imageLoading()} />
+            <Im image={imageSource()!} loading={imageLoading()} callback={setDataStore} />
           </div>
         </Show>
 
@@ -200,16 +203,16 @@ function App() {
             </div>
           </Show>
 
+          <div class="flex-1 h-16 max-w-lg rounded-lg shadow-lg bg-white p-4 mt-4">
+            <Graph plot_data={dataStore().datasets[0].data}></Graph>
+          </div>
+
           <div class="container m-auto grid grid-cols-2 gap-4 w-full rounded-lg shadow-lg bg-white p-4 mt-4">
             <div class="col-start-1">
-              {/* <Show when={hasPrevious()}> */}
-                <WorkflowNav mode="Previous" disabled={!hasPrevious()}/>
-              {/* </Show> */}
+              <WorkflowNav mode="Previous" disabled={!hasPrevious()} />
             </div>
             <div class="col-start-2">
-              {/* <Show when={hasNext()}> */}
-                <WorkflowNav mode="Next" disabled={!hasNext()}/>
-              {/* </Show> */}
+              <WorkflowNav mode="Next" disabled={!hasNext()} />
             </div>
           </div>
         </div>

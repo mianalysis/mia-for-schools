@@ -17,6 +17,7 @@
     "@tailwindcss/forms": "^0.5.7",
     "@types/pngjs": "^6.0.4",
     "axios": "^1.6.1",
+    "chart.js": "^4.4.3",
     "esbuild-darwin-arm64": "^0.15.18",
     "native": "^0.3.3",
     "panzoom": "^9.4.3",

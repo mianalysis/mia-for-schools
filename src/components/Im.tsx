@@ -6,6 +6,7 @@ import Panzoom, { PanzoomObject } from '@panzoom/panzoom';
 interface Props {
   image: ImageJSON;
   loading?: boolean;
+  callback: Function
 }
 
 export default function Im(props: Props) {
@@ -64,6 +65,9 @@ export default function Im(props: Props) {
 
     compositeIm.setChannelBrightness(imagedata, channel, value)
     context?.putImageData(imagedata, 0, 0);
+
+    props.callback({ labels: ['Red', 'Green', 'Blue'], datasets: [{ label: 'Channels', data: [compositeIm.getChannelSum(0), compositeIm.getChannelSum(1), compositeIm.getChannelSum(2)], borderWidth: 1 }] });
+
   }
 
   function updateZoom(event: HTMLInputElement) {
@@ -88,8 +92,9 @@ export default function Im(props: Props) {
         <Show when={props.image.showcontrols}>
           <For each={props.image.channels}>{(channel) =>
             <input
+              id="channel-slider"
               class="range h-8 w-24 m-2 rounded-full appearance-none"
-              style={"background: rgb(" + channel.red/2 + "," + channel.green/2 + "," + channel.blue/2 + "); -webkit-filter: grayscale(0);"}
+              style={"background: rgb(" + channel.red / 2 + "," + channel.green / 2 + "," + channel.blue / 2 + "); -webkit-filter: grayscale(0);"}
               type="range"
               min={0}
               max={1}
