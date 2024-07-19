@@ -161,8 +161,6 @@ function App() {
             <Match when={parameter.type === "ChoiceP" || parameter.type === "InputImageP" || parameter.type === "InputObjectsP"}>
               <Choice module={module} parameter={parameter} />
             </Match>
-            {/* <Match when={param.type === "FileFolderPathP"}>
-            </Match> */}
             <Match when={parameter.type === "DoubleP" || parameter.type == "IntegerP" || parameter.type == "StringP"}>
               {createTextOrSliderInput(module, parameter)}
             </Match>
@@ -180,9 +178,7 @@ function App() {
 
       <div class="container m-auto grid sm:grid-cols-2 gap-4">
         <Show when={imageSource()}>
-          <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white">
-            <Im image={imageSource()!} loading={imageLoading()} callback={setDataStore} />
-          </div>
+          <Im image={imageSource()!} loading={imageLoading()} callback={setDataStore} />
         </Show>
 
         <div class="flex flex-col relative">
@@ -203,9 +199,11 @@ function App() {
             </div>
           </Show>
 
-          <div class="flex-1 h-16 max-w-lg rounded-lg shadow-lg bg-white p-4 mt-4">
-            <Graph plot_data={dataStore().datasets[0].data}></Graph>
-          </div>
+          <Show when={dataStore()}>
+            <div class="flex justify-center flex-1 h-16 max-w-lg rounded-lg shadow-lg bg-white p-4 mt-4 ">
+              <Graph dataJSON={dataStore()} type='pie' imageID={imageSource().name}></Graph>
+            </div>
+          </Show>
 
           <div class="container m-auto grid grid-cols-2 gap-4 w-full rounded-lg shadow-lg bg-white p-4 mt-4">
             <div class="col-start-1">

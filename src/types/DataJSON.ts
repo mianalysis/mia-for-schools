@@ -6,5 +6,6 @@ type DataJSON = {
 type DatasetJSON = {
     label: string,
     data: number[],
+    backgroundColor: string[],
     borderWidth: number
 }

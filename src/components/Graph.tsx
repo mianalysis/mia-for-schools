@@ -1,36 +1,55 @@
-import Chart from 'chart.js/auto';
+import Chart, { ChartConfiguration, ChartTypeRegistry } from 'chart.js/auto';
 import { createEffect, on } from 'solid-js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
+Chart.register(ChartDataLabels);
 
 interface Props {
-    plot_data: number[]
+    dataJSON: DataJSON;
+    imageID: string,
+    type: string
 }
 
 let chart = undefined;
+var prevImageID = ""
 
 export default function Graph(props: Props) {
     createEffect(
         on(
-            () => props.plot_data,
+            () => props.dataJSON,
             () => {
                 const graph_canvas = document.getElementById('chart-canvas') as HTMLCanvasElement;
+                if (props.imageID != prevImageID && chart != undefined) {
+                    chart.destroy()
+                    chart = undefined
+                }
+
                 if (chart == undefined) {
+                    prevImageID = props.imageID;
+
                     chart = new Chart(graph_canvas, {
-                        type: 'pie',
-                        data: {
-                            labels: ['Red', 'Green', 'Blue'],
-                            datasets: [{
-                                label: 'Channels',
-                                data: props.plot_data,
-                                backgroundColor: ['red', 'green', 'blue'],
-                                borderWidth: 2
-                            }]
-                        },
+                        type: props.type as keyof ChartTypeRegistry,
+                        data: props.dataJSON,
                         options: {
                             animation: {
                                 duration: 0
                             },
                             plugins: {
+                                datalabels: {
+                                    color: 'white',
+                                    formatter: function (value, context) {
+                                        var sum = 0;
+                                        for (var idx = 0; idx < props.dataJSON.datasets[0].data.length; idx++)
+                                            sum = sum + props.dataJSON.datasets[0].data[idx]
+
+                                        return context.chart.data.labels[context.dataIndex] + '\n' + Math.round(100 * (value / sum)) + '%';
+
+                                    },
+                                    textAlign: 'center',
+                                    font: {
+                                        size: 14
+                                    }
+                                },
                                 legend: {
                                     display: false
                                 }
@@ -38,7 +57,7 @@ export default function Graph(props: Props) {
                         }
                     });
                 } else {
-                    chart.data.datasets[0].data = props.plot_data;
+                    chart.data = props.dataJSON;
                     chart.update()
                 }
             }));

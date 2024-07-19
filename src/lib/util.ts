@@ -18,3 +18,14 @@ export function sendParameter(moduleID: String, parameterName: String, parameter
     body: JSON.stringify({ moduleID: moduleID, parameterName: parameterName, parameterValue: parameterValue })
   });
 }
+
+// From https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb (Accessed 2024-07-19)
+export function componentToHex(c) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+// From https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb (Accessed 2024-07-19)
+export function rgbToHex(r, g, b) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
