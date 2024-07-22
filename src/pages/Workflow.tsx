@@ -53,10 +53,11 @@ const awaitConnect = async (awaitConnectConfig) => {
     curr = 0,
     timeinterval = 100,
   } = {};
+
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
+    setTimeout(async () => {
       if (socketClient.connected) {
-        socketClient.subscribe('/user/queue/result', (data) => {
+	socketClient.subscribe('/user/queue/result', (data) => {
           const response = JSON.parse(data.body);
           const resultJSON = JSON.parse(response.body);
           if (resultJSON.image != undefined) {
@@ -89,11 +90,17 @@ const awaitConnect = async (awaitConnectConfig) => {
         });
 
         resolve(undefined);
-
       } else {
-        if (curr >= retries)
+        if (curr >= retries) {
           reject();
-        awaitConnect({ ...awaitConnectConfig, curr: curr + 1 });
+        } else {
+          try {
+            await awaitConnect({ ...awaitConnectConfig, curr: curr + 1 });
+            resolve(undefined);
+          } catch (e) {
+            reject(e);
+          }
+        }
       }
     }, timeinterval);
   });

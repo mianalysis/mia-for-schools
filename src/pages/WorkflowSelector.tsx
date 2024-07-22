@@ -11,16 +11,23 @@ const awaitConnect = async (awaitConnectConfig) => {
     curr = 0,
     timeinterval = 100,
   } = {};
+
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (socketClient.connected) {  
+    setTimeout(async () => {
+      if (socketClient.connected) { 
         subscribeToWorkflows();
-        requestAvailableWorkflows();
         resolve(undefined);
       } else {
-        if (curr >= retries)
+        if (curr >= retries) {
           reject();
-        awaitConnect({ ...awaitConnectConfig, curr: curr + 1 });
+        } else {
+          try {
+            await awaitConnect({ ...awaitConnectConfig, curr: curr + 1 });
+            resolve(undefined);
+          } catch (e) {
+            reject(e);
+          }
+        }
       }
     }, timeinterval);
   });

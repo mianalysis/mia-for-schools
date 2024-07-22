@@ -1,4 +1,4 @@
-import Chart, { ChartConfiguration, ChartTypeRegistry } from 'chart.js/auto';
+import Chart, { ChartTypeRegistry } from 'chart.js/auto';
 import { createEffect, on } from 'solid-js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
