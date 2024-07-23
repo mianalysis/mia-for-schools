@@ -9,19 +9,21 @@ import Toggle from '../components/Toggle';
 import { socketClient } from '../lib/client';
 import { debounce } from '../lib/util';
 
-import WorkflowNav from '../components/WorkflowNav';
 import { useLocation } from '@solidjs/router';
-import MenuBar from '../components/MenuBar';
 import Graph from '../components/Graph';
+import MenuBar from '../components/MenuBar';
+import WorkflowNav from '../components/WorkflowNav';
 
-const [imageLoading, setImageLoading] = createSignal(true);
-const [imageSource, setImageSource] = createSignal<ImageJSON>();
-const [message, setMessage] = createSignal<string>();
-const [params, setParams] = createSignal<ModuleJSON[]>();
 const [hasPrevious, setHasPrevious] = createSignal(true);
 const [hasNext, setHasNext] = createSignal(true);
-const [dataStore, setDataStore] = createSignal<DataJSON>();
+const [params, setParams] = createSignal<ModuleJSON[]>();
+const [imageLoading, setImageLoading] = createSignal(true);
+const [image, setImage] = createSignal<ImageJSON>();
+const [message, setMessage] = createSignal<string>();
+const [graph, setGraph] = createSignal<GraphJSON | undefined>();
+const [showNav, setShowNav] = createSignal(false);
 
+var currParams = undefined;
 
 function requestHasPreviousGroup() {
   socketClient.publish({
@@ -57,14 +59,25 @@ const awaitConnect = async (awaitConnectConfig) => {
   return new Promise((resolve, reject) => {
     setTimeout(async () => {
       if (socketClient.connected) {
-	socketClient.subscribe('/user/queue/result', (data) => {
+        socketClient.subscribe('/user/queue/result', (data) => {
           const response = JSON.parse(data.body);
           const resultJSON = JSON.parse(response.body);
+
+          setMessage(resultJSON.message);
+
+          if (resultJSON.graph == undefined)
+            setGraph(undefined);
+          else
+            setGraph(resultJSON.graph);
+
           if (resultJSON.image != undefined) {
-            setImageSource(resultJSON.image);
+            setImage(resultJSON.image);
             setImageLoading(false);
           }
-          setMessage(resultJSON.message);
+
+          setShowNav(true);
+          setParams(currParams);
+
         });
 
         socketClient.subscribe('/user/queue/parameters', (data) => {
@@ -73,7 +86,7 @@ const awaitConnect = async (awaitConnectConfig) => {
 
           const response = JSON.parse(data.body);
           const paramJson = JSON.parse(response.body);
-          setParams(paramJson.modules);
+          currParams = paramJson.modules;
           debouncedProcessGroup();
         });
 
@@ -109,22 +122,22 @@ const awaitConnect = async (awaitConnectConfig) => {
 await awaitConnect(undefined);
 
 function App() {
+  setParams(undefined);
+  setImage(undefined);
+  setGraph(undefined);
+  setMessage(undefined);
+  setShowNav(false);
+
   if (socketClient.connected)
     setWorkflow(useLocation().query.name);
 
   function setWorkflow(workflowName: String) {
+    setImageLoading(true);
     socketClient.publish({
       destination: '/app/setworkflow',
       body: JSON.stringify({ workflowName: workflowName })
     });
   }
-
-  // function requestEnableModuleGroups() {
-  //   socketClient.publish({
-  //     destination: '/app/enablemodulegroups',
-  //     body: JSON.stringify({})
-  //   });
-  // }
 
   function getParameterName(parameterName: String) {
     const nameGroups = parameterName.match(/(.+)[[A-Z]{1}\{.+\}]?/);
@@ -184,19 +197,19 @@ function App() {
       <MenuBar title={useLocation().query.name} ismainpage={false} />
 
       <div class="container m-auto grid sm:grid-cols-2 gap-4">
-        <Show when={imageSource()}>
-          <Im image={imageSource()!} loading={imageLoading()} callback={setDataStore} />
+        <Show when={image()}>
+          <Im image={image()!} loading={imageLoading()} graph={graph()} setGraph={setGraph} />
         </Show>
 
         <div class="flex flex-col relative">
           <Show when={message()}>
-            <div class="flex-1 max-w-lg rounded-lg shadow-lg bg-white p-4">
+            <div class="flex-1 max-w-lg rounded-lg shadow-lg bg-white p-4 animate-in fade-in duration-500">
               <p style="white-space: pre-line" class="text-black">{message()}</p>
             </div>
           </Show>
 
           <Show when={params()}>
-            <div class="flex-1 max-w-lg rounded-lg shadow-lg bg-white p-4 mt-4">
+            <div class="flex-1 max-w-lg rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-500">
               <table style="width:100%">
                 <For each={params()}>{(module) =>
                   createControls(module, module.parameters)
@@ -206,24 +219,25 @@ function App() {
             </div>
           </Show>
 
-          <Show when={dataStore()}>
-            <div class="flex justify-center flex-1 h-16 max-w-lg rounded-lg shadow-lg bg-white p-4 mt-4 ">
-              <Graph dataJSON={dataStore()} type='pie' imageID={imageSource().name}></Graph>
+          <Show when={graph()}>
+            <div class="flex justify-center flex-1 max-w-lg rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-500">
+              <Graph graphJSON={graph()} type='pie' imageJSON={image()}></Graph>
             </div>
           </Show>
 
-          <div class="container m-auto grid grid-cols-2 gap-4 w-full rounded-lg shadow-lg bg-white p-4 mt-4">
-            <div class="col-start-1">
-              <WorkflowNav mode="Previous" disabled={!hasPrevious()} />
+          <Show when={showNav()}>
+            <div class="container m-auto grid grid-cols-2 gap-4 w-full rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-500">
+              <div class="col-start-1">
+                <WorkflowNav mode="Previous" disabled={!hasPrevious()} />
+              </div>
+              <div class="col-start-2">
+                <WorkflowNav mode="Next" disabled={!hasNext()} />
+              </div>
             </div>
-            <div class="col-start-2">
-              <WorkflowNav mode="Next" disabled={!hasNext()} />
-            </div>
-          </div>
+          </Show>
         </div>
       </div>
     </main>
-
   );
 }
 

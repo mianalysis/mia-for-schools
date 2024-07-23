@@ -5,8 +5,8 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 Chart.register(ChartDataLabels);
 
 interface Props {
-    dataJSON: DataJSON;
-    imageID: string,
+    graphJSON: GraphJSON;
+    imageJSON: ImageJSON;
     type: string
 }
 
@@ -14,33 +14,40 @@ let chart = undefined;
 var prevImageID = ""
 
 export default function Graph(props: Props) {
+    if (props.graphJSON == undefined)
+        return;
+
     createEffect(
         on(
-            () => props.dataJSON,
+            () => props.graphJSON,
             () => {
                 const graph_canvas = document.getElementById('chart-canvas') as HTMLCanvasElement;
-                if (props.imageID != prevImageID && chart != undefined) {
+                if (chart != undefined && props.imageJSON != undefined && props.imageJSON.name != prevImageID) {
                     chart.destroy()
                     chart = undefined
                 }
 
                 if (chart == undefined) {
-                    prevImageID = props.imageID;
+                    if (props.imageJSON == undefined)
+                        prevImageID = ""
+                    else
+                        prevImageID = props.imageJSON.name;
 
                     chart = new Chart(graph_canvas, {
                         type: props.type as keyof ChartTypeRegistry,
-                        data: props.dataJSON,
+                        data: props.graphJSON.data,
                         options: {
                             animation: {
                                 duration: 0
                             },
+                            responsive: false,
                             plugins: {
                                 datalabels: {
                                     color: 'white',
                                     formatter: function (value, context) {
                                         var sum = 0;
-                                        for (var idx = 0; idx < props.dataJSON.datasets[0].data.length; idx++)
-                                            sum = sum + props.dataJSON.datasets[0].data[idx]
+                                        for (var idx = 0; idx < props.graphJSON.data.datasets[0].data.length; idx++)
+                                            sum = sum + props.graphJSON.data.datasets[0].data[idx]
 
                                         return context.chart.data.labels[context.dataIndex] + '\n' + Math.round(100 * (value / sum)) + '%';
 
@@ -57,12 +64,13 @@ export default function Graph(props: Props) {
                         }
                     });
                 } else {
-                    chart.data = props.dataJSON;
+                    chart.data = props.graphJSON.data;
                     chart.update()
                 }
             }));
 
     return (
-        <canvas id="chart-canvas"></canvas>
+        <canvas id="chart-canvas" class="h-16"></canvas>
     );
 }
+0

@@ -10,11 +10,11 @@ export default {
       },
       keyframes: {
         growshrink: {
-          '0%, 100%': {transform: 'scale(1)'},
+          '0%, 100%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.05)' },
         }
       }
     },
   },
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [require("@tailwindcss/forms"), require("tailwindcss-animate")],
 };

@@ -7,7 +7,8 @@ import { rgbToHex } from '../lib/util';
 interface Props {
   image: ImageJSON;
   loading?: boolean;
-  callback: Function
+  graph: GraphJSON;
+  setGraph: Function  
 }
 
 export default function Im(props: Props) {
@@ -51,13 +52,15 @@ export default function Im(props: Props) {
         canvas?.parentElement?.addEventListener('click', updatePan)
         setZoomControls(panzoom)
 
-        props.callback(getChannelDataJSON());
+        if (props.setGraph != undefined && props.graph != undefined)
+          if (props.graph.source === "Channel components")
+            props.setGraph(getGraphJSON());
 
       }
     )
   );
 
-  function getChannelDataJSON() {
+  function getGraphJSON() {
     var dataJSON: DataJSON = { labels: [], datasets: [] };
 
     for (var cIdx = 0; cIdx < props.image.channels.length; cIdx++) {
@@ -69,11 +72,13 @@ export default function Im(props: Props) {
         dataJSON.datasets.push({ label: "Channels", data: [], backgroundColor: [], borderWidth: 1 });
 
       dataJSON.datasets[0].data.push(compositeIm.getChannelSum(cIdx));
-      dataJSON.datasets[0].backgroundColor.push(rgbToHex(Math.round(3*channel.red/4),Math.round(3*channel.green/4),Math.round(3*channel.blue/4)));
+      dataJSON.datasets[0].backgroundColor.push(rgbToHex(Math.round(3 * channel.red / 4), Math.round(3 * channel.green / 4), Math.round(3 * channel.blue / 4)));
 
     }
 
-    return dataJSON;
+    var graphJSON: GraphJSON = { source: "Channel components", data: dataJSON };
+
+    return graphJSON;
 
   }
 
@@ -87,12 +92,13 @@ export default function Im(props: Props) {
     compositeIm.setChannelBrightness(imagedata, channel, value)
     context?.putImageData(imagedata, 0, 0);
 
-    props.callback(getChannelDataJSON());
+    if (props.setGraph != undefined && props.graph != undefined)
+      if (props.graph.source === "Channel components")
+        props.setGraph(getGraphJSON());
 
   }
 
   function updateZoom(event: HTMLInputElement) {
-    // Setting zoom value
     var val = parseFloat(event.value)
     zoomControls()?.zoom(val);
     currZoom = val
@@ -104,13 +110,13 @@ export default function Im(props: Props) {
   }
 
   return (
-    <div>
-      <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white">
+    <div class="flex flex-col">
+      <div class="flex-none max-w-lg rounded-lg overflow-hidden shadow-lg bg-white animate-in fade-in duration-500">
         <div>
           <canvas id="image_canvas" width={512} height={512}></canvas>
         </div>
       </div>
-      <div class="max-w-lg rounded-lg overflow-hidden shadow-lg bg-white mt-4">
+      <div class="flex-1 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white mt-4 animate-in fade-in duration-500">
         <div>
           <Show when={props.image.showcontrols}>
             <For each={props.image.channels}>{(channel) =>

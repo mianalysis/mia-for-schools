@@ -60,7 +60,7 @@ function NavPage() {
       <div class="container m-auto grid sm:grid-cols-2 md:grid-cols-2 gap-4 items-center">
         <For each={workflows()}>{(workflow) =>
           <a href={'./workflow?name=' + workflow.fullname}>
-            <div class="w-full" style="position:relative;text-align:center">
+            <div class="w-full animate-in fade-in duration-500" style="position:relative;text-align:center">
               <img src={workflow.thumbnail} class="hover:animate-growshrink justify-center justify-self-center w-full saturate-0 hover:saturate-100 max-w-lg rounded-lg shadow-lg bg-white aspect-square content-center" />
               <div class={"text-yellow-400 text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)]"} style="pointer-events: none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">{workflow.displayname}</div>
             </div>
