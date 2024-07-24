@@ -8,7 +8,7 @@ interface Props {
 export default function Slider(props: Props) {
     function sendTextParameter(moduleID: String, parameterName: String, e: Event) {
         const parameterValue = (e.target as HTMLInputElement).value;
-        sendParameter(moduleID, parameterName, parameterValue);
+        sendParameter(moduleID, parameterName, parameterValue, undefined, undefined);
     }
 
     const matchArray = props.parameter.nickname.match(/(.+)S{(.+)}/);
@@ -20,7 +20,7 @@ export default function Slider(props: Props) {
         return
 
     return (<input
-        class="range h-8 w-32 rounded-full bg-lime-400 appearance-none"
+        class="range h-10 w-32 rounded-full bg-lime-400 appearance-none"
         style="display:inline"
         type="range"
         min={groups[1]}

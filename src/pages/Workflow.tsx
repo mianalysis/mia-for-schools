@@ -165,15 +165,15 @@ function App() {
 
   function createControl(module: ModuleJSON, parameter: ParameterJSON) {
     return [
-      <tr>
-        <td class="p-2">
-          <Show when={parameter.visible}>
+      <div class="flex items-center">
+        <Show when={parameter.visible}>
+          <div class="flex-1 p-2">
             <div class="font-semibold">
               {getParameterName(parameter.nickname)}
             </div>
-          </Show>
-        </td>
-        <td>
+          </div>
+        </Show>
+        <div class="flex-1 flex-end items-center">
           <Switch>
             <Match when={parameter.type === "BooleanP"}>
               <Toggle module={module} parameter={parameter} />
@@ -188,13 +188,16 @@ function App() {
               {createControls(module, parameter.collections)}
             </Match>
           </Switch>
-        </td>
-      </tr>]
+        </div>
+      </div>
+    ]
   }
 
   return (
     <main class="space-y-8">
-      <MenuBar title={useLocation().query.name} ismainpage={false} />
+      <Show when={image() || message() || params() || graph()}>
+        <MenuBar title={useLocation().query.name} ismainpage={false} />
+      </Show>
 
       <div class="container m-auto grid sm:grid-cols-2 gap-4">
         <Show when={image()}>
@@ -210,12 +213,10 @@ function App() {
 
           <Show when={params()}>
             <div class="flex-1 max-w-lg rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-500">
-              <table style="width:100%">
-                <For each={params()}>{(module) =>
-                  createControls(module, module.parameters)
-                }
-                </For>
-              </table>
+              <For each={params()}>{(module) =>
+                createControls(module, module.parameters)
+              }
+              </For>
             </div>
           </Show>
 

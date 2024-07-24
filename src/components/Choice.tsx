@@ -22,7 +22,7 @@ export default function Choice(props: Props) {
   return (<Popover defaultOpen={false} class="relative">
     {({ isOpen }): JSX.Element => (
       <>
-        <PopoverButton class="range h-10 m-0 w-32 rounded-full bg-amber-500">
+        <PopoverButton class="range h-10 m-0 w-32 rounded-full bg-amber-500 items-center">
           {props.parameter.value}
         </PopoverButton>
         <Transition
@@ -42,11 +42,11 @@ export default function Choice(props: Props) {
               <For each={props.parameter.choices}>{(choice) =>
                 <MenuItem
                   as="button"
-                  class="text-sm p-1 text-left rounded hover:bg-purple-600 hover:text-white focus:outline-none focus:bg-purple-600 focus:text-white"
+                  class="p-1 text-left rounded hover:bg-purple-600 hover:text-white"
                   onClick={(event: Event) => {
                     var value = (event.target as Element).innerHTML
                     if (currVal != value) {
-                      sendParameter(props.module.id, props.parameter.name, value)
+                      sendParameter(props.module.id, props.parameter.name, value, props.parameter.parentGroupName, props.parameter.groupCollectionNumber)
                       currVal = value
                     }
                   }}
@@ -59,14 +59,4 @@ export default function Choice(props: Props) {
       </>
     )}
   </Popover>)
-  // return (<Select 
-  //     class="h-8 w-32 rounded-full bg-rose-500 text-white hover:shadow-md" 
-  //     options={props.parameter.choices} 
-  //     initialValue={props.parameter.value}
-  // onChange={(value: String) => {if (currVal != value) {
-  //     sendParameter(props.module.id, props.parameter.name, value)
-  //     currVal = value
-  // }}} 
-  //     />);
-
 }

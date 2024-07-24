@@ -1,4 +1,4 @@
-import { For, createSignal } from 'solid-js';
+import { For, Show, createSignal } from 'solid-js';
 
 import { socketClient } from '../lib/client';
 import MenuBar from '../components/MenuBar';
@@ -55,8 +55,10 @@ function NavPage() {
 
   return (
     <main class="space-y-8">
+      <Show when={workflows()}>
       <MenuBar title="" ismainpage={true}/>
-      <h1 class="text-orange-400 text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)]">Select an image</h1>
+      </Show>
+      <h1 class="text-white text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)] w-full animate-in fade-in duration-500">Select an image</h1>
       <div class="container m-auto grid sm:grid-cols-2 md:grid-cols-2 gap-4 items-center">
         <For each={workflows()}>{(workflow) =>
           <a href={'./workflow?name=' + workflow.fullname}>

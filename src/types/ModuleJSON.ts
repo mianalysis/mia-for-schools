@@ -16,5 +16,7 @@ type ParameterJSON = {
   "type": string,
   "visible": boolean,
   "choices": [string],
-  "collections": [ParameterJSON]
+  "collections": [ParameterJSON],
+  "parentGroupName": string,
+  "groupCollectionNumber": number
 }

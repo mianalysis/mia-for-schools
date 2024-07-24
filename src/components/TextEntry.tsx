@@ -8,7 +8,7 @@ interface Props {
 export default function TextEntry(props: Props) {
     function sendTextParameter(moduleID: String, parameterName: String, e: Event) {
         const parameterValue = (e.target as HTMLInputElement).value;
-        sendParameter(moduleID, parameterName, parameterValue);
+        sendParameter(moduleID, parameterName, parameterValue, undefined, undefined);
     }
 
     return (<input
