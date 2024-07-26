@@ -64,7 +64,7 @@ const awaitConnect = async (awaitConnectConfig) => {
           const resultJSON = JSON.parse(response.body);
 
           setMessage(resultJSON.message);
-
+          
           if (resultJSON.graph == undefined)
             setGraph(undefined);
           else
@@ -222,7 +222,7 @@ function App() {
 
           <Show when={graph()}>
             <div class="flex justify-center flex-1 max-w-lg rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-500">
-              <Graph graphJSON={graph()} type='pie' imageJSON={image()}></Graph>
+              <Graph graphJSON={graph()} imageJSON={image()}></Graph>
             </div>
           </Show>
 

@@ -76,7 +76,7 @@ export default function Im(props: Props) {
 
     }
 
-    var graphJSON: GraphJSON = { source: "Channel components", data: dataJSON };
+    var graphJSON: GraphJSON = { source: "Channel components", data: dataJSON, type: "pie", showDataLabels: true };
 
     return graphJSON;
 

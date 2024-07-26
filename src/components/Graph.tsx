@@ -7,42 +7,49 @@ Chart.register(ChartDataLabels);
 interface Props {
     graphJSON: GraphJSON;
     imageJSON: ImageJSON;
-    type: string
 }
 
 let chart = undefined;
-var prevImageID = ""
+var prevImageID = "";
+var prevType = undefined;
+var prevShowDataLabels = false;
 
 export default function Graph(props: Props) {
     if (props.graphJSON == undefined)
         return;
-
+    
     createEffect(
         on(
             () => props.graphJSON,
             () => {
                 const graph_canvas = document.getElementById('chart-canvas') as HTMLCanvasElement;
-                if (chart != undefined && props.imageJSON != undefined && props.imageJSON.name != prevImageID) {
+                if (chart != undefined && props.imageJSON != undefined 
+                    && (props.imageJSON.name != prevImageID 
+                        || props.graphJSON.type != prevType 
+                        || props.graphJSON.showDataLabels != prevShowDataLabels)) {
                     chart.destroy()
                     chart = undefined
                 }
 
                 if (chart == undefined) {
+                    prevType = props.graphJSON.type;
+                    prevShowDataLabels = props.graphJSON.showDataLabels;
                     if (props.imageJSON == undefined)
                         prevImageID = ""
                     else
                         prevImageID = props.imageJSON.name;
 
                     chart = new Chart(graph_canvas, {
-                        type: props.type as keyof ChartTypeRegistry,
+                        type: props.graphJSON.type as keyof ChartTypeRegistry,
                         data: props.graphJSON.data,
                         options: {
                             animation: {
                                 duration: 0
                             },
-                            responsive: false,
+                            responsive: true,
                             plugins: {
                                 datalabels: {
+                                    display: props.graphJSON.showDataLabels,
                                     color: 'white',
                                     formatter: function (value, context) {
                                         var sum = 0;
@@ -65,7 +72,7 @@ export default function Graph(props: Props) {
                     });
                 } else {
                     chart.data = props.graphJSON.data;
-                    chart.update()
+                    chart.update();
                 }
             }));
 
