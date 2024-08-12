@@ -47,6 +47,7 @@ export default function Graph(props: Props) {
                                 duration: 0
                             },
                             responsive: true,
+                            maintainAspectRatio: false,
                             plugins: {
                                 datalabels: {
                                     display: props.graphJSON.showDataLabels,

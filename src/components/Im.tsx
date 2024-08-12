@@ -8,7 +8,7 @@ interface Props {
   image: ImageJSON;
   loading?: boolean;
   graph: GraphJSON;
-  setGraph: Function  
+  setGraph: Function
 }
 
 export default function Im(props: Props) {
@@ -52,15 +52,22 @@ export default function Im(props: Props) {
         canvas?.parentElement?.addEventListener('click', updatePan)
         setZoomControls(panzoom)
 
-        if (props.setGraph != undefined && props.graph != undefined)
+        if (props.setGraph != undefined && props.graph != undefined) {
           if (props.graph.source === "Channel components")
-            props.setGraph(getGraphJSON());
+            props.graph.data = getChannelComponentsDataJSON();
+          else if (props.graph.source === "Image intensity histogram")
+            props.graph.data = getImageIntensityHistogramDataJSON();
 
+          // SolidJS seems to only update if object itself changes
+          var newGraph: GraphJSON = { source: props.graph.source, data: props.graph.data, type: props.graph.type, showDataLabels: props.graph.showDataLabels };
+          props.setGraph(newGraph);
+
+        }
       }
     )
   );
 
-  function getGraphJSON() {
+  function getChannelComponentsDataJSON() {
     var dataJSON: DataJSON = { labels: [], datasets: [] };
 
     for (var cIdx = 0; cIdx < props.image.channels.length; cIdx++) {
@@ -76,9 +83,33 @@ export default function Im(props: Props) {
 
     }
 
-    var graphJSON: GraphJSON = { source: "Channel components", data: dataJSON, type: "pie", showDataLabels: true };
+    return dataJSON;
 
-    return graphJSON;
+  }
+
+  function getImageIntensityHistogramDataJSON() {
+    var numberOfBins = 12;
+    var labels = [];
+    for (let i = 0; i < numberOfBins; i++)
+      labels.push(Math.floor(i * 256 / numberOfBins));
+
+    var dataJSON: DataJSON = { labels: labels, datasets: [] };
+
+    for (var cIdx = 0; cIdx < props.image.channels.length; cIdx++) {
+      var channel = props.image.channels[cIdx];
+
+      var histData = compositeIm.getHistogram(cIdx, numberOfBins);
+      var backgroundColour = []
+      var hex = rgbToHex(Math.round(3 * channel.red / 4), Math.round(3 * channel.green / 4), Math.round(3 * channel.blue / 4));
+      for (let i = 0; i < numberOfBins; i++)
+        backgroundColour.push(hex);
+
+      var datasetJSON: DatasetJSON = { label: 'Channel ' + (cIdx + 1), data: histData, backgroundColor: backgroundColour, borderWidth: 1 };
+      dataJSON.datasets.push(datasetJSON);
+
+    }
+
+    return dataJSON;
 
   }
 
@@ -92,10 +123,17 @@ export default function Im(props: Props) {
     compositeIm.setChannelBrightness(imagedata, channel, value)
     context?.putImageData(imagedata, 0, 0);
 
-    if (props.setGraph != undefined && props.graph != undefined)
+    if (props.setGraph != undefined && props.graph != undefined) {
       if (props.graph.source === "Channel components")
-        props.setGraph(getGraphJSON());
+        props.graph.data = getChannelComponentsDataJSON();
+      else if (props.graph.source === "Image intensity histogram")
+        props.graph.data = getImageIntensityHistogramDataJSON();
+      
+      // SolidJS seems to only update if object itself changes
+      var newGraph: GraphJSON = { source: props.graph.source, data: props.graph.data, type: props.graph.type, showDataLabels: props.graph.showDataLabels };
+      props.setGraph(newGraph);
 
+    }
   }
 
   function updateZoom(event: HTMLInputElement) {

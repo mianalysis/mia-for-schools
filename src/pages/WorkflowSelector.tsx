@@ -58,8 +58,8 @@ function NavPage() {
       <Show when={workflows()}>
       <MenuBar title="" ismainpage={true}/>
       </Show>
-      <h1 class="text-white text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)] w-full animate-in fade-in duration-500">Select an image</h1>
-      <div class="container m-auto grid sm:grid-cols-2 md:grid-cols-2 gap-4 items-center">
+      <h1 class="text-white text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)] w-full animate-in fade-in duration-500">Click a picture to learn more</h1>
+      <div class="container m-auto grid sm:grid-cols-2 md:grid-cols-3 gap-4 items-center">
         <For each={workflows()}>{(workflow) =>
           <a href={'./workflow?name=' + workflow.fullname}>
             <div class="w-full animate-in fade-in duration-500" style="position:relative;text-align:center">

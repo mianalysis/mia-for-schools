@@ -49,6 +49,15 @@ body {
   background: linear-gradient(#56afcad5, #0539c9d5);
 }
 
+canvas {
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
+  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;

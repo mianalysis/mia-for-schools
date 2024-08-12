@@ -100,6 +100,28 @@ export default class CompositeImage {
 
     }
 
+    getHistogram(channel: number, numberOfBins: number) {
+        var vals = new Array(numberOfBins).fill(0)
+
+        for (let idx = 0; idx < this.w * this.h * 4; idx = idx + 4) {
+            var val = Math.floor(numberOfBins*this.loadedIms.get(channel).data[idx]*this.source[channel].strength/256);
+            vals[val] = vals[val] + 1;
+        }
+
+        for (let idx = 1; idx < this.w * this.h * 4; idx = idx + 4) {
+            var val = Math.floor(numberOfBins*this.loadedIms.get(channel).data[idx]*this.source[channel].strength/256);
+            vals[val] = vals[val] + 1;
+        }
+        
+        for (let idx = 2; idx < this.w * this.h * 4; idx = idx + 4) {
+            var val = Math.floor(numberOfBins*this.loadedIms.get(channel).data[idx]*this.source[channel].strength/256);
+            vals[val] = vals[val] + 1;
+        }
+            
+        return vals;
+
+    }
+
     getPixelArray() {
         return this.compiledIm
     }

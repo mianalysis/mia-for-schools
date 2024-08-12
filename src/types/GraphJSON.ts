@@ -1,5 +1,5 @@
 type GraphJSON = {
-    "source": "Channel components" | "Object measurements",
+    "source": "Channel components" | "Image intensity histogram" | "Object measurements",
     "data": DataJSON,
     "type": "pie" | "bar",
     "showDataLabels": boolean

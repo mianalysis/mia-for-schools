@@ -206,7 +206,7 @@ function App() {
 
         <div class="flex flex-col relative">
           <Show when={message()}>
-            <div class="flex-1 max-w-lg rounded-lg shadow-lg bg-white p-4 animate-in fade-in duration-500">
+            <div class="flex-1 text-lg max-w-lg rounded-lg shadow-lg bg-white p-4 animate-in fade-in duration-500">
               <p style="white-space: pre-line" class="text-black">{message()}</p>
             </div>
           </Show>
@@ -221,7 +221,7 @@ function App() {
           </Show>
 
           <Show when={graph()}>
-            <div class="flex justify-center flex-1 max-w-lg rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-500">
+            <div class="flex justify-center flex-auto max-w-lg rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-500">
               <Graph graphJSON={graph()} imageJSON={image()}></Graph>
             </div>
           </Show>
