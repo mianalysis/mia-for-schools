@@ -147,9 +147,34 @@ export default function Im(props: Props) {
     currPan.y = zoomControls()?.getPan().y!
   }
 
+  function showHoverText() {
+    document.getElementById("hover_text").style.visibility = 'visible';
+  }
+
+  function hideHoverText() {
+    document.getElementById("hover_text").style.visibility = 'hidden';
+  }
+
+  function updateHoverText(event: MouseEvent) {
+    var hoverText = document.getElementById("hover_text");
+    hoverText.style.left = (event.clientX+10).toString()+'px';
+    hoverText.style.top = (event.clientY+10).toString()+'px';
+
+    var zoom = zoomControls()?.getScale();
+    var w = canvas.width;
+    var h = canvas.height;
+    var x = ((w-(w/zoom))/2)+(event.layerX/zoom)-zoomControls()?.getPan().x;
+    var y = ((h-(h/zoom))/2)+(event.layerY/zoom)-zoomControls()?.getPan().y;
+    
+    var pixels = context.getImageData(x,y,1,1).data;    
+    hoverText.innerText = pixels.toString();
+
+  }
+
   return (
     <div class="flex flex-col">
-      <div class="flex-none max-w-lg rounded-lg overflow-hidden shadow-lg bg-white animate-in fade-in duration-500">
+      <div id="hover_text" style="position: absolute; z-index: 99"></div>
+      <div class="flex-none max-w-lg rounded-lg overflow-hidden shadow-lg bg-white animate-in fade-in duration-500" onmouseenter={showHoverText} onmouseleave={hideHoverText} onmousemove={e => updateHoverText(e)}>
         <div>
           <canvas id="image_canvas" width={512} height={512}></canvas>
         </div>
