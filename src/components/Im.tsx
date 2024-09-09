@@ -177,11 +177,14 @@ export default function Im(props: Props) {
     hoverBox.style.top = (event.clientY + 10).toString() + 'px';
 
     var zoom = zoomControls()?.getScale();
+    var imagePanel = document.getElementById("image_panel");
     var w = canvas.width;
     var h = canvas.height;
-    var x = ((w - (w / zoom)) / 2) + (event.layerX / zoom) - zoomControls()?.getPan().x;
-    var y = ((h - (h / zoom)) / 2) + (event.layerY / zoom) - zoomControls()?.getPan().y;
-
+    var scale = w/imagePanel.clientWidth; // Scale is the same in X and Y
+    var imX = (event.pageX - imagePanel.offsetLeft)*scale;
+    var imY = (event.pageY - imagePanel.offsetTop)*scale;
+    var x = ((w - (w / zoom)) / 2) + (imX / zoom) - zoomControls()?.getPan().x;
+    var y = ((h - (h / zoom)) / 2) + (imY / zoom) - zoomControls()?.getPan().y;
     var pixels = context.getImageData(x, y, 1, 1).data;
     var hoverText = document.getElementById("hover_text");
     var r = props.image.channels[0].red
@@ -199,14 +202,14 @@ export default function Im(props: Props) {
   }
 
   return (
-    <div class="flex flex-col">
+    <div id="image_panel" class="flex flex-col">
       <div id="hover_box" class="rounded-lg overflow-hidden shadow-lg bg-white p-2" style="position: absolute; z-index: 97; visibility:hidden">
         <div id="colour_cell" class="rounded-full w-6 h-6 mr-2 border-2 border-black animate-in fade-in" style="position: relative; z-index: 98; display: inline; float:left" />
         <div id="hover_text" style="display:inline; float:right" />
       </div>
       <div class="flex-none max-w-lg rounded-lg overflow-hidden shadow-lg bg-white" style="position:relative">
         <button id="hover_box_toggle" class="rounded-lg overflow-hidden shadow-lg bg-white opacity-40 hover:opacity-100 w-8 h-8 m-2 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" style="position: absolute; left: 0; z-index: 99" onclick={() => toggleHover()}>
-          <img class="h-6 w-6 m-1" src="/images/target.svg"/>
+          <img class="h-6 w-6 m-1" src="/images/target.svg" />
         </button>
         <canvas id="image_canvas" width={512} height={512} onmouseenter={showHoverText} onmouseleave={hideHoverText} onmousemove={e => updateHoverText(e)} />
       </div>
