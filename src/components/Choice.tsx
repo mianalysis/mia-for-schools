@@ -22,7 +22,7 @@ export default function Choice(props: Props) {
   return (<Popover defaultOpen={false} class="relative">
     {({ isOpen }): JSX.Element => (
       <>
-        <PopoverButton class="range h-10 m-0 w-32 rounded-full bg-amber-500 items-center">
+        <PopoverButton class="range h-10 m-0 w-32 rounded-full bg-amber-500 items-center transition duration-150 ease-in-out hover:scale-110">
           {props.parameter.value}
         </PopoverButton>
         <Transition
@@ -42,7 +42,7 @@ export default function Choice(props: Props) {
               <For each={props.parameter.choices}>{(choice) =>
                 <MenuItem
                   as="button"
-                  class="p-1 text-left rounded hover:bg-purple-600 hover:text-white"
+                  class="p-1 text-left rounded-lg hover:bg-purple-600 hover:text-white"
                   onClick={(event: Event) => {
                     var value = (event.target as Element).innerHTML
                     if (currVal != value) {

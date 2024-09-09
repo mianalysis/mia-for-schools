@@ -12,7 +12,7 @@ export default function MenuBar(props: Props) {
             <div class="relative flex h-16 items-center justify-between">
                 <div class="flex flex-1 items-center justify-center sm:items-stretch">
                     <Show when={!props.ismainpage}>
-                        <a href="./" class="flex flex-shrink-0 items-center">
+                        <a href="./" class="flex flex-shrink-0 items-center transition duration-150 ease-in-out hover:scale-110">
                             <img class="h-8 w-auto" src='/images/home-svgrepo-com.svg' alt="Go to home" />
                             <h2 class="text-white m-4 text-2xl">Select a new picture</h2>
                         </a>

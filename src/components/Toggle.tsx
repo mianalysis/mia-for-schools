@@ -12,7 +12,7 @@ export default function Toggle(props: Props) {
     }
 
     return (<input
-        class="h-10 w-10 rounded-full bg-emerald-300"
+        class="h-10 w-10 rounded-full bg-emerald-300 transition duration-150 ease-in-out hover:scale-110"
         type="checkbox"
         name="fname"
         checked={props.parameter.value === "true"}

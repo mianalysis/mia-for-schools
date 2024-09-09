@@ -19,6 +19,7 @@ export default function Im(props: Props) {
   var currPan = { x: 0, y: 0 };
 
   const [zoomControls, setZoomControls] = createSignal<PanzoomObject>();
+  const [showHover, setShowHover] = createSignal(false);
 
   createEffect(
     on(
@@ -128,7 +129,7 @@ export default function Im(props: Props) {
         props.graph.data = getChannelComponentsDataJSON();
       else if (props.graph.source === "Image intensity histogram")
         props.graph.data = getImageIntensityHistogramDataJSON();
-      
+
       // SolidJS seems to only update if object itself changes
       var newGraph: GraphJSON = { source: props.graph.source, data: props.graph.data, type: props.graph.type, showDataLabels: props.graph.showDataLabels };
       props.setGraph(newGraph);
@@ -147,37 +148,67 @@ export default function Im(props: Props) {
     currPan.y = zoomControls()?.getPan().y!
   }
 
+  function toggleHover() {
+    setShowHover(!showHover());
+
+    var hoverBoxToggle = document.getElementById("hover_box_toggle");
+
+    if (showHover()) {
+      hoverBoxToggle.classList.remove("bg-white");
+      hoverBoxToggle.classList.add("bg-green-500");
+    } else {
+      hoverBoxToggle.classList.remove("bg-green-500");
+      hoverBoxToggle.classList.add("bg-white");
+    }
+  }
+
   function showHoverText() {
-    document.getElementById("hover_text").style.visibility = 'visible';
+    if (showHover())
+      document.getElementById("hover_box").style.visibility = 'visible';
   }
 
   function hideHoverText() {
-    document.getElementById("hover_text").style.visibility = 'hidden';
+    document.getElementById("hover_box").style.visibility = 'hidden';
   }
 
   function updateHoverText(event: MouseEvent) {
-    var hoverText = document.getElementById("hover_text");
-    hoverText.style.left = (event.clientX+10).toString()+'px';
-    hoverText.style.top = (event.clientY+10).toString()+'px';
+    var hoverBox = document.getElementById("hover_box");
+    hoverBox.style.left = (event.clientX + 10).toString() + 'px';
+    hoverBox.style.top = (event.clientY + 10).toString() + 'px';
 
     var zoom = zoomControls()?.getScale();
     var w = canvas.width;
     var h = canvas.height;
-    var x = ((w-(w/zoom))/2)+(event.layerX/zoom)-zoomControls()?.getPan().x;
-    var y = ((h-(h/zoom))/2)+(event.layerY/zoom)-zoomControls()?.getPan().y;
-    
-    var pixels = context.getImageData(x,y,1,1).data;    
-    hoverText.innerText = pixels.toString();
+    var x = ((w - (w / zoom)) / 2) + (event.layerX / zoom) - zoomControls()?.getPan().x;
+    var y = ((h - (h / zoom)) / 2) + (event.layerY / zoom) - zoomControls()?.getPan().y;
+
+    var pixels = context.getImageData(x, y, 1, 1).data;
+    var hoverText = document.getElementById("hover_text");
+    var r = props.image.channels[0].red
+    var g = props.image.channels[0].green
+    var b = props.image.channels[0].blue
+
+    if (props.image.channels.length == 1 && r == g && r == b)
+      hoverText.innerText = "Value = " + pixels[0];
+    else
+      hoverText.innerText = "Red = " + pixels[0] + ", green = " + pixels[1] + ", blue = " + pixels[2];
+
+    var colourCell = document.getElementById("colour_cell");
+    colourCell.style.background = "rgb(" + pixels[0] + "," + pixels[1] + "," + pixels[2] + ")";
 
   }
 
   return (
     <div class="flex flex-col">
-      <div id="hover_text" style="position: absolute; z-index: 99"></div>
-      <div class="flex-none max-w-lg rounded-lg overflow-hidden shadow-lg bg-white animate-in fade-in duration-500" onmouseenter={showHoverText} onmouseleave={hideHoverText} onmousemove={e => updateHoverText(e)}>
-        <div>
-          <canvas id="image_canvas" width={512} height={512}></canvas>
-        </div>
+      <div id="hover_box" class="rounded-lg overflow-hidden shadow-lg bg-white p-2" style="position: absolute; z-index: 97; visibility:hidden">
+        <div id="colour_cell" class="rounded-full w-6 h-6 mr-2 border-2 border-black animate-in fade-in" style="position: relative; z-index: 98; display: inline; float:left" />
+        <div id="hover_text" style="display:inline; float:right" />
+      </div>
+      <div class="flex-none max-w-lg rounded-lg overflow-hidden shadow-lg bg-white" style="position:relative">
+        <button id="hover_box_toggle" class="rounded-lg overflow-hidden shadow-lg bg-white opacity-40 hover:opacity-100 w-8 h-8 m-2 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" style="position: absolute; left: 0; z-index: 99" onclick={() => toggleHover()}>
+          <img class="h-6 w-6 m-1" src="/images/target.svg"/>
+        </button>
+        <canvas id="image_canvas" width={512} height={512} onmouseenter={showHoverText} onmouseleave={hideHoverText} onmousemove={e => updateHoverText(e)} />
       </div>
       <div class="flex-1 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white mt-4 animate-in fade-in duration-500">
         <div>

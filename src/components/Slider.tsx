@@ -20,7 +20,7 @@ export default function Slider(props: Props) {
         return
 
     return (<input
-        class="range h-10 w-32 rounded-full bg-lime-400 appearance-none"
+        class="range h-10 w-32 rounded-full bg-lime-400 appearance-none transition duration-150 ease-in-out hover:scale-110"
         style="display:inline"
         type="range"
         min={groups[1]}
