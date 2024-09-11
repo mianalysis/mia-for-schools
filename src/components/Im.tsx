@@ -171,7 +171,7 @@ export default function Im(props: Props) {
     document.getElementById("hover_box").style.visibility = 'hidden';
   }
 
-  function updateHoverText(event: MouseEvent) {
+  function updateHoverText(event: PointerEvent) {
     var hoverBox = document.getElementById("hover_box");
     hoverBox.style.left = (event.clientX + 10).toString() + 'px';
     hoverBox.style.top = (event.clientY + 10).toString() + 'px';
@@ -211,7 +211,7 @@ export default function Im(props: Props) {
         <button id="hover_box_toggle" class="rounded-lg overflow-hidden shadow-lg bg-white opacity-40 hover:opacity-100 w-8 h-8 m-2 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" style="position: absolute; left: 0; z-index: 99" onclick={() => toggleHover()}>
           <img class="h-6 w-6 m-1" src="/images/target.svg" />
         </button>
-        <canvas id="image_canvas" width={512} height={512} onmouseenter={showHoverText} onmouseleave={hideHoverText} onmousemove={e => updateHoverText(e)} />
+        <canvas id="image_canvas" width={512} height={512} onpointerenter={showHoverText} onpointerleave={hideHoverText} onpointermove={e => updateHoverText(e)} />
       </div>
       <div class="flex-1 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white mt-4 animate-in fade-in duration-500">
         <div>
