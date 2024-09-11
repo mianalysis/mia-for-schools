@@ -173,16 +173,21 @@ export default function Im(props: Props) {
 
   function updateHoverText(event: PointerEvent) {
     var hoverBox = document.getElementById("hover_box");
-    hoverBox.style.left = (event.clientX + 10).toString() + 'px';
-    hoverBox.style.top = (event.clientY + 10).toString() + 'px';
+    if (event.pointerType === "touch") {
+      hoverBox.style.left = (event.clientX - hoverBox.clientWidth / 2).toString() + 'px';
+      hoverBox.style.top = (event.clientY - hoverBox.clientHeight - 10).toString() + 'px';
+    } else {
+      hoverBox.style.left = (event.clientX + 10).toString() + 'px';
+      hoverBox.style.top = (event.clientY + 10).toString() + 'px';
+    }
 
     var zoom = zoomControls()?.getScale();
     var imagePanel = document.getElementById("image_panel");
     var w = canvas.width;
     var h = canvas.height;
-    var scale = w/imagePanel.clientWidth; // Scale is the same in X and Y
-    var imX = (event.pageX - imagePanel.offsetLeft)*scale;
-    var imY = (event.pageY - imagePanel.offsetTop)*scale;
+    var scale = w / imagePanel.clientWidth; // Scale is the same in X and Y
+    var imX = (event.pageX - imagePanel.offsetLeft) * scale;
+    var imY = (event.pageY - imagePanel.offsetTop) * scale;
     var x = ((w - (w / zoom)) / 2) + (imX / zoom) - zoomControls()?.getPan().x;
     var y = ((h - (h / zoom)) / 2) + (imY / zoom) - zoomControls()?.getPan().y;
     var pixels = context.getImageData(x, y, 1, 1).data;
