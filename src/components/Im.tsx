@@ -15,6 +15,7 @@ export default function Im(props: Props) {
   var compositeIm: CompositeImage
   var canvas: HTMLCanvasElement
   var context: CanvasRenderingContext2D
+  var panzoom: PanzoomObject
   var currZoom = 1;
   var currPan = { x: 0, y: 0 };
 
@@ -47,7 +48,7 @@ export default function Im(props: Props) {
         new_im.src = 'data:image/png;base64,' + compositeIm.getAsPNG()
         new_im.onload = function () { context.drawImage(new_im, 0, 0) }
 
-        const panzoom = Panzoom(canvas!, { maxScale: 10, contain: "outside", roundPixels: false })
+        panzoom = Panzoom(canvas!, { maxScale: 10, contain: "outside", roundPixels: false})
         panzoom.zoom(currZoom)
         panzoom.pan(currPan.x, currPan.y)
         canvas?.parentElement?.addEventListener('click', updatePan)
@@ -156,15 +157,19 @@ export default function Im(props: Props) {
     if (showHover()) {
       hoverBoxToggle.classList.remove("bg-white");
       hoverBoxToggle.classList.add("bg-green-500");
+      panzoom.setStyle("cursor","crosshair");
     } else {
       hoverBoxToggle.classList.remove("bg-green-500");
       hoverBoxToggle.classList.add("bg-white");
+      panzoom.setStyle("cursor","move");
     }
   }
 
   function showHoverText() {
-    if (showHover())
+    if (showHover()) {
       document.getElementById("hover_box").style.visibility = 'visible';
+
+    }
   }
 
   function hideHoverText() {
@@ -216,7 +221,7 @@ export default function Im(props: Props) {
         <button id="hover_box_toggle" class="rounded-lg overflow-hidden shadow-lg bg-white opacity-40 hover:opacity-100 w-8 h-8 m-2 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" style="position: absolute; left: 0; z-index: 99" onclick={() => toggleHover()}>
           <img class="h-6 w-6 m-1" src="/images/target.svg" />
         </button>
-        <canvas id="image_canvas" width={512} height={512} onpointerenter={showHoverText} onpointerleave={hideHoverText} onpointermove={e => updateHoverText(e)} />
+        <canvas id="image_canvas" class="cursor-default" width={512} height={512} onpointerenter={showHoverText} onpointerleave={hideHoverText} onpointermove={e => updateHoverText(e)} />
       </div>
       <div class="flex-1 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white mt-4 animate-in fade-in duration-500">
         <div>
