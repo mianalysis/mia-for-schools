@@ -11,6 +11,10 @@ interface Props {
   setGraph: Function
 }
 
+enum ControlState {
+  MOVE, PROBE
+}
+
 export default function Im(props: Props) {
   var compositeIm: CompositeImage
   var canvas: HTMLCanvasElement
@@ -18,9 +22,11 @@ export default function Im(props: Props) {
   var panzoom: PanzoomObject
   var currZoom = 1;
   var currPan = { x: 0, y: 0 };
+  var controlState = ControlState.MOVE;
+  var probeEnabled: boolean = false;
 
   const [zoomControls, setZoomControls] = createSignal<PanzoomObject>();
-  const [showHover, setShowHover] = createSignal(false);
+  const [probeVisible, setProbeVisible] = createSignal(false);
 
   createEffect(
     on(
@@ -48,7 +54,7 @@ export default function Im(props: Props) {
         new_im.src = 'data:image/png;base64,' + compositeIm.getAsPNG()
         new_im.onload = function () { context.drawImage(new_im, 0, 0) }
 
-        panzoom = Panzoom(canvas!, { maxScale: 10, contain: "outside", roundPixels: false})
+        panzoom = Panzoom(canvas!, { maxScale: 10, contain: "outside", roundPixels: false })
         panzoom.zoom(currZoom)
         panzoom.pan(currPan.x, currPan.y)
         canvas?.parentElement?.addEventListener('click', updatePan)
@@ -149,41 +155,17 @@ export default function Im(props: Props) {
     currPan.y = zoomControls()?.getPan().y!
   }
 
-  function toggleHover() {
-    setShowHover(!showHover());
+  function updateProbe(event: PointerEvent) {
+    if (!probeVisible())
+      return;
 
-    var hoverBoxToggle = document.getElementById("hover_box_toggle");
-
-    if (showHover()) {
-      hoverBoxToggle.classList.remove("bg-white");
-      hoverBoxToggle.classList.add("bg-green-500");
-      panzoom.setStyle("cursor","crosshair");
-    } else {
-      hoverBoxToggle.classList.remove("bg-green-500");
-      hoverBoxToggle.classList.add("bg-white");
-      panzoom.setStyle("cursor","move");
-    }
-  }
-
-  function showHoverText() {
-    if (showHover()) {
-      document.getElementById("hover_box").style.visibility = 'visible';
-
-    }
-  }
-
-  function hideHoverText() {
-    document.getElementById("hover_box").style.visibility = 'hidden';
-  }
-
-  function updateHoverText(event: PointerEvent) {
-    var hoverBox = document.getElementById("hover_box");
+    var probe = document.getElementById("probe");
     if (event.pointerType === "touch") {
-      hoverBox.style.left = (event.clientX - hoverBox.clientWidth / 2).toString() + 'px';
-      hoverBox.style.top = (event.clientY - hoverBox.clientHeight - 10).toString() + 'px';
+        probe.style.left = (event.clientX - probe.clientWidth / 2).toString() + 'px';
+        probe.style.top = (event.clientY - probe.clientHeight - 10).toString() + 'px';
     } else {
-      hoverBox.style.left = (event.clientX + 10).toString() + 'px';
-      hoverBox.style.top = (event.clientY + 10).toString() + 'px';
+        probe.style.left = (event.clientX + 10).toString() + 'px';
+        probe.style.top = (event.clientY + 10).toString() + 'px';
     }
 
     var zoom = zoomControls()?.getScale();
@@ -196,32 +178,65 @@ export default function Im(props: Props) {
     var x = ((w - (w / zoom)) / 2) + (imX / zoom) - zoomControls()?.getPan().x;
     var y = ((h - (h / zoom)) / 2) + (imY / zoom) - zoomControls()?.getPan().y;
     var pixels = context.getImageData(x, y, 1, 1).data;
-    var hoverText = document.getElementById("hover_text");
+    var probeText = document.getElementById("probe_text");
     var r = props.image.channels[0].red
     var g = props.image.channels[0].green
     var b = props.image.channels[0].blue
 
     if (props.image.channels.length == 1 && r == g && r == b)
-      hoverText.innerText = "Value = " + pixels[0];
+        probeText.innerText = "Value = " + pixels[0];
     else
-      hoverText.innerText = "Red = " + pixels[0] + ", green = " + pixels[1] + ", blue = " + pixels[2];
-
+        probeText.innerText = "Red = " + pixels[0] + ", green = " + pixels[1] + ", blue = " + pixels[2];
+    
     var colourCell = document.getElementById("colour_cell");
     colourCell.style.background = "rgb(" + pixels[0] + "," + pixels[1] + "," + pixels[2] + ")";
 
+}
+
+  function setControlState(newControlState: ControlState) {
+    controlState = newControlState;
+
+    var probeRadio = document.getElementById("probe_radio") as HTMLButtonElement;
+    var moveRadio = document.getElementById("move_radio") as HTMLButtonElement;
+
+    switch (controlState) {
+      case ControlState.MOVE:
+        probeEnabled = false;
+        zoomControls().setOptions({disablePan:false, cursor:'move'});
+        if (!moveRadio.classList.contains("button-selected"))
+          moveRadio.classList.toggle("button-selected");
+        if (probeRadio.classList.contains("button-selected"))
+          probeRadio.classList.toggle("button-selected");
+        break;
+      case ControlState.PROBE:
+        probeEnabled = true;
+        zoomControls().setOptions({disablePan:true, cursor:'crosshair'});
+        if (!probeRadio.classList.contains("button-selected"))
+          probeRadio.classList.toggle("button-selected");
+        if (moveRadio.classList.contains("button-selected"))
+          moveRadio.classList.toggle("button-selected");
+        break;
+    }
   }
 
   return (
     <div id="image_panel" class="flex flex-col">
-      <div id="hover_box" class="rounded-lg overflow-hidden shadow-lg bg-white p-2" style="position: absolute; z-index: 97; visibility:hidden">
-        <div id="colour_cell" class="rounded-full w-6 h-6 mr-2 border-2 border-black animate-in fade-in" style="position: relative; z-index: 98; display: inline; float:left" />
-        <div id="hover_text" style="display:inline; float:right" />
-      </div>
+      <Show when={probeVisible()}>
+        <div id="probe" class="rounded-lg overflow-hidden shadow-lg bg-white p-2" style="position: absolute; z-index: 97">
+          <div id="colour_cell" class="rounded-full w-6 h-6 mr-2 border-2 border-black animate-in fade-in" style="position: relative; z-index: 98; display: inline; float:left" />
+          <div id="probe_text" style="display:inline; float:right" />
+        </div>
+      </Show>
       <div class="flex-none max-w-lg rounded-lg overflow-hidden shadow-lg bg-white" style="position:relative">
-        <button id="hover_box_toggle" class="rounded-lg overflow-hidden shadow-lg bg-white opacity-40 hover:opacity-100 w-8 h-8 m-2 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" style="position: absolute; left: 0; z-index: 99" onclick={() => toggleHover()}>
-          <img class="h-6 w-6 m-1" src="/images/target.svg" />
-        </button>
-        <canvas id="image_canvas" class="cursor-default" width={512} height={512} onpointerenter={showHoverText} onpointerleave={hideHoverText} onpointermove={e => updateHoverText(e)} />
+        <div style="position: absolute; left: 0; z-index: 99" class="group">
+          <button id="probe_radio" class="rounded-lg overflow-hidden shadow-lg bg-white disabled:bg-red-500 opacity-40 group-hover:opacity-100 w-8 h-8 m-2 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" onclick={() => setControlState(ControlState.PROBE)}>
+            <img class="h-6 w-6 m-1" src="/images/target.svg" />
+          </button>
+          <button id="move_radio" class="button-selected rounded-lg overflow-hidden shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" onclick={() => setControlState(ControlState.MOVE)}>
+            <img class="h-6 w-6 m-1" src="/images/move.svg" />
+          </button>
+        </div>
+        <canvas id="image_canvas" class="cursor-default" width={512} height={512} onpointerenter={e => setProbeVisible(true && probeEnabled)} onpointerleave={e => setProbeVisible(false)} onpointermove={e => updateProbe(e)} />
       </div>
       <div class="flex-1 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white mt-4 animate-in fade-in duration-500">
         <div>
