@@ -236,7 +236,7 @@ export default function Im(props: Props) {
             <img class="h-6 w-6 m-1" src="/images/move.svg" />
           </button>
         </div>
-        <canvas id="image_canvas" class="cursor-default" width={512} height={512} onpointerenter={e => setProbeVisible(true && probeEnabled)} onpointerleave={e => setProbeVisible(false)} onpointermove={e => updateProbe(e)} />
+        <canvas id="image_canvas" class="cursor-default" width={512} height={512} onpointerenter={() => setProbeVisible(true && probeEnabled)} onpointerleave={() => setProbeVisible(false)} onpointermove={e => updateProbe(e)} />
       </div>
       <div class="flex-1 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white mt-4 animate-in fade-in duration-500">
         <div>
