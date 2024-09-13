@@ -59,6 +59,7 @@ export default function Im(props: Props) {
         panzoom.pan(currPan.x, currPan.y)
         canvas?.parentElement?.addEventListener('click', updatePan)
         setZoomControls(panzoom)
+        setControlState(controlState)
 
         if (props.setGraph != undefined && props.graph != undefined) {
           if (props.graph.source === "Channel components")
