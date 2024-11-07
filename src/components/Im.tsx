@@ -1,24 +1,28 @@
-import { For, Show, createEffect, createSignal, on } from 'solid-js';
-import CompositeImage from './CompositeImage';
-import BrightnessStore from './BrightnessStore';
 import Panzoom, { PanzoomObject } from '@panzoom/panzoom';
+import { For, Show, createEffect, createSignal, on } from 'solid-js';
 import { rgbToHex } from '../lib/util';
+import BrightnessStore from './BrightnessStore';
+import CompositeImage from './CompositeImage';
+import { ObjectSelector } from './ObjectSelector';
 
 interface Props {
   image: ImageJSON;
-  loading?: boolean;
   graph: GraphJSON;
-  setGraph: Function
+  setGraph: Function;
+  overlays: [OverlayJSON];
+  objectSelector: ObjectSelector
 }
 
 enum ControlState {
-  MOVE, PROBE
+  MOVE, PROBE, SELECT
 }
 
 export default function Im(props: Props) {
   var compositeIm: CompositeImage
-  var canvas: HTMLCanvasElement
-  var context: CanvasRenderingContext2D
+  var image_canvas: HTMLCanvasElement
+  var image_context: CanvasRenderingContext2D
+  var overlay_canvas: HTMLCanvasElement
+  var overlay_context: CanvasRenderingContext2D
   var panzoom: PanzoomObject
   var currZoom = 1;
   var currPan = { x: 0, y: 0 };
@@ -38,26 +42,40 @@ export default function Im(props: Props) {
         else
           BrightnessStore.addNewValues(props.image.name, props.image.channels)
 
-        canvas = (document.getElementById('image_canvas') as HTMLCanvasElement);
-        canvas.width = 512;
-        canvas.height = 512;
-        context = canvas.getContext("2d", { willReadFrequently: false })!;
-        context.imageSmoothingEnabled = false;
+        image_canvas = (document.getElementById('image_canvas') as HTMLCanvasElement);
+        image_canvas.width = 512;
+        image_canvas.height = 512;
+        image_context = image_canvas.getContext("2d", { willReadFrequently: false })!;
+        image_context.imageSmoothingEnabled = false;
 
-        if (context == undefined)
+        if (image_context == undefined)
           return;
 
-        context.clearRect(0, 0, canvas.width, canvas.height)
+        image_context.clearRect(0, 0, image_canvas.width, image_canvas.height)
 
         var new_im = new Image()
         compositeIm = new CompositeImage(props.image.channels);
         new_im.src = 'data:image/png;base64,' + compositeIm.getAsPNG()
-        new_im.onload = function () { context.drawImage(new_im, 0, 0) }
+        new_im.onload = function () { image_context.drawImage(new_im, 0, 0) }
 
-        panzoom = Panzoom(canvas!, { maxScale: 10, contain: "outside", roundPixels: false })
+        var image_region = (document.getElementById('image_region') as HTMLElement);
+        var image_panel = (document.getElementById('image_panel') as HTMLElement);
+        var overlay_canvas = (document.getElementById('overlay_canvas') as HTMLCanvasElement);
+        var panelWidth = image_panel.clientWidth;
+        image_region.style.width = `${panelWidth}px`;
+        image_region.style.height = `${panelWidth}px`;
+        image_canvas.style.width = `${panelWidth}px`;
+        image_canvas.style.height = `${panelWidth}px`;
+        overlay_canvas.style.width = `${panelWidth}px`;
+        overlay_canvas.style.height = `${panelWidth}px`;
+
+        if (overlay_context != undefined)
+          overlay_context.clearRect(0, 0, overlay_canvas.width, overlay_canvas.height)
+
+        panzoom = Panzoom(image_region!, { maxScale: 10, contain: "outside", roundPixels: false })
         panzoom.zoom(currZoom)
         panzoom.pan(currPan.x, currPan.y)
-        canvas?.parentElement?.addEventListener('click', updatePan)
+        image_region?.parentElement?.addEventListener('click', updatePan)
         setZoomControls(panzoom)
         setControlState(controlState)
 
@@ -68,8 +86,20 @@ export default function Im(props: Props) {
             props.graph.data = getImageIntensityHistogramDataJSON();
 
           // SolidJS seems to only update if object itself changes
-          var newGraph: GraphJSON = { source: props.graph.source, data: props.graph.data, type: props.graph.type, showDataLabels: props.graph.showDataLabels };
+          var newGraph: GraphJSON = { source: props.graph.source, data: props.graph.data, type: props.graph.type, showDataLabels: props.graph.showDataLabels, xlabel: props.graph.xlabel, ylabel: props.graph.ylabel };
           props.setGraph(newGraph);
+
+        }
+
+        if (props.overlays != undefined) {
+          overlay_canvas = (document.getElementById('overlay_canvas') as HTMLCanvasElement);
+          var image_panel = (document.getElementById('image_panel') as HTMLElement);
+          overlay_canvas.width = image_panel.clientWidth;
+          overlay_canvas.height = image_panel.clientHeight;
+          overlay_context = overlay_canvas.getContext("2d", { willReadFrequently: false })!;
+          overlay_context.imageSmoothingEnabled = false;
+
+          drawOverlay(props.overlays);
 
         }
       }
@@ -125,12 +155,12 @@ export default function Im(props: Props) {
   function updateBC(value: number, channel: number) {
     BrightnessStore.updateValue(props.image.name, channel, value)
 
-    var imagedata = context?.getImageData(0, 0, compositeIm.getWidth(), compositeIm.getHeight())!;
+    var imagedata = image_context?.getImageData(0, 0, compositeIm.getWidth(), compositeIm.getHeight())!;
     if (imagedata == null)
       return;
 
     compositeIm.setChannelBrightness(imagedata, channel, value)
-    context?.putImageData(imagedata, 0, 0);
+    image_context?.putImageData(imagedata, 0, 0);
 
     if (props.setGraph != undefined && props.graph != undefined) {
       if (props.graph.source === "Channel components")
@@ -139,10 +169,41 @@ export default function Im(props: Props) {
         props.graph.data = getImageIntensityHistogramDataJSON();
 
       // SolidJS seems to only update if object itself changes
-      var newGraph: GraphJSON = { source: props.graph.source, data: props.graph.data, type: props.graph.type, showDataLabels: props.graph.showDataLabels };
+      var newGraph: GraphJSON = { source: props.graph.source, data: props.graph.data, type: props.graph.type, showDataLabels: props.graph.showDataLabels, xlabel: props.graph.xlabel, ylabel: props.graph.ylabel };
       props.setGraph(newGraph);
 
     }
+
+    if (props.overlays != undefined)
+      drawOverlay(props.overlays);
+
+  }
+
+  function drawOverlay(overlays: [OverlayJSON]) {
+    var overlay_canvas = (document.getElementById('overlay_canvas') as HTMLCanvasElement);
+    var overlay_width = overlay_canvas.width
+    var overlay_height = overlay_canvas.height
+
+    overlays.forEach(overlay => {
+      overlay.regions.forEach(region => {
+        overlay_context.fillStyle = region.fillcolour;
+        // overlay_context.strokeStyle = region.strokecolour;
+        overlay_context.beginPath();
+        for (let idx = 0; idx < region.n; idx++) {
+          if (idx == 0) {
+            overlay_context.moveTo(region.x[idx] * overlay_width / 512, region.y[idx] * overlay_height / 512);
+            continue;
+          }
+
+          overlay_context.lineTo(region.x[idx] * overlay_width / 512, region.y[idx] * overlay_height / 512);
+
+        }
+
+        overlay_context.closePath();
+        overlay_context.fill();
+
+      });
+    });
   }
 
   function updateZoom(event: HTMLInputElement) {
@@ -162,60 +223,109 @@ export default function Im(props: Props) {
 
     var probe = document.getElementById("probe");
     if (event.pointerType === "touch") {
-        probe.style.left = (event.clientX - probe.clientWidth / 2).toString() + 'px';
-        probe.style.top = (event.clientY - probe.clientHeight - 10).toString() + 'px';
+      probe.style.left = (event.clientX - probe.clientWidth / 2).toString() + 'px';
+      probe.style.top = (event.clientY - probe.clientHeight - 10).toString() + 'px';
     } else {
-        probe.style.left = (event.clientX + 10).toString() + 'px';
-        probe.style.top = (event.clientY + 10).toString() + 'px';
+      probe.style.left = (event.clientX + 10).toString() + 'px';
+      probe.style.top = (event.clientY + 10).toString() + 'px';
     }
 
-    var zoom = zoomControls()?.getScale();
-    var imagePanel = document.getElementById("image_panel");
-    var w = canvas.width;
-    var h = canvas.height;
-    var scale = w / imagePanel.clientWidth; // Scale is the same in X and Y
-    var imX = (event.pageX - imagePanel.offsetLeft) * scale;
-    var imY = (event.pageY - imagePanel.offsetTop) * scale;
-    var x = ((w - (w / zoom)) / 2) + (imX / zoom) - zoomControls()?.getPan().x;
-    var y = ((h - (h / zoom)) / 2) + (imY / zoom) - zoomControls()?.getPan().y;
-    var pixels = context.getImageData(x, y, 1, 1).data;
+    var [x, y] = getPosition(event);
+    var pixels = image_context.getImageData(x, y, 1, 1).data;
     var probeText = document.getElementById("probe_text");
     var r = props.image.channels[0].red
     var g = props.image.channels[0].green
     var b = props.image.channels[0].blue
 
     if (props.image.channels.length == 1 && r == g && r == b)
-        probeText.innerText = "Value = " + pixels[0];
+      probeText.innerText = "Value = " + pixels[0];
     else
-        probeText.innerText = "Red = " + pixels[0] + ", green = " + pixels[1] + ", blue = " + pixels[2];
-    
+      probeText.innerText = "Red = " + pixels[0] + ", green = " + pixels[1] + ", blue = " + pixels[2];
+
     var colourCell = document.getElementById("colour_cell");
     colourCell.style.background = "rgb(" + pixels[0] + "," + pixels[1] + "," + pixels[2] + ")";
 
-}
+  }
+
+  function getPosition(event: PointerEvent) {
+    var zoom = zoomControls()?.getScale();
+    var imagePanel = document.getElementById("image_panel");
+    var w = image_canvas.width;
+    var h = image_canvas.height;
+    var scale = w / imagePanel.clientWidth; // Scale is the same in X and Y
+    var imX = (event.pageX - imagePanel.offsetLeft) * scale;
+    var imY = (event.pageY - imagePanel.offsetTop) * scale;
+    var x = ((w - (w / zoom)) / 2) + (imX / zoom) - zoomControls()?.getPan().x;
+    var y = ((h - (h / zoom)) / 2) + (imY / zoom) - zoomControls()?.getPan().y;
+
+    return [x, y];
+
+  }
+
+  function selectObject(event: PointerEvent) {
+    console.log("NEED TO RE-IMPLEMENT OBJECT SELECTION");
+    //   if (props.objects == undefined || props.objects.objects == undefined || props.objectSelector == undefined || controlState !== ControlState.SELECT)
+    //     return;
+
+    //   var [x, y] = getPosition(event);
+
+    //   const canvas = document.createElement("canvas");
+    //   const ctx = canvas.getContext("2d");
+
+    //   props.objects.objects.forEach(obj => {
+    //     ctx.beginPath();
+    //     for (let idx = 0; idx < obj.n; idx++) {
+    //       if (idx == 0) {
+    //         ctx.moveTo(obj.x[idx], obj.y[idx]);
+    //         continue;
+    //       }
+    //       ctx.lineTo(obj.x[idx], obj.y[idx]);
+    //     }
+    //     ctx.closePath();
+
+    //     if (ctx.isPointInPath(x, y)) {
+    //       props.objectSelector.selectObject(obj.id.toString());
+    //     }
+    //   });
+  }
 
   function setControlState(newControlState: ControlState) {
     controlState = newControlState;
 
     var probeRadio = document.getElementById("probe_radio") as HTMLButtonElement;
     var moveRadio = document.getElementById("move_radio") as HTMLButtonElement;
+    var selectRadio = document.getElementById("select_radio") as HTMLButtonElement;
 
     switch (controlState) {
       case ControlState.MOVE:
         probeEnabled = false;
-        zoomControls().setOptions({disablePan:false, cursor:'move'});
+        zoomControls().setOptions({ disablePan: false, cursor: 'move' });
         if (!moveRadio.classList.contains("button-selected"))
           moveRadio.classList.toggle("button-selected");
         if (probeRadio.classList.contains("button-selected"))
           probeRadio.classList.toggle("button-selected");
+        if (selectRadio.classList.contains("button-selected"))
+          selectRadio.classList.toggle("button-selected");
         break;
       case ControlState.PROBE:
         probeEnabled = true;
-        zoomControls().setOptions({disablePan:true, cursor:'crosshair'});
+        zoomControls().setOptions({ disablePan: true, cursor: 'crosshair' });
+        if (moveRadio.classList.contains("button-selected"))
+          moveRadio.classList.toggle("button-selected");
         if (!probeRadio.classList.contains("button-selected"))
+          probeRadio.classList.toggle("button-selected");
+        if (selectRadio.classList.contains("button-selected"))
+          selectRadio.classList.toggle("button-selected");
+        break;
+      case ControlState.SELECT:
+        probeEnabled = false;
+        zoomControls().setOptions({ disablePan: true, cursor: 'crosshair' });
+        if (probeRadio.classList.contains("button-selected"))
           probeRadio.classList.toggle("button-selected");
         if (moveRadio.classList.contains("button-selected"))
           moveRadio.classList.toggle("button-selected");
+        if (!selectRadio.classList.contains("button-selected"))
+          selectRadio.classList.toggle("button-selected");
         break;
     }
   }
@@ -236,9 +346,17 @@ export default function Im(props: Props) {
           <button id="move_radio" class="button-selected rounded-lg overflow-hidden shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" onclick={() => setControlState(ControlState.MOVE)}>
             <img class="h-6 w-6 m-1" src="/images/move.svg" />
           </button>
+          <button id="select_radio" class="button rounded-lg overflow-hidden shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" onclick={() => setControlState(ControlState.SELECT)}>
+            <img class="h-6 w-6 m-1" src="/images/select.svg" />
+          </button>
         </div>
-        <canvas id="image_canvas" class="cursor-default" width={512} height={512} onpointerenter={() => setProbeVisible(true && probeEnabled)} onpointerleave={() => setProbeVisible(false)} onpointermove={e => updateProbe(e)} />
+
+        <div id="image_region" style="position:relative; width:512px; height:512px" onpointerenter={() => setProbeVisible(true && probeEnabled)} onpointerleave={() => setProbeVisible(false)} onpointermove={e => updateProbe(e)} onpointerup={e => selectObject(e)} onPointerUp={e => selectObject(e)} >
+          <canvas id="image_canvas" class="cursor-default" style="position:absolute; width:100%; height:100%"/>
+          <canvas id="overlay_canvas" style="position:absolute; width:100%; height:100%" />
+        </div>
       </div>
+
       <div class="flex-1 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white mt-4 animate-in fade-in duration-500">
         <div>
           <Show when={props.image.showcontrols}>
@@ -258,6 +376,7 @@ export default function Im(props: Props) {
             </For>
           </Show>
         </div>
+
         <div>
           <Show when={zoomControls()}>
             <div class="container m-auto flex ">

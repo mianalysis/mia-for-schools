@@ -12,16 +12,18 @@ import { debounce } from '../lib/util';
 import { useLocation } from '@solidjs/router';
 import Graph from '../components/Graph';
 import MenuBar from '../components/MenuBar';
+import { ObjectSelector } from '../components/ObjectSelector';
 import WorkflowNav from '../components/WorkflowNav';
 
 const [hasPrevious, setHasPrevious] = createSignal(true);
 const [hasNext, setHasNext] = createSignal(true);
 const [params, setParams] = createSignal<ModuleJSON[]>();
-const [imageLoading, setImageLoading] = createSignal(true);
 const [image, setImage] = createSignal<ImageJSON>();
 const [message, setMessage] = createSignal<string>();
 const [graph, setGraph] = createSignal<GraphJSON | undefined>();
 const [showNav, setShowNav] = createSignal(false);
+const [overlays, setOverlays] = createSignal<[OverlayJSON] | undefined>();
+const [objectSelector, setObjectSelector] = createSignal<ObjectSelector | undefined>();
 
 var currParams = undefined;
 
@@ -40,11 +42,39 @@ function requestHasNextGroup() {
 }
 
 function processGroup() {
-  setImageLoading(true);
   socketClient.publish({
     destination: '/app/processgroup',
     body: JSON.stringify({}),
   });
+}
+
+function hasVisibleParams(modules: [ModuleJSON]) {
+  if (modules == undefined)
+    return false;
+
+  var hasVisible = false;
+  modules.forEach(module => {
+    if (module.name !== "Select objects") {
+      module.parameters.forEach(parameter => {
+        if (parameter.visible)
+          hasVisible = true;
+      });
+    }
+  })
+
+  return hasVisible;
+
+}
+
+function processObjectSelector(modules: [ModuleJSON]) {
+  if (modules == undefined)
+    return;
+
+  modules.forEach(module => {
+    if (module.name === "Select objects") {
+      setObjectSelector(new ObjectSelector(module));
+    }
+  })
 }
 
 const debouncedProcessGroup = debounce(processGroup, 20);
@@ -63,20 +93,37 @@ const awaitConnect = async (awaitConnectConfig) => {
           const response = JSON.parse(data.body);
           const resultJSON = JSON.parse(response.body);
 
-          setMessage(resultJSON.message);
+          if (resultJSON.overlays == undefined)
+            setOverlays(undefined)
+          else
+            setOverlays(resultJSON.overlays)
           
+          if (resultJSON.image == undefined)
+            setImage(undefined)
+          else
+            setImage(resultJSON.image);
+
+          if (resultJSON.message == undefined)
+            setMessage(undefined)
+          else
+            setMessage(resultJSON.message);
+
           if (resultJSON.graph == undefined)
             setGraph(undefined);
           else
             setGraph(resultJSON.graph);
 
-          if (resultJSON.image != undefined) {
-            setImage(resultJSON.image);
-            setImageLoading(false);
-          }
+          // if (resultJSON.objects == undefined)
+          //   setObjects(undefined);
+          // else
+          //   setObjects(resultJSON.objects);
 
           setShowNav(true);
-          setParams(currParams);
+
+          if (hasVisibleParams(currParams))
+            setParams(currParams);
+
+          processObjectSelector(currParams);
 
         });
 
@@ -87,7 +134,9 @@ const awaitConnect = async (awaitConnectConfig) => {
           const response = JSON.parse(data.body);
           const paramJson = JSON.parse(response.body);
           currParams = paramJson.modules;
+
           debouncedProcessGroup();
+
         });
 
         socketClient.subscribe('/user/queue/previousstatus', (data) => {
@@ -125,6 +174,8 @@ function App() {
   setParams(undefined);
   setImage(undefined);
   setGraph(undefined);
+  setOverlays(undefined);
+  // setObjects(undefined);
   setMessage(undefined);
   setShowNav(false);
 
@@ -132,7 +183,6 @@ function App() {
     setWorkflow(useLocation().query.name);
 
   function setWorkflow(workflowName: String) {
-    setImageLoading(true);
     socketClient.publish({
       destination: '/app/setworkflow',
       body: JSON.stringify({ workflowName: workflowName })
@@ -166,29 +216,32 @@ function App() {
   function createControl(module: ModuleJSON, parameter: ParameterJSON) {
     return [
       <div class="flex items-center">
-        <Show when={parameter.visible}>
+        <Show when={parameter.visible && module.name !== "Select objects"}>
           <div class="flex-1 p-2">
             <div class="font-semibold">
               {getParameterName(parameter.nickname)}
             </div>
           </div>
+          <div class="flex-1 flex-end items-center">
+            <Switch>
+              <Match when={parameter.type === "BooleanP"}>
+                <Toggle module={module} parameter={parameter} />
+              </Match>
+              <Match when={parameter.type === "ChoiceP" || parameter.type === "InputImageP" || parameter.type === "InputObjectsP"}>
+                <Choice module={module} parameter={parameter} />
+              </Match>
+              <Match when={parameter.type === "DoubleP" || parameter.type == "IntegerP" || parameter.type == "StringP"}>
+                {createTextOrSliderInput(module, parameter)}
+              </Match>
+              <Match when={parameter.type === "ParameterGroup"}>
+                {createControls(module, parameter.collections)}
+              </Match>
+              {/* <Match when={parameter.type === "ObjectSelectorP"}>
+              ObjectSelector!
+            </Match> */}
+            </Switch>
+          </div>
         </Show>
-        <div class="flex-1 flex-end items-center">
-          <Switch>
-            <Match when={parameter.type === "BooleanP"}>
-              <Toggle module={module} parameter={parameter} />
-            </Match>
-            <Match when={parameter.type === "ChoiceP" || parameter.type === "InputImageP" || parameter.type === "InputObjectsP"}>
-              <Choice module={module} parameter={parameter} />
-            </Match>
-            <Match when={parameter.type === "DoubleP" || parameter.type == "IntegerP" || parameter.type == "StringP"}>
-              {createTextOrSliderInput(module, parameter)}
-            </Match>
-            <Match when={parameter.type === "ParameterGroup"}>
-              {createControls(module, parameter.collections)}
-            </Match>
-          </Switch>
-        </div>
       </div>
     ]
   }
@@ -199,15 +252,15 @@ function App() {
         <MenuBar title={useLocation().query.name} ismainpage={false} />
       </Show>
 
-      <div class="container m-auto grid sm:grid-cols-2 gap-4">
+      <div class="container grid sm:grid-cols-2 gap-4">
         <Show when={image()}>
-          <Im image={image()!} loading={imageLoading()} graph={graph()} setGraph={setGraph} />
+          <Im image={image()!} graph={graph()} setGraph={setGraph} overlays={overlays()} objectSelector={objectSelector()} />
         </Show>
 
         <div class="flex flex-col relative">
           <Show when={message()}>
             <div class="flex-1 text-lg max-w-lg rounded-lg shadow-lg bg-white p-4 animate-in fade-in duration-500">
-              <p style="white-space: pre-line" class="text-black">{message()}</p>
+              <p style="white-space: pre-line" class="text-black" innerHTML={message()}></p>
             </div>
           </Show>
 

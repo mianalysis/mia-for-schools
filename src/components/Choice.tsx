@@ -19,10 +19,10 @@ var currVal: String
 
 
 export default function Choice(props: Props) {
-  return (<Popover defaultOpen={false} class="relative">
+  return (<Popover defaultOpen={false} class="relative m-1">
     {({ isOpen }): JSX.Element => (
       <>
-        <PopoverButton class="range h-10 m-0 w-32 rounded-full bg-amber-500 items-center transition duration-150 ease-in-out hover:scale-110">
+        <PopoverButton class="range h-10 p-0 w-32 rounded-full bg-amber-500 items-center transition duration-150 ease-in-out hover:scale-110">
           {props.parameter.value}
         </PopoverButton>
         <Transition

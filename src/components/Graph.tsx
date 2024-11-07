@@ -17,15 +17,15 @@ var prevShowDataLabels = false;
 export default function Graph(props: Props) {
     if (props.graphJSON == undefined)
         return;
-    
+
     createEffect(
         on(
             () => props.graphJSON,
             () => {
                 const graph_canvas = document.getElementById('chart-canvas') as HTMLCanvasElement;
-                if (chart != undefined && props.imageJSON != undefined 
-                    && (props.imageJSON.name != prevImageID 
-                        || props.graphJSON.type != prevType 
+                if (chart != undefined && props.imageJSON != undefined
+                    && (props.imageJSON.name != prevImageID
+                        || props.graphJSON.type != prevType
                         || props.graphJSON.showDataLabels != prevShowDataLabels)) {
                     chart.destroy()
                     chart = undefined
@@ -67,6 +67,34 @@ export default function Graph(props: Props) {
                                 },
                                 legend: {
                                     display: false
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        align: 'center',
+                                        text: props.graphJSON.xlabel,
+                                        color: '#14b8a6',
+                                        font: {
+                                            family: 'Arial',
+                                            size: 16,
+                                            weight: 'bold',
+                                        },
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        align: 'center',
+                                        text: props.graphJSON.ylabel,
+                                        color: '#14b8a6',
+                                        font: {
+                                            family: 'Arial',
+                                            size: 16,
+                                            weight: 'bold',
+                                        },
+                                    }
                                 }
                             }
                         }
