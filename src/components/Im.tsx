@@ -6,7 +6,6 @@ import CompositeImage from './CompositeImage';
 import { ObjectSelector } from './ObjectSelector';
 import { Overlay } from './Overlay';
 import OverlayComponent from './OverlayComponent';
-// import OverlayComponent from './OverlayComponent';
 
 interface Props {
   image: ImageJSON;
@@ -32,7 +31,6 @@ export default function Im(props: Props) {
 
   const [zoomControls, setZoomControls] = createSignal<PanzoomObject>();
   const [probeVisible, setProbeVisible] = createSignal(false);
-  // const [overlays, setOverlays] = createSignal<OverlayJSON[]>();
   const [overlay, setOverlay] = createSignal<Overlay>();
   const [objectSelector, setObjectSelector] = createSignal<ObjectSelector>();
 
@@ -82,6 +80,8 @@ export default function Im(props: Props) {
             setOverlay(new Overlay(panelWidth))
           else
             overlay().drawOverlay(props.overlays)
+        } else {
+          setOverlay(undefined)
         }
 
         if (props.setGraph != undefined && props.graph != undefined) {
