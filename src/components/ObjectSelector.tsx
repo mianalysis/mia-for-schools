@@ -1,6 +1,12 @@
 import { sendParameter } from '../lib/util';
 
 export class ObjectSelector {
+    render(): string {
+        return `<div>
+        <h1>Module is called WOOF</h1>
+    </div>`;
+    }
+
     module: ModuleJSON;
     refValueParam: ParameterJSON;
     selectionModeParam: ParameterJSON;

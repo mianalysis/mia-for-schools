@@ -4,12 +4,15 @@ import { rgbToHex } from '../lib/util';
 import BrightnessStore from './BrightnessStore';
 import CompositeImage from './CompositeImage';
 import { ObjectSelector } from './ObjectSelector';
+import { Overlay } from './Overlay';
+import OverlayComponent from './OverlayComponent';
+// import OverlayComponent from './OverlayComponent';
 
 interface Props {
   image: ImageJSON;
   graph: GraphJSON;
   setGraph: Function;
-  overlays: [OverlayJSON];
+  overlays: OverlayJSON[];
   objectSelector: ObjectSelector
 }
 
@@ -21,8 +24,6 @@ export default function Im(props: Props) {
   var compositeIm: CompositeImage
   var image_canvas: HTMLCanvasElement
   var image_context: CanvasRenderingContext2D
-  var overlay_canvas: HTMLCanvasElement
-  var overlay_context: CanvasRenderingContext2D
   var panzoom: PanzoomObject
   var currZoom = 1;
   var currPan = { x: 0, y: 0 };
@@ -31,6 +32,9 @@ export default function Im(props: Props) {
 
   const [zoomControls, setZoomControls] = createSignal<PanzoomObject>();
   const [probeVisible, setProbeVisible] = createSignal(false);
+  // const [overlays, setOverlays] = createSignal<OverlayJSON[]>();
+  const [overlay, setOverlay] = createSignal<Overlay>();
+  const [objectSelector, setObjectSelector] = createSignal<ObjectSelector>();
 
   createEffect(
     on(
@@ -60,17 +64,11 @@ export default function Im(props: Props) {
 
         var image_region = (document.getElementById('image_region') as HTMLElement);
         var image_panel = (document.getElementById('image_panel') as HTMLElement);
-        var overlay_canvas = (document.getElementById('overlay_canvas') as HTMLCanvasElement);
         var panelWidth = image_panel.clientWidth;
         image_region.style.width = `${panelWidth}px`;
         image_region.style.height = `${panelWidth}px`;
         image_canvas.style.width = `${panelWidth}px`;
         image_canvas.style.height = `${panelWidth}px`;
-        overlay_canvas.style.width = `${panelWidth}px`;
-        overlay_canvas.style.height = `${panelWidth}px`;
-
-        if (overlay_context != undefined)
-          overlay_context.clearRect(0, 0, overlay_canvas.width, overlay_canvas.height)
 
         panzoom = Panzoom(image_region!, { maxScale: 10, contain: "outside", roundPixels: false })
         panzoom.zoom(currZoom)
@@ -78,6 +76,13 @@ export default function Im(props: Props) {
         image_region?.parentElement?.addEventListener('click', updatePan)
         setZoomControls(panzoom)
         setControlState(controlState)
+
+        if (props.overlays != undefined) {
+          if (overlay() == undefined)
+            setOverlay(new Overlay(panelWidth))
+          else
+            overlay().drawOverlay(props.overlays)
+        }
 
         if (props.setGraph != undefined && props.graph != undefined) {
           if (props.graph.source === "Channel components")
@@ -88,18 +93,6 @@ export default function Im(props: Props) {
           // SolidJS seems to only update if object itself changes
           var newGraph: GraphJSON = { source: props.graph.source, data: props.graph.data, type: props.graph.type, showDataLabels: props.graph.showDataLabels, xlabel: props.graph.xlabel, ylabel: props.graph.ylabel };
           props.setGraph(newGraph);
-
-        }
-
-        if (props.overlays != undefined) {
-          overlay_canvas = (document.getElementById('overlay_canvas') as HTMLCanvasElement);
-          var image_panel = (document.getElementById('image_panel') as HTMLElement);
-          overlay_canvas.width = image_panel.clientWidth;
-          overlay_canvas.height = image_panel.clientHeight;
-          overlay_context = overlay_canvas.getContext("2d", { willReadFrequently: false })!;
-          overlay_context.imageSmoothingEnabled = false;
-
-          drawOverlay(props.overlays);
 
         }
       }
@@ -173,37 +166,6 @@ export default function Im(props: Props) {
       props.setGraph(newGraph);
 
     }
-
-    if (props.overlays != undefined)
-      drawOverlay(props.overlays);
-
-  }
-
-  function drawOverlay(overlays: [OverlayJSON]) {
-    var overlay_canvas = (document.getElementById('overlay_canvas') as HTMLCanvasElement);
-    var overlay_width = overlay_canvas.width
-    var overlay_height = overlay_canvas.height
-
-    overlays.forEach(overlay => {
-      overlay.regions.forEach(region => {
-        overlay_context.fillStyle = region.fillcolour;
-        // overlay_context.strokeStyle = region.strokecolour;
-        overlay_context.beginPath();
-        for (let idx = 0; idx < region.n; idx++) {
-          if (idx == 0) {
-            overlay_context.moveTo(region.x[idx] * overlay_width / 512, region.y[idx] * overlay_height / 512);
-            continue;
-          }
-
-          overlay_context.lineTo(region.x[idx] * overlay_width / 512, region.y[idx] * overlay_height / 512);
-
-        }
-
-        overlay_context.closePath();
-        overlay_context.fill();
-
-      });
-    });
   }
 
   function updateZoom(event: HTMLInputElement) {
@@ -352,11 +314,12 @@ export default function Im(props: Props) {
         </div>
 
         <div id="image_region" style="position:relative; width:512px; height:512px" onpointerenter={() => setProbeVisible(true && probeEnabled)} onpointerleave={() => setProbeVisible(false)} onpointermove={e => updateProbe(e)} onpointerup={e => selectObject(e)} onPointerUp={e => selectObject(e)} >
-          <canvas id="image_canvas" class="cursor-default" style="position:absolute; width:100%; height:100%"/>
-          <canvas id="overlay_canvas" style="position:absolute; width:100%; height:100%" />
+          <canvas id="image_canvas" class="cursor-default" style="position:absolute; width:100%; height:100%" />
+          <Show when={overlay()}>
+            <OverlayComponent overlay={overlay()} overlays={props.overlays}></OverlayComponent>
+          </Show>
         </div>
       </div>
-
       <div class="flex-1 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white mt-4 animate-in fade-in duration-500">
         <div>
           <Show when={props.image.showcontrols}>
@@ -394,6 +357,6 @@ export default function Im(props: Props) {
           </Show>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
