@@ -10,6 +10,7 @@ type ModuleJSON = {
 };
 
 type ParameterJSON = {
+  "moduleid": string,
   "name": string,
   "nickname": string,
   "value": string,

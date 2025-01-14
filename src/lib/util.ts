@@ -19,6 +19,13 @@ export function sendParameter(moduleID: String, parameterName: String, parameter
   });
 }
 
+export function selectObjectSelection(objectName: String, objectID: String, selected: boolean) {
+  socketClient.publish({
+    destination: '/app/selectobjecr',
+    body: JSON.stringify({ objectName: objectName, objectID: objectID, selected: selected })
+  });
+}
+
 // From https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb (Accessed 2024-07-19)
 export function componentToHex(c) {
   var hex = c.toString(16);

@@ -28,8 +28,6 @@ export class Overlay {
     }
 
     drawOverlay(overlays: OverlayJSON[]) {
-        console.log("Drawing")
-        
         if (this.overlay_context != undefined)
             this.overlay_context.clearRect(0, 0, this.overlay_canvas.width, this.overlay_canvas.height)
 

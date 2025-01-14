@@ -12,7 +12,7 @@ import { debounce } from '../lib/util';
 import { useLocation } from '@solidjs/router';
 import Graph from '../components/Graph';
 import MenuBar from '../components/MenuBar';
-import { ObjectSelector } from '../components/ObjectSelector';
+import { ClickListener } from '../components/ClickListener';
 import WorkflowNav from '../components/WorkflowNav';
 
 const [hasPrevious, setHasPrevious] = createSignal(true);
@@ -23,7 +23,7 @@ const [message, setMessage] = createSignal<string>();
 const [graph, setGraph] = createSignal<GraphJSON | undefined>();
 const [showNav, setShowNav] = createSignal(false);
 const [overlays, setOverlays] = createSignal<[OverlayJSON] | undefined>();
-const [objectSelector, setObjectSelector] = createSignal<ObjectSelector | undefined>();
+const [clickListener, setClickListener] = createSignal<ClickListener | undefined>();
 
 var currParams = undefined;
 
@@ -52,29 +52,37 @@ function hasVisibleParams(modules: [ModuleJSON]) {
   if (modules == undefined)
     return false;
 
-  var hasVisible = false;
+  var visibleParams = false;
   modules.forEach(module => {
-    if (module.name !== "Select objects") {
-      module.parameters.forEach(parameter => {
-        if (parameter.visible)
-          hasVisible = true;
-      });
-    }
+    module.parameters.forEach(parameter => {
+      if (parameter.visible && parameter.type !== "ClickListenerP")
+        visibleParams = true;
+      return visibleParams;
+    });
   })
 
-  return hasVisible;
+  return visibleParams;
 
 }
 
-function processObjectSelector(modules: [ModuleJSON]) {
+function getClickListenerParameter(modules: [ModuleJSON]) {
   if (modules == undefined)
-    return;
+    return undefined;
 
+  var clickParameter = undefined;
   modules.forEach(module => {
-    if (module.name === "Select objects") {
-      setObjectSelector(new ObjectSelector(module));
-    }
+    module.parameters.forEach(parameter => {
+      if (parameter.type === "ClickListenerP") {
+          clickParameter = parameter;
+            
+        return clickParameter;
+
+      }
+    });
   })
+
+  return clickParameter;
+
 }
 
 const debouncedProcessGroup = debounce(processGroup, 20);
@@ -97,7 +105,7 @@ const awaitConnect = async (awaitConnectConfig) => {
             setOverlays(undefined)
           else
             setOverlays(resultJSON.overlays)
-          
+
           if (resultJSON.image == undefined)
             setImage(undefined)
           else
@@ -113,17 +121,12 @@ const awaitConnect = async (awaitConnectConfig) => {
           else
             setGraph(resultJSON.graph);
 
-          // if (resultJSON.objects == undefined)
-          //   setObjects(undefined);
-          // else
-          //   setObjects(resultJSON.objects);
-
           setShowNav(true);
 
           if (hasVisibleParams(currParams))
             setParams(currParams);
-
-          processObjectSelector(currParams);
+          else
+            setParams(undefined);
 
         });
 
@@ -135,6 +138,10 @@ const awaitConnect = async (awaitConnectConfig) => {
           const paramJson = JSON.parse(response.body);
           currParams = paramJson.modules;
 
+          var clickParameter = getClickListenerParameter(currParams);
+          if (clickParameter !== undefined)
+            setClickListener(new ClickListener(clickParameter));
+          
           debouncedProcessGroup();
 
         });
@@ -175,7 +182,6 @@ function App() {
   setImage(undefined);
   setGraph(undefined);
   setOverlays(undefined);
-  // setObjects(undefined);
   setMessage(undefined);
   setShowNav(false);
 
@@ -216,7 +222,7 @@ function App() {
   function createControl(module: ModuleJSON, parameter: ParameterJSON) {
     return [
       <div class="flex items-center">
-        <Show when={parameter.visible && module.name !== "Select objects"}>
+        <Show when={parameter.visible}>
           <div class="flex-1 p-2">
             <div class="font-semibold">
               {getParameterName(parameter.nickname)}
@@ -236,9 +242,6 @@ function App() {
               <Match when={parameter.type === "ParameterGroup"}>
                 {createControls(module, parameter.collections)}
               </Match>
-              {/* <Match when={parameter.type === "ObjectSelectorP"}>
-              ObjectSelector!
-            </Match> */}
             </Switch>
           </div>
         </Show>
@@ -254,7 +257,7 @@ function App() {
 
       <div class="container grid sm:grid-cols-2 gap-4">
         <Show when={image()}>
-          <Im image={image()!} graph={graph()} setGraph={setGraph} overlays={overlays()} objectSelector={objectSelector()} />
+          <Im image={image()!} graph={graph()} setGraph={setGraph} overlays={overlays()} clickListener={clickListener} />
         </Show>
 
         <div class="flex flex-col relative">

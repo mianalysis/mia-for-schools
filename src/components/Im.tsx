@@ -1,18 +1,18 @@
 import Panzoom, { PanzoomObject } from '@panzoom/panzoom';
-import { For, Show, createEffect, createSignal, on } from 'solid-js';
+import { For, Show, createEffect, createSignal, on, onCleanup } from 'solid-js';
 import { rgbToHex } from '../lib/util';
 import BrightnessStore from './BrightnessStore';
 import CompositeImage from './CompositeImage';
-import { ObjectSelector } from './ObjectSelector';
 import { Overlay } from './Overlay';
 import OverlayComponent from './OverlayComponent';
+import { ClickListener } from './ClickListener';
 
 interface Props {
   image: ImageJSON;
   graph: GraphJSON;
   setGraph: Function;
   overlays: OverlayJSON[];
-  objectSelector: ObjectSelector
+  clickListener: Function | undefined;
 }
 
 enum ControlState {
@@ -21,18 +21,18 @@ enum ControlState {
 
 export default function Im(props: Props) {
   var compositeIm: CompositeImage
-  var image_canvas: HTMLCanvasElement
   var image_context: CanvasRenderingContext2D
   var panzoom: PanzoomObject
-  var currZoom = 1;
-  var currPan = { x: 0, y: 0 };
-  var controlState = ControlState.MOVE;
-  var probeEnabled: boolean = false;
+  var currZoom = 1
+  var currPan = { x: 0, y: 0 }
+  var controlState = ControlState.MOVE
+  var probeEnabled: boolean = false
+  let image_canvas: HTMLCanvasElement
+  let image_region: HTMLDivElement
 
   const [zoomControls, setZoomControls] = createSignal<PanzoomObject>();
   const [probeVisible, setProbeVisible] = createSignal(false);
   const [overlay, setOverlay] = createSignal<Overlay>();
-  const [objectSelector, setObjectSelector] = createSignal<ObjectSelector>();
 
   createEffect(
     on(
@@ -44,7 +44,6 @@ export default function Im(props: Props) {
         else
           BrightnessStore.addNewValues(props.image.name, props.image.channels)
 
-        image_canvas = (document.getElementById('image_canvas') as HTMLCanvasElement);
         image_canvas.width = 512;
         image_canvas.height = 512;
         image_context = image_canvas.getContext("2d", { willReadFrequently: false })!;
@@ -60,7 +59,6 @@ export default function Im(props: Props) {
         new_im.src = 'data:image/png;base64,' + compositeIm.getAsPNG()
         new_im.onload = function () { image_context.drawImage(new_im, 0, 0) }
 
-        var image_region = (document.getElementById('image_region') as HTMLElement);
         var image_panel = (document.getElementById('image_panel') as HTMLElement);
         var panelWidth = image_panel.clientWidth;
         image_region.style.width = `${panelWidth}px`;
@@ -98,6 +96,18 @@ export default function Im(props: Props) {
       }
     )
   );
+
+  createEffect(
+    () => {
+      const listener = props.clickListener();
+
+      if (listener)
+        image_region.addEventListener("pointerup", (e) => { if (controlState === ControlState.SELECT) props.clickListener().onClick(getPosition(e)) })
+
+      onCleanup(() => image_region?.removeEventListener("pointerup", (e) => { if (controlState === ControlState.SELECT) props.clickListener().onClick(getPosition(e)) }))
+
+    }
+  )
 
   function getChannelComponentsDataJSON() {
     var dataJSON: DataJSON = { labels: [], datasets: [] };
@@ -224,33 +234,6 @@ export default function Im(props: Props) {
 
   }
 
-  function selectObject(event: PointerEvent) {
-    console.log("NEED TO RE-IMPLEMENT OBJECT SELECTION");
-    //   if (props.objects == undefined || props.objects.objects == undefined || props.objectSelector == undefined || controlState !== ControlState.SELECT)
-    //     return;
-
-    //   var [x, y] = getPosition(event);
-
-    //   const canvas = document.createElement("canvas");
-    //   const ctx = canvas.getContext("2d");
-
-    //   props.objects.objects.forEach(obj => {
-    //     ctx.beginPath();
-    //     for (let idx = 0; idx < obj.n; idx++) {
-    //       if (idx == 0) {
-    //         ctx.moveTo(obj.x[idx], obj.y[idx]);
-    //         continue;
-    //       }
-    //       ctx.lineTo(obj.x[idx], obj.y[idx]);
-    //     }
-    //     ctx.closePath();
-
-    //     if (ctx.isPointInPath(x, y)) {
-    //       props.objectSelector.selectObject(obj.id.toString());
-    //     }
-    //   });
-  }
-
   function setControlState(newControlState: ControlState) {
     controlState = newControlState;
 
@@ -313,8 +296,8 @@ export default function Im(props: Props) {
           </button>
         </div>
 
-        <div id="image_region" style="position:relative; width:512px; height:512px" onpointerenter={() => setProbeVisible(true && probeEnabled)} onpointerleave={() => setProbeVisible(false)} onpointermove={e => updateProbe(e)} onpointerup={e => selectObject(e)} onPointerUp={e => selectObject(e)} >
-          <canvas id="image_canvas" class="cursor-default" style="position:absolute; width:100%; height:100%" />
+        <div ref={image_region} style="position:relative; width:512px; height:512px" onpointerenter={() => setProbeVisible(true && probeEnabled)} onpointerleave={() => setProbeVisible(false)} onpointermove={e => updateProbe(e)} >
+          <canvas ref={image_canvas} class="cursor-default" style="position:absolute; width:100%; height:100%" />
           <Show when={overlay()}>
             <OverlayComponent overlay={overlay()} overlays={props.overlays}></OverlayComponent>
           </Show>
