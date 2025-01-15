@@ -1,11 +1,11 @@
 import Panzoom, { PanzoomObject } from '@panzoom/panzoom';
 import { For, Show, createEffect, createSignal, on, onCleanup } from 'solid-js';
+import { store } from '../lib/store';
 import { rgbToHex } from '../lib/util';
 import BrightnessStore from './BrightnessStore';
 import CompositeImage from './CompositeImage';
 import { Overlay } from './Overlay';
 import OverlayComponent from './OverlayComponent';
-import { ClickListener } from './ClickListener';
 
 interface Props {
   image: ImageJSON;
@@ -38,40 +38,42 @@ export default function Im(props: Props) {
     on(
       () => props.image,
       () => {
-        // Checking if this has already got assigned brightness values
-        if (BrightnessStore.values.has(props.image.name))
-          BrightnessStore.updateChannelsJSON(props.image.name, props.image.channels)
-        else
-          BrightnessStore.addNewValues(props.image.name, props.image.channels)
+        if (props.image.channels.length) {
+          // Checking if this has already got assigned brightness values
+          if (BrightnessStore.values.has(props.image.name))
+            BrightnessStore.updateChannelsJSON(props.image.name, props.image.channels)
+          else
+            BrightnessStore.addNewValues(props.image.name, props.image.channels)
 
-        image_canvas.width = 512;
-        image_canvas.height = 512;
-        image_context = image_canvas.getContext("2d", { willReadFrequently: false })!;
-        image_context.imageSmoothingEnabled = false;
+          image_canvas.width = 512;
+          image_canvas.height = 512;
+          image_context = image_canvas.getContext("2d", { willReadFrequently: false })!;
+          image_context.imageSmoothingEnabled = false;
 
-        if (image_context == undefined)
-          return;
+          if (image_context == undefined)
+            return;
 
-        image_context.clearRect(0, 0, image_canvas.width, image_canvas.height)
+          image_context.clearRect(0, 0, image_canvas.width, image_canvas.height)
 
-        var new_im = new Image()
-        compositeIm = new CompositeImage(props.image.channels);
-        new_im.src = 'data:image/png;base64,' + compositeIm.getAsPNG()
-        new_im.onload = function () { image_context.drawImage(new_im, 0, 0) }
+          var new_im = new Image()
+          compositeIm = new CompositeImage(props.image.channels);
+          new_im.src = 'data:image/png;base64,' + compositeIm.getAsPNG()
+          new_im.onload = function () { image_context.drawImage(new_im, 0, 0) }
 
-        var image_panel = (document.getElementById('image_panel') as HTMLElement);
-        var panelWidth = image_panel.clientWidth;
-        image_region.style.width = `${panelWidth}px`;
-        image_region.style.height = `${panelWidth}px`;
-        image_canvas.style.width = `${panelWidth}px`;
-        image_canvas.style.height = `${panelWidth}px`;
+          var image_panel = (document.getElementById('image_panel') as HTMLElement);
+          var panelWidth = image_panel.clientWidth;
+          image_region.style.width = `${panelWidth}px`;
+          image_region.style.height = `${panelWidth}px`;
+          image_canvas.style.width = `${panelWidth}px`;
+          image_canvas.style.height = `${panelWidth}px`;
 
-        panzoom = Panzoom(image_region!, { maxScale: 10, contain: "outside", roundPixels: false })
-        panzoom.zoom(currZoom)
-        panzoom.pan(currPan.x, currPan.y)
-        image_region?.parentElement?.addEventListener('click', updatePan)
-        setZoomControls(panzoom)
-        setControlState(controlState)
+          panzoom = Panzoom(image_region!, { maxScale: 10, contain: "outside", roundPixels: false })
+          panzoom.zoom(currZoom)
+          panzoom.pan(currPan.x, currPan.y)
+          image_region?.parentElement?.addEventListener('click', updatePan)
+          setZoomControls(panzoom)
+          setControlState(controlState)
+        }
 
         if (props.overlays != undefined) {
           if (overlay() == undefined)

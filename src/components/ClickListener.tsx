@@ -1,3 +1,4 @@
+import { setStore, store } from '../lib/store';
 import { sendParameter } from '../lib/util';
 
 
@@ -9,8 +10,7 @@ export class ClickListener {
     }
 
     onClick(position: number[]) {
-        var value = position[0]+","+position[1]
-                
+        var value = Math.round(position[0])+","+Math.round(position[1])
         sendParameter(this.parameter.moduleid, this.parameter.name, value, undefined, undefined);
         
     }

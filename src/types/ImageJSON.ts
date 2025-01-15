@@ -1,7 +1,8 @@
 type ImageJSON = {
     "channels": [ChannelJSON],
     "name": string,
-    "showcontrols": boolean
+    "showcontrols": boolean,
+    "hashcode": string
 }
 
 type ChannelJSON = {

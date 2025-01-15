@@ -8,6 +8,7 @@ import Toggle from '../components/Toggle';
 
 import { socketClient } from '../lib/client';
 import { debounce } from '../lib/util';
+import { setStore, store } from '../lib/store';
 
 import { useLocation } from '@solidjs/router';
 import Graph from '../components/Graph';
@@ -108,8 +109,10 @@ const awaitConnect = async (awaitConnectConfig) => {
 
           if (resultJSON.image == undefined)
             setImage(undefined)
-          else
+          else {
+            setStore("imageHash", resultJSON.image.hashcode);
             setImage(resultJSON.image);
+          }
 
           if (resultJSON.message == undefined)
             setMessage(undefined)

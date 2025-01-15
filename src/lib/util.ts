@@ -1,4 +1,5 @@
 import { socketClient } from './client';
+import { store } from './store';
 
 export function debounce(fn: (...args: any[]) => void, delay: number) {
   let timer: ReturnType<typeof setTimeout> | null = null;
@@ -15,14 +16,7 @@ export function debounce(fn: (...args: any[]) => void, delay: number) {
 export function sendParameter(moduleID: String, parameterName: String, parameterValue: String, parentGroupName: String, groupCollectionNumber: number) {
   socketClient.publish({
     destination: '/app/setparameter',
-    body: JSON.stringify({ moduleID: moduleID, parameterName: parameterName, parameterValue: parameterValue, parentGroupName: parentGroupName, groupCollectionNumber: groupCollectionNumber })
-  });
-}
-
-export function selectObjectSelection(objectName: String, objectID: String, selected: boolean) {
-  socketClient.publish({
-    destination: '/app/selectobjecr',
-    body: JSON.stringify({ objectName: objectName, objectID: objectID, selected: selected })
+    body: JSON.stringify({ moduleID: moduleID, parameterName: parameterName, parameterValue: parameterValue, parentGroupName: parentGroupName, groupCollectionNumber: groupCollectionNumber, imageHash: store.imageHash })
   });
 }
 
