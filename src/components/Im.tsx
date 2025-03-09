@@ -9,6 +9,7 @@ import OverlayComponent from './OverlayComponent';
 
 interface Props {
   image: ImageJSON;
+  channelControls: boolean;
   graph: GraphJSON;
   setGraph: Function;
   overlays: OverlayJSON[];
@@ -307,7 +308,7 @@ export default function Im(props: Props) {
       </div>
       <div class="flex-1 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white mt-4 animate-in fade-in duration-500">
         <div>
-          <Show when={props.image.showcontrols}>
+          <Show when={props.channelControls}>
             <For each={props.image.channels}>{(channel) =>
               <input
                 id="channel-slider"

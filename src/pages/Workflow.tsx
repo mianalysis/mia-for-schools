@@ -7,7 +7,6 @@ import TextEntry from '../components/TextEntry';
 import Toggle from '../components/Toggle';
 
 import { socketClient } from '../lib/client';
-import { debounce } from '../lib/util';
 import { setStore, store } from '../lib/store';
 
 import { useLocation } from '@solidjs/router';
@@ -20,13 +19,12 @@ const [hasPrevious, setHasPrevious] = createSignal(true);
 const [hasNext, setHasNext] = createSignal(true);
 const [params, setParams] = createSignal<ModuleJSON[]>();
 const [image, setImage] = createSignal<ImageJSON>();
-const [message, setMessage] = createSignal<string>();
+const [channelControls, setChannelControls] = createSignal(false);
+const [message, setMessage] = createSignal<[MessageJSON]>();
 const [graph, setGraph] = createSignal<GraphJSON | undefined>();
 const [showNav, setShowNav] = createSignal(false);
 const [overlays, setOverlays] = createSignal<[OverlayJSON] | undefined>();
 const [clickListener, setClickListener] = createSignal<ClickListener | undefined>();
-
-var currParams = undefined;
 
 function requestHasPreviousGroup() {
   socketClient.publish({
@@ -42,30 +40,6 @@ function requestHasNextGroup() {
   });
 }
 
-function processGroup() {
-  socketClient.publish({
-    destination: '/app/processgroup',
-    body: JSON.stringify({}),
-  });
-}
-
-function hasVisibleParams(modules: [ModuleJSON]) {
-  if (modules == undefined)
-    return false;
-
-  var visibleParams = false;
-  modules.forEach(module => {
-    module.parameters.forEach(parameter => {
-      if (parameter.visible && parameter.type !== "ClickListenerP")
-        visibleParams = true;
-      return visibleParams;
-    });
-  })
-
-  return visibleParams;
-
-}
-
 function getClickListenerParameter(modules: [ModuleJSON]) {
   if (modules == undefined)
     return undefined;
@@ -74,8 +48,8 @@ function getClickListenerParameter(modules: [ModuleJSON]) {
   modules.forEach(module => {
     module.parameters.forEach(parameter => {
       if (parameter.type === "ClickListenerP") {
-          clickParameter = parameter;
-            
+        clickParameter = parameter;
+
         return clickParameter;
 
       }
@@ -85,8 +59,6 @@ function getClickListenerParameter(modules: [ModuleJSON]) {
   return clickParameter;
 
 }
-
-const debouncedProcessGroup = debounce(processGroup, 20);
 
 const awaitConnect = async (awaitConnectConfig) => {
   const {
@@ -99,6 +71,9 @@ const awaitConnect = async (awaitConnectConfig) => {
     setTimeout(async () => {
       if (socketClient.connected) {
         socketClient.subscribe('/user/queue/result', (data) => {
+          requestHasNextGroup();
+          requestHasPreviousGroup();
+
           const response = JSON.parse(data.body);
           const resultJSON = JSON.parse(response.body);
 
@@ -107,45 +82,22 @@ const awaitConnect = async (awaitConnectConfig) => {
           else
             setOverlays(resultJSON.overlays)
 
+          if (resultJSON.message == undefined) {
+            setMessage(undefined)
+          } else {
+            setMessage(resultJSON.message);
+          }
+
           if (resultJSON.image == undefined)
             setImage(undefined)
           else {
-            setStore("imageHash", resultJSON.image.hashcode);
-            setImage(resultJSON.image);
+            setStore("imageHash", resultJSON.image.hashcode)
+            if (resultJSON.image.channels.length !== undefined)
+              setImage(resultJSON.image)
+            setChannelControls(resultJSON.image.showcontrols)
           }
 
-          if (resultJSON.message == undefined)
-            setMessage(undefined)
-          else
-            setMessage(resultJSON.message);
-
-          if (resultJSON.graph == undefined)
-            setGraph(undefined);
-          else
-            setGraph(resultJSON.graph);
-
           setShowNav(true);
-
-          if (hasVisibleParams(currParams))
-            setParams(currParams);
-          else
-            setParams(undefined);
-
-        });
-
-        socketClient.subscribe('/user/queue/parameters', (data) => {
-          requestHasNextGroup();
-          requestHasPreviousGroup();
-
-          const response = JSON.parse(data.body);
-          const paramJson = JSON.parse(response.body);
-          currParams = paramJson.modules;
-
-          var clickParameter = getClickListenerParameter(currParams);
-          if (clickParameter !== undefined)
-            setClickListener(new ClickListener(clickParameter));
-          
-          debouncedProcessGroup();
 
         });
 
@@ -198,57 +150,48 @@ function App() {
     });
   }
 
-  function getParameterName(parameterName: String) {
-    const nameGroups = parameterName.match(/(.+)[[A-Z]{1}\{.+\}]?/);
-    if (nameGroups != null)
-      return nameGroups[1].toString();
-    else
-      return parameterName.toString();
-  }
-
-  function createControls(module: ModuleJSON, parameters: [ParameterJSON]) {
+  function createControls(parameters: [ParameterJSON]) {
     return [
       <For each={parameters}>{(parameter) =>
-        createControl(module, parameter)
+        createControl(parameter)
       }
       </For>
     ]
   }
 
-  function createTextOrSliderInput(module: ModuleJSON, parameter: ParameterJSON) {
+  function createTextOrSliderInput(parameter: ParameterJSON) {
     if (parameter.nickname.match(/(.+)S{(.+)}/) == null)
-      return <TextEntry module={module} parameter={parameter} />
+      return <TextEntry parameter={parameter} />
     else
-      return <Slider module={module} parameter={parameter} />
+      return <Slider parameter={parameter} />
   }
 
-  function createControl(module: ModuleJSON, parameter: ParameterJSON) {
+  function createControl(parameter: ParameterJSON) {
     return [
-      <div class="flex items-center">
-        <Show when={parameter.visible}>
-          <div class="flex-1 p-2">
-            <div class="font-semibold">
-              {getParameterName(parameter.nickname)}
-            </div>
-          </div>
-          <div class="flex-1 flex-end items-center">
-            <Switch>
-              <Match when={parameter.type === "BooleanP"}>
-                <Toggle module={module} parameter={parameter} />
-              </Match>
-              <Match when={parameter.type === "ChoiceP" || parameter.type === "InputImageP" || parameter.type === "InputObjectsP"}>
-                <Choice module={module} parameter={parameter} />
-              </Match>
-              <Match when={parameter.type === "DoubleP" || parameter.type == "IntegerP" || parameter.type == "StringP"}>
-                {createTextOrSliderInput(module, parameter)}
-              </Match>
-              <Match when={parameter.type === "ParameterGroup"}>
-                {createControls(module, parameter.collections)}
-              </Match>
-            </Switch>
-          </div>
-        </Show>
+      <div class="flex items-center" style="display: inline;">
+          <Switch>
+            <Match when={parameter.type === "BooleanP"}>
+              <Toggle parameter={parameter} />
+            </Match>
+            <Match when={parameter.type === "ChoiceP" || parameter.type === "InputImageP" || parameter.type === "InputObjectsP"}>
+              <Choice parameter={parameter} />
+            </Match>
+            <Match when={parameter.type === "DoubleP" || parameter.type == "IntegerP" || parameter.type == "StringP"}>
+              {createTextOrSliderInput(parameter)}
+            </Match>
+            <Match when={parameter.type === "ParameterGroup"}>
+              {createControls(parameter.collections)}
+            </Match>
+          </Switch>
       </div>
+    ]
+  }
+
+  function createGraph(parameter: GraphJSON) {
+    setGraph(parameter)
+
+    return [
+      <Graph graphJSON={graph()} imageJSON={image()}></Graph>
     ]
   }
 
@@ -260,28 +203,26 @@ function App() {
 
       <div class="container grid sm:grid-cols-2 gap-4">
         <Show when={image()}>
-          <Im image={image()!} graph={graph()} setGraph={setGraph} overlays={overlays()} clickListener={clickListener} />
+          <Im image={image()!} channelControls={channelControls()} graph={graph()} setGraph={setGraph} overlays={overlays()} clickListener={clickListener} />
         </Show>
 
         <div class="flex flex-col relative">
           <Show when={message()}>
             <div class="flex-1 text-lg max-w-lg rounded-lg shadow-lg bg-white p-4 animate-in fade-in duration-500">
-              <p style="white-space: pre-line" class="text-black" innerHTML={message()}></p>
-            </div>
-          </Show>
-
-          <Show when={params()}>
-            <div class="flex-1 max-w-lg rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-500">
-              <For each={params()}>{(module) =>
-                createControls(module, module.parameters)
+              <For each={message()}>{(content) =>
+                <Switch>
+                  <Match when={content.type === "graph"}>
+                    {createGraph(content.data as GraphJSON)}
+                  </Match>
+                  <Match when={content.type === "parameter"}>
+                    {createControl(content.data as ParameterJSON)}
+                  </Match>
+                  <Match when={content.type === "text"}>
+                    <span style="white-space: pre-line;" class="text-black" innerHTML={content.data as string}></span>
+                  </Match>
+                </Switch>
               }
               </For>
-            </div>
-          </Show>
-
-          <Show when={graph()}>
-            <div class="flex justify-center flex-auto max-w-lg rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-500">
-              <Graph graphJSON={graph()} imageJSON={image()}></Graph>
             </div>
           </Show>
 

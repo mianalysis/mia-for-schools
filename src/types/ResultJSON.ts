@@ -1,7 +1,5 @@
 type ResultJSON = {
-    "message": string,
+    "message":[MessageJSON],
     "image": ImageJSON,
-    "graph": GraphJSON,
-    "objects": ObjectsJSON,
     "overlays": OverlayJSON
 }

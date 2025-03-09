@@ -11,7 +11,6 @@ import { For } from 'solid-js';
 import type { JSX } from 'solid-js';
 
 interface Props {
-  module: ModuleJSON;
   parameter: ParameterJSON;
 }
 
@@ -46,7 +45,7 @@ export default function Choice(props: Props) {
                   onClick={(event: Event) => {
                     var value = (event.target as Element).innerHTML
                     if (currVal != value) {
-                      sendParameter(props.module.id, props.parameter.name, value, props.parameter.parentGroupName, props.parameter.groupCollectionNumber)
+                      sendParameter(props.parameter.moduleid, props.parameter.name, value, props.parameter.parentGroupName, props.parameter.groupCollectionNumber)
                       currVal = value
                     }
                   }}

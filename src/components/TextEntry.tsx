@@ -1,7 +1,6 @@
 import { sendParameter } from '../lib/util';
 
 interface Props {
-    module: ModuleJSON;
     parameter: ParameterJSON;
 }
 
@@ -16,7 +15,7 @@ export default function TextEntry(props: Props) {
         type="text"
         name="fname"
         value={props.parameter.value}
-        onFocusOut={(e) => sendTextParameter(props.module.id, props.parameter.name, e)}
+        onFocusOut={(e) => sendTextParameter(props.parameter.moduleid, props.parameter.name, e)}
         style="text-align:center" />);
 
 }

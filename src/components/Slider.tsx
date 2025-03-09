@@ -1,7 +1,6 @@
 import { sendParameter } from '../lib/util';
 
 interface Props {
-    module: ModuleJSON;
     parameter: ParameterJSON;
 }
 
@@ -27,6 +26,6 @@ export default function Slider(props: Props) {
         max={groups[2]}
         step={groups[3]}
         value={props.parameter.value}
-        onchange={(e) => sendTextParameter(props.module.id, props.parameter.name, e)} />);
+        onchange={(e) => sendTextParameter(props.parameter.moduleid, props.parameter.name, e)} />);
 
 }
