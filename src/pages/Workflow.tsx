@@ -76,7 +76,15 @@ const awaitConnect = async (awaitConnectConfig) => {
 
           const response = JSON.parse(data.body);
           const resultJSON = JSON.parse(response.body);
-          
+
+          console.log(resultJSON)
+
+          if (resultJSON.modules.length !== undefined) {
+            var clickParameter = getClickListenerParameter(resultJSON.modules);
+            if (clickParameter !== undefined)
+              setClickListener(new ClickListener(clickParameter));
+          }
+
           if (resultJSON.overlays == undefined)
             setOverlays(undefined)
           else
@@ -175,20 +183,20 @@ function App() {
   function createControl(parameter: ParameterJSON) {
     return [
       <div class="flex items-center" style="display: inline;">
-          <Switch>
-            <Match when={parameter.type === "BooleanP"}>
-              <Toggle parameter={parameter} />
-            </Match>
-            <Match when={parameter.type === "ChoiceP" || parameter.type === "InputImageP" || parameter.type === "InputObjectsP"}>
-              <Choice parameter={parameter} />
-            </Match>
-            <Match when={parameter.type === "DoubleP" || parameter.type == "IntegerP" || parameter.type == "StringP"}>
-              {createTextOrSliderInput(parameter)}
-            </Match>
-            <Match when={parameter.type === "ParameterGroup"}>
-              {createControls(parameter.collections)}
-            </Match>
-          </Switch>
+        <Switch>
+          <Match when={parameter.type === "BooleanP"}>
+            <Toggle parameter={parameter} />
+          </Match>
+          <Match when={parameter.type === "ChoiceP" || parameter.type === "InputImageP" || parameter.type === "InputObjectsP"}>
+            <Choice parameter={parameter} />
+          </Match>
+          <Match when={parameter.type === "DoubleP" || parameter.type == "IntegerP" || parameter.type == "StringP"}>
+            {createTextOrSliderInput(parameter)}
+          </Match>
+          <Match when={parameter.type === "ParameterGroup"}>
+            {createControls(parameter.collections)}
+          </Match>
+        </Switch>
       </div>
     ]
   }
@@ -209,7 +217,7 @@ function App() {
 
       <div class="container grid sm:grid-cols-2 gap-4">
         <Show when={image()}>
-          <Im image={image()!} channelControls={channelControls()} graphJSON={graph()} graph={graph} setGraph={setGraph} overlays={overlays()} clickListener={clickListener} />
+          <Im image={image()!} channelControls={channelControls()} graphJSON={graph()} graph={graph} setGraph={setGraph} overlaysJSON={overlays()} overlays={overlays} clickListener={clickListener} />
         </Show>
 
         <div class="flex flex-col relative">

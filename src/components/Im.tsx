@@ -13,7 +13,8 @@ interface Props {
   graphJSON: GraphJSON;
   graph: Function;
   setGraph: Function;
-  overlays: OverlayJSON[];
+  overlays: Function;
+  overlaysJSON: OverlayJSON[];
   clickListener: Function | undefined;
 }
 
@@ -77,11 +78,11 @@ export default function Im(props: Props) {
           setControlState(controlState)
         }
 
-        if (props.overlays != undefined) {
+        if (props.overlaysJSON != undefined) {
           if (overlay() == undefined)
             setOverlay(new Overlay(panelWidth))
           else
-            overlay().drawOverlay(props.overlays)
+            overlay().drawOverlay(props.overlaysJSON)
         } else {
           setOverlay(undefined)
         }
@@ -89,7 +90,7 @@ export default function Im(props: Props) {
         if (props.setGraph != undefined && props.graphJSON != undefined) {
           updateGraphJSON()
           updateGraph()
-          
+
         }
       }
     )
@@ -117,6 +118,14 @@ export default function Im(props: Props) {
             props.graphJSON.data = getImageIntensityHistogramDataJSON();
         }
       }
+    }
+  )
+
+  createEffect(
+    () => {
+      if (props.overlays())
+        if (props.overlaysJSON != undefined && overlay() != undefined && overlay().overlay_canvas != undefined)
+          overlay().drawOverlay(props.overlaysJSON)
     }
   )
 
@@ -318,7 +327,7 @@ export default function Im(props: Props) {
         <div ref={image_region} style="position:relative; width:512px; height:512px" onpointerenter={() => setProbeVisible(true && probeEnabled)} onpointerleave={() => setProbeVisible(false)} onpointermove={e => updateProbe(e)} >
           <canvas ref={image_canvas} class="cursor-default" style="position:absolute; width:100%; height:100%" />
           <Show when={overlay()}>
-            <OverlayComponent overlay={overlay()} overlays={props.overlays}></OverlayComponent>
+            <OverlayComponent overlay={overlay()} overlays={props.overlaysJSON}></OverlayComponent>
           </Show>
         </div>
       </div>
