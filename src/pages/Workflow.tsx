@@ -76,7 +76,7 @@ const awaitConnect = async (awaitConnectConfig) => {
 
           const response = JSON.parse(data.body);
           const resultJSON = JSON.parse(response.body);
-
+          
           if (resultJSON.overlays == undefined)
             setOverlays(undefined)
           else
@@ -95,6 +95,12 @@ const awaitConnect = async (awaitConnectConfig) => {
             if (resultJSON.image.channels.length !== undefined)
               setImage(resultJSON.image)
             setChannelControls(resultJSON.image.showcontrols)
+          }
+
+          if (resultJSON.graph == undefined)
+            setGraph(undefined);
+          else {
+            setGraph(resultJSON.graph)
           }
 
           setShowNav(true);
@@ -187,13 +193,13 @@ function App() {
     ]
   }
 
-  function createGraph(parameter: GraphJSON) {
-    setGraph(parameter)
+  // function createGraph(parameter: GraphJSON) {
+  //   setGraph(parameter)
 
-    return [
-      <Graph graphJSON={graph()} imageJSON={image()}></Graph>
-    ]
-  }
+  //   return [
+  //     <Graph graphJSON={graph()} imageJSON={image()}></Graph>
+  //   ]
+  // }
 
   return (
     <main class="space-y-8">
@@ -203,7 +209,7 @@ function App() {
 
       <div class="container grid sm:grid-cols-2 gap-4">
         <Show when={image()}>
-          <Im image={image()!} channelControls={channelControls()} graph={graph()} setGraph={setGraph} overlays={overlays()} clickListener={clickListener} />
+          <Im image={image()!} channelControls={channelControls()} graphJSON={graph()} graph={graph} setGraph={setGraph} overlays={overlays()} clickListener={clickListener} />
         </Show>
 
         <div class="flex flex-col relative">
@@ -211,9 +217,9 @@ function App() {
             <div class="flex-1 text-lg max-w-lg rounded-lg shadow-lg bg-white p-4 animate-in fade-in duration-500">
               <For each={message()}>{(content) =>
                 <Switch>
-                  <Match when={content.type === "graph"}>
+                  {/* <Match when={content.type === "graph"}>
                     {createGraph(content.data as GraphJSON)}
-                  </Match>
+                  </Match> */}
                   <Match when={content.type === "parameter"}>
                     {createControl(content.data as ParameterJSON)}
                   </Match>
@@ -223,6 +229,12 @@ function App() {
                 </Switch>
               }
               </For>
+            </div>
+          </Show>
+
+          <Show when={graph()}>
+            <div class="flex justify-center flex-auto max-w-lg rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-500">
+              <Graph graphJSON={graph()} imageJSON={image()}></Graph>
             </div>
           </Show>
 

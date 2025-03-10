@@ -10,7 +10,8 @@ import OverlayComponent from './OverlayComponent';
 interface Props {
   image: ImageJSON;
   channelControls: boolean;
-  graph: GraphJSON;
+  graphJSON: GraphJSON;
+  graph: Function;
   setGraph: Function;
   overlays: OverlayJSON[];
   clickListener: Function | undefined;
@@ -85,16 +86,10 @@ export default function Im(props: Props) {
           setOverlay(undefined)
         }
 
-        if (props.setGraph != undefined && props.graph != undefined) {
-          if (props.graph.source === "Channel components")
-            props.graph.data = getChannelComponentsDataJSON();
-          else if (props.graph.source === "Image intensity histogram")
-            props.graph.data = getImageIntensityHistogramDataJSON();
-
-          // SolidJS seems to only update if object itself changes
-          var newGraph: GraphJSON = { source: props.graph.source, data: props.graph.data, type: props.graph.type, showDataLabels: props.graph.showDataLabels, xlabel: props.graph.xlabel, ylabel: props.graph.ylabel };
-          props.setGraph(newGraph);
-
+        if (props.setGraph != undefined && props.graphJSON != undefined) {
+          updateGraphJSON()
+          updateGraph()
+          
         }
       }
     )
@@ -109,6 +104,19 @@ export default function Im(props: Props) {
 
       onCleanup(() => image_region?.removeEventListener("pointerup", (e) => { if (controlState === ControlState.SELECT) props.clickListener().onClick(getPosition(e)) }))
 
+    }
+  )
+
+  createEffect(
+    () => {
+      if (props.graph()) {
+        if (props.setGraph != undefined && props.graphJSON != undefined) {
+          if (props.graphJSON.source === "Channel components")
+            props.graphJSON.data = getChannelComponentsDataJSON();
+          else if (props.graphJSON.source === "Image intensity histogram")
+            props.graphJSON.data = getImageIntensityHistogramDataJSON();
+        }
+      }
     }
   )
 
@@ -168,16 +176,9 @@ export default function Im(props: Props) {
     compositeIm.setChannelBrightness(imagedata, channel, value)
     image_context?.putImageData(imagedata, 0, 0);
 
-    if (props.setGraph != undefined && props.graph != undefined) {
-      if (props.graph.source === "Channel components")
-        props.graph.data = getChannelComponentsDataJSON();
-      else if (props.graph.source === "Image intensity histogram")
-        props.graph.data = getImageIntensityHistogramDataJSON();
-
-      // SolidJS seems to only update if object itself changes
-      var newGraph: GraphJSON = { source: props.graph.source, data: props.graph.data, type: props.graph.type, showDataLabels: props.graph.showDataLabels, xlabel: props.graph.xlabel, ylabel: props.graph.ylabel };
-      props.setGraph(newGraph);
-
+    if (props.setGraph != undefined && props.graphJSON != undefined) {
+      updateGraphJSON()
+      updateGraph()
     }
   }
 
@@ -276,6 +277,21 @@ export default function Im(props: Props) {
           selectRadio.classList.toggle("button-selected");
         break;
     }
+  }
+
+  function updateGraphJSON() {
+    if (props.graphJSON.source === "Channel components")
+      props.graphJSON.data = getChannelComponentsDataJSON();
+    else if (props.graphJSON.source === "Image intensity histogram")
+      props.graphJSON.data = getImageIntensityHistogramDataJSON();
+
+  }
+
+  function updateGraph() {
+    // SolidJS seems to only update if object itself changes
+    var newGraph: GraphJSON = { source: props.graphJSON.source, data: props.graphJSON.data, type: props.graphJSON.type, showDataLabels: props.graphJSON.showDataLabels, xlabel: props.graphJSON.xlabel, ylabel: props.graphJSON.ylabel };
+    props.setGraph(newGraph);
+
   }
 
   return (

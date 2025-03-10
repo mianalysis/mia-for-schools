@@ -24,14 +24,15 @@ export default function Graph(props: Props) {
             () => {
                 const graph_canvas = document.getElementById('chart-canvas') as HTMLCanvasElement;
                 if (chart != undefined && props.imageJSON != undefined
-                    && (props.imageJSON.name != prevImageID
-                        || props.graphJSON.type != prevType
-                        || props.graphJSON.showDataLabels != prevShowDataLabels)) {
+                    // && (props.imageJSON.name != prevImageID
+                    //     || props.graphJSON.type != prevType
+                    //     || props.graphJSON.showDataLabels != prevShowDataLabels)
+                    ) {
                     chart.destroy()
                     chart = undefined
                 }
 
-                if (chart == undefined) {
+                if (chart === undefined) {
                     prevType = props.graphJSON.type;
                     prevShowDataLabels = props.graphJSON.showDataLabels;
                     if (props.imageJSON == undefined)
@@ -47,7 +48,7 @@ export default function Graph(props: Props) {
                                 duration: 0
                             },
                             responsive: true,
-                            // maintainAspectRatio: false,
+                            maintainAspectRatio: false,
                             plugins: {
                                 datalabels: {
                                     display: props.graphJSON.showDataLabels,
