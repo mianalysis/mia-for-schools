@@ -62,8 +62,14 @@ function NavPage() {
       <div class="container m-auto grid sm:grid-cols-2 md:grid-cols-3 gap-4 items-center">
         <For each={workflows()}>{(workflow) =>
           <a href={'./workflow?name=' + workflow.fullname}>
-            <div class="w-full animate-in fade-in duration-200 hover:scale-105" style="position:relative;text-align:center">
+            <div class="w-full animate-in fade-in duration-200 hover:scale-105 overflow-hidden" style="position:relative;text-align:center">
               <img src={workflow.thumbnail} class="justify-center justify-self-center w-full saturate-0 hover:saturate-100 max-w-lg rounded-lg shadow-lg aspect-square content-center" />
+              <Show when={workflow.bannertext.length != 0}>
+                <div
+                  class="absolute transform -rotate-45 bg-pink-600 text-center text-white font-semibold py-1 left-[-42px] top-[26px] w-[170px]">
+                  {workflow.bannertext}
+                </div>
+              </Show>
               <div class={"text-yellow-400 text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)]"} style="pointer-events: none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">{workflow.displayname}</div>
             </div>
           </a>
