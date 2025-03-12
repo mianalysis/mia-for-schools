@@ -1,11 +1,12 @@
 import Panzoom, { PanzoomObject } from '@panzoom/panzoom';
 import { For, Show, createEffect, createSignal, on, onCleanup } from 'solid-js';
-import { store } from '../lib/store';
 import { rgbToHex } from '../lib/util';
 import BrightnessStore from './BrightnessStore';
 import CompositeImage from './CompositeImage';
 import { Overlay } from './Overlay';
 import OverlayComponent from './OverlayComponent';
+import ChannelSlider from './ChannelSlider';
+import ZoomSlider from './ZoomSlider';
 
 interface Props {
   image: ImageJSON;
@@ -191,10 +192,10 @@ export default function Im(props: Props) {
     }
   }
 
-  function updateZoom(event: HTMLInputElement) {
-    var val = parseFloat(event.value)
-    zoomControls()?.zoom(val);
-    currZoom = val
+  function updateZoom(zoomFactor: number) {
+    // var val = parseFloat(event.value)
+    zoomControls()?.zoom(zoomFactor);
+    currZoom = zoomFactor
   }
 
   function updatePan() {
@@ -306,20 +307,20 @@ export default function Im(props: Props) {
   return (
     <div id="image_panel" class="flex flex-col">
       <Show when={probeVisible()}>
-        <div id="probe" class="rounded-lg overflow-hidden shadow-lg bg-white p-2" style="position: absolute; z-index: 97">
+        <div id="probe" class="rounded-lg overflow-visible shadow-lg bg-white p-2" style="position: absolute; z-index: 97">
           <div id="colour_cell" class="rounded-full w-6 h-6 mr-2 border-2 border-black animate-in fade-in" style="position: relative; z-index: 98; display: inline; float:left" />
           <div id="probe_text" style="display:inline; float:right" />
         </div>
       </Show>
-      <div class="flex-none max-w-lg rounded-lg overflow-hidden shadow-lg bg-white" style="position:relative">
+      <div class="flex-none max-w-lg rounded-lg overflow-visible shadow-lg bg-white" style="position:relative">
         <div style="position: absolute; left: 0; z-index: 99" class="group">
-          <button id="probe_radio" class="rounded-lg overflow-hidden shadow-lg bg-white disabled:bg-red-500 opacity-40 group-hover:opacity-100 w-8 h-8 m-2 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" onclick={() => setControlState(ControlState.PROBE)}>
+          <button id="probe_radio" class="rounded-lg overflow-visible shadow-lg bg-white disabled:bg-red-500 opacity-40 group-hover:opacity-100 w-8 h-8 m-2 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" onclick={() => setControlState(ControlState.PROBE)}>
             <img class="h-6 w-6 m-1" src="/images/target.svg" />
           </button>
-          <button id="move_radio" class="button-selected rounded-lg overflow-hidden shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" onclick={() => setControlState(ControlState.MOVE)}>
+          <button id="move_radio" class="button-selected rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" onclick={() => setControlState(ControlState.MOVE)}>
             <img class="h-6 w-6 m-1" src="/images/move.svg" />
           </button>
-          <button id="select_radio" class="button rounded-lg overflow-hidden shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" onclick={() => setControlState(ControlState.SELECT)}>
+          <button id="select_radio" class="button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" onclick={() => setControlState(ControlState.SELECT)}>
             <img class="h-6 w-6 m-1" src="/images/select.svg" />
           </button>
         </div>
@@ -331,41 +332,21 @@ export default function Im(props: Props) {
           </Show>
         </div>
       </div>
-      <div class="flex-1 max-w-lg rounded-lg overflow-hidden shadow-lg bg-white mt-4 animate-in fade-in duration-500">
+      <div class="flex-1 max-w-lg rounded-lg overflow-visible shadow-lg bg-white mt-4 animate-in fade-in duration-500">
         <div>
           <Show when={props.channelControls}>
             <For each={props.image.channels}>{(channel) =>
-              <input
-                id="channel-slider"
-                class="range h-8 w-24 ml-4 mr-4 mt-4 rounded-full appearance-none"
-                style={"background: rgb(" + 3 * channel.red / 4 + "," + 3 * channel.green / 4 + "," + 3 * channel.blue / 4 + "); -webkit-filter: grayscale(0);"}
-                type="range"
-                min={0}
-                max={1}
-                step={0.01}
-                value={BrightnessStore.hasValue(props.image.name, channel.index) ? BrightnessStore.getValue(props.image.name, channel.index) : channel.strength}
-                oninput={(e) => updateBC(parseFloat((e.target as HTMLInputElement).value), channel.index)}
-              />
+              <ChannelSlider image={props.image} channel={channel} updateBC={updateBC}></ChannelSlider>
             }
             </For>
           </Show>
         </div>
 
         <div>
-          <Show when={zoomControls()}>
-            <div class="container m-auto flex ">
-              <img class="flex-none ml-4 mt-4 h-8" src="/images/zoom-svgrepo-com.svg" />
-              <input
-                class="flex-initial range h-8 m-4 w-full rounded-full bg-gray-400 appearance-none"
-                type="range"
-                min="1"
-                max="10"
-                step="0.1"
-                value="1"
-                oninput={(e) => updateZoom(e.target as HTMLInputElement)}
-              />
-            </div>
-          </Show>
+          <div class="container m-auto flex overflow-visible" style={"overflow: visible"}>
+            <img class="flex-none ml-4 mt-5 h-10" src="/images/zoom-svgrepo-com.svg" />
+            <ZoomSlider updateZoom={updateZoom}></ZoomSlider>
+          </div>
         </div>
       </div>
     </div >
