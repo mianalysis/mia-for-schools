@@ -15,7 +15,7 @@ export default function ChannelSlider(props: Props) {
     const start = BrightnessStore.hasValue(props.image.name, props.channel.index) ? BrightnessStore.getValue(props.image.name, props.channel.index)*100 : props.channel.strength*100
 
     onMount(() => {
-        let slider = document.getElementById(sliderId);
+        let slider = document.getElementById(sliderId) as any;
         noUiSlider.create(slider, {
             start: start,
             step: 1,

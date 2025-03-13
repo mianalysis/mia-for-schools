@@ -26,7 +26,7 @@ export default function ParameterSlider(props: Props) {
         decimalPlaces = decimalPlacesGroups[2].toString().length
 
     onMount(() => {
-        let slider = document.getElementById(sliderId);
+        let slider = document.getElementById(sliderId) as any;
         noUiSlider.create(slider, {
           start: props.parameter.value,
           step: parseFloat(groups[3]),

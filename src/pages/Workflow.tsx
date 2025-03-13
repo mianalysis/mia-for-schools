@@ -2,12 +2,11 @@ import { For, Match, Show, Switch, createSignal } from 'solid-js';
 
 import Choice from '../components/Choice';
 import Im from '../components/Im';
-import Slider from '../components/ParameterSlider';
 import TextEntry from '../components/TextEntry';
 import Toggle from '../components/Toggle';
 
 import { socketClient } from '../lib/client';
-import { setStore, store } from '../lib/store';
+import { setStore } from '../lib/store';
 
 import { useLocation } from '@solidjs/router';
 import Graph from '../components/Graph';

@@ -9,7 +9,7 @@ interface Props {
 
 export default function ZoomSlider(props: Props) {
   onMount(() => {
-    let slider = document.getElementById('zoomSlider');
+    let slider = document.getElementById('zoomSlider') as any;
     noUiSlider.create(slider, {
       start: 1,
       step: 0.1,
