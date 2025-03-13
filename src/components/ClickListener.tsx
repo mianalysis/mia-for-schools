@@ -1,4 +1,3 @@
-import { setStore, store } from '../lib/store';
 import { sendParameter } from '../lib/util';
 
 
