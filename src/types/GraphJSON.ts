@@ -3,6 +3,10 @@ type GraphJSON = {
     "data": DataJSON,
     "type": "pie" | "bar",
     "showDataLabels": boolean,
+    "showXAxis": boolean | undefined,
+    "showYAxis": boolean | undefined,
+    "showXGrid": boolean | undefined,
+    "showYGrid": boolean | undefined,
     "xlabel": string,
     "ylabel": string
 }

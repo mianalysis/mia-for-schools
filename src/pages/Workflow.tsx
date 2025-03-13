@@ -2,7 +2,7 @@ import { For, Match, Show, Switch, createSignal } from 'solid-js';
 
 import Choice from '../components/Choice';
 import Im from '../components/Im';
-import Slider from '../components/Slider';
+import Slider from '../components/ParameterSlider';
 import TextEntry from '../components/TextEntry';
 import Toggle from '../components/Toggle';
 
@@ -14,6 +14,7 @@ import Graph from '../components/Graph';
 import MenuBar from '../components/MenuBar';
 import { ClickListener } from '../components/ClickListener';
 import WorkflowNav from '../components/WorkflowNav';
+import ParameterSlider from '../components/ParameterSlider';
 
 const [hasPrevious, setHasPrevious] = createSignal(true);
 const [hasNext, setHasNext] = createSignal(true);
@@ -76,8 +77,6 @@ const awaitConnect = async (awaitConnectConfig) => {
 
           const response = JSON.parse(data.body);
           const resultJSON = JSON.parse(response.body);
-
-          console.log(resultJSON)
 
           if (resultJSON.modules.length !== undefined) {
             var clickParameter = getClickListenerParameter(resultJSON.modules);
@@ -177,7 +176,7 @@ function App() {
     if (parameter.nickname.match(/(.+)S{(.+)}/) == null)
       return <TextEntry parameter={parameter} />
     else
-      return <Slider parameter={parameter} />
+      return <ParameterSlider parameter={parameter} />
   }
 
   function createControl(parameter: ParameterJSON) {

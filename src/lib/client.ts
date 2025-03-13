@@ -18,7 +18,6 @@ export const socketClient = new Client({
   brokerURL,
   onDisconnect: () => {
     window.alert('disconnected');
-    console.log('disconnected');
   },
 });
 

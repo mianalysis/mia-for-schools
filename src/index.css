@@ -118,6 +118,7 @@ svg {
   right: -16px;
   border-radius: 16px;
   overflow: visible;
+  z-index: 100;
 }
 
 .noUi-handle::before,
@@ -133,6 +134,7 @@ svg {
   opacity: 1;
   visibility: hidden;    
   overflow: visible;
+  z-index: 1;
 }
 
 .noUi-handle:hover .noUi-tooltip {

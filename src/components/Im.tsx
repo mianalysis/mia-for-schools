@@ -299,8 +299,7 @@ export default function Im(props: Props) {
 
   function updateGraph() {
     // SolidJS seems to only update if object itself changes
-    var newGraph: GraphJSON = { source: props.graphJSON.source, data: props.graphJSON.data, type: props.graphJSON.type, showDataLabels: props.graphJSON.showDataLabels, xlabel: props.graphJSON.xlabel, ylabel: props.graphJSON.ylabel };
-    props.setGraph(newGraph);
+    props.setGraph(structuredClone(props.graphJSON));
 
   }
 

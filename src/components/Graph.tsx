@@ -10,9 +10,6 @@ interface Props {
 }
 
 let chart = undefined;
-var prevImageID = "";
-var prevType = undefined;
-var prevShowDataLabels = false;
 
 export default function Graph(props: Props) {
     if (props.graphJSON == undefined)
@@ -23,23 +20,12 @@ export default function Graph(props: Props) {
             () => props.graphJSON,
             () => {
                 const graph_canvas = document.getElementById('chart-canvas') as HTMLCanvasElement;
-                if (chart != undefined && props.imageJSON != undefined
-                    // && (props.imageJSON.name != prevImageID
-                    //     || props.graphJSON.type != prevType
-                    //     || props.graphJSON.showDataLabels != prevShowDataLabels)
-                    ) {
+                if (chart != undefined && props.imageJSON != undefined) {
                     chart.destroy()
                     chart = undefined
                 }
 
                 if (chart === undefined) {
-                    prevType = props.graphJSON.type;
-                    prevShowDataLabels = props.graphJSON.showDataLabels;
-                    if (props.imageJSON == undefined)
-                        prevImageID = ""
-                    else
-                        prevImageID = props.imageJSON.name;
-
                     chart = new Chart(graph_canvas, {
                         type: props.graphJSON.type as keyof ChartTypeRegistry,
                         data: props.graphJSON.data,
@@ -48,7 +34,7 @@ export default function Graph(props: Props) {
                                 duration: 0
                             },
                             responsive: true,
-                            maintainAspectRatio: false,
+                            // maintainAspectRatio: false,
                             plugins: {
                                 datalabels: {
                                     display: props.graphJSON.showDataLabels,
@@ -72,6 +58,10 @@ export default function Graph(props: Props) {
                             },
                             scales: {
                                 x: {
+                                    display: props.graphJSON.showXAxis ?? true,
+                                    grid: {
+                                        display: props.graphJSON.showXGrid ?? true
+                                    },
                                     title: {
                                         display: true,
                                         align: 'center',
@@ -85,6 +75,10 @@ export default function Graph(props: Props) {
                                     }
                                 },
                                 y: {
+                                    display: props.graphJSON.showYAxis ?? true,
+                                    grid: {
+                                        display: props.graphJSON.showYGrid ?? true
+                                    },
                                     title: {
                                         display: true,
                                         align: 'center',

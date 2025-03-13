@@ -11,12 +11,12 @@ interface Props {
 }
 
 export default function ChannelSlider(props: Props) {
-    const sliderId = createUniqueId(); // Generate unique ID for each instance
+    const sliderId = createUniqueId();
     const start = BrightnessStore.hasValue(props.image.name, props.channel.index) ? BrightnessStore.getValue(props.image.name, props.channel.index)*100 : props.channel.strength*100
 
     onMount(() => {
-        let channelSlider = document.getElementById(sliderId);
-        noUiSlider.create(channelSlider, {
+        let slider = document.getElementById(sliderId);
+        noUiSlider.create(slider, {
             start: start,
             step: 1,
             connect: true,
@@ -27,7 +27,7 @@ export default function ChannelSlider(props: Props) {
             },
             format: wNumb({ decimals: 0 }),
         })
-        channelSlider.noUiSlider.on("update", function () { props.updateBC(channelSlider.noUiSlider.get()/100, props.channel.index) })
+        slider.noUiSlider.on("update", function () { props.updateBC(slider.noUiSlider.get()/100, props.channel.index) })
 
 
     })
