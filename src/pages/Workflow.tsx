@@ -14,6 +14,7 @@ import MenuBar from '../components/MenuBar';
 import { ClickListener } from '../components/ClickListener';
 import WorkflowNav from '../components/WorkflowNav';
 import ParameterSlider from '../components/ParameterSlider';
+import Button from '../components/Button';
 
 const [hasPrevious, setHasPrevious] = createSignal(true);
 const [hasNext, setHasNext] = createSignal(true);
@@ -184,6 +185,9 @@ function App() {
         <Switch>
           <Match when={parameter.type === "BooleanP"}>
             <Toggle parameter={parameter} />
+          </Match>
+          <Match when={parameter.type === "ClickP"}>
+            <Button parameter={parameter} />
           </Match>
           <Match when={parameter.type === "ChoiceP" || parameter.type === "InputImageP" || parameter.type === "InputObjectsP"}>
             <Choice parameter={parameter} />
