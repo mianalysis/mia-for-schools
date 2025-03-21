@@ -311,7 +311,7 @@ export default function Im(props: Props) {
           <div id="probe_text" style="display:inline; float:right" />
         </div>
       </Show>
-      <div class="flex-none max-w-lg rounded-lg overflow-visible shadow-lg bg-white" style="position:relative">
+      <div class="flex-none rounded-lg overflow-visible shadow-lg bg-white" style="position:relative">
         <div style="position: absolute; left: 0; z-index: 99" class="group">
           <button id="probe_radio" class="rounded-lg overflow-visible shadow-lg bg-white disabled:bg-red-500 opacity-40 group-hover:opacity-100 w-8 h-8 m-2 p-0 border-0 transition duration-150 ease-in-out hover:scale-110" onclick={() => setControlState(ControlState.PROBE)}>
             <img class="h-6 w-6 m-1" src="/images/target.svg" />
@@ -324,8 +324,8 @@ export default function Im(props: Props) {
           </button>
         </div>
 
-        <div ref={image_region} style="position:relative; width:512px; height:512px" onpointerenter={() => setProbeVisible(true && probeEnabled)} onpointerleave={() => setProbeVisible(false)} onpointermove={e => updateProbe(e)} >
-          <canvas ref={image_canvas} class="cursor-default" style="position:absolute; width:100%; height:100%" />
+        <div ref={image_region} class="w-full h-auto" onpointerenter={() => setProbeVisible(true && probeEnabled)} onpointerleave={() => setProbeVisible(false)} onpointermove={e => updateProbe(e)} >
+          <canvas ref={image_canvas} class="w-full  cursor-default"/>
           <Show when={overlay()}>
             <OverlayComponent overlay={overlay()} overlays={props.overlaysJSON}></OverlayComponent>
           </Show>

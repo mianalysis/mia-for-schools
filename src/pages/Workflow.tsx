@@ -249,11 +249,11 @@ function App() {
           </Show>
 
           <Show when={showNav()}>
-            <div class="container m-auto grid grid-cols-2 gap-4 w-full rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-500">
-              <div class="col-start-1">
+            <div class="flex container m-auto grid grid-cols-2 gap-4 w-full rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-500">
+              <div class="flex-1 col-start-1">
                 <WorkflowNav mode="Previous" disabled={!hasPrevious()} />
               </div>
-              <div class="col-start-2">
+              <div class="flex-1 col-start-2">
                 <WorkflowNav mode="Next" disabled={!hasNext()} />
               </div>
             </div>

@@ -30,14 +30,14 @@ export default function WorkflowNav(props: Props) {
     <Switch>
       <Match when={props.mode === "Previous"}>
         <button
-          class=" h-12 w-56 rounded-full bg-violet-500 text-white border-none disabled:opacity-50 disabled:hover:bg-violet-500 transition duration-150 ease-in-out hover:scale-110 disabled:hover:scale-100 hover:bg-orange-500"
+          class="w-full h-12 rounded-full bg-violet-500 text-white border-none disabled:opacity-50 disabled:hover:bg-violet-500 transition duration-150 ease-in-out hover:scale-110 disabled:hover:scale-100 hover:bg-orange-500"
           textContent='Previous'
           onClick={() => debouncedRequestPreviousGroup()}
           disabled={props.disabled} />
       </Match>
       <Match when={props.mode === "Next"}>
         <button
-          class="h-12 w-56 rounded-full bg-violet-500 text-white border-none disabled:opacity-50 disabled:hover:bg-violet-500 transition duration-150 ease-in-out hover:scale-110 disabled:hover:scale-100 hover:bg-orange-500"
+          class="w-full h-12 rounded-full bg-violet-500 text-white border-none disabled:opacity-50 disabled:hover:bg-violet-500 transition duration-150 ease-in-out hover:scale-110 disabled:hover:scale-100 hover:bg-orange-500"
           textContent='Next'
           onClick={() => debouncedRequestNextGroup()}
           disabled={props.disabled} />
