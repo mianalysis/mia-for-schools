@@ -324,15 +324,15 @@ export default function Im(props: Props) {
           </button>
         </div>
 
-        <div ref={image_region} class="w-full h-auto" onpointerenter={() => setProbeVisible(true && probeEnabled)} onpointerleave={() => setProbeVisible(false)} onpointermove={e => updateProbe(e)} >
-          <canvas ref={image_canvas} class="w-full  cursor-default"/>
+        <div ref={image_region} class="w-full h-auto" style="position:relative" onpointerenter={() => setProbeVisible(true && probeEnabled)} onpointerleave={() => setProbeVisible(false)} onpointermove={e => updateProbe(e)} >
+          <canvas ref={image_canvas} class="w-full  cursor-default" style="position:absolute"/>
           <Show when={overlay()}>
             <OverlayComponent overlay={overlay()} overlays={props.overlaysJSON}></OverlayComponent>
           </Show>
         </div>
       </div>
       <div class="flex-1 max-w-lg rounded-lg overflow-visible shadow-lg bg-white mt-4 animate-in fade-in duration-500">
-        <div>
+        <div class="flex">
           <Show when={props.channelControls}>
             <For each={props.image.channels}>{(channel) =>
               <ChannelSlider image={props.image} channel={channel} updateBC={updateBC}></ChannelSlider>
