@@ -203,14 +203,6 @@ function App() {
     ]
   }
 
-  // function createGraph(parameter: GraphJSON) {
-  //   setGraph(parameter)
-
-  //   return [
-  //     <Graph graphJSON={graph()} imageJSON={image()}></Graph>
-  //   ]
-  // }
-
   return (
     <main class="space-y-8">
       <Show when={image() || message() || params() || graph()}>

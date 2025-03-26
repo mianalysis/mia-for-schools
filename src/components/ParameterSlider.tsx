@@ -38,7 +38,7 @@ export default function ParameterSlider(props: Props) {
           },
           format: wNumb({ decimals: decimalPlaces }),
         })
-        slider.noUiSlider.on("change", function () { sendParameter(props.parameter.moduleid, props.parameter.name, slider.noUiSlider.get(), undefined, undefined) })
+        slider.noUiSlider.on("change", function () { sendParameter(props.parameter.moduleid, props.parameter.name, slider.noUiSlider.get(), props.parameter.parentGroupName, props.parameter.groupCollectionNumber) })
     
       })
 

@@ -10,7 +10,7 @@ export class ClickListener {
 
     onClick(position: number[]) {
         var value = Math.round(position[0])+","+Math.round(position[1])
-        sendParameter(this.parameter.moduleid, this.parameter.name, value, undefined, undefined);
+        sendParameter(this.parameter.moduleid, this.parameter.name, value, this.parameter.parentGroupName, this.parameter.groupCollectionNumber);
         
     }
 }
