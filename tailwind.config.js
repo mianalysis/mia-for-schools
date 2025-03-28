@@ -17,4 +17,5 @@ export default {
     },
   },
   plugins: [require("@tailwindcss/forms"), require("tailwindcss-animate")],
+  safelist: [{ pattern: /text-./ }, { pattern: /font-./ }, { pattern: /bg-./ }]
 };

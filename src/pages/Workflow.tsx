@@ -216,17 +216,14 @@ function App() {
 
         <div class="flex flex-col relative">
           <Show when={message()}>
-            <div class="flex-1 text-lg max-w-lg rounded-lg shadow-lg bg-white p-4 animate-in fade-in duration-500">
+            <div class="flex-1 text-xl max-w-lg rounded-lg shadow-lg bg-white p-4 animate-in fade-in duration-500">
               <For each={message()}>{(content) =>
                 <Switch>
-                  {/* <Match when={content.type === "graph"}>
-                    {createGraph(content.data as GraphJSON)}
-                  </Match> */}
                   <Match when={content.type === "parameter"}>
                     {createControl(content.data as ParameterJSON)}
                   </Match>
                   <Match when={content.type === "text"}>
-                    <span style="white-space: pre-line;" class="text-black" innerHTML={content.data as string}></span>
+                    <span style="white-space: pre-line;" innerHTML={content.data as string}></span>
                   </Match>
                 </Switch>
               }
