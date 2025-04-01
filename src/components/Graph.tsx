@@ -105,6 +105,6 @@ export default function Graph(props: Props) {
     )
   );
 
-  return <canvas id="chart-canvas" class="h-16"></canvas>;
+  return <canvas id="chart-canvas" class="max-h-96 max-w-96 self-center"></canvas>;
 }
 0;
