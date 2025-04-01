@@ -1,60 +1,21 @@
-import { Show, createSignal } from 'solid-js';
-import Image from './components/Image';
+import { Route, Router } from "@solidjs/router";
 
-import { debounce } from './lib/util';
-import { socketClient } from './lib/client';
+import WorkflowSelector from './pages/WorkflowSelector';
+import Workflow from './pages/Workflow';
 
 function App() {
-  socketClient.onConnect = () => {
-    socketClient.subscribe('/user/queue/result', (data) => {
-      const response = JSON.parse(data.body);
+    const App = props => ( 
+        <>
+        {props.children}
+        </>
+    )
 
-      // Set the source of the image to the Base64-encoded image data
-      setSource(`data:${response.headers['Content-Type']};base64,${response.body}`);
-      setLoading(false);
-    });
-
-    updateImage();
-  };
-
-  const [threshold, setThreshold] = createSignal(1.0);
-
-  const [loading, setLoading] = createSignal(true);
-  const [source, setSource] = createSignal<string>();
-
-  function onInput(e: InputEvent) {
-    const target = e.target as HTMLInputElement;
-
-    const t = parseFloat(target.value);
-
-    setThreshold(t);
-    debouncedUpdatedImage();
-  }
-
-  const debouncedUpdatedImage = debounce(updateImage, 100);
-
-  function updateImage() {
-    setLoading(true);
-
-    socketClient.publish({
-      destination: '/app/process',
-      body: JSON.stringify({ threshold: threshold() }),
-    });
-  }
-
-  return (
-    <main class="space-y-8">
-      <h1>MIA Demo</h1>
-
-      <Show when={source()}>
-        <Image source={source()!} loading={loading()} />
-      </Show>
-
-      <input type="range" min="0" max="5" step="0.1" value={threshold()} onInput={onInput} />
-
-      <p class="text-[#888] font-mono">Threshold {threshold()}</p>
-    </main>
-  );
+    return (
+        <Router root={App}>
+            <Route path="/" component={WorkflowSelector} />
+            <Route path="/workflow" component={Workflow} />
+        </Router>
+    )
 }
 
-export default App;
+export default App
