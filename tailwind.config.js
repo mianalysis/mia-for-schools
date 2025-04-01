@@ -12,10 +12,10 @@ export default {
         growshrink: {
           '0%, 100%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.05)' },
-        }
-      }
+        },
+      },
     },
   },
-  plugins: [require("@tailwindcss/forms"), require("tailwindcss-animate")],
-  safelist: [{ pattern: /text-./ }, { pattern: /font-./ }, { pattern: /bg-./ }]
+  plugins: [require('@tailwindcss/forms'), require('tailwindcss-animate')],
+  safelist: [{ pattern: /text-./ }, { pattern: /font-./ }, { pattern: /bg-./ }],
 };

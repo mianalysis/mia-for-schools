@@ -5,20 +5,20 @@ import { debounce } from '../lib/util';
 
 interface Props {
   mode: string;
-  disabled: boolean
+  disabled: boolean;
 }
 
 function requestPreviousGroup() {
   socketClient.publish({
     destination: '/app/previousgroup',
-    body: JSON.stringify({})
+    body: JSON.stringify({}),
   });
 }
 
 function requestNextGroup() {
   socketClient.publish({
     destination: '/app/nextgroup',
-    body: JSON.stringify({})
+    body: JSON.stringify({}),
   });
 }
 
@@ -28,19 +28,21 @@ export default function WorkflowNav(props: Props) {
 
   return (
     <Switch>
-      <Match when={props.mode === "Previous"}>
+      <Match when={props.mode === 'Previous'}>
         <button
           class="w-full h-12 rounded-full p-0 bg-violet-500 text-xl text-white border-none disabled:opacity-50 disabled:hover:bg-violet-500 transition duration-150 ease-in-out hover:scale-110 disabled:hover:scale-100 hover:bg-orange-500"
-          textContent='Previous'
+          textContent="Previous"
           onClick={() => debouncedRequestPreviousGroup()}
-          disabled={props.disabled} />
+          disabled={props.disabled}
+        />
       </Match>
-      <Match when={props.mode === "Next"}>
+      <Match when={props.mode === 'Next'}>
         <button
           class="w-full h-12 rounded-full p-0 bg-violet-500 text-xl text-white border-none disabled:opacity-50 disabled:hover:bg-violet-500 transition duration-150 ease-in-out hover:scale-110 disabled:hover:scale-100 hover:bg-orange-500"
-          textContent='Next'
+          textContent="Next"
           onClick={() => debouncedRequestNextGroup()}
-          disabled={props.disabled} />
+          disabled={props.disabled}
+        />
       </Match>
     </Switch>
   );

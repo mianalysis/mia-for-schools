@@ -30,43 +30,36 @@ const [clickListener, setClickListener] = createSignal<ClickListener | undefined
 function requestHasPreviousGroup() {
   socketClient.publish({
     destination: '/app/haspreviousgroup',
-    body: JSON.stringify({})
+    body: JSON.stringify({}),
   });
 }
 
 function requestHasNextGroup() {
   socketClient.publish({
     destination: '/app/hasnextgroup',
-    body: JSON.stringify({})
+    body: JSON.stringify({}),
   });
 }
 
 function getClickListenerParameter(modules: [ModuleJSON]) {
-  if (modules == undefined)
-    return undefined;
+  if (modules == undefined) return undefined;
 
   var clickParameter = undefined;
-  modules.forEach(module => {
-    module.parameters.forEach(parameter => {
-      if (parameter.type === "ClickListenerP") {
+  modules.forEach((module) => {
+    module.parameters.forEach((parameter) => {
+      if (parameter.type === 'ClickListenerP') {
         clickParameter = parameter;
 
         return clickParameter;
-
       }
     });
-  })
+  });
 
   return clickParameter;
-
 }
 
 const awaitConnect = async (awaitConnectConfig) => {
-  const {
-    retries = 3,
-    curr = 0,
-    timeinterval = 100,
-  } = {};
+  const { retries = 3, curr = 0, timeinterval = 100 } = {};
 
   return new Promise((resolve, reject) => {
     setTimeout(async () => {
@@ -80,49 +73,42 @@ const awaitConnect = async (awaitConnectConfig) => {
 
           if (resultJSON.modules.length !== undefined) {
             var clickParameter = getClickListenerParameter(resultJSON.modules);
-            if (clickParameter !== undefined)
-              setClickListener(new ClickListener(clickParameter));
+            if (clickParameter !== undefined) setClickListener(new ClickListener(clickParameter));
           }
 
-          if (resultJSON.overlays == undefined)
-            setOverlays(undefined)
-          else
-            setOverlays(resultJSON.overlays)
+          if (resultJSON.overlays == undefined) setOverlays(undefined);
+          else setOverlays(resultJSON.overlays);
 
           if (resultJSON.message == undefined) {
-            setMessage(undefined)
+            setMessage(undefined);
           } else {
             setMessage(resultJSON.message);
           }
 
-          if (resultJSON.image == undefined)
-            setImage(undefined)
+          if (resultJSON.image == undefined) setImage(undefined);
           else {
-            setStore("imageHash", resultJSON.image.hashcode)
-            if (resultJSON.image.channels.length !== undefined)
-              setImage(resultJSON.image)
-            setChannelControls(resultJSON.image.showcontrols)
+            setStore('imageHash', resultJSON.image.hashcode);
+            if (resultJSON.image.channels.length !== undefined) setImage(resultJSON.image);
+            setChannelControls(resultJSON.image.showcontrols);
           }
 
-          if (resultJSON.graph == undefined)
-            setGraph(undefined);
+          if (resultJSON.graph == undefined) setGraph(undefined);
           else {
-            setGraph(resultJSON.graph)
+            setGraph(resultJSON.graph);
           }
 
           setShowNav(true);
-
         });
 
         socketClient.subscribe('/user/queue/previousstatus', (data) => {
           const response = JSON.parse(data.body);
-          var isTrue = (response.body === 'true')
+          var isTrue = response.body === 'true';
           setHasPrevious(isTrue);
         });
 
         socketClient.subscribe('/user/queue/nextstatus', (data) => {
           const response = JSON.parse(data.body);
-          var isTrue = (response.body === 'true')
+          var isTrue = response.body === 'true';
           setHasNext(isTrue);
         });
 
@@ -153,54 +139,58 @@ function App() {
   setMessage(undefined);
   setShowNav(false);
 
-  if (socketClient.connected)
-    setWorkflow(useLocation().query.name);
+  if (socketClient.connected) setWorkflow(useLocation().query.name);
 
   function setWorkflow(workflowName: String) {
     socketClient.publish({
       destination: '/app/setworkflow',
-      body: JSON.stringify({ workflowName: workflowName })
+      body: JSON.stringify({ workflowName: workflowName }),
     });
   }
 
   function createControls(parameters: [ParameterJSON]) {
-    return [
-      <For each={parameters}>{(parameter) =>
-        createControl(parameter)
-      }
-      </For>
-    ]
+    return [<For each={parameters}>{(parameter) => createControl(parameter)}</For>];
   }
 
   function createTextOrSliderInput(parameter: ParameterJSON) {
-    if (parameter.nickname.match(/(.+)S{(.+)}/) == null)
-      return <TextEntry parameter={parameter} />
-    else
-      return <ParameterSlider parameter={parameter} />
+    if (parameter.nickname.match(/(.+)S{(.+)}/) == null) return <TextEntry parameter={parameter} />;
+    else return <ParameterSlider parameter={parameter} />;
   }
 
   function createControl(parameter: ParameterJSON) {
     return [
       <div class="flex items-center" style="display: inline;">
         <Switch>
-          <Match when={parameter.type === "BooleanP"}>
+          <Match when={parameter.type === 'BooleanP'}>
             <Toggle parameter={parameter} />
           </Match>
-          <Match when={parameter.type === "ClickP"}>
+          <Match when={parameter.type === 'ClickP'}>
             <Button parameter={parameter} />
           </Match>
-          <Match when={parameter.type === "ChoiceP" || parameter.type === "InputImageP" || parameter.type === "InputObjectsP"}>
+          <Match
+            when={
+              parameter.type === 'ChoiceP' ||
+              parameter.type === 'InputImageP' ||
+              parameter.type === 'InputObjectsP'
+            }
+          >
             <Choice parameter={parameter} />
           </Match>
-          <Match when={parameter.type === "DoubleP" || parameter.type == "IntegerP" || parameter.type == "StringP"}>
+          <Match
+            when={
+              parameter.type === 'DoubleP' ||
+              parameter.type == 'IntegerP' ||
+              parameter.type == 'StringP'
+            }
+          >
             {createTextOrSliderInput(parameter)}
           </Match>
-          <Match when={parameter.type === "ParameterGroup"}>
+          <Match when={parameter.type === 'ParameterGroup'}>
             {createControls(parameter.collections)}
           </Match>
         </Switch>
-      </div>
-    ]
+      </div>,
+    ];
   }
 
   return (
@@ -211,22 +201,35 @@ function App() {
 
       <div class="container grid sm:grid-cols-2 gap-4">
         <Show when={image()}>
-          <Im image={image()!} channelControls={channelControls()} graphJSON={graph()} graph={graph} setGraph={setGraph} overlaysJSON={overlays()} overlays={overlays} clickListener={clickListener} />
+          <Im
+            image={image()!}
+            channelControls={channelControls()}
+            graphJSON={graph()}
+            graph={graph}
+            setGraph={setGraph}
+            overlaysJSON={overlays()}
+            overlays={overlays}
+            clickListener={clickListener}
+          />
         </Show>
 
         <div class="flex flex-col relative">
           <Show when={message()}>
             <div class="flex-1 text-xl max-w-lg rounded-lg shadow-lg bg-white p-4 animate-in fade-in duration-500">
-              <For each={message()}>{(content) =>
-                <Switch>
-                  <Match when={content.type === "parameter"}>
-                    {createControl(content.data as ParameterJSON)}
-                  </Match>
-                  <Match when={content.type === "text"}>
-                    <span style="white-space: pre-line;" innerHTML={content.data as string}></span>
-                  </Match>
-                </Switch>
-              }
+              <For each={message()}>
+                {(content) => (
+                  <Switch>
+                    <Match when={content.type === 'parameter'}>
+                      {createControl(content.data as ParameterJSON)}
+                    </Match>
+                    <Match when={content.type === 'text'}>
+                      <span
+                        style="white-space: pre-line;"
+                        innerHTML={content.data as string}
+                      ></span>
+                    </Match>
+                  </Switch>
+                )}
               </For>
             </div>
           </Show>

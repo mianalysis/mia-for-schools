@@ -1,3 +1,4 @@
 enum ControlState {
-    MOVE, PROBE
+  MOVE,
+  PROBE,
 }
