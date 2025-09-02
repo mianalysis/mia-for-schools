@@ -9,18 +9,20 @@ import { socketClient } from '../lib/client';
 import { setStore } from '../lib/store';
 
 import { useLocation } from '@solidjs/router';
+import Button from '../components/Button';
+import { ClickListener } from '../components/ClickListener';
 import Graph from '../components/Graph';
 import MenuBar from '../components/MenuBar';
-import { ClickListener } from '../components/ClickListener';
-import WorkflowNav from '../components/WorkflowNav';
 import ParameterSlider from '../components/ParameterSlider';
-import Button from '../components/Button';
+import WorkflowNav from '../components/WorkflowNav';
+import Background, { getDefaultBackground } from '../components/Background';
 
 const [hasPrevious, setHasPrevious] = createSignal(true);
 const [hasNext, setHasNext] = createSignal(true);
 const [params, setParams] = createSignal<ModuleJSON[]>();
 const [image, setImage] = createSignal<ImageJSON>();
 const [channelControls, setChannelControls] = createSignal(false);
+const [background, setBackground] = createSignal<BackgroundJSON>();
 const [message, setMessage] = createSignal<[MessageJSON]>();
 const [graph, setGraph] = createSignal<GraphJSON | undefined>();
 const [showNav, setShowNav] = createSignal(false);
@@ -76,26 +78,31 @@ const awaitConnect = async (awaitConnectConfig) => {
             if (clickParameter !== undefined) setClickListener(new ClickListener(clickParameter));
           }
 
+          if (resultJSON.background == undefined)
+            setBackground(getDefaultBackground());
+          else
+            setBackground(resultJSON.background);
+
           if (resultJSON.overlays == undefined) setOverlays(undefined);
           else setOverlays(resultJSON.overlays);
 
-          if (resultJSON.message == undefined) {
+          if (resultJSON.message == undefined)
             setMessage(undefined);
-          } else {
+          else
             setMessage(resultJSON.message);
-          }
 
-          if (resultJSON.image == undefined) setImage(undefined);
+          if (resultJSON.image == undefined)
+            setImage(undefined);
           else {
             setStore('imageHash', resultJSON.image.hashcode);
             if (resultJSON.image.channels.length !== undefined) setImage(resultJSON.image);
             setChannelControls(resultJSON.image.showcontrols);
           }
 
-          if (resultJSON.graph == undefined) setGraph(undefined);
-          else {
+          if (resultJSON.graph == undefined)
+            setGraph(undefined);
+          else
             setGraph(resultJSON.graph);
-          }
 
           setShowNav(true);
         });
@@ -194,7 +201,11 @@ function App() {
   }
 
   return (
-    <main class="space-y-8">
+    <main class="space-y-0">
+      <Show when={background()}>
+        <Background backgroundJSON={background()} n={window.innerWidth / 20} />
+      </Show>
+
       <Show when={image() || message() || params() || graph()}>
         <MenuBar title={useLocation().query.name} ismainpage={false} />
       </Show>
@@ -215,7 +226,7 @@ function App() {
 
         <div class="flex flex-col relative">
           <Show when={message()}>
-            <div class="flex-1 text-xl max-w-lg rounded-lg shadow-lg bg-white p-4 animate-in fade-in duration-500">
+            <div class="flex-1 text-xl max-w-lg rounded-lg shadow-lg p-4 animate-in fade-in duration-1000 ease-in-out" style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75); z-index: 1">
               <For each={message()}>
                 {(content) => (
                   <Switch>
@@ -235,13 +246,13 @@ function App() {
           </Show>
 
           <Show when={graph()}>
-            <div class="flex flex-1 justify-center flex-auto rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-500">
+            <div class="flex flex-1 justify-center flex-auto rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-1000 ease-in-out" style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75); z-index: 1">
               <Graph graphJSON={graph()} imageJSON={image()}></Graph>
             </div>
           </Show>
 
           <Show when={showNav()}>
-            <div class="flex container m-auto grid grid-cols-2 gap-4 w-full rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-500">
+            <div class="flex container m-auto grid grid-cols-2 gap-4 w-full rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-1000 ease-in-out" style="backdrop-filter: blur(16px); background-color: rgba(255,255,255,0.75)">
               <div class="flex-1 col-start-1">
                 <WorkflowNav mode="Previous" disabled={!hasPrevious()} />
               </div>

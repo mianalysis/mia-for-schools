@@ -4,8 +4,3 @@ type WorkflowJSON = {
   fullname: string;
   thumbnail: string;
 };
-
-type BannerJSON = {
-  text: string;
-  colour: string;
-};

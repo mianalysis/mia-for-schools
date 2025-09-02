@@ -2,6 +2,8 @@ import { For, Show, createSignal } from 'solid-js';
 
 import { socketClient } from '../lib/client';
 import MenuBar from '../components/MenuBar';
+import Background, { getDefaultBackground } from '../components/Background';
+
 
 const [workflows, setWorkflows] = createSignal<WorkflowJSON[]>();
 
@@ -49,11 +51,12 @@ function NavPage() {
   if (socketClient.connected) requestAvailableWorkflows();
 
   return (
-    <main class="space-y-8">
+    <main class="space-y-0">
       <Show when={workflows()}>
         <MenuBar title="" ismainpage={true} />
       </Show>
-      <h1 class="text-white text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)] w-full animate-in fade-in duration-500">
+      <Background backgroundJSON={getDefaultBackground()} n={window.innerWidth/20} />
+      <h1 class="p-8 text-white text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)] w-full animate-in fade-in duration-500">
         Click a picture to learn more
       </h1>
       <div class="container m-auto grid sm:grid-cols-2 md:grid-cols-3 gap-4 items-center">

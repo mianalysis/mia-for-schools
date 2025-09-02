@@ -340,7 +340,7 @@ export default function Im(props: Props) {
         </div>
       </Show>
       <div
-        class="flex-none rounded-lg overflow-visible shadow-lg bg-white"
+        class="flex-none rounded-lg overflow-visible shadow-lg bg-white animate-in fade-in duration-1000 ease-in-out"
         style="position:relative"
       >
         <div style="position: absolute; left: 0; z-index: 99" class="group">
@@ -369,19 +369,19 @@ export default function Im(props: Props) {
 
         <div
           ref={image_region}
-          class="w-full h-auto"
+          class="w-full h-auto animate-in"
           style="position:relative"
           onpointerenter={() => setProbeVisible(true && probeEnabled)}
           onpointerleave={() => setProbeVisible(false)}
           onpointermove={(e) => updateProbe(e)}
         >
-          <canvas ref={image_canvas} class="w-full  cursor-default" style="position:absolute" />
+          <canvas ref={image_canvas} class="w-full cursor-default" style="position:absolute" />
           <Show when={overlay()}>
             <OverlayComponent overlay={overlay()} overlays={props.overlaysJSON}></OverlayComponent>
           </Show>
         </div>
       </div>
-      <div class="flex-1 max-w-lg rounded-lg overflow-visible shadow-lg bg-white mt-4 animate-in fade-in duration-500">
+      <div class="flex-1 max-w-lg rounded-lg overflow-visible shadow-lg bg-white mt-4 animate-in fade-in duration-1000 ease-in-out" style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75); z-index: 1">
         <div class="flex">
           <Show when={props.channelControls}>
             <For each={props.image.channels}>
