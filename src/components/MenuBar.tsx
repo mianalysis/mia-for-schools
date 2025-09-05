@@ -10,7 +10,7 @@ export default function MenuBar(props: Props) {
     <nav class="w-full top-0 left-0 m-4">
       <div class="px-2 sm:px-6 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
-          <div class="flex flex-1 items-center justify-center sm:items-stretch" style="z-index: 1">
+          <div class="flex flex-1 items-center justify-center sm:items-stretch pb-4" style="z-index: 1">
             <Show when={!props.ismainpage}>
               <a
                 href="./"

@@ -1,13 +1,9 @@
-import { createEffect, createSignal, For } from "solid-js";
-import { hexToRgb } from "../lib/util";
+import { For } from "solid-js";
 
 interface Props {
     backgroundJSON: BackgroundJSON;
     n: number;
 }
-
-  const [backgroundColours, setBackgroundColours] = createSignal<string[]>();
-  
 
 function pickItems(items: string[], n: number) {
     const picked_items: string[] = [];
@@ -82,7 +78,9 @@ export function getDefaultBackground() {
 
         iconPaths: ["images/background/square_sm.png",
             "images/background/square_md.png",
-            "images/background/square_lg.png"]
+            "images/background/square_lg.png",
+            "images/background/cross.png",
+            "images/background/circle.png"]
 
     };
 
@@ -91,8 +89,10 @@ export function getDefaultBackground() {
 }
 
 export default function Background(props: Props) {
-    const items = pickItems(props.backgroundJSON.iconPaths, props.n);
+    if (props.backgroundJSON == undefined)
+        props.backgroundJSON = getDefaultBackground();
 
+    const items = pickItems(props.backgroundJSON.iconPaths, props.n);
     document.body.style.background = `${props.backgroundJSON.colour}`;
 
     return (
@@ -101,7 +101,7 @@ export default function Background(props: Props) {
                 {(src) => {
                     const path = randomPath(window.innerWidth, window.innerHeight);
                     return (
-                        <img class="bg-item"
+                        <img class="bg-item animate-in fade-in duration-1000"
                             src={src}
                             style={{
                                 "offset-path": path,

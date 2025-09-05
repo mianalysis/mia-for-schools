@@ -9,13 +9,13 @@ import { socketClient } from '../lib/client';
 import { setStore } from '../lib/store';
 
 import { useLocation } from '@solidjs/router';
+import Background from '../components/Background';
 import Button from '../components/Button';
 import { ClickListener } from '../components/ClickListener';
 import Graph from '../components/Graph';
-import MenuBar from '../components/MenuBar';
 import ParameterSlider from '../components/ParameterSlider';
 import WorkflowNav from '../components/WorkflowNav';
-import Background, { getDefaultBackground } from '../components/Background';
+import MenuBar from '../components/MenuBar';
 
 const [hasPrevious, setHasPrevious] = createSignal(true);
 const [hasNext, setHasNext] = createSignal(true);
@@ -58,6 +58,7 @@ function getClickListenerParameter(modules: [ModuleJSON]) {
   });
 
   return clickParameter;
+
 }
 
 const awaitConnect = async (awaitConnectConfig) => {
@@ -73,23 +74,18 @@ const awaitConnect = async (awaitConnectConfig) => {
           const response = JSON.parse(data.body);
           const resultJSON = JSON.parse(response.body);
 
-          if (resultJSON.modules.length !== undefined) {
+          if (resultJSON.modules !== undefined && resultJSON.modules.length !== undefined) {
             var clickParameter = getClickListenerParameter(resultJSON.modules);
-            if (clickParameter !== undefined) setClickListener(new ClickListener(clickParameter));
+            if (clickParameter !== undefined)
+              if (clickListener() == undefined)
+                setClickListener(new ClickListener(clickParameter));
           }
 
-          if (resultJSON.background == undefined)
-            setBackground(getDefaultBackground());
-          else
-            setBackground(resultJSON.background);
-
-          if (resultJSON.overlays == undefined) setOverlays(undefined);
-          else setOverlays(resultJSON.overlays);
-
-          if (resultJSON.message == undefined)
-            setMessage(undefined);
-          else
-            setMessage(resultJSON.message);
+          setOverlays(resultJSON.overlays);
+          setBackground(resultJSON.background);
+          setMessage(resultJSON.message);
+          setGraph(resultJSON.graph);
+          setShowNav(true);          
 
           if (resultJSON.image == undefined)
             setImage(undefined);
@@ -98,13 +94,6 @@ const awaitConnect = async (awaitConnectConfig) => {
             if (resultJSON.image.channels.length !== undefined) setImage(resultJSON.image);
             setChannelControls(resultJSON.image.showcontrols);
           }
-
-          if (resultJSON.graph == undefined)
-            setGraph(undefined);
-          else
-            setGraph(resultJSON.graph);
-
-          setShowNav(true);
         });
 
         socketClient.subscribe('/user/queue/previousstatus', (data) => {
@@ -139,10 +128,11 @@ const awaitConnect = async (awaitConnectConfig) => {
 await awaitConnect(undefined);
 
 function App() {
+  setBackground(undefined);
+  setOverlays(undefined);
   setParams(undefined);
   setImage(undefined);
   setGraph(undefined);
-  setOverlays(undefined);
   setMessage(undefined);
   setShowNav(false);
 

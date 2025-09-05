@@ -5,4 +5,5 @@ type ResultJSON = {
   message: [MessageJSON];
   modules: [ModuleJSON];
   overlays: OverlayJSON;
+  workflowName: string;
 };

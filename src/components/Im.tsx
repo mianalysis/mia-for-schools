@@ -127,13 +127,16 @@ export default function Im(props: Props) {
   });
 
   createEffect(() => {
-    if (props.overlays())
-      if (
-        props.overlaysJSON != undefined &&
-        overlay() != undefined &&
-        overlay().overlay_canvas != undefined
-      )
-        overlay().drawOverlay(props.overlaysJSON);
+    if (props.overlays()) {
+      if (props.overlaysJSON != undefined) {
+        if (overlay() == undefined) {
+          var image_panel = document.getElementById('image_panel') as HTMLElement;
+          var panelWidth = image_panel.clientWidth;
+          setOverlay(new Overlay(panelWidth));
+        } else if (overlay().overlay_canvas != undefined)
+          overlay().drawOverlay(props.overlaysJSON);
+      }
+    }
   });
 
   function getChannelComponentsDataJSON() {

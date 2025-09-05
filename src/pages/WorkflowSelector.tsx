@@ -56,7 +56,7 @@ function NavPage() {
         <MenuBar title="" ismainpage={true} />
       </Show>
       <Background backgroundJSON={getDefaultBackground()} n={window.innerWidth/20} />
-      <h1 class="p-8 text-white text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)] w-full animate-in fade-in duration-500">
+      <h1 class="pb-8 text-white text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)] w-full">
         Click a picture to learn more
       </h1>
       <div class="container m-auto grid sm:grid-cols-2 md:grid-cols-3 gap-4 items-center">
@@ -64,7 +64,7 @@ function NavPage() {
           {(workflow) => (
             <a href={'./workflow?name=' + workflow.fullname}>
               <div
-                class="w-full animate-in fade-in duration-200 hover:scale-105 overflow-hidden"
+                class="w-full hover:scale-105 overflow-hidden"
                 style="position:relative;text-align:center"
               >
                 <img
