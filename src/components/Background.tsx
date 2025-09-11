@@ -8,6 +8,9 @@ interface Props {
 function pickItems(items: string[], n: number) {
     const picked_items: string[] = [];
 
+    if (items === undefined)
+        return picked_items;
+
     for (let i = 0; i < n; i++) {
         var idx = Math.floor(Math.random() * items.length);
         picked_items.push(items[idx]);
@@ -89,7 +92,7 @@ export function getDefaultBackground() {
 }
 
 export default function Background(props: Props) {
-    if (props.backgroundJSON == undefined)
+    if (props.backgroundJSON === undefined)
         props.backgroundJSON = getDefaultBackground();
 
     const items = pickItems(props.backgroundJSON.iconPaths, props.n);

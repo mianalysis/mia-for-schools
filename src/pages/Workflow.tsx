@@ -81,6 +81,7 @@ const awaitConnect = async (awaitConnectConfig) => {
                 setClickListener(new ClickListener(clickParameter));
           }
 
+          console.log(resultJSON.overlays);
           setOverlays(resultJSON.overlays);
           setBackground(resultJSON.background);
           setMessage(resultJSON.message);

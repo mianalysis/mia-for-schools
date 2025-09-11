@@ -26,9 +26,60 @@ export class Overlay {
     this.overlay_context.imageSmoothingEnabled = false;
   }
 
+  drawRegionOverlay(region: OverlayRegionJSON, overlay_width: number, overlay_height: number) {
+    switch (region.renderingmode) {
+      case "Fill":
+        this.overlay_context.fillStyle = region.fillcolour;
+        this.overlay_context.strokeStyle = undefined;
+        this.overlay_context.lineWidth = 0;
+        break;
+      case "Outline":
+        this.overlay_context.fillStyle = undefined;
+        this.overlay_context.strokeStyle = region.strokecolour;
+        this.overlay_context.lineWidth = region.linewidth;
+        break;
+    }
+
+    this.overlay_context.beginPath();
+    for (let idx = 0; idx < region.n; idx++) {
+      if (idx == 0) {
+        this.overlay_context.moveTo(
+          (region.x[idx] * overlay_width) / 512,
+          (region.y[idx] * overlay_height) / 512
+        );
+        continue;
+      }
+
+      this.overlay_context.lineTo(
+        (region.x[idx] * overlay_width) / 512,
+        (region.y[idx] * overlay_height) / 512
+      );
+    }
+
+    this.overlay_context.closePath();
+    switch (region.renderingmode) {
+      case "Fill":
+        this.overlay_context.fill();
+        break;
+      case "Outline":
+        this.overlay_context.stroke();
+        break;
+    }
+  }
+
+  drawTextOverlay(label: OverlayTextJSON, overlay_width: number, overlay_height: number) {
+    this.overlay_context.fillStyle = label.fillcolour;
+
+    this.overlay_context.font = label.labelsize.toString() + "px Arial";
+    this.overlay_context.textBaseline = "middle";
+    this.overlay_context.textAlign = "center";
+    this.overlay_context.fillText(label.text, (label.x * overlay_width) / 512, (label.y * overlay_height) / 512);
+
+  }
+
   drawOverlay(overlays: OverlayJSON[]) {
     if (overlays == undefined)
-        return;
+      return;
 
     if (this.overlay_context != undefined)
       this.overlay_context.clearRect(0, 0, this.overlay_canvas.width, this.overlay_canvas.height);
@@ -37,27 +88,15 @@ export class Overlay {
     var overlay_height = this.overlay_canvas.height;
 
     overlays.forEach((overlay) => {
-      overlay.regions.forEach((region) => {
-        this.overlay_context.fillStyle = region.fillcolour;
-        this.overlay_context.beginPath();
-        for (let idx = 0; idx < region.n; idx++) {
-          if (idx == 0) {
-            this.overlay_context.moveTo(
-              (region.x[idx] * overlay_width) / 512,
-              (region.y[idx] * overlay_height) / 512
-            );
-            continue;
-          }
+      if (overlay.regions !== undefined)
+        overlay.regions.forEach((region: OverlayRegionJSON) => {
+          this.drawRegionOverlay(region, overlay_width, overlay_height);
+        });
 
-          this.overlay_context.lineTo(
-            (region.x[idx] * overlay_width) / 512,
-            (region.y[idx] * overlay_height) / 512
-          );
-        }
-
-        this.overlay_context.closePath();
-        this.overlay_context.fill();
-      });
+      if (overlay.labels !== undefined)
+        overlay.labels.forEach((label: OverlayTextJSON) => {
+          this.drawTextOverlay(label, overlay_width, overlay_height);
+        });
     });
   }
 
