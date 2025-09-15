@@ -64,7 +64,7 @@ function NavPage() {
           {(workflow) => (
             <a href={'./workflow?name=' + workflow.fullname}>
               <div
-                class="w-full hover:scale-105 overflow-hidden"
+                class="w-full hover:scale-105 overflow-hidden group animate transition-transform duration-150"
                 style="position:relative;text-align:center"
               >
                 <img
@@ -79,7 +79,7 @@ function NavPage() {
                   </div>
                 </Show>
                 <div
-                  class={'text-yellow-400 text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)]'}
+                  class={'text-yellow-400 text-3xl group-hover:text-blue-400 drop-shadow-[0_2.5px_2.5px_rgba(0,0,0,1)] animate transition-transform duration-150'}
                   style="pointer-events: none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"
                 >
                   {workflow.displayname}
