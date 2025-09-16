@@ -55,7 +55,7 @@ function NavPage() {
       <Show when={workflows()}>
         <MenuBar title="" ismainpage={true} />
       </Show>
-      <Background backgroundJSON={getDefaultBackground()} n={window.innerWidth/20} />
+      <Background backgroundJSON={getDefaultBackground()} n={window.innerWidth / 20} />
       <h1 class="pb-8 text-white text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)] w-full">
         Click a picture to learn more
       </h1>
@@ -67,29 +67,32 @@ function NavPage() {
                 class="w-full hover:scale-105 overflow-hidden group animate transition-transform duration-150"
                 style="position:relative;text-align:center"
               >
-                <img
-                  src={workflow.thumbnail}
-                  class="justify-center justify-self-center w-full saturate-0 hover:saturate-100 max-w-lg rounded-lg shadow-lg aspect-square content-center"
-                />
-                <Show when={Object.keys(workflow.banner).length != 0}>
-                  <div
-                    class={`absolute transform -rotate-45 text-center ${workflow.banner.colour} text-white font-semibold py-1 left-[-42px] top-[26px] w-[170px]`}
-                  >
-                    {workflow.banner.text}
-                  </div>
-                </Show>
-                <div
-                  class={'text-yellow-400 text-3xl group-hover:text-blue-400 drop-shadow-[0_2.5px_2.5px_rgba(0,0,0,1)] animate transition-transform duration-150'}
-                  style="pointer-events: none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"
-                >
-                  {workflow.displayname}
+                <div>
+                  <img
+                    src={workflow.thumbnail}
+                    class="justify-center justify-self-center w-full max-w-lg rounded-lg shadow-lg aspect-square content-center"
+                  />
+                  <div class="bg-white rounded-lg opacity-75 hover:opacity-0 animate transition-opacity duration-150" style="position:absolute; top:0; left:0; width:100%; height:100%"/>
                 </div>
+              <Show when={Object.keys(workflow.banner).length != 0}>
+                <div
+                  class={`absolute transform -rotate-45 text-center ${workflow.banner.colour} text-white font-semibold py-1 left-[-42px] top-[26px] w-[170px]`}
+                >
+                  {workflow.banner.text}
+                </div>
+              </Show>
+              <div
+                class={'text-violet-600 text-3xl group-hover:hidden drop-shadow-[0_1px_1px_rgba(0,0,0,1)] animate transition-transform duration-150'}
+                style="pointer-events: none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"
+              >
+                {workflow.displayname}
               </div>
+            </div>
             </a>
           )}
-        </For>
-      </div>
-    </main>
+      </For>
+    </div>
+    </main >
   );
 }
 
