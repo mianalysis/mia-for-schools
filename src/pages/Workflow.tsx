@@ -81,7 +81,6 @@ const awaitConnect = async (awaitConnectConfig) => {
                 setClickListener(new ClickListener(clickParameter));
           }
 
-          console.log(resultJSON.overlays);
           setOverlays(resultJSON.overlays);
           setBackground(resultJSON.background);
           setMessage(resultJSON.message);
@@ -227,6 +226,7 @@ function App() {
                     <Match when={content.type === 'text'}>
                       <span
                         style="white-space: pre-line;"
+                        class="text-gray-600"
                         innerHTML={content.data as string}
                       ></span>
                     </Match>
