@@ -16,7 +16,7 @@ export class ClickListener {
         this.parameter.parentGroupName,
         this.parameter.groupCollectionNumber
       );
-    }, 100);
+    }, 0);
   }
 
   onClick(position: number[]) {

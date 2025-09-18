@@ -72,6 +72,9 @@ const awaitConnect = async (awaitConnectConfig) => {
           requestHasPreviousGroup();
 
           const response = JSON.parse(data.body);
+          if(response.body === "busy")
+            return;
+
           const resultJSON = JSON.parse(response.body);
 
           if (resultJSON.modules !== undefined && resultJSON.modules.length !== undefined) {
@@ -80,7 +83,7 @@ const awaitConnect = async (awaitConnectConfig) => {
               if (clickListener() == undefined)
                 setClickListener(new ClickListener(clickParameter));
           }
-
+          // console.log(resultJSON);
           setOverlays(resultJSON.overlays);
           setBackground(resultJSON.background);
           setMessage(resultJSON.message);
