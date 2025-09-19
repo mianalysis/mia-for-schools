@@ -37,7 +37,7 @@ export default function ChannelSlider(props: Props) {
   return (
     <div
       id={sliderId}
-      class="flex-1 h-4 ml-4 mr-4 mt-8 rounded-full appearance-none transition duration-150 ease-in-out hover:scale-110 active:scale-110 "
+      class="flex-1 h-4 ml-4 mr-4 mt-8 rounded-full appearance-none transition duration-150 ease-in-out hover:scale-105 active:scale-105 "
       style={
         'background: rgb(' +
         (3 * props.channel.red) / 4 +

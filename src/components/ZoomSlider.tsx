@@ -27,9 +27,9 @@ export default function ZoomSlider(props: Props) {
   });
 
   return (
-    <div
-      id="zoomSlider"
-      class="flex-initial h-4 m-8 w-full rounded-full bg-purple-600 appearance-none transition duration-150 ease-in-out hover:scale-105 active:scale-105 hover:bg-orange-500 active:bg-orange-500"
-    ></div>
+    <div class="container flex overflow-visible rounded-lg shadow-lg bg-white opacity-40 group-hover:opacity-100 w-full m-2 ml-0 transition duration-150 ease-in-out hover:scale-105">
+      <img class="flex-none w-6 m-1" src="/images/zoom-svgrepo-com.svg" />
+      <div id="zoomSlider" class="w-32 ml-2 mr-2 mt-2.5 h-3 rounded-full bg-purple-600 transition duration-150 ease-in-out hover:bg-orange-500 active:bg-orange-500" />
+    </div>
   );
 }

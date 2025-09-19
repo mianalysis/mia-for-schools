@@ -1,16 +1,16 @@
 import Panzoom, { PanzoomObject } from '@panzoom/panzoom';
-import { For, Show, createEffect, createSignal, on, onCleanup } from 'solid-js';
+import { Show, createEffect, createSignal, on, onCleanup } from 'solid-js';
 import { rgbToHex } from '../lib/util';
 import BrightnessStore from './BrightnessStore';
 import CompositeImage from './CompositeImage';
 import { Overlay } from './Overlay';
 import OverlayComponent from './OverlayComponent';
-import ChannelSlider from './ChannelSlider';
+// import ChannelSlider from './ChannelSlider';
 import ZoomSlider from './ZoomSlider';
 
 interface Props {
   image: ImageJSON;
-  channelControls: boolean;
+  // channelControls: boolean;
   graphJSON: GraphJSON;
   graph: Function;
   setGraph: Function;
@@ -31,12 +31,13 @@ export default function Im(props: Props) {
   var panzoom: PanzoomObject;
   var currZoom = 1;
   var currPan = { x: 0, y: 0 };
-  var controlState = ControlState.MOVE;
+  var controlState = ControlState.PROBE;
   var probeEnabled: boolean = false;
   let image_canvas: HTMLCanvasElement;
   let image_region: HTMLDivElement;
 
-  const [zoomControls, setZoomControls] = createSignal<PanzoomObject>();
+  const [showZoomControl, setShowZoomControl] = createSignal(false);
+  const [zoomControl, setZoomControl] = createSignal<PanzoomObject>();
   const [probeVisible, setProbeVisible] = createSignal(false);
   const [overlay, setOverlay] = createSignal<Overlay>();
 
@@ -44,6 +45,14 @@ export default function Im(props: Props) {
     on(
       () => props.image,
       () => {
+          // setStore('imageHash', resultJSON.image.hashcode);
+          // if (resultJSON.image.channels.length !== undefined)
+          //   // setChannelControls(resultJSON.image.showcontrols);
+          
+
+        setShowZoomControl(props.image.showzoomcontrol);
+        console.log(props);
+
         if (props.image.channels.length) {
           // Checking if this has already got assigned brightness values
           if (BrightnessStore.values.has(props.image.name))
@@ -81,7 +90,7 @@ export default function Im(props: Props) {
           panzoom.zoom(currZoom);
           panzoom.pan(currPan.x, currPan.y);
           image_region?.parentElement?.addEventListener('click', updatePan);
-          setZoomControls(panzoom);
+          setZoomControl(panzoom);
           setControlState(controlState);
         }
 
@@ -221,13 +230,13 @@ export default function Im(props: Props) {
 
   function updateZoom(zoomFactor: number) {
     // var val = parseFloat(event.value)
-    zoomControls()?.zoom(zoomFactor);
+    zoomControl()?.zoom(zoomFactor);
     currZoom = zoomFactor;
   }
 
   function updatePan() {
-    currPan.x = zoomControls()?.getPan().x!;
-    currPan.y = zoomControls()?.getPan().y!;
+    currPan.x = zoomControl()?.getPan().x!;
+    currPan.y = zoomControl()?.getPan().y!;
   }
 
   function updateProbe(event: PointerEvent) {
@@ -260,15 +269,15 @@ export default function Im(props: Props) {
   }
 
   function getPosition(event: PointerEvent) {
-    var zoom = zoomControls()?.getScale();
+    var zoom = zoomControl()?.getScale();
     var imagePanel = document.getElementById('image_panel');
     var w = image_canvas.width;
     var h = image_canvas.height;
     var scale = w / imagePanel.clientWidth; // Scale is the same in X and Y
     var imX = (event.pageX - imagePanel.offsetLeft) * scale;
     var imY = (event.pageY - imagePanel.offsetTop) * scale;
-    var x = (w - w / zoom) / 2 + imX / zoom - zoomControls()?.getPan().x;
-    var y = (h - h / zoom) / 2 + imY / zoom - zoomControls()?.getPan().y;
+    var x = (w - w / zoom) / 2 + imX / zoom - zoomControl()?.getPan().x;
+    var y = (h - h / zoom) / 2 + imY / zoom - zoomControl()?.getPan().y;
 
     return [x, y];
   }
@@ -282,8 +291,11 @@ export default function Im(props: Props) {
 
     switch (controlState) {
       case ControlState.MOVE:
+        if (moveRadio === null)
+          break;
+
         probeEnabled = false;
-        zoomControls().setOptions({ disablePan: false, cursor: 'move' });
+        zoomControl().setOptions({ disablePan: false, cursor: 'move' });
         if (!moveRadio.classList.contains('button-selected'))
           moveRadio.classList.toggle('button-selected');
         if (probeRadio.classList.contains('button-selected'))
@@ -293,9 +305,10 @@ export default function Im(props: Props) {
         break;
       case ControlState.PROBE:
         probeEnabled = true;
-        zoomControls().setOptions({ disablePan: true, cursor: 'crosshair' });
-        if (moveRadio.classList.contains('button-selected'))
+        if (moveRadio !== null && moveRadio.classList.contains('button-selected')) {
+          zoomControl().setOptions({ disablePan: true, cursor: 'crosshair' });
           moveRadio.classList.toggle('button-selected');
+        }
         if (!probeRadio.classList.contains('button-selected'))
           probeRadio.classList.toggle('button-selected');
         if (selectRadio.classList.contains('button-selected'))
@@ -303,11 +316,12 @@ export default function Im(props: Props) {
         break;
       case ControlState.SELECT:
         probeEnabled = false;
-        zoomControls().setOptions({ disablePan: true, cursor: 'crosshair' });
         if (probeRadio.classList.contains('button-selected'))
           probeRadio.classList.toggle('button-selected');
-        if (moveRadio.classList.contains('button-selected'))
+        if (moveRadio !== null && moveRadio.classList.contains('button-selected')) {
+          zoomControl().setOptions({ disablePan: true, cursor: 'crosshair' });
           moveRadio.classList.toggle('button-selected');
+        }
         if (!selectRadio.classList.contains('button-selected'))
           selectRadio.classList.toggle('button-selected');
         break;
@@ -342,32 +356,32 @@ export default function Im(props: Props) {
           <div id="probe_text" style="display:inline; float:right" />
         </div>
       </Show>
-      <div
-        class="flex-none rounded-lg overflow-visible shadow-lg bg-white animate-in fade-in duration-1000 ease-in-out"
-        style="position:relative"
-      >
-        <div style="position: absolute; left: 0; z-index: 99" class="group">
+      <div class="flex-none rounded-lg overflow-visible shadow-lg bg-white animate-in fade-in duration-1000 ease-in-out" style="position:relative">
+        <div class="group flex" style="position: absolute; left: 0; z-index: 99">
           <button
             id="probe_radio"
-            class="rounded-lg overflow-visible shadow-lg bg-white disabled:bg-red-500 opacity-40 group-hover:opacity-100 w-8 h-8 m-2 p-0 border-0 transition duration-150 ease-in-out hover:scale-110"
+            class="flex-none button-selected rounded-lg overflow-visible shadow-lg bg-white disabled:bg-red-500 opacity-40 group-hover:opacity-100 w-8 h-8 m-2 p-0 border-0 transition duration-150 ease-in-out hover:scale-110"
             onclick={() => setControlState(ControlState.PROBE)}
           >
             <img class="h-6 w-6 m-1" src="/images/target.svg" />
           </button>
           <button
-            id="move_radio"
-            class="button-selected rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110"
-            onclick={() => setControlState(ControlState.MOVE)}
-          >
-            <img class="h-6 w-6 m-1" src="/images/move.svg" />
-          </button>
-          <button
             id="select_radio"
-            class="button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110"
+            class="flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110"
             onclick={() => setControlState(ControlState.SELECT)}
           >
             <img class="h-6 w-6 m-1" src="/images/select.svg" />
           </button>
+          <Show when={showZoomControl()}>
+            <button
+              id="move_radio"
+              class="flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110"
+              onclick={() => setControlState(ControlState.MOVE)}
+            >
+              <img class="h-6 w-6 m-1" src="/images/move.svg" />
+            </button>
+            <ZoomSlider updateZoom={updateZoom}></ZoomSlider>
+          </Show>
         </div>
 
         <div
@@ -384,8 +398,8 @@ export default function Im(props: Props) {
           </Show>
         </div>
       </div>
-      <div class="flex-1 max-w-lg rounded-lg overflow-visible shadow-lg bg-white mt-4 animate-in fade-in duration-1000 ease-in-out" style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75); z-index: 1">
-        <div class="flex">
+      {/* <div class="flex-1 max-w-lg rounded-lg overflow-visible shadow-lg bg-white mt-4 animate-in fade-in duration-1000 ease-in-out" style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75); z-index: 1">
+        <div class="flex ml-4 mr-4">
           <Show when={props.channelControls}>
             <For each={props.image.channels}>
               {(channel) => (
@@ -398,14 +412,7 @@ export default function Im(props: Props) {
             </For>
           </Show>
         </div>
-
-        <div>
-          <div class="container m-auto flex overflow-visible" style={'overflow: visible'}>
-            <img class="flex-none ml-4 mt-5 h-10" src="/images/zoom-svgrepo-com.svg" />
-            <ZoomSlider updateZoom={updateZoom}></ZoomSlider>
-          </div>
-        </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -6,7 +6,7 @@ import TextEntry from '../components/TextEntry';
 import Toggle from '../components/Toggle';
 
 import { socketClient } from '../lib/client';
-import { setStore } from '../lib/store';
+// import { setStore } from '../lib/store';
 
 import { useLocation } from '@solidjs/router';
 import Background from '../components/Background';
@@ -21,7 +21,7 @@ const [hasPrevious, setHasPrevious] = createSignal(true);
 const [hasNext, setHasNext] = createSignal(true);
 const [params, setParams] = createSignal<ModuleJSON[]>();
 const [image, setImage] = createSignal<ImageJSON>();
-const [channelControls, setChannelControls] = createSignal(false);
+// const [channelControls, setChannelControls] = createSignal(false);
 const [background, setBackground] = createSignal<BackgroundJSON>();
 const [message, setMessage] = createSignal<[MessageJSON]>();
 const [graph, setGraph] = createSignal<GraphJSON | undefined>();
@@ -72,7 +72,7 @@ const awaitConnect = async (awaitConnectConfig) => {
           requestHasPreviousGroup();
 
           const response = JSON.parse(data.body);
-          if(response.body === "busy")
+          if (response.body === "busy")
             return;
 
           const resultJSON = JSON.parse(response.body);
@@ -88,15 +88,8 @@ const awaitConnect = async (awaitConnectConfig) => {
           setBackground(resultJSON.background);
           setMessage(resultJSON.message);
           setGraph(resultJSON.graph);
-          setShowNav(true);          
-
-          if (resultJSON.image == undefined)
-            setImage(undefined);
-          else {
-            setStore('imageHash', resultJSON.image.hashcode);
-            if (resultJSON.image.channels.length !== undefined) setImage(resultJSON.image);
-            setChannelControls(resultJSON.image.showcontrols);
-          }
+          setShowNav(true);
+          setImage(resultJSON.image);
         });
 
         socketClient.subscribe('/user/queue/previousstatus', (data) => {
@@ -199,25 +192,26 @@ function App() {
         <Background backgroundJSON={background()} n={window.innerWidth / 20} />
       </Show>
 
-      <Show when={image() || message() || params() || graph()}>
-        <MenuBar title={useLocation().query.name} ismainpage={false} />
-      </Show>
-
       <div class="container grid sm:grid-cols-2 gap-4">
-        <Show when={image()}>
-          <Im
-            image={image()!}
-            channelControls={channelControls()}
-            graphJSON={graph()}
-            graph={graph}
-            setGraph={setGraph}
-            overlaysJSON={overlays()}
-            overlays={overlays}
-            clickListener={clickListener}
-          />
-        </Show>
+        <div class="flex flex-col">
+          <div class="flex-1 text-xl max-w-lg rounded-lg shadow-lg p-4 mb-4 animate-in fade-in duration-1000 ease-in-out" style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75); z-index: 1">
+            <MenuBar title={useLocation().query.name} ismainpage={false} />
+          </div>
+          <Show when={image()}>
+            <Im
+              image={image()!}
+              // channelControls={channelControls()}
+              graphJSON={graph()}
+              graph={graph}
+              setGraph={setGraph}
+              overlaysJSON={overlays()}
+              overlays={overlays}
+              clickListener={clickListener}
+            />
+          </Show>
+        </div>
 
-        <div class="flex flex-col relative">
+        <div class="flex flex-col">
           <Show when={message()}>
             <div class="flex-1 text-xl max-w-lg rounded-lg shadow-lg p-4 animate-in fade-in duration-1000 ease-in-out" style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75); z-index: 1">
               <For each={message()}>

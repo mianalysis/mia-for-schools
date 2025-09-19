@@ -112,11 +112,11 @@ svg {
 }
 
 .noUi-handle {
-  height: 32px;
-  width: 32px;
-  top: -8px;
-  right: -16px;
-  border-radius: 16px;
+  height: 1.5rem !important;
+  width: 1.5rem !important;
+  top: -0.5rem !important;
+  right: -0.75rem !important;
+  border-radius: 50%;
   overflow: visible;
   z-index: 100;
 }
@@ -128,7 +128,10 @@ svg {
 }
 
 .noUi-tooltip {
+  top: 120% !important;
+  bottom: auto !important;
   background-color: white;
+  border-radius: 25%;
   /* border: none; */
   /* top: -32px; */
   opacity: 1;
