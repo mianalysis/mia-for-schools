@@ -19,7 +19,7 @@ import MenuBar from '../components/MenuBar';
 
 const [hasPrevious, setHasPrevious] = createSignal(true);
 const [hasNext, setHasNext] = createSignal(true);
-const [params, setParams] = createSignal<ModuleJSON[]>();
+// const [params, setParams] = createSignal<ModuleJSON[]>();
 const [image, setImage] = createSignal<ImageJSON>();
 // const [channelControls, setChannelControls] = createSignal(false);
 const [background, setBackground] = createSignal<BackgroundJSON>();
@@ -126,7 +126,7 @@ await awaitConnect(undefined);
 function App() {
   setBackground(undefined);
   setOverlays(undefined);
-  setParams(undefined);
+  // setParams(undefined);
   setImage(undefined);
   setGraph(undefined);
   setMessage(undefined);

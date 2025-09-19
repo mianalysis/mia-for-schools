@@ -208,25 +208,25 @@ export default function Im(props: Props) {
     return dataJSON;
   }
 
-  function updateBC(value: number, channel: number) {
-    BrightnessStore.updateValue(props.image.name, channel, value);
+  // function updateBC(value: number, channel: number) {
+  //   BrightnessStore.updateValue(props.image.name, channel, value);
 
-    var imagedata = image_context?.getImageData(
-      0,
-      0,
-      compositeIm.getWidth(),
-      compositeIm.getHeight()
-    )!;
-    if (imagedata == null) return;
+  //   var imagedata = image_context?.getImageData(
+  //     0,
+  //     0,
+  //     compositeIm.getWidth(),
+  //     compositeIm.getHeight()
+  //   )!;
+  //   if (imagedata == null) return;
 
-    compositeIm.setChannelBrightness(imagedata, channel, value);
-    image_context?.putImageData(imagedata, 0, 0);
+  //   compositeIm.setChannelBrightness(imagedata, channel, value);
+  //   image_context?.putImageData(imagedata, 0, 0);
 
-    if (props.setGraph != undefined && props.graphJSON != undefined) {
-      updateGraphJSON();
-      updateGraph();
-    }
-  }
+  //   if (props.setGraph != undefined && props.graphJSON != undefined) {
+  //     updateGraphJSON();
+  //     updateGraph();
+  //   }
+  // }
 
   function updateZoom(zoomFactor: number) {
     // var val = parseFloat(event.value)
