@@ -28,14 +28,14 @@ export default function Choice(props: Props) {
           >
             <PopoverPanel
               unmount={false}
-              class="absolute z-10 px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 lg:max-w-3xl"
+              class="absolute z-100 px-4 mt-3 transform -translate-x-1/2 left-1/2 sm:px-0 lg:max-w-3xl"
             >
-              <Menu class="overflow-hidden w-64 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white flex flex-col space-y-1 p-1">
+              <Menu class="w-64 z-100 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white flex flex-col space-y-1 p-1">
                 <For each={props.parameter.choices}>
                   {(choice) => (
                     <MenuItem
                       as="button"
-                      class="p-1 text-left rounded-lg hover:bg-purple-600 hover:text-white"
+                      class="p-1 z-100 text-left rounded-lg hover:bg-purple-600 hover:text-white"
                       onClick={(event: Event) => {
                         var value = (event.target as Element).innerHTML;
                         if (currVal != value) {

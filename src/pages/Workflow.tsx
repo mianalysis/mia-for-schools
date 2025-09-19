@@ -234,7 +234,7 @@ function App() {
           </Show>
 
           <Show when={graph()}>
-            <div class="flex flex-1 justify-center flex-auto rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-1000 ease-in-out" style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75); z-index: 1">
+            <div class="flex flex-1 justify-center flex-auto rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-1000 ease-in-out" style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75)">
               <Graph graphJSON={graph()} imageJSON={image()}></Graph>
             </div>
           </Show>
