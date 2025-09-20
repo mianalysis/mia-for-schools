@@ -1,9 +1,12 @@
 type ImageJSON = {
   channels: [ChannelJSON];
   name: string;
-  showchannelcontrols: boolean;
-  showzoomcontrol: boolean;
   hashcode: string;
+  showchannelcontrols: boolean;
+  showprobecontrol: boolean;
+  showselectcontrol: boolean;
+  showzoomcontrol: boolean;
+  defaultcontrol: "Move" | "Probe" | "Select";
 };
 
 type ChannelJSON = {

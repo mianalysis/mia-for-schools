@@ -35,18 +35,21 @@ export default function ChannelSlider(props: Props) {
   });
 
   return (
-    <div
-      id={sliderId}
-      class="flex-1 h-4 ml-4 mr-4 mt-8 rounded-full appearance-none transition duration-150 ease-in-out hover:scale-105 active:scale-105 "
-      style={
-        'background: rgb(' +
-        (3 * props.channel.red) / 4 +
-        ',' +
-        (3 * props.channel.green) / 4 +
-        ',' +
-        (3 * props.channel.blue) / 4 +
-        ');'
-      }
-    ></div>
+    <div class="slider-tooltip-above container flex overflow-visible rounded-lg shadow-lg bg-white opacity-40 group-hover:opacity-100 w-full m-2 ml-0 transition duration-150 ease-in-out hover:scale-105">
+      <img class="flex-none w-6 m-1" src="/images/brightness-svgrepo-com.svg" />
+      <div
+        id={sliderId}
+        class="w-full ml-1 mr-3 mt-2.5 h-3 rounded-full"
+        style={
+          'background: rgb(' +
+          (3 * props.channel.red) / 4 +
+          ',' +
+          (3 * props.channel.green) / 4 +
+          ',' +
+          (3 * props.channel.blue) / 4 +
+          ');'
+        }
+      ></div>
+    </div>
   );
 }

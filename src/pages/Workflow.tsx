@@ -21,7 +21,6 @@ const [hasPrevious, setHasPrevious] = createSignal(true);
 const [hasNext, setHasNext] = createSignal(true);
 // const [params, setParams] = createSignal<ModuleJSON[]>();
 const [image, setImage] = createSignal<ImageJSON>();
-// const [channelControls, setChannelControls] = createSignal(false);
 const [background, setBackground] = createSignal<BackgroundJSON>();
 const [message, setMessage] = createSignal<[MessageJSON]>();
 const [graph, setGraph] = createSignal<GraphJSON | undefined>();
@@ -83,7 +82,7 @@ const awaitConnect = async (awaitConnectConfig) => {
               if (clickListener() == undefined)
                 setClickListener(new ClickListener(clickParameter));
           }
-          // console.log(resultJSON);
+          
           setOverlays(resultJSON.overlays);
           setBackground(resultJSON.background);
           setMessage(resultJSON.message);
@@ -194,13 +193,14 @@ function App() {
 
       <div class="container grid sm:grid-cols-2 gap-4">
         <div class="flex flex-col">
-          <div class="flex-1 text-xl max-w-lg rounded-lg shadow-lg p-4 mb-4 animate-in fade-in duration-1000 ease-in-out" style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75); z-index: 1">
-            <MenuBar title={useLocation().query.name} ismainpage={false} />
-          </div>
+          <Show when={image() || message() || graph()}>
+            <div class="flex-1 text-xl max-w-lg rounded-lg shadow-lg p-4 mb-4 animate-in fade-in duration-1000 ease-in-out" style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75); z-index: 1">
+              <MenuBar title={useLocation().query.name} ismainpage={false} />
+            </div>
+          </Show>
           <Show when={image()}>
             <Im
               image={image()!}
-              // channelControls={channelControls()}
               graphJSON={graph()}
               graph={graph}
               setGraph={setGraph}

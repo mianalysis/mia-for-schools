@@ -1,5 +1,5 @@
 import Panzoom, { PanzoomObject } from '@panzoom/panzoom';
-import { Show, createEffect, createSignal, on, onCleanup } from 'solid-js';
+import { For, Show, createEffect, createSignal, on, onCleanup } from 'solid-js';
 import { rgbToHex } from '../lib/util';
 import BrightnessStore from './BrightnessStore';
 import CompositeImage from './CompositeImage';
@@ -7,10 +7,10 @@ import { Overlay } from './Overlay';
 import OverlayComponent from './OverlayComponent';
 // import ChannelSlider from './ChannelSlider';
 import ZoomSlider from './ZoomSlider';
+import ChannelSlider from './ChannelSlider';
 
 interface Props {
   image: ImageJSON;
-  // channelControls: boolean;
   graphJSON: GraphJSON;
   graph: Function;
   setGraph: Function;
@@ -36,6 +36,8 @@ export default function Im(props: Props) {
   let image_canvas: HTMLCanvasElement;
   let image_region: HTMLDivElement;
 
+  const [showProbeControl, setShowProbeControl] = createSignal(false);
+  const [showSelectControl, setShowSelectControl] = createSignal(false);
   const [showZoomControl, setShowZoomControl] = createSignal(false);
   const [zoomControl, setZoomControl] = createSignal<PanzoomObject>();
   const [probeVisible, setProbeVisible] = createSignal(false);
@@ -45,13 +47,9 @@ export default function Im(props: Props) {
     on(
       () => props.image,
       () => {
-          // setStore('imageHash', resultJSON.image.hashcode);
-          // if (resultJSON.image.channels.length !== undefined)
-          //   // setChannelControls(resultJSON.image.showcontrols);
-          
-
+        setShowProbeControl(props.image.showprobecontrol);
+        setShowSelectControl(props.image.showselectcontrol);
         setShowZoomControl(props.image.showzoomcontrol);
-        console.log(props);
 
         if (props.image.channels.length) {
           // Checking if this has already got assigned brightness values
@@ -91,8 +89,9 @@ export default function Im(props: Props) {
           panzoom.pan(currPan.x, currPan.y);
           image_region?.parentElement?.addEventListener('click', updatePan);
           setZoomControl(panzoom);
-          setControlState(controlState);
         }
+
+        setControlStateByName(props.image.defaultcontrol);
 
         if (props.overlaysJSON != undefined) {
           if (overlay() == undefined) setOverlay(new Overlay(panelWidth));
@@ -208,25 +207,25 @@ export default function Im(props: Props) {
     return dataJSON;
   }
 
-  // function updateBC(value: number, channel: number) {
-  //   BrightnessStore.updateValue(props.image.name, channel, value);
+  function updateBC(value: number, channel: number) {
+    BrightnessStore.updateValue(props.image.name, channel, value);
 
-  //   var imagedata = image_context?.getImageData(
-  //     0,
-  //     0,
-  //     compositeIm.getWidth(),
-  //     compositeIm.getHeight()
-  //   )!;
-  //   if (imagedata == null) return;
+    var imagedata = image_context?.getImageData(
+      0,
+      0,
+      compositeIm.getWidth(),
+      compositeIm.getHeight()
+    )!;
+    if (imagedata == null) return;
 
-  //   compositeIm.setChannelBrightness(imagedata, channel, value);
-  //   image_context?.putImageData(imagedata, 0, 0);
+    compositeIm.setChannelBrightness(imagedata, channel, value);
+    image_context?.putImageData(imagedata, 0, 0);
 
-  //   if (props.setGraph != undefined && props.graphJSON != undefined) {
-  //     updateGraphJSON();
-  //     updateGraph();
-  //   }
-  // }
+    if (props.setGraph != undefined && props.graphJSON != undefined) {
+      updateGraphJSON();
+      updateGraph();
+    }
+  }
 
   function updateZoom(zoomFactor: number) {
     // var val = parseFloat(event.value)
@@ -280,6 +279,21 @@ export default function Im(props: Props) {
     var y = (h - h / zoom) / 2 + imY / zoom - zoomControl()?.getPan().y;
 
     return [x, y];
+
+  }
+
+  function setControlStateByName(newControlState: string) {
+    switch (newControlState) {
+      case "Move":
+        setControlState(ControlState.MOVE);
+        break;
+      case "Probe":
+        setControlState(ControlState.PROBE);
+        break;
+      case "Select":
+        setControlState(ControlState.SELECT);
+        break;
+    }
   }
 
   function setControlState(newControlState: ControlState) {
@@ -291,11 +305,12 @@ export default function Im(props: Props) {
 
     switch (controlState) {
       case ControlState.MOVE:
+        probeEnabled = false;
+        zoomControl().setOptions({ disablePan: false, cursor: 'move' });
+
         if (moveRadio === null)
           break;
 
-        probeEnabled = false;
-        zoomControl().setOptions({ disablePan: false, cursor: 'move' });
         if (!moveRadio.classList.contains('button-selected'))
           moveRadio.classList.toggle('button-selected');
         if (probeRadio.classList.contains('button-selected'))
@@ -305,10 +320,13 @@ export default function Im(props: Props) {
         break;
       case ControlState.PROBE:
         probeEnabled = true;
-        if (moveRadio !== null && moveRadio.classList.contains('button-selected')) {
-          zoomControl().setOptions({ disablePan: true, cursor: 'crosshair' });
+        zoomControl().setOptions({ disablePan: true, cursor: 'crosshair' });
+
+        if (probeRadio === null)
+          break;
+
+        if (moveRadio.classList.contains('button-selected'))
           moveRadio.classList.toggle('button-selected');
-        }
         if (!probeRadio.classList.contains('button-selected'))
           probeRadio.classList.toggle('button-selected');
         if (selectRadio.classList.contains('button-selected'))
@@ -316,12 +334,15 @@ export default function Im(props: Props) {
         break;
       case ControlState.SELECT:
         probeEnabled = false;
+        zoomControl().setOptions({ disablePan: true, cursor: 'crosshair' });
+
+        if (selectRadio === null)
+          break;
+
         if (probeRadio.classList.contains('button-selected'))
           probeRadio.classList.toggle('button-selected');
-        if (moveRadio !== null && moveRadio.classList.contains('button-selected')) {
-          zoomControl().setOptions({ disablePan: true, cursor: 'crosshair' });
+        if (moveRadio.classList.contains('button-selected'))
           moveRadio.classList.toggle('button-selected');
-        }
         if (!selectRadio.classList.contains('button-selected'))
           selectRadio.classList.toggle('button-selected');
         break;
@@ -356,31 +377,50 @@ export default function Im(props: Props) {
           <div id="probe_text" style="display:inline; float:right" />
         </div>
       </Show>
-      <div class="flex-none rounded-lg overflow-visible shadow-lg bg-white animate-in fade-in duration-1000 ease-in-out" style="position:relative">
-        <div class="group flex" style="position: absolute; left: 0; z-index: 99">
-          <button
-            id="probe_radio"
-            class="flex-none button-selected rounded-lg overflow-visible shadow-lg bg-white disabled:bg-red-500 opacity-40 group-hover:opacity-100 w-8 h-8 m-2 p-0 border-0 transition duration-150 ease-in-out hover:scale-110"
-            onclick={() => setControlState(ControlState.PROBE)}
-          >
-            <img class="h-6 w-6 m-1" src="/images/target.svg" />
-          </button>
-          <button
-            id="select_radio"
-            class="flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110"
-            onclick={() => setControlState(ControlState.SELECT)}
-          >
-            <img class="h-6 w-6 m-1" src="/images/select.svg" />
-          </button>
+
+      <div class="flex-none rounded-lg overflow-visible shadow-lg animate-in fade-in duration-1000 ease-in-out" style="position:relative">
+        <div class="group flex w-full ml-2 pr-2" style="position: absolute; left: 0; z-index: 99">
+          <Show when={showProbeControl()}>
+            <button
+              id="probe_radio"
+              class={`${props.image.defaultcontrol === "Probe" ? "button-selected" : "button"} flex-none rounded-lg overflow-visible shadow-lg bg-white disabled:bg-red-500 opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110`}
+              onclick={() => setControlState(ControlState.PROBE)}
+            >
+              <img class="h-6 w-6 m-1" src="/images/target.svg" />
+            </button>
+          </Show>
+          <Show when={showSelectControl()}>
+            <button
+              id="select_radio"
+              class={`${props.image.defaultcontrol === "Select" ? "button-selected" : "button"} flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110`}
+              onclick={() => setControlState(ControlState.SELECT)}
+            >
+              <img class="h-6 w-6 m-1" src="/images/select.svg" />
+            </button>
+          </Show>
           <Show when={showZoomControl()}>
             <button
               id="move_radio"
-              class="flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110"
+              class={`${props.image.defaultcontrol === "Move" ? "button-selected" : "button"} flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110`}
               onclick={() => setControlState(ControlState.MOVE)}
             >
               <img class="h-6 w-6 m-1" src="/images/move.svg" />
             </button>
             <ZoomSlider updateZoom={updateZoom}></ZoomSlider>
+          </Show>
+        </div>
+
+        <div class="group flex w-full ml-2 pr-2" style="position: absolute; left: 0; bottom:0; z-index: 99">
+          <Show when={props.image.showchannelcontrols}>
+            <For each={props.image.channels}>
+              {(channel) => (
+                <ChannelSlider
+                  image={props.image}
+                  channel={channel}
+                  updateBC={updateBC}
+                ></ChannelSlider>
+              )}
+            </For>
           </Show>
         </div>
 
@@ -398,21 +438,9 @@ export default function Im(props: Props) {
           </Show>
         </div>
       </div>
-      {/* <div class="flex-1 max-w-lg rounded-lg overflow-visible shadow-lg bg-white mt-4 animate-in fade-in duration-1000 ease-in-out" style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75); z-index: 1">
-        <div class="flex ml-4 mr-4">
-          <Show when={props.channelControls}>
-            <For each={props.image.channels}>
-              {(channel) => (
-                <ChannelSlider
-                  image={props.image}
-                  channel={channel}
-                  updateBC={updateBC}
-                ></ChannelSlider>
-              )}
-            </For>
-          </Show>
-        </div>
-      </div> */}
+      <div class="flex ml-4 mr-4">
+
+      </div>
     </div>
   );
 }

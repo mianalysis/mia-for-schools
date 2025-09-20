@@ -65,7 +65,7 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+/* button {
   border-radius: 8px;
   border: 1px solid rgb(75 85 99);
   padding: 0.6em 1.2em;
@@ -75,16 +75,16 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-}
+} */
 
-button:hover {
+/* button:hover {
   border-color: #646cff;
-}
+} */
 
-button:focus,
+/* button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
+} */
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -112,11 +112,13 @@ svg {
 }
 
 .noUi-handle {
-  height: 1.5rem !important;
-  width: 1.5rem !important;
-  top: -0.5rem !important;
-  right: -0.75rem !important;
-  border-radius: 50%;
+  height: 1.25rem !important;
+  width: 1rem !important;
+  top: -0.29rem !important;
+  right: -0.5rem !important;
+  border-color: #555555;
+  border-width: 2px;
+  border-radius: 40%;
   overflow: visible;
   z-index: 100;
 }
@@ -127,13 +129,21 @@ svg {
   overflow: visible;
 }
 
+.slider-tooltip-above .noUi-tooltip {
+  top: auto !important;
+  bottom: 180% !important;
+}
+
+.slider-tooltip-below .noUi-tooltip {
+  top: 180% !important;
+  bottom: auto !important;
+}
+
 .noUi-tooltip {
   top: 120% !important;
   bottom: auto !important;
   background-color: white;
   border-radius: 25%;
-  /* border: none; */
-  /* top: -32px; */
   opacity: 1;
   visibility: hidden;
   overflow: visible;
