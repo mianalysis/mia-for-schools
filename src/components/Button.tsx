@@ -7,7 +7,7 @@ interface Props {
 export default function Button(props: Props) {
   return (
     <button
-      class=" h-12 w-auto pt-0 pb-0 rounded-full bg-cyan-500 text-xl text-white border-none disabled:opacity-50 disabled:hover:bg-violet-500 transition duration-150 ease-in-out hover:scale-110 disabled:hover:scale-100 hover:bg-orange-500"
+      class=" h-12 w-auto pt-0 pb-0 pl-4 pr-4 rounded-full bg-cyan-500 text-xl text-white border-none disabled:opacity-50 disabled:hover:bg-violet-500 transition duration-150 ease-in-out hover:scale-110 disabled:hover:scale-100 hover:bg-orange-500"
       textContent={props.parameter.nickname}
       name="fname"
       onClick={() =>

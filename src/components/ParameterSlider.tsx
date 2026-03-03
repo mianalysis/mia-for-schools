@@ -16,7 +16,7 @@ export default function ParameterSlider(props: Props) {
   const matchArray = props.parameter.nickname.match(/(.+)S{(.+)}/);
   if (matchArray == null) return;
 
-  const groups = matchArray[2].match(/^([0-9]+)\|([0-9]+)\|([0-9\.]+)(?:\|W([0-9\.]+))?$/);
+  const groups = matchArray[2].match(/^([\-0-9]+)\|([\-0-9]+)\|([0-9\.]+)(?:\|W([0-9\.]+))?$/);
 
   if (groups == null) return;
 
