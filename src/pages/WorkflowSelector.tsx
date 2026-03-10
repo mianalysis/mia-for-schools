@@ -1,5 +1,5 @@
-import { For, Show, createSignal } from 'solid-js';
-
+import { For, Show, createSignal, onMount } from 'solid-js';
+;
 import { socketClient } from '../lib/client';
 import MenuBar from '../components/MenuBar';
 import Background, { getDefaultBackground } from '../components/Background';
@@ -7,49 +7,96 @@ import Background, { getDefaultBackground } from '../components/Background';
 
 const [workflows, setWorkflows] = createSignal<WorkflowJSON[]>();
 
-const awaitConnect = async (awaitConnectConfig) => {
-  const { retries = 3, curr = 0, timeinterval = 100 } = {};
+// const awaitConnect = async (awaitConnectConfig) => {
+//   const { retries = 3, curr = 0, timeinterval = 100 } = {};
 
-  return new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      if (socketClient.connected) {
-        subscribeToWorkflows();
-        resolve(undefined);
-      } else {
-        if (curr >= retries) {
-          reject();
-        } else {
-          try {
-            await awaitConnect({ ...awaitConnectConfig, curr: curr + 1 });
-            resolve(undefined);
-          } catch (e) {
-            reject(e);
-          }
-        }
-      }
-    }, timeinterval);
-  });
-};
+//   return new Promise((resolve, reject) => {
+//     setTimeout(async () => {
+//       if (socketClient.connected) {
+//         subscribeToWorkflows();
+//         resolve(undefined);
+//       } else {
+//         if (curr >= retries) {
+//           reject();
+//         } else {
+//           try {
+//             await awaitConnect({ ...awaitConnectConfig, curr: curr + 1 });
+//             resolve(undefined);
+//           } catch (e) {
+//             reject(e);
+//           }
+//         }
+//       }
+//     }, timeinterval);
+//   });
+// };
 
-await awaitConnect(undefined);
+// await awaitConnect(undefined);
 
-function subscribeToWorkflows() {
-  socketClient.subscribe('/user/queue/workflows', (data) => {
-    const response = JSON.parse(data.body);
-    const workflowsJson = JSON.parse(response.body).workflows;
-    setWorkflows(workflowsJson);
-  });
+// function subscribeToWorkflows() {
+//   socketClient.subscribe('/user/queue/workflows', (data) => {
+//     const response = JSON.parse(data.body);
+//     const workflowsJson = JSON.parse(response.body).workflows;
+//     setWorkflows(workflowsJson);
+//   });
+// }
+// function requestAvailableWorkflows() {
+//   socketClient.publish({
+//     destination: '/app/getworkflows',
+//     body: JSON.stringify({}),
+//   });
+// }
+
+declare const cheerpjInit: any;
+declare const cheerpjRunLibrary: any;
+
+// onMount(async () => {
+//   await cheerpjInit();
+// });
+
+
+async function initCheerpJ() {
+  if (!window.cheerpjInit) {
+    await new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://cjrtnc.leaningtech.com/4.2/loader.js";
+      script.onload = resolve;
+      document.head.appendChild(script);
+    });
+  }
+
+  await cheerpjInit({ 
+        status: "none",
+        classpath: ["/app/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar"]
+      });
+      console.log("CheerpJ initialised");
 }
-function requestAvailableWorkflows() {
-  socketClient.publish({
-    destination: '/app/getworkflows',
-    body: JSON.stringify({}),
-  });
+
+await initCheerpJ();
+
+// async function testCheerpJ() {
+//   console.log("Loading MIA Java");
+//   const cj = await cheerpjRunLibrary("/app/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
+//   const JSONWriter = await cj.io.github.mianalysis.miaserver.utils.JSONWriter;
+//   console.log("JSONWriter:", JSONWriter);
+
+// }
+
+// await testCheerpJ();
+
+async function loadWorkflows() {
+  const cj = await cheerpjRunLibrary("/app/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
+  const JSONWriter = await cj.io.github.mianalysis.miaserver.utils.JSONWriter;
+  const res = await JSONWriter.getAvailableWorkfowsJSON();
+    
+  setWorkflows(JSON.parse(res.toString()).workflows);
+  console.log(workflows());
+
 }
 
 function NavPage() {
-  if (socketClient.connected) requestAvailableWorkflows();
-
+  loadWorkflows();
+  
   return (
     <main class="space-y-0">
       <Show when={workflows()}>

@@ -1,13 +1,86 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#56afca" />
-    <title>MIA for Schools</title>
-  </head>
-  <body class="min-h-screen">
-    <div id="root"></div>
-    <script type="module" src="/src/index.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#56afca" />
+  <script src="https://cjrtnc.leaningtech.com/3.0/cj3loader.js"></script>
+  <title>MIA for Schools</title>
+</head>
+
+<body class="min-h-screen">
+  <div id="root"></div>
+  <!-- <script>
+    (async () => {
+      try {
+        await cheerpjInit({
+          status: "none",
+          classpath: ["/app/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar"]
+        });
+        console.log("CheerpJ initialised");
+
+        console.log("Loading MIA Java");
+        const cj = await cheerpjRunLibrary("/app/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
+
+
+        const JSONWriter = await cj.io.github.mianalysis.miaserver.utils.JSONWriter;
+        const obj = await new JSONWriter();
+        const res = await JSONWriter.getAvailableWorkfowsJSON();
+        console.log(res);
+        console.log(JSON.parse(res.toString()));
+      } catch (e) {
+        console.error("Error:", e);
+      }
+    })();
+  </script> -->
+  <script type="module" src="/src/index.tsx"></script>
+</body>
+
 </html>
+
+<!-- <!doctype html>
+<html lang="en"> -->
+
+<!-- <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIA for Schools</title>
+  <script src="https://cjrtnc.leaningtech.com/3.0/cj3loader.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+ <script>
+  (async () => {
+    try {
+      await cheerpjInit({ 
+        status: "none",
+        classpath: ["/app/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar"]
+      });
+      console.log("CheerpJ initialised");
+
+      const cj = await cheerpjRunLibrary("/app/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
+      console.log("cj loaded:", cj);
+
+      // Test with a basic Java stdlib class
+      const ArrayList = await cj.java.util.ArrayList;
+      console.log("ArrayList:", ArrayList);
+
+      console.log("Trying test");
+      // Try loading the class directly by fully qualified name
+      const JSONWriter = await cj.io.github.mianalysis.miaserver.utils.JSONWriter;
+      console.log("JSONWriter:", JSONWriter);
+      const obj = await new JSONWriter();
+      console.log(obj);
+      const res = await JSONWriter.getAvailableWorkfowsJSON();
+      console.log(res);
+
+    } catch (e) {
+      console.error("Error:", e);
+    }
+  })();
+</script>
+</body>
+
+</html> -->
