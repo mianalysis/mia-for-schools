@@ -13,7 +13,6 @@
   "dependencies": {
     "@panzoom/panzoom": "^4.5.1",
     "@solidjs/router": "^0.14.1",
-    "@stomp/stompjs": "^7.0.0",
     "@tailwindcss/forms": "^0.5.7",
     "@types/pngjs": "^6.0.4",
     "axios": "^1.6.1",

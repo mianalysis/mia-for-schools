@@ -1,6 +1,5 @@
 import { Match, Switch } from 'solid-js';
 
-import { socketClient } from '../lib/client';
 import { debounce } from '../lib/util';
 
 interface Props {
@@ -9,17 +8,17 @@ interface Props {
 }
 
 function requestPreviousGroup() {
-  socketClient.publish({
-    destination: '/app/previousgroup',
-    body: JSON.stringify({}),
-  });
+  // socketClient.publish({
+  //   destination: '/app/previousgroup',
+  //   body: JSON.stringify({}),
+  // });
 }
 
 function requestNextGroup() {
-  socketClient.publish({
-    destination: '/app/nextgroup',
-    body: JSON.stringify({}),
-  });
+  // socketClient.publish({
+  //   destination: '/app/nextgroup',
+  //   body: JSON.stringify({}),
+  // });
 }
 
 export default function WorkflowNav(props: Props) {

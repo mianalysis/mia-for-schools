@@ -5,7 +5,6 @@ import Im from '../components/Im';
 import TextEntry from '../components/TextEntry';
 import Toggle from '../components/Toggle';
 
-import { socketClient } from '../lib/client';
 // import { setStore } from '../lib/store';
 
 import { useLocation } from '@solidjs/router';
@@ -28,19 +27,19 @@ const [showNav, setShowNav] = createSignal(false);
 const [overlays, setOverlays] = createSignal<[OverlayJSON] | undefined>();
 const [clickListener, setClickListener] = createSignal<ClickListener | undefined>();
 
-function requestHasPreviousGroup() {
-  socketClient.publish({
-    destination: '/app/haspreviousgroup',
-    body: JSON.stringify({}),
-  });
-}
+// function requestHasPreviousGroup() {
+//   socketClient.publish({
+//     destination: '/app/haspreviousgroup',
+//     body: JSON.stringify({}),
+//   });
+// }
 
-function requestHasNextGroup() {
-  socketClient.publish({
-    destination: '/app/hasnextgroup',
-    body: JSON.stringify({}),
-  });
-}
+// function requestHasNextGroup() {
+//   socketClient.publish({
+//     destination: '/app/hasnextgroup',
+//     body: JSON.stringify({}),
+//   });
+// }
 
 function getClickListenerParameter(modules: [ModuleJSON]) {
   if (modules == undefined) return undefined;
@@ -61,63 +60,63 @@ function getClickListenerParameter(modules: [ModuleJSON]) {
 }
 
 const awaitConnect = async (awaitConnectConfig) => {
-  const { retries = 3, curr = 0, timeinterval = 100 } = {};
+  // const { retries = 3, curr = 0, timeinterval = 100 } = {};
 
-  return new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      if (socketClient.connected) {
-        socketClient.subscribe('/user/queue/result', (data) => {
-          requestHasNextGroup();
-          requestHasPreviousGroup();
+  // return new Promise((resolve, reject) => {
+  //   setTimeout(async () => {
+  //     if (socketClient.connected) {
+  //       socketClient.subscribe('/user/queue/result', (data) => {
+  //         requestHasNextGroup();
+  //         requestHasPreviousGroup();
 
-          const response = JSON.parse(data.body);
-          if (response.body === "busy")
-            return;
+  //         const response = JSON.parse(data.body);
+  //         if (response.body === "busy")
+  //           return;
 
-          const resultJSON = JSON.parse(response.body);
+  //         const resultJSON = JSON.parse(response.body);
 
-          if (resultJSON.modules !== undefined && resultJSON.modules.length !== undefined) {
-            var clickParameter = getClickListenerParameter(resultJSON.modules);
-            if (clickParameter !== undefined)
-              if (clickListener() == undefined)
-                setClickListener(new ClickListener(clickParameter));
-          }
+  //         if (resultJSON.modules !== undefined && resultJSON.modules.length !== undefined) {
+  //           var clickParameter = getClickListenerParameter(resultJSON.modules);
+  //           if (clickParameter !== undefined)
+  //             if (clickListener() == undefined)
+  //               setClickListener(new ClickListener(clickParameter));
+  //         }
           
-          setOverlays(resultJSON.overlays);
-          setBackground(resultJSON.background);
-          setMessage(resultJSON.message);
-          setGraph(resultJSON.graph);
-          setShowNav(true);
-          setImage(resultJSON.image);
-        });
+  //         setOverlays(resultJSON.overlays);
+  //         setBackground(resultJSON.background);
+  //         setMessage(resultJSON.message);
+  //         setGraph(resultJSON.graph);
+  //         setShowNav(true);
+  //         setImage(resultJSON.image);
+  //       });
 
-        socketClient.subscribe('/user/queue/previousstatus', (data) => {
-          const response = JSON.parse(data.body);
-          var isTrue = response.body === 'true';
-          setHasPrevious(isTrue);
-        });
+  //       socketClient.subscribe('/user/queue/previousstatus', (data) => {
+  //         const response = JSON.parse(data.body);
+  //         var isTrue = response.body === 'true';
+  //         setHasPrevious(isTrue);
+  //       });
 
-        socketClient.subscribe('/user/queue/nextstatus', (data) => {
-          const response = JSON.parse(data.body);
-          var isTrue = response.body === 'true';
-          setHasNext(isTrue);
-        });
+  //       socketClient.subscribe('/user/queue/nextstatus', (data) => {
+  //         const response = JSON.parse(data.body);
+  //         var isTrue = response.body === 'true';
+  //         setHasNext(isTrue);
+  //       });
 
-        resolve(undefined);
-      } else {
-        if (curr >= retries) {
-          reject();
-        } else {
-          try {
-            await awaitConnect({ ...awaitConnectConfig, curr: curr + 1 });
-            resolve(undefined);
-          } catch (e) {
-            reject(e);
-          }
-        }
-      }
-    }, timeinterval);
-  });
+  //       resolve(undefined);
+  //     } else {
+  //       if (curr >= retries) {
+  //         reject();
+  //       } else {
+  //         try {
+  //           await awaitConnect({ ...awaitConnectConfig, curr: curr + 1 });
+  //           resolve(undefined);
+  //         } catch (e) {
+  //           reject(e);
+  //         }
+  //       }
+  //     }
+  //   }, timeinterval);
+  // });
 };
 
 await awaitConnect(undefined);
@@ -131,13 +130,13 @@ function App() {
   setMessage(undefined);
   setShowNav(false);
 
-  if (socketClient.connected) setWorkflow(useLocation().query.name);
+  // if (socketClient.connected) setWorkflow(useLocation().query.name);
 
   function setWorkflow(workflowName: String) {
-    socketClient.publish({
-      destination: '/app/setworkflow',
-      body: JSON.stringify({ workflowName: workflowName }),
-    });
+    // socketClient.publish({
+    //   destination: '/app/setworkflow',
+    //   body: JSON.stringify({ workflowName: workflowName }),
+    // });
   }
 
   function createControls(parameters: [ParameterJSON]) {

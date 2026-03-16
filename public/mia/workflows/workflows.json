@@ -1,0 +1,28 @@
+{
+    "workflows": [
+        {
+            "banner": [
+                {
+                    "text": "Beta",
+                    "colour": "bg-amber-500"
+                }
+            ],
+            "displayname": "Aligning images",
+            "fullname": "Aligning images",
+            "path": "mia/workflows/Aligning_images.json",
+            "thumbnail": "mia/thumbnails/Aligning_images.png"
+        },
+        {
+            "banner": [
+                {
+                    "text": "Beta",
+                    "colour": "bg-amber-500"
+                }
+            ],
+            "displayname": "Image rescue",
+            "fullname": "Image rescue",
+            "path": "mia/workflows/Image_rescue.json",
+            "thumbnail": "mia/thumbnails/Image_rescue.png"
+        }
+    ]
+}

@@ -1,6 +1,5 @@
-import { For, Show, createSignal, onMount } from 'solid-js';
-;
-import { socketClient } from '../lib/client';
+import { For, Show, createSignal } from 'solid-js';
+
 import MenuBar from '../components/MenuBar';
 import Background, { getDefaultBackground } from '../components/Background';
 
@@ -47,48 +46,14 @@ const [workflows, setWorkflows] = createSignal<WorkflowJSON[]>();
 //   });
 // }
 
-declare const cheerpjInit: any;
-declare const cheerpjRunLibrary: any;
-
-// onMount(async () => {
-//   await cheerpjInit();
-// });
-
-
-async function initCheerpJ() {
-  if (!window.cheerpjInit) {
-    await new Promise((resolve) => {
-      const script = document.createElement("script");
-      script.src = "https://cjrtnc.leaningtech.com/4.2/loader.js";
-      script.onload = resolve;
-      document.head.appendChild(script);
-    });
-  }
-
-  await cheerpjInit({ 
-        status: "none",
-        classpath: ["/app/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar"]
-      });
-      console.log("CheerpJ initialised");
-}
-
-await initCheerpJ();
-
-// async function testCheerpJ() {
-//   console.log("Loading MIA Java");
-//   const cj = await cheerpjRunLibrary("/app/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
-//   const JSONWriter = await cj.io.github.mianalysis.miaserver.utils.JSONWriter;
-//   console.log("JSONWriter:", JSONWriter);
-
-// }
-
-// await testCheerpJ();
-
 async function loadWorkflows() {
-  const cj = await cheerpjRunLibrary("/app/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
+  console.log("MIA Java loaded");
+  const cj = window.cj;
   const JSONWriter = await cj.io.github.mianalysis.miaserver.utils.JSONWriter;
-  const res = await JSONWriter.getAvailableWorkfowsJSON();
-    
+  
+  console.log("Requesting workflows");
+  const res = await JSONWriter.getAvailableWorkfowsJSON("/public/");
+  console.log("Workflows received");
   setWorkflows(JSON.parse(res.toString()).workflows);
   console.log(workflows());
 

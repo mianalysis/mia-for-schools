@@ -1,4 +1,3 @@
-import { socketClient } from './client';
 import { store } from './store';
 
 export function debounce(fn: (...args: any[]) => void, delay: number) {
@@ -20,17 +19,17 @@ export function sendParameter(
   parentGroupName: String,
   groupCollectionNumber: number
 ) {
-  socketClient.publish({
-    destination: '/app/setparameter',
-    body: JSON.stringify({
-      moduleID: moduleID,
-      parameterName: parameterName,
-      parameterValue: parameterValue,
-      parentGroupName: parentGroupName,
-      groupCollectionNumber: groupCollectionNumber,
-      imageHash: store.imageHash,
-    }),
-  });
+  // socketClient.publish({
+  //   destination: '/app/setparameter',
+  //   body: JSON.stringify({
+  //     moduleID: moduleID,
+  //     parameterName: parameterName,
+  //     parameterValue: parameterValue,
+  //     parentGroupName: parentGroupName,
+  //     groupCollectionNumber: groupCollectionNumber,
+  //     imageHash: store.imageHash,
+  //   }),
+  // });
 }
 
 // From https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb (Accessed 2024-07-19)
