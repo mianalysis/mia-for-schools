@@ -47,15 +47,9 @@ const [workflows, setWorkflows] = createSignal<WorkflowJSON[]>();
 // }
 
 async function loadWorkflows() {
-  console.log("MIA Java loaded");
-  const cj = window.cj;
-  const JSONWriter = await cj.io.github.mianalysis.miaserver.utils.JSONWriter;
-  
-  console.log("Requesting workflows");
-  const res = await JSONWriter.getAvailableWorkfowsJSON("/public/");
-  console.log("Workflows received");
-  setWorkflows(JSON.parse(res.toString()).workflows);
-  console.log(workflows());
+  const response = await fetch("/mia/workflows/workflows.json");
+  const workflowsJson = await response.json();
+  setWorkflows(workflowsJson.workflows);
 
 }
 
