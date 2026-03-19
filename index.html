@@ -11,7 +11,6 @@
 
 <body class="min-h-screen">
   <div id="root"></div>
-  Loading...
   <script>
     (async () => {  
       try {
@@ -20,7 +19,16 @@
         const cj = await cheerpjRunLibrary("/app/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
         window.cj = cj;
 
+        const Initialiser = await cj.io.github.mianalysis.miaserver.utils.Initialiser;
+        const initialiser = await new Initialiser();
+        await initialiser.initialise();
+
+        const AvailableModules = await cj.io.github.mianalysis.mia.module.AvailableModules;
+        // await AvailableModules.addModuleName("io.github.mianalysis.mia.module.inputoutput.ImageLoader");
+        console.log(AvailableModules.getModuleNames(false));
+
         await import ("/src/index.tsx");
+
       } catch (e) {
         console.error("Error:", e);
       }

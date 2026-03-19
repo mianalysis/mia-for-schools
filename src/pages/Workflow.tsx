@@ -12,9 +12,9 @@ import Background from '../components/Background';
 import Button from '../components/Button';
 import { ClickListener } from '../components/ClickListener';
 import Graph from '../components/Graph';
+import MenuBar from '../components/MenuBar';
 import ParameterSlider from '../components/ParameterSlider';
 import WorkflowNav from '../components/WorkflowNav';
-import MenuBar from '../components/MenuBar';
 
 const [hasPrevious, setHasPrevious] = createSignal(true);
 const [hasNext, setHasNext] = createSignal(true);
@@ -59,69 +59,102 @@ function getClickListenerParameter(modules: [ModuleJSON]) {
 
 }
 
-const awaitConnect = async (awaitConnectConfig) => {
-  // const { retries = 3, curr = 0, timeinterval = 100 } = {};
+// const awaitConnect = async (awaitConnectConfig) => {
+//   const { retries = 3, curr = 0, timeinterval = 100 } = {};
 
-  // return new Promise((resolve, reject) => {
-  //   setTimeout(async () => {
-  //     if (socketClient.connected) {
-  //       socketClient.subscribe('/user/queue/result', (data) => {
-  //         requestHasNextGroup();
-  //         requestHasPreviousGroup();
+//   return new Promise((resolve, reject) => {
+//     setTimeout(async () => {
+//       if (socketClient.connected) {
+//         socketClient.subscribe('/user/queue/result', (data) => {
+//           requestHasNextGroup();
+//           requestHasPreviousGroup();
 
-  //         const response = JSON.parse(data.body);
-  //         if (response.body === "busy")
-  //           return;
+//           const response = JSON.parse(data.body);
+//           if (response.body === "busy")
+//             return;
 
-  //         const resultJSON = JSON.parse(response.body);
+//           const resultJSON = JSON.parse(response.body);
 
-  //         if (resultJSON.modules !== undefined && resultJSON.modules.length !== undefined) {
-  //           var clickParameter = getClickListenerParameter(resultJSON.modules);
-  //           if (clickParameter !== undefined)
-  //             if (clickListener() == undefined)
-  //               setClickListener(new ClickListener(clickParameter));
-  //         }
+//           if (resultJSON.modules !== undefined && resultJSON.modules.length !== undefined) {
+//             var clickParameter = getClickListenerParameter(resultJSON.modules);
+//             if (clickParameter !== undefined)
+//               if (clickListener() == undefined)
+//                 setClickListener(new ClickListener(clickParameter));
+//           }
           
-  //         setOverlays(resultJSON.overlays);
-  //         setBackground(resultJSON.background);
-  //         setMessage(resultJSON.message);
-  //         setGraph(resultJSON.graph);
-  //         setShowNav(true);
-  //         setImage(resultJSON.image);
-  //       });
+//           setOverlays(resultJSON.overlays);
+//           setBackground(resultJSON.background);
+//           setMessage(resultJSON.message);
+//           setGraph(resultJSON.graph);
+//           setShowNav(true);
+//           setImage(resultJSON.image);
+//         });
 
-  //       socketClient.subscribe('/user/queue/previousstatus', (data) => {
-  //         const response = JSON.parse(data.body);
-  //         var isTrue = response.body === 'true';
-  //         setHasPrevious(isTrue);
-  //       });
+//         // socketClient.subscribe('/user/queue/previousstatus', (data) => {
+//         //   const response = JSON.parse(data.body);
+//         //   var isTrue = response.body === 'true';
+//         //   setHasPrevious(isTrue);
+//         // });
 
-  //       socketClient.subscribe('/user/queue/nextstatus', (data) => {
-  //         const response = JSON.parse(data.body);
-  //         var isTrue = response.body === 'true';
-  //         setHasNext(isTrue);
-  //       });
+//         // socketClient.subscribe('/user/queue/nextstatus', (data) => {
+//         //   const response = JSON.parse(data.body);
+//         //   var isTrue = response.body === 'true';
+//         //   setHasNext(isTrue);
+//         // });
 
-  //       resolve(undefined);
-  //     } else {
-  //       if (curr >= retries) {
-  //         reject();
-  //       } else {
-  //         try {
-  //           await awaitConnect({ ...awaitConnectConfig, curr: curr + 1 });
-  //           resolve(undefined);
-  //         } catch (e) {
-  //           reject(e);
-  //         }
-  //       }
-  //     }
-  //   }, timeinterval);
-  // });
-};
+//         resolve(undefined);
+//       } else {
+//         if (curr >= retries) {
+//           reject();
+//         } else {
+//           try {
+//             await awaitConnect({ ...awaitConnectConfig, curr: curr + 1 });
+//             resolve(undefined);
+//           } catch (e) {
+//             reject(e);
+//           }
+//         }
+//       }
+//     }, timeinterval);
+//   });
+// };
 
-await awaitConnect(undefined);
+// await awaitConnect(undefined);
+
+async function updateWorkflow(workflowName: String) {
+  // Read workflow XML from file
+  const workflowPath: string = `/mia/workflows/${workflowName}.mia`;
+  const workflowFile = await fetch(workflowPath);
+  const workflowXML: string = (await workflowFile.text()).toString();
+
+  const cj = window.cj;
+  const ProcessController = await cj.io.github.mianalysis.miaserver.controllers.ProcessController;
+  const processController = await new ProcessController();
+  const response = await processController.setWorkflow(workflowXML, workflowPath);
+  const resultJSON = JSON.parse(response);
+
+  if (resultJSON.modules !== undefined && resultJSON.modules.length !== undefined) {
+    var clickParameter = getClickListenerParameter(resultJSON.modules);
+    if (clickParameter !== undefined)
+      if (clickListener() == undefined)
+        setClickListener(new ClickListener(clickParameter));
+  }
+  
+  setOverlays(resultJSON.overlays);
+  setBackground(resultJSON.background);
+  setMessage(resultJSON.message);
+  setGraph(resultJSON.graph);
+  setShowNav(true);
+  setImage(resultJSON.image);
+
+}
 
 function App() {
+  // Request first workflow page
+  const workflowName: String = useLocation().query.name;
+  updateWorkflow(workflowName);
+
+
   setBackground(undefined);
   setOverlays(undefined);
   // setParams(undefined);
@@ -129,15 +162,6 @@ function App() {
   setGraph(undefined);
   setMessage(undefined);
   setShowNav(false);
-
-  // if (socketClient.connected) setWorkflow(useLocation().query.name);
-
-  function setWorkflow(workflowName: String) {
-    // socketClient.publish({
-    //   destination: '/app/setworkflow',
-    //   body: JSON.stringify({ workflowName: workflowName }),
-    // });
-  }
 
   function createControls(parameters: [ParameterJSON]) {
     return [<For each={parameters}>{(parameter) => createControl(parameter)}</For>];
