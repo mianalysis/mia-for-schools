@@ -2,6 +2,7 @@ import { sendParameter } from '../lib/util';
 
 interface Props {
   parameter: ParameterJSON;
+  updatePage: Function;
 }
 
 export default function Button(props: Props) {
@@ -16,7 +17,8 @@ export default function Button(props: Props) {
           props.parameter.name,
           'true',
           props.parameter.parentGroupName,
-          props.parameter.groupCollectionNumber
+          props.parameter.groupCollectionNumber,
+          props.updatePage
         )
       }
     />

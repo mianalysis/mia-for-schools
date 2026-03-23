@@ -7,6 +7,7 @@ import wNumb from 'wnumb';
 
 interface Props {
   parameter: ParameterJSON;
+  updatePage: Function;
 }
 
 export default function ParameterSlider(props: Props) {
@@ -46,7 +47,8 @@ export default function ParameterSlider(props: Props) {
         props.parameter.name,
         slider.noUiSlider.get(),
         props.parameter.parentGroupName,
-        props.parameter.groupCollectionNumber
+        props.parameter.groupCollectionNumber,
+        props.updatePage
       );
     });
   });

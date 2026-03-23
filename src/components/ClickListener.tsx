@@ -1,11 +1,14 @@
 import { debounce, sendParameter } from '../lib/util';
 
 
+
 export class ClickListener {
   parameter: ParameterJSON;
+  updatePage: Function;
+
   debouncedProcessClick: (position: number[]) => void;
 
-  constructor(parameter: ParameterJSON) {
+  constructor(parameter: ParameterJSON, updatePage: Function) {
     this.parameter = parameter;
     this.debouncedProcessClick = debounce((position: number[]) => {
       const value = Math.round(position[0][0]) + ',' + Math.round(position[0][1]);
@@ -14,7 +17,8 @@ export class ClickListener {
         this.parameter.name,
         value,
         this.parameter.parentGroupName,
-        this.parameter.groupCollectionNumber
+        this.parameter.groupCollectionNumber,
+        updatePage
       );
     }, 0);
   }

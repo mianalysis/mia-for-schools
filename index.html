@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#56afca" />
-  <script src="https://cjrtnc.leaningtech.com/3.0/cj3loader.js"></script>
+  <script src="https://cjrtnc.leaningtech.com/4.2/loader.js"></script>
   <title>MIA for Schools</title>
 </head>
 
@@ -14,7 +14,9 @@
   <script>
     (async () => {  
       try {
+        console.log("Starting CheerpJ")
         await cheerpjInit();
+        console.log("CheerpJ loaded")
 
         const cj = await cheerpjRunLibrary("/app/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
         window.cj = cj;

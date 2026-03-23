@@ -5,6 +5,7 @@ import type { JSX } from 'solid-js';
 
 interface Props {
   parameter: ParameterJSON;
+  updatePage: Function;
 }
 
 var currVal: String;
@@ -44,7 +45,8 @@ export default function Choice(props: Props) {
                             props.parameter.name,
                             value,
                             props.parameter.parentGroupName,
-                            props.parameter.groupCollectionNumber
+                            props.parameter.groupCollectionNumber,
+                            props.updatePage
                           );
                           currVal = value;
                         }
