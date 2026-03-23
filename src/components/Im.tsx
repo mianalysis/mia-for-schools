@@ -383,7 +383,7 @@ export default function Im(props: Props) {
           <Show when={showProbeControl()}>
             <button
               id="probe_radio"
-              class={`${props.image.defaultcontrol === "Probe" ? "button-selected" : "button"} flex-none rounded-lg overflow-visible shadow-lg bg-white disabled:bg-red-500 opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110`}
+              class={`${props.image.defaultcontrol === "Probe" ? "button-selected" : "button"} flex-none rounded-lg overflow-visible shadow-lg bg-white disabled:bg-red-500 opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
               onclick={() => setControlState(ControlState.PROBE)}
             >
               <img class="h-6 w-6 m-1" src="/images/target.svg" />
@@ -392,7 +392,7 @@ export default function Im(props: Props) {
           <Show when={showSelectControl()}>
             <button
               id="select_radio"
-              class={`${props.image.defaultcontrol === "Select" ? "button-selected" : "button"} flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110`}
+              class={`${props.image.defaultcontrol === "Select" ? "button-selected" : "button"} flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
               onclick={() => setControlState(ControlState.SELECT)}
             >
               <img class="h-6 w-6 m-1" src="/images/select.svg" />
@@ -401,7 +401,7 @@ export default function Im(props: Props) {
           <Show when={showZoomControl()}>
             <button
               id="move_radio"
-              class={`${props.image.defaultcontrol === "Move" ? "button-selected" : "button"} flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out hover:scale-110`}
+              class={`${props.image.defaultcontrol === "Move" ? "button-selected" : "button"} flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out` }
               onclick={() => setControlState(ControlState.MOVE)}
             >
               <img class="h-6 w-6 m-1" src="/images/move.svg" />
