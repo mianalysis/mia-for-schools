@@ -5,7 +5,7 @@ import solid from 'vite-plugin-solid';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 export default defineConfig({
-  base: '/mia-for-schools/',
+  // base: '/mia-for-schools/',
   plugins: [
     solid(),
     nodePolyfills(),
