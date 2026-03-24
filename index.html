@@ -26,10 +26,7 @@
           // const cj = await cheerpjRunLibrary("/app/MIA_SERVER_-0.0.1-SNAPSHOT.jar");
           window.cj = cj;
 
-          console.log('Initialising');
           const Initialiser = await cj.io.github.mianalysis.miaserver.utils.Initialiser;
-          console.log('Initialiser');
-          console.log(Initialiser);
           const initialiser = await new Initialiser();
           await initialiser.initialise();
 
@@ -37,11 +34,14 @@
           // await AvailableModules.addModuleName("io.github.mianalysis.mia.module.inputoutput.ImageLoader");
           console.log(AvailableModules.getModuleNames(false));
 
-          await import('/src/index.tsx');
+          // Signal that CheerpJ is ready
+          window.dispatchEvent(new Event('cheerpj-ready'));
+
         } catch (e) {
           console.error('Error:', e);
         }
       })();
     </script>
+    <script type="module" src="/src/index.tsx"></script>
   </body>
 </html>
