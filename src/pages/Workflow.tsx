@@ -122,7 +122,9 @@ function getClickListenerParameter(modules: [ModuleJSON]) {
 // await awaitConnect(undefined);
 
 async function loadWorkflowConfig() {
-  const workflowsJson: WorkflowsJSON = await (await fetch('./mia-for-schools/mia/workflows/workflows.json')).json();
+  const workflowsJson: WorkflowsJSON = await (
+    await fetch('./mia-for-schools/mia/workflows/workflows.json')
+  ).json();
 
   // const workflowName: String = useLocation().query.name;
   const workflowJson: WorkflowJSON = workflowsJson.workflows.find(
@@ -157,7 +159,7 @@ async function updatePage(resultJSON: ResultJSON) {
   // if (resultJSON.modules !== undefined) {
   //   if (resultJSON.modules.length === undefined) {
   var clickParameter = getClickListenerParameter(resultJSON.modules);
-  
+
   if (clickParameter !== undefined)
     if (clickListener() == undefined)
       setClickListener(new ClickListener(clickParameter, updatePage));
