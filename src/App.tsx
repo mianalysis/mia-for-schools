@@ -7,7 +7,7 @@ function App() {
   const App = (props) => <>{props.children}</>;
 
   return (
-    <Router root={App}>
+    <Router root={App} base="/mia-for-schools">
       <Route path="/" component={WorkflowSelector} />
       <Route path="/workflow" component={Workflow} />
     </Router>
