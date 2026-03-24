@@ -17,8 +17,8 @@ import ParameterSlider from '../components/ParameterSlider';
 import WorkflowNav from '../components/WorkflowNav';
 
 var workflowName: String = '';
-const [hasPrevious, setHasPrevious] = createSignal(true);
-const [hasNext, setHasNext] = createSignal(true);
+// const [hasPrevious, setHasPrevious] = createSignal(true);
+// const [hasNext, setHasNext] = createSignal(true);
 // const [params, setParams] = createSignal<ModuleJSON[]>();
 const [image, setImage] = createSignal<ImageJSON>();
 const [background, setBackground] = createSignal<BackgroundJSON>();
@@ -303,10 +303,12 @@ function App() {
               style="backdrop-filter: blur(16px); background-color: rgba(255,255,255,0.75)"
             >
               <div class="flex-1 col-start-1">
-                <WorkflowNav mode="Previous" disabled={!hasPrevious()} updatePage={updatePage} />
+                {/* <WorkflowNav mode="Previous" disabled={!hasPrevious()} updatePage={updatePage} /> */}
+                <WorkflowNav mode="Previous" disabled={false} updatePage={updatePage} />
               </div>
               <div class="flex-1 col-start-2">
-                <WorkflowNav mode="Next" disabled={!hasNext()} updatePage={updatePage} />
+                {/* <WorkflowNav mode="Next" disabled={!hasNext()} updatePage={updatePage} /> */}
+                <WorkflowNav mode="Next" disabled={false} updatePage={updatePage} />
               </div>
             </div>
           </Show>
