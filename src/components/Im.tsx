@@ -113,11 +113,13 @@ export default function Im(props: Props) {
 
     if (listener)
       image_region.addEventListener('pointerup', (e) => {
+    console.log("Clicked");
         if (controlState === ControlState.SELECT) props.clickListener().onClick(getPosition(e));
       });
 
     onCleanup(() =>
       image_region?.removeEventListener('pointerup', (e) => {
+        console.log("Clicked2");
         if (controlState === ControlState.SELECT) props.clickListener().onClick(getPosition(e));
       })
     );

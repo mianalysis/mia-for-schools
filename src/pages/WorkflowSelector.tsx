@@ -49,6 +49,7 @@ const [workflows, setWorkflows] = createSignal<WorkflowJSON[]>();
 async function loadWorkflows() {
   const response = await fetch("/mia/workflows/workflows.json");
   const workflowsJson = await response.json();
+  console.log(workflowsJson);
   setWorkflows(workflowsJson.workflows);
 
 }
@@ -80,7 +81,7 @@ function NavPage() {
                   />
                   <div class="bg-white rounded-lg opacity-75 hover:opacity-0 animate transition-opacity duration-150" style="position:absolute; top:0; left:0; width:100%; height:100%"/>
                 </div>
-              <Show when={Object.keys(workflow.banner).length != 0}>
+              <Show when={workflow.banner}>
                 <div
                   class={`absolute transform -rotate-45 text-center ${workflow.banner.colour} text-white font-semibold py-1 left-[-42px] top-[26px] w-[170px]`}
                 >

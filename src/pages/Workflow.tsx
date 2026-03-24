@@ -155,15 +155,19 @@ async function initialiseWorkflow(workflowName: String) {
 }
 
 async function updatePage(resultJSON: ResultJSON) {
-  if (resultJSON.modules !== undefined) {
-    if (resultJSON.modules.length === undefined) {
+  // if (resultJSON.modules !== undefined) {
+  //   if (resultJSON.modules.length === undefined) {
       var clickParameter = getClickListenerParameter(resultJSON.modules);
+      console.log("Clic para")
+      console.log(clickParameter);
       if (clickParameter !== undefined)
         if (clickListener() == undefined)
           setClickListener(new ClickListener(clickParameter, updatePage));
-    }
-  }
+  //   }
+  // }
 
+  console.log("OVERLAYS")
+  console.log(resultJSON.overlays)
   setOverlays(resultJSON.overlays);
   setMessage(resultJSON.message);
   setGraph(resultJSON.graph);
