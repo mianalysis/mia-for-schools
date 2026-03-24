@@ -37,7 +37,7 @@ jobs:
         if: github.ref == 'refs/heads/gh-pages' && github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./
+          path: ./dist
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/gh-pages' && github.event_name == 'push'
         uses: actions/deploy-pages@v4
