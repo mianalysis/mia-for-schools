@@ -386,7 +386,7 @@ export default function Im(props: Props) {
               class={`${props.image.defaultcontrol === 'Probe' ? 'button-selected' : 'button'} flex-none rounded-lg overflow-visible shadow-lg bg-white disabled:bg-red-500 opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
               onclick={() => setControlState(ControlState.PROBE)}
             >
-              <img class="h-6 w-6 m-1" src="/images/target.svg" />
+              <img class="h-6 w-6 m-1" src="./images/target.svg" />
             </button>
           </Show>
           <Show when={showSelectControl()}>
@@ -395,7 +395,7 @@ export default function Im(props: Props) {
               class={`${props.image.defaultcontrol === 'Select' ? 'button-selected' : 'button'} flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
               onclick={() => setControlState(ControlState.SELECT)}
             >
-              <img class="h-6 w-6 m-1" src="/images/select.svg" />
+              <img class="h-6 w-6 m-1" src="./images/select.svg" />
             </button>
           </Show>
           <Show when={showZoomControl()}>
@@ -404,7 +404,7 @@ export default function Im(props: Props) {
               class={`${props.image.defaultcontrol === 'Move' ? 'button-selected' : 'button'} flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
               onclick={() => setControlState(ControlState.MOVE)}
             >
-              <img class="h-6 w-6 m-1" src="/images/move.svg" />
+              <img class="h-6 w-6 m-1" src="./images/move.svg" />
             </button>
             <ZoomSlider updateZoom={updateZoom}></ZoomSlider>
           </Show>

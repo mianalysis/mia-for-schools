@@ -36,7 +36,7 @@ export default function ChannelSlider(props: Props) {
 
   return (
     <div class="slider-tooltip-above container flex overflow-visible rounded-lg shadow-lg bg-white opacity-40 group-hover:opacity-100 w-full m-2 ml-0 transition duration-150 ease-in-out">
-      <img class="flex-none w-6 m-1" src="/images/brightness-svgrepo-com.svg" />
+      <img class="flex-none w-6 m-1" src="./images/brightness-svgrepo-com.svg" />
       <div
         id={sliderId}
         class="w-full ml-1 mr-3 mt-2.5 h-3 rounded-full"
