@@ -1,47 +1,47 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#56afca" />
+    <script src="https://cjrtnc.leaningtech.com/4.2/loader.js"></script>
+    <title>MIA for Schools</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#56afca" />
-  <script src="https://cjrtnc.leaningtech.com/4.2/loader.js"></script>
-  <title>MIA for Schools</title>
-</head>
+  <body class="min-h-screen">
+    <div id="root"></div>
+    <script>
+      (async () => {
+        try {
+          console.log('Starting CheerpJ');
+          await cheerpjInit();
+          console.log('CheerpJ loaded');
 
-<body class="min-h-screen">
-  <div id="root"></div>
-  <script>
-    (async () => {  
-      try {
-        console.log("Starting CheerpJ")
-        await cheerpjInit();
-        console.log("CheerpJ loaded")
+          // const cj = await cheerpjRunLibrary("mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
+          const cj = await cheerpjRunLibrary(
+            '/app/mia-for-schools/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar'
+          );
+          console.log(cj);
 
-        // const cj = await cheerpjRunLibrary("mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
-        const cj = await cheerpjRunLibrary("https://github.com/mianalysis/mia-for-schools/raw/778f752f9eadba0606d7a98ac8c9174d102cafa8/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
-        console.log(cj);
+          // const cj = await cheerpjRunLibrary("/app/MIA_SERVER_-0.0.1-SNAPSHOT.jar");
+          window.cj = cj;
 
-        // const cj = await cheerpjRunLibrary("/app/MIA_SERVER_-0.0.1-SNAPSHOT.jar");
-        window.cj = cj;
+          console.log('Initialising');
+          const Initialiser = await cj.io.github.mianalysis.miaserver.utils.Initialiser;
+          console.log('Initialiser');
+          console.log(Initialiser);
+          const initialiser = await new Initialiser();
+          await initialiser.initialise();
 
-        console.log("Initialising");
-        const Initialiser = await cj.io.github.mianalysis.miaserver.utils.Initialiser;
-        console.log("Initialiser");
-        console.log(Initialiser);
-        const initialiser = await new Initialiser();
-        await initialiser.initialise();
+          const AvailableModules = await cj.io.github.mianalysis.mia.module.AvailableModules;
+          // await AvailableModules.addModuleName("io.github.mianalysis.mia.module.inputoutput.ImageLoader");
+          console.log(AvailableModules.getModuleNames(false));
 
-        const AvailableModules = await cj.io.github.mianalysis.mia.module.AvailableModules;
-        // await AvailableModules.addModuleName("io.github.mianalysis.mia.module.inputoutput.ImageLoader");
-        console.log(AvailableModules.getModuleNames(false));
-
-        await import ("/src/index.tsx");
-
-      } catch (e) {
-        console.error("Error:", e);
-      }
-    })();
-  </script>
-</body>
+          await import('/src/index.tsx');
+        } catch (e) {
+          console.error('Error:', e);
+        }
+      })();
+    </script>
+  </body>
 </html>

@@ -113,13 +113,13 @@ export default function Im(props: Props) {
 
     if (listener)
       image_region.addEventListener('pointerup', (e) => {
-    console.log("Clicked");
+        console.log('Clicked');
         if (controlState === ControlState.SELECT) props.clickListener().onClick(getPosition(e));
       });
 
     onCleanup(() =>
       image_region?.removeEventListener('pointerup', (e) => {
-        console.log("Clicked2");
+        console.log('Clicked2');
         if (controlState === ControlState.SELECT) props.clickListener().onClick(getPosition(e));
       })
     );
@@ -143,8 +143,7 @@ export default function Im(props: Props) {
           var image_panel = document.getElementById('image_panel') as HTMLElement;
           var panelWidth = image_panel.clientWidth;
           setOverlay(new Overlay(panelWidth));
-        } else if (overlay().overlay_canvas != undefined)
-          overlay().drawOverlay(props.overlaysJSON);
+        } else if (overlay().overlay_canvas != undefined) overlay().drawOverlay(props.overlaysJSON);
       }
     }
   });
@@ -281,18 +280,17 @@ export default function Im(props: Props) {
     var y = (h - h / zoom) / 2 + imY / zoom - zoomControl()?.getPan().y;
 
     return [x, y];
-
   }
 
   function setControlStateByName(newControlState: string) {
     switch (newControlState) {
-      case "Move":
+      case 'Move':
         setControlState(ControlState.MOVE);
         break;
-      case "Probe":
+      case 'Probe':
         setControlState(ControlState.PROBE);
         break;
-      case "Select":
+      case 'Select':
         setControlState(ControlState.SELECT);
         break;
     }
@@ -310,8 +308,7 @@ export default function Im(props: Props) {
         probeEnabled = false;
         zoomControl().setOptions({ disablePan: false, cursor: 'move' });
 
-        if (moveRadio === null)
-          break;
+        if (moveRadio === null) break;
 
         if (!moveRadio.classList.contains('button-selected'))
           moveRadio.classList.toggle('button-selected');
@@ -324,8 +321,7 @@ export default function Im(props: Props) {
         probeEnabled = true;
         zoomControl().setOptions({ disablePan: true, cursor: 'crosshair' });
 
-        if (probeRadio === null)
-          break;
+        if (probeRadio === null) break;
 
         if (moveRadio.classList.contains('button-selected'))
           moveRadio.classList.toggle('button-selected');
@@ -338,8 +334,7 @@ export default function Im(props: Props) {
         probeEnabled = false;
         zoomControl().setOptions({ disablePan: true, cursor: 'crosshair' });
 
-        if (selectRadio === null)
-          break;
+        if (selectRadio === null) break;
 
         if (probeRadio.classList.contains('button-selected'))
           probeRadio.classList.toggle('button-selected');
@@ -380,12 +375,15 @@ export default function Im(props: Props) {
         </div>
       </Show>
 
-      <div class="flex-none rounded-lg overflow-visible shadow-lg animate-in fade-in duration-1000 ease-in-out" style="position:relative">
+      <div
+        class="flex-none rounded-lg overflow-visible shadow-lg animate-in fade-in duration-1000 ease-in-out"
+        style="position:relative"
+      >
         <div class="group flex w-full ml-2 pr-2" style="position: absolute; left: 0; z-index: 99">
           <Show when={showProbeControl()}>
             <button
               id="probe_radio"
-              class={`${props.image.defaultcontrol === "Probe" ? "button-selected" : "button"} flex-none rounded-lg overflow-visible shadow-lg bg-white disabled:bg-red-500 opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
+              class={`${props.image.defaultcontrol === 'Probe' ? 'button-selected' : 'button'} flex-none rounded-lg overflow-visible shadow-lg bg-white disabled:bg-red-500 opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
               onclick={() => setControlState(ControlState.PROBE)}
             >
               <img class="h-6 w-6 m-1" src="/images/target.svg" />
@@ -394,7 +392,7 @@ export default function Im(props: Props) {
           <Show when={showSelectControl()}>
             <button
               id="select_radio"
-              class={`${props.image.defaultcontrol === "Select" ? "button-selected" : "button"} flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
+              class={`${props.image.defaultcontrol === 'Select' ? 'button-selected' : 'button'} flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
               onclick={() => setControlState(ControlState.SELECT)}
             >
               <img class="h-6 w-6 m-1" src="/images/select.svg" />
@@ -403,7 +401,7 @@ export default function Im(props: Props) {
           <Show when={showZoomControl()}>
             <button
               id="move_radio"
-              class={`${props.image.defaultcontrol === "Move" ? "button-selected" : "button"} flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out` }
+              class={`${props.image.defaultcontrol === 'Move' ? 'button-selected' : 'button'} flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
               onclick={() => setControlState(ControlState.MOVE)}
             >
               <img class="h-6 w-6 m-1" src="/images/move.svg" />
@@ -412,7 +410,10 @@ export default function Im(props: Props) {
           </Show>
         </div>
 
-        <div class="group flex w-full ml-2 pr-2" style="position: absolute; left: 0; bottom:0; z-index: 99">
+        <div
+          class="group flex w-full ml-2 pr-2"
+          style="position: absolute; left: 0; bottom:0; z-index: 99"
+        >
           <Show when={props.image.showchannelcontrols}>
             <For each={props.image.channels}>
               {(channel) => (
@@ -440,9 +441,7 @@ export default function Im(props: Props) {
           </Show>
         </div>
       </div>
-      <div class="flex ml-4 mr-4">
-
-      </div>
+      <div class="flex ml-4 mr-4"></div>
     </div>
   );
 }

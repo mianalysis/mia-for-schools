@@ -4,12 +4,14 @@ on:
   push:
     branches:
       - main
-      - development
+      - develop
+      - gh-pages
 
   pull_request:
     branches:
       - main
-      - development
+      - develop
+      - gh-pages
 
 jobs:
   ci:
@@ -18,8 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          lfs: true   
-          
+          lfs: true
+
       - uses: actions/setup-node@v3
         with:
           node-version: '20'

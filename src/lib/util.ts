@@ -18,18 +18,18 @@ export async function sendParameter(
   groupCollectionNumber: number,
   updatePage: Function
 ) {
-
   const processController = window.proCon;
-  const resultJSON = await JSON.parse(await processController.setParameter(
-    moduleID,
-    parameterName,
-    parameterValue,
-    parentGroupName,
-    groupCollectionNumber
-  ));
+  const resultJSON = await JSON.parse(
+    await processController.setParameter(
+      moduleID,
+      parameterName,
+      parameterValue,
+      parentGroupName,
+      groupCollectionNumber
+    )
+  );
 
   updatePage(resultJSON);
-
 }
 
 // From https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb (Accessed 2024-07-19)
@@ -44,10 +44,13 @@ export function rgbToHex(r, g, b) {
 }
 
 export function hexToRgb(hex: string): string {
-  hex = hex.replace(/^#/, "");
+  hex = hex.replace(/^#/, '');
 
   if (hex.length === 3)
-    hex = hex.split("").map(c => c + c).join("");
+    hex = hex
+      .split('')
+      .map((c) => c + c)
+      .join('');
 
   const num = parseInt(hex, 16);
   const r = (num >> 16) & 255;
@@ -55,5 +58,4 @@ export function hexToRgb(hex: string): string {
   const b = num & 255;
 
   return `${r},${g},${b}`;
-
 }

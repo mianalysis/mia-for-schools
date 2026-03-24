@@ -1,8 +1,8 @@
 {
-    "colour": "#FFCC66",
-    "iconPaths": [
-        "images/background/square_sm.png",
-        "images/background/square_md.png",
-        "images/background/square_lg.png"
-    ]
+  "colour": "#FFCC66",
+  "iconPaths": [
+    "images/background/square_sm.png",
+    "images/background/square_md.png",
+    "images/background/square_lg.png"
+  ]
 }

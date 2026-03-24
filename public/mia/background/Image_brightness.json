@@ -1,7 +1,4 @@
 {
-    "colour": "#F4C188",
-    "iconPaths": [
-        "images/background/cross.png",
-        "images/background/circle.png"
-    ]
+  "colour": "#F4C188",
+  "iconPaths": ["images/background/cross.png", "images/background/circle.png"]
 }

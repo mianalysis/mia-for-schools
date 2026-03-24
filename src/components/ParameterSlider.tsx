@@ -12,7 +12,7 @@ interface Props {
 
 export default function ParameterSlider(props: Props) {
   const sliderId = createUniqueId();
-  var sliderWidth : number = 64;
+  var sliderWidth: number = 64;
 
   const matchArray = props.parameter.nickname.match(/(.+)S{(.+)}/);
   if (matchArray == null) return;
@@ -21,8 +21,7 @@ export default function ParameterSlider(props: Props) {
 
   if (groups == null) return;
 
-  if (groups[4] != undefined)
-      sliderWidth = parseFloat(groups[4])
+  if (groups[4] != undefined) sliderWidth = parseFloat(groups[4]);
 
   const decimalPlacesGroups = groups[3].match(/([0-9]+)\.([0-9]+)/);
   var decimalPlaces = 0;

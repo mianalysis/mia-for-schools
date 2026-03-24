@@ -7,7 +7,7 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 export default defineConfig({
   base: '/mia-for-schools/',
   plugins: [
-    solid(), 
+    solid(),
     nodePolyfills(),
     {
       name: 'range-request-support',
@@ -46,7 +46,7 @@ export default defineConfig({
           }
         });
       },
-    }
+    },
   ],
   build: {
     target: 'esnext',

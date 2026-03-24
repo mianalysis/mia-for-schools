@@ -28,12 +28,12 @@ export class Overlay {
 
   drawRegionOverlay(region: OverlayRegionJSON, overlay_width: number, overlay_height: number) {
     switch (region.renderingmode) {
-      case "Fill":
+      case 'Fill':
         this.overlay_context.fillStyle = region.fillcolour;
         this.overlay_context.strokeStyle = undefined;
         this.overlay_context.lineWidth = 0;
         break;
-      case "Outline":
+      case 'Outline':
         this.overlay_context.fillStyle = undefined;
         this.overlay_context.strokeStyle = region.strokecolour;
         this.overlay_context.lineWidth = region.linewidth;
@@ -58,10 +58,10 @@ export class Overlay {
 
     this.overlay_context.closePath();
     switch (region.renderingmode) {
-      case "Fill":
+      case 'Fill':
         this.overlay_context.fill();
         break;
-      case "Outline":
+      case 'Outline':
         this.overlay_context.stroke();
         break;
     }
@@ -70,16 +70,18 @@ export class Overlay {
   drawTextOverlay(label: OverlayTextJSON, overlay_width: number, overlay_height: number) {
     this.overlay_context.fillStyle = label.fillcolour;
 
-    this.overlay_context.font = label.labelsize.toString() + "px Arial";
-    this.overlay_context.textBaseline = "middle";
-    this.overlay_context.textAlign = "center";
-    this.overlay_context.fillText(label.text, (label.x * overlay_width) / 512, (label.y * overlay_height) / 512);
-
+    this.overlay_context.font = label.labelsize.toString() + 'px Arial';
+    this.overlay_context.textBaseline = 'middle';
+    this.overlay_context.textAlign = 'center';
+    this.overlay_context.fillText(
+      label.text,
+      (label.x * overlay_width) / 512,
+      (label.y * overlay_height) / 512
+    );
   }
 
   drawOverlay(overlays: OverlayJSON[]) {
-    if (overlays == undefined)
-      return;
+    if (overlays == undefined) return;
 
     if (this.overlay_context != undefined)
       this.overlay_context.clearRect(0, 0, this.overlay_canvas.width, this.overlay_canvas.height);
