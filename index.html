@@ -19,12 +19,14 @@
         console.log("CheerpJ loaded")
 
         // const cj = await cheerpjRunLibrary("mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
-        const cj = await cheerpjRunLibrary("/mia-for-schools/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
+        const cj = await cheerpjRunLibrary("https://mianalysis.github.io/mia-for-schools/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
         console.log(cj);
         // const cj = await cheerpjRunLibrary("/app/MIA_SERVER_-0.0.1-SNAPSHOT.jar");
         window.cj = cj;
 
         const Initialiser = await cj.io.github.mianalysis.miaserver.utils.Initialiser;
+        console.log("Initialiser");
+        console.log(Initialiser);
         const initialiser = await new Initialiser();
         await initialiser.initialise();
 
