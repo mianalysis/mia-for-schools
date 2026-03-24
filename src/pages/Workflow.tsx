@@ -122,7 +122,7 @@ function getClickListenerParameter(modules: [ModuleJSON]) {
 // await awaitConnect(undefined);
 
 async function loadWorkflowConfig() {
-  const workflowsJson: WorkflowsJSON = await (await fetch('/mia/workflows/workflows.json')).json();
+  const workflowsJson: WorkflowsJSON = await (await fetch('./mia/workflows/workflows.json')).json();
 
   // const workflowName: String = useLocation().query.name;
   const workflowJson: WorkflowJSON = workflowsJson.workflows.find(
@@ -136,7 +136,7 @@ async function initialiseWorkflow(workflowName: String) {
   loadWorkflowConfig();
 
   // Read workflow XML from file
-  const workflowPath: string = `/mia/workflows/${workflowName}.mia`;
+  const workflowPath: string = `./mia/workflows/${workflowName}.mia`;
   const workflowFile = await fetch(workflowPath);
   const workflowXML: string = (await workflowFile.text()).toString();
 
