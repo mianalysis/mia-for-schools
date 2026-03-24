@@ -14,6 +14,6 @@ await new Promise<void>((resolve) => {
   }
 });
 
-console.log("Running main page now");
+console.log('Running main page now');
 
 render(() => <App />, document.getElementById('root'));
