@@ -11,14 +11,14 @@
 
 <body class="min-h-screen">
   <div id="root"></div>
-  <script type="module">
+  <script>
     (async () => {  
       try {
         console.log("Starting CheerpJ")
         await cheerpjInit();
         console.log("CheerpJ loaded")
 
-        const cj = await cheerpjRunLibrary(import.meta.env.BASE_URL + "mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
+        const cj = await cheerpjRunLibrary("/mia-for-schools/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
         // const cj = await cheerpjRunLibrary("/app/MIA_SERVER_-0.0.1-SNAPSHOT.jar");
         window.cj = cj;
 
