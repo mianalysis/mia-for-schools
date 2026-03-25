@@ -10,18 +10,16 @@
 
   <body class="min-h-screen">
     <div id="root"></div>
+    <script type="module" src="./src/index.tsx"></script>
     <script>
       (async () => {
         try {
-          console.log('Starting CheerpJ');
           await cheerpjInit();
-          console.log('CheerpJ loaded');
 
           // const cj = await cheerpjRunLibrary("mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
           const cj = await cheerpjRunLibrary(
             '/app/mia-for-schools/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar'
           );
-          console.log(cj);
 
           // const cj = await cheerpjRunLibrary("/app/MIA_SERVER_-0.0.1-SNAPSHOT.jar");
           window.cj = cj;
@@ -31,18 +29,15 @@
           await initialiser.initialise();
 
           const AvailableModules = await cj.io.github.mianalysis.mia.module.AvailableModules;
-          // await AvailableModules.addModuleName("io.github.mianalysis.mia.module.inputoutput.ImageLoader");
-          console.log(AvailableModules.getModuleNames(false));
 
           // Signal that CheerpJ is ready
           window.cheerpjReady = true;
           window.dispatchEvent(new Event('cheerpj-ready'));
-          console.log('All done');
+          
         } catch (e) {
           console.error('Error:', e);
         }
       })();
     </script>
-    <script type="module" src="./src/index.tsx"></script>
   </body>
 </html>

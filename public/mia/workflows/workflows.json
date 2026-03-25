@@ -2,6 +2,24 @@
   "workflows": [
     {
       "background": {
+        "colour": "#FFCC66",
+        "iconPaths": [
+          "images/background/cross.png",
+          "images/background/circle.png",
+          "images/background/square_sm.png",
+          "images/background/square_md.png",
+          "images/background/square_lg.png"
+        ]
+      },
+      "banner": {},
+      "displayname": "Images and colour",
+      "fullname": "Images_and_colour",
+      "path": "mia/workflows/Images_and_colour.mia",
+      "thumbnail": "mia/thumbnails/Images_and_colour.png"
+    },
+
+    {
+      "background": {
         "colour": "#E7A5F6",
         "iconPaths": [
           "images/background/circle.png",
@@ -14,6 +32,22 @@
       "fullname": "Looking_at_cells",
       "path": "mia/workflows/Looking_at_cells.mia",
       "thumbnail": "mia/thumbnails/Looking_at_cells.png"
+    },
+
+    {
+      "background": {
+        "colour": "#D1FB88",
+        "iconPaths": [
+          "images/background/circle.png",
+          "images/background/cell.png",
+          "images/background/microscope.png"
+        ]
+      },
+      "banner": {},
+      "displayname": "What is an image?",
+      "fullname": "What_is_an_image",
+      "path": "mia/workflows/What_is_an_image.mia",
+      "thumbnail": "mia/thumbnails/What_is_an_image.png"
     }
   ]
 }

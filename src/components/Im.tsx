@@ -308,39 +308,33 @@ export default function Im(props: Props) {
         probeEnabled = false;
         zoomControl().setOptions({ disablePan: false, cursor: 'move' });
 
-        if (moveRadio === null) break;
-
-        if (!moveRadio.classList.contains('button-selected'))
+        if (moveRadio !== null && !moveRadio.classList.contains('button-selected'))
           moveRadio.classList.toggle('button-selected');
-        if (probeRadio.classList.contains('button-selected'))
+        if (probeRadio !== null && probeRadio.classList.contains('button-selected'))
           probeRadio.classList.toggle('button-selected');
-        if (selectRadio.classList.contains('button-selected'))
+        if (selectRadio !== null && selectRadio.classList.contains('button-selected'))
           selectRadio.classList.toggle('button-selected');
         break;
       case ControlState.PROBE:
         probeEnabled = true;
         zoomControl().setOptions({ disablePan: true, cursor: 'crosshair' });
 
-        if (probeRadio === null) break;
-
-        if (moveRadio.classList.contains('button-selected'))
+        if (moveRadio !== null && moveRadio.classList.contains('button-selected'))
           moveRadio.classList.toggle('button-selected');
-        if (!probeRadio.classList.contains('button-selected'))
+        if (probeRadio !== null && !probeRadio.classList.contains('button-selected'))
           probeRadio.classList.toggle('button-selected');
-        if (selectRadio.classList.contains('button-selected'))
+        if (selectRadio !== null && selectRadio.classList.contains('button-selected'))
           selectRadio.classList.toggle('button-selected');
         break;
       case ControlState.SELECT:
         probeEnabled = false;
         zoomControl().setOptions({ disablePan: true, cursor: 'crosshair' });
 
-        if (selectRadio === null) break;
-
-        if (probeRadio.classList.contains('button-selected'))
+        if (probeRadio !== null && probeRadio.classList.contains('button-selected'))
           probeRadio.classList.toggle('button-selected');
-        if (moveRadio.classList.contains('button-selected'))
+        if (moveRadio !== null && moveRadio.classList.contains('button-selected'))
           moveRadio.classList.toggle('button-selected');
-        if (!selectRadio.classList.contains('button-selected'))
+        if (selectRadio !== null && !selectRadio.classList.contains('button-selected'))
           selectRadio.classList.toggle('button-selected');
         break;
     }
