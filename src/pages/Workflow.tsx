@@ -183,7 +183,7 @@ function App() {
   // Set workflow background
   loadWorkflowConfig();
 
-  new Promise<void>((resolve) => {
+  new Promise<void>(() => {
     if ((window as any).cheerpjReady) {
       initialiseWorkflow(workflowName);
     } else {
