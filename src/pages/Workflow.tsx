@@ -166,6 +166,7 @@ async function updatePage(resultJSON: ResultJSON) {
   setGraph(resultJSON.graph);
   setShowNav(true);
   setImage(resultJSON.image);
+
 }
 
 function App() {

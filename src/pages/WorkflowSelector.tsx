@@ -48,7 +48,7 @@ const [workflows, setWorkflows] = createSignal<WorkflowJSON[]>();
 async function loadWorkflows() {
   const response = await fetch('./mia/workflows/workflows.json');
   const workflowsJson = await response.json();
-  console.log(workflowsJson);
+
   setWorkflows(workflowsJson.workflows);
 }
 

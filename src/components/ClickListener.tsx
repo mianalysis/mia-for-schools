@@ -10,7 +10,7 @@ export class ClickListener {
     this.parameter = parameter;
     this.debouncedProcessClick = debounce((position: number[]) => {
       const value = Math.round(position[0][0]) + ',' + Math.round(position[0][1]);
-      console.log(value);
+
       sendParameter(
         this.parameter.moduleid,
         this.parameter.name,

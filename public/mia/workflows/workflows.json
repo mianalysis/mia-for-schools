@@ -2,6 +2,24 @@
   "workflows": [
     {
       "background": {
+        "colour": "#9397DC",
+        "iconPaths": [
+          "images/background/cross.png",
+          "images/background/circle.png",
+          "images/background/square_sm.png",
+          "images/background/square_md.png",
+          "images/background/square_lg.png"
+        ]
+      },
+      "banner": { "text": "Beta", "colour": "bg-amber-500" },
+      "displayname": "Aligning images",
+      "fullname": "Aligning_images",
+      "path": "mia/workflows/Aligning_images.mia",
+      "thumbnail": "mia/thumbnails/Aligning_images.png"
+    },
+
+    {
+      "background": {
         "colour": "#FFCC66",
         "iconPaths": [
           "images/background/cross.png",
