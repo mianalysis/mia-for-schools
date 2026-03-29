@@ -56,6 +56,25 @@
       "background": {
         "colour": "#D1FB88",
         "iconPaths": [
+          "images/background/square_sm.png",
+          "images/background/square_md.png",
+          "images/background/square_lg.png"
+        ]
+      },
+      "banner": {
+        "text": "Beta",
+        "colour": "bg-amber-500"
+      },
+      "displayname": "Resolution and detail",
+      "fullname": "Resolution_and_detail",
+      "path": "mia/workflows/Resolution_and_detail.mia",
+      "thumbnail": "mia/thumbnails/Resolution_and_detail.png"
+    },
+
+    {
+      "background": {
+        "colour": "#D1FB88",
+        "iconPaths": [
           "images/background/circle.png",
           "images/background/cell.png",
           "images/background/microscope.png"
