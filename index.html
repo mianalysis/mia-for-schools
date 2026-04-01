@@ -50,18 +50,13 @@
               '/lt/8/lib/security/java.security': [0, 131072],
               '/lt/etc/timezone': [],
               '/lt/8/lib/tzdb.dat': [0, 131072],
-              '/app/mia-for-schools/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar': [
-                0, 131072,
-              ],
             },
           });
 
-          // const cj = await cheerpjRunLibrary("mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar");
           const cj = await cheerpjRunLibrary(
             '/app/mia-for-schools/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar'
           );
 
-          // const cj = await cheerpjRunLibrary("/app/MIA_SERVER_-0.0.1-SNAPSHOT.jar");
           window.cj = cj;
 
           const Initialiser = await cj.io.github.mianalysis.miaserver.utils.Initialiser;

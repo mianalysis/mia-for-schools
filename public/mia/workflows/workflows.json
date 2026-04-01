@@ -73,6 +73,26 @@
 
     {
       "background": {
+        "colour": "#F08F90",
+        "iconPaths": [
+          "images/background/diatom1.png",
+          "images/background/diatom2.png",
+          "images/background/diatom3.png",
+          "images/background/diatom4.png"
+        ]
+      },
+      "banner": {
+        "text": "Beta",
+        "colour": "bg-amber-500"
+      },
+      "displayname": "Sort the shapes",
+      "fullname": "Sort_the_shapes",
+      "path": "mia/workflows/Sort_the_shapes.mia",
+      "thumbnail": "mia/thumbnails/Sort_the_shapes.png"
+    },
+
+    {
+      "background": {
         "colour": "#D1FB88",
         "iconPaths": [
           "images/background/circle.png",
