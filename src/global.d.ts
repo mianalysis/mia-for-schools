@@ -2,6 +2,7 @@ export {};
 
 declare global {
   interface Window {
+    cheerpjReady: boolean;
     cj: any;
     setLoadedBytes: Function;
     localLoadedBytes: number;
