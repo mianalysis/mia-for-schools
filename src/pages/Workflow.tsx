@@ -129,6 +129,8 @@ function getClickListenerParameter(modules: [ModuleJSON]) {
 // await awaitConnect(undefined);
 
 async function loadWorkflowConfig() {
+  setLoading(false);
+
   const workflowsJson: WorkflowsJSON = await (await fetch('./mia/workflows/workflows.json')).json();
 
   const workflowJson: WorkflowJSON = workflowsJson.workflows.find(
@@ -141,7 +143,8 @@ async function loadWorkflowConfig() {
   finalBytes = 0;
   if (!window.cheerpjReady) finalBytes = window.TOTAL_INIT_BYTES;
 
-  finalBytes += workflowJson.memory;
+  finalBytes = finalBytes + workflowJson.memory;
+  setLoading(true);
 }
 
 async function initialiseWorkflow(workflowName: String) {
