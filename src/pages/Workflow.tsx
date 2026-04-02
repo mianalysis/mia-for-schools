@@ -21,7 +21,7 @@ var workflowName: String = '';
 // const [hasPrevious, setHasPrevious] = createSignal(true);
 // const [hasNext, setHasNext] = createSignal(true);
 // const [params, setParams] = createSignal<ModuleJSON[]>();
-const [loading, setLoading] = createSignal(true);
+const [loading, setLoading] = createSignal(false);
 const [image, setImage] = createSignal<ImageJSON>();
 const [background, setBackground] = createSignal<BackgroundJSON>();
 const [message, setMessage] = createSignal<[MessageJSON]>();
@@ -32,8 +32,8 @@ const [clickListener, setClickListener] = createSignal<ClickListener | undefined
 const [loadedBytes, setLoadedBytes] = createSignal(0);
 
 window.setLoadedBytes = setLoadedBytes;
-var startingBytes = window.localLoadedBytes;
-var finalBytes = window.TOTAL_INIT_BYTES;
+var startingBytes = 0;
+var finalBytes = 0;
 
 // function requestHasPreviousGroup() {
 //   socketClient.publish({
@@ -136,6 +136,12 @@ async function loadWorkflowConfig() {
   );
 
   setBackground(workflowJson.background);
+
+  startingBytes = window.localLoadedBytes;
+  finalBytes = 0;
+  if (!window.cheerpjReady) finalBytes = window.TOTAL_INIT_BYTES;
+
+  finalBytes += workflowJson.memory;
 }
 
 async function initialiseWorkflow(workflowName: String) {

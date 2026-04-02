@@ -14,6 +14,7 @@
       "banner": { "text": "Beta", "colour": "bg-amber-500" },
       "displayname": "Aligning images",
       "fullname": "Aligning_images",
+      "memory": 4332003,
       "path": "mia/workflows/Aligning_images.mia",
       "thumbnail": "mia/thumbnails/Aligning_images.png"
     },
@@ -32,6 +33,7 @@
       "banner": {},
       "displayname": "Images and colour",
       "fullname": "Images_and_colour",
+      "memory": 817484,
       "path": "mia/workflows/Images_and_colour.mia",
       "thumbnail": "mia/thumbnails/Images_and_colour.png"
     },
@@ -48,6 +50,7 @@
       "banner": {},
       "displayname": "Looking at cells",
       "fullname": "Looking_at_cells",
+      "memory": 1281634,
       "path": "mia/workflows/Looking_at_cells.mia",
       "thumbnail": "mia/thumbnails/Looking_at_cells.png"
     },
@@ -67,6 +70,7 @@
       },
       "displayname": "Resolution and detail",
       "fullname": "Resolution_and_detail",
+      "memory": 7940514,
       "path": "mia/workflows/Resolution_and_detail.mia",
       "thumbnail": "mia/thumbnails/Resolution_and_detail.png"
     },
@@ -87,6 +91,7 @@
       },
       "displayname": "Sort the shapes",
       "fullname": "Sort_the_shapes",
+      "memory": 3344866,
       "path": "mia/workflows/Sort_the_shapes.mia",
       "thumbnail": "mia/thumbnails/Sort_the_shapes.png"
     },
@@ -103,6 +108,7 @@
       "banner": {},
       "displayname": "What is an image?",
       "fullname": "What_is_an_image",
+      "memory": 820634,
       "path": "mia/workflows/What_is_an_image.mia",
       "thumbnail": "mia/thumbnails/What_is_an_image.png"
     }
