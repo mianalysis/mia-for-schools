@@ -14,7 +14,48 @@
     <script>
       (async () => {
         try {
-          // await cheerpjInit();
+          // Setting values to be accessible from other classes
+          window.setLoadedBytes = null;
+          // window.TOTAL_INIT_BYTES = 122236541;
+          window.TOTAL_INIT_BYTES = 32897217;
+          window.localLoadedBytes = 0;
+          const originalFetch = window.fetch;
+
+          let loadedBytes = 0;
+
+          function updateProgress(loadedBytes) {
+            if (window.setLoadedBytes) window.setLoadedBytes(loadedBytes);
+          }
+
+          window.fetch = async (...args) => {
+            const response = await originalFetch(...args);
+
+            const body = response.body;
+            if (!body) return response;
+
+            const [stream1, stream2] = body.tee();
+
+            // Track progress on one stream
+            (async () => {
+              const reader = stream1.getReader();
+              while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                loadedBytes += value.length;
+                console.log('Loaded ' + loadedBytes);
+                updateProgress(loadedBytes);
+              }
+            })();
+
+            // Return untouched stream to CheerpJ
+            return new Response(stream2, {
+              status: response.status,
+              statusText: response.statusText,
+              headers: response.headers,
+            });
+          };
+
           await cheerpjInit({
             preloadResources: {
               '/lt/8/jre/lib/rt.jar': [
