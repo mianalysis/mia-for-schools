@@ -32,8 +32,8 @@ const [clickListener, setClickListener] = createSignal<ClickListener | undefined
 const [loadedBytes, setLoadedBytes] = createSignal(0);
 
 window.setLoadedBytes = setLoadedBytes;
-const startingBytes = window.localLoadedBytes;
-const finalBytes = window.TOTAL_INIT_BYTES;
+var startingBytes = window.localLoadedBytes;
+var finalBytes = window.TOTAL_INIT_BYTES;
 
 // function requestHasPreviousGroup() {
 //   socketClient.publish({
