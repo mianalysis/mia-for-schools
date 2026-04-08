@@ -43,6 +43,7 @@
 
                 loadedBytes += value.length;
                 console.log('Loaded ' + loadedBytes);
+                window.localLoadedBytes = loadedBytes;
                 updateProgress(loadedBytes);
               }
             })();
