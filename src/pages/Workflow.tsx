@@ -272,7 +272,7 @@ function App() {
               class="mt-4 bg-violet-500 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full h-4 flex items-center justify-center"
               style={
                 'width: ' +
-                Math.max(5, Math.min(100, 100 * ((loadedBytes() - startingBytes) / finalBytes))) +
+                Math.max(10, Math.min(100, 100 * ((loadedBytes() - startingBytes) / finalBytes))) +
                 '%'
               }
             ></div>
