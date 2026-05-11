@@ -266,7 +266,7 @@ function App() {
           class="rounded-lg shadow-lg bg-white p-4 fade-in fade-out duration-1000 ease-in-out w-64"
           style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75); z-index: 1"
         >
-          <div class="text-2xl">Loading...</div>
+          <div class="text-2xl text-gray-600">Loading...</div>
           <div class="w-full bg-neutral-quaternary rounded-full">
             <div
               class="mt-4 bg-violet-500 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full h-4 flex items-center justify-center"
