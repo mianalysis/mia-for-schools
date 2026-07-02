@@ -9,7 +9,7 @@ export default {
         growshrink: 'growshrink 0.5s ease-in infinite',
       },
       boxShadow: {
-        'equal': '0 0 18px 4px currentColor',
+        equal: '0 0 18px 4px currentColor',
       },
       keyframes: {
         growshrink: {
@@ -20,5 +20,24 @@ export default {
     },
   },
   plugins: [require('@tailwindcss/forms'), require('tailwindcss-animate')],
-  safelist: [{ pattern: /text-./ }, { pattern: /font-./ }, { pattern: /bg-./ }, { pattern: /w-./ }, { pattern: /h-./ }, { pattern: /rounded-./ }, { pattern: /border/ }, { pattern: /flex/ }, { pattern: /border-./ }, { pattern: /items-./ }, { pattern: /shadow-./ }, { pattern: /transform/ }, { pattern: /rotate-./ }, { pattern: /inline-./ }],
+  safelist: [
+    { pattern: /text-./ },
+    { pattern: /font-./ },
+    { pattern: /bg-./ },
+    { pattern: /w-./ },
+    { pattern: /h-./ },
+    { pattern: /mr-./ },
+    { pattern: /ml-./ },
+    { pattern: /mt-./ },
+    { pattern: /mb-./ },
+    { pattern: /rounded-./ },
+    { pattern: /border/ },
+    { pattern: /flex/ },
+    { pattern: /border-./ },
+    { pattern: /items-./ },
+    { pattern: /shadow-./ },
+    { pattern: /transform/ },
+    { pattern: /rotate-./ },
+    { pattern: /inline-./ },
+  ],
 };

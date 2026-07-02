@@ -6,7 +6,7 @@ type OverlayJSON = {
 type OverlayRegionJSON = {
   fillcolour: string;
   strokecolour: string;
-  renderingmode: "Fill"|"Outline";
+  renderingmode: 'Fill' | 'Outline';
   linewidth: number;
   x: number[];
   y: number[];

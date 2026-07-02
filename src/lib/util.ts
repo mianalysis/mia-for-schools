@@ -1,6 +1,3 @@
-import { socketClient } from './client';
-import { store } from './store';
-
 export function debounce(fn: (...args: any[]) => void, delay: number) {
   let timer: ReturnType<typeof setTimeout> | null = null;
 
@@ -13,24 +10,26 @@ export function debounce(fn: (...args: any[]) => void, delay: number) {
   };
 }
 
-export function sendParameter(
+export async function sendParameter(
   moduleID: String,
   parameterName: String,
   parameterValue: String,
   parentGroupName: String,
-  groupCollectionNumber: number
+  groupCollectionNumber: number,
+  updatePage: Function
 ) {
-  socketClient.publish({
-    destination: '/app/setparameter',
-    body: JSON.stringify({
-      moduleID: moduleID,
-      parameterName: parameterName,
-      parameterValue: parameterValue,
-      parentGroupName: parentGroupName,
-      groupCollectionNumber: groupCollectionNumber,
-      imageHash: store.imageHash,
-    }),
-  });
+  const processController = window.proCon;
+  const resultJSON = await JSON.parse(
+    await processController.setParameter(
+      moduleID,
+      parameterName,
+      parameterValue,
+      parentGroupName,
+      groupCollectionNumber
+    )
+  );
+
+  updatePage(resultJSON);
 }
 
 // From https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb (Accessed 2024-07-19)
@@ -45,10 +44,13 @@ export function rgbToHex(r, g, b) {
 }
 
 export function hexToRgb(hex: string): string {
-  hex = hex.replace(/^#/, "");
+  hex = hex.replace(/^#/, '');
 
   if (hex.length === 3)
-    hex = hex.split("").map(c => c + c).join("");
+    hex = hex
+      .split('')
+      .map((c) => c + c)
+      .join('');
 
   const num = parseInt(hex, 16);
   const r = (num >> 16) & 255;
@@ -56,5 +58,4 @@ export function hexToRgb(hex: string): string {
   const b = num & 255;
 
   return `${r},${g},${b}`;
-
 }

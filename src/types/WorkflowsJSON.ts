@@ -1,0 +1,3 @@
+type WorkflowsJSON = {
+  workflows: WorkflowJSON[];
+};

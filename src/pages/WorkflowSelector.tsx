@@ -1,54 +1,59 @@
 import { For, Show, createSignal } from 'solid-js';
 
-import { socketClient } from '../lib/client';
 import MenuBar from '../components/MenuBar';
 import Background, { getDefaultBackground } from '../components/Background';
 
-
 const [workflows, setWorkflows] = createSignal<WorkflowJSON[]>();
 
-const awaitConnect = async (awaitConnectConfig) => {
-  const { retries = 3, curr = 0, timeinterval = 100 } = {};
+// const awaitConnect = async (awaitConnectConfig) => {
+//   const { retries = 3, curr = 0, timeinterval = 100 } = {};
 
-  return new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      if (socketClient.connected) {
-        subscribeToWorkflows();
-        resolve(undefined);
-      } else {
-        if (curr >= retries) {
-          reject();
-        } else {
-          try {
-            await awaitConnect({ ...awaitConnectConfig, curr: curr + 1 });
-            resolve(undefined);
-          } catch (e) {
-            reject(e);
-          }
-        }
-      }
-    }, timeinterval);
-  });
-};
+//   return new Promise((resolve, reject) => {
+//     setTimeout(async () => {
+//       if (socketClient.connected) {
+//         subscribeToWorkflows();
+//         resolve(undefined);
+//       } else {
+//         if (curr >= retries) {
+//           reject();
+//         } else {
+//           try {
+//             await awaitConnect({ ...awaitConnectConfig, curr: curr + 1 });
+//             resolve(undefined);
+//           } catch (e) {
+//             reject(e);
+//           }
+//         }
+//       }
+//     }, timeinterval);
+//   });
+// };
 
-await awaitConnect(undefined);
+// await awaitConnect(undefined);
 
-function subscribeToWorkflows() {
-  socketClient.subscribe('/user/queue/workflows', (data) => {
-    const response = JSON.parse(data.body);
-    const workflowsJson = JSON.parse(response.body).workflows;
-    setWorkflows(workflowsJson);
-  });
-}
-function requestAvailableWorkflows() {
-  socketClient.publish({
-    destination: '/app/getworkflows',
-    body: JSON.stringify({}),
-  });
+// function subscribeToWorkflows() {
+//   socketClient.subscribe('/user/queue/workflows', (data) => {
+//     const response = JSON.parse(data.body);
+//     const workflowsJson = JSON.parse(response.body).workflows;
+//     setWorkflows(workflowsJson);
+//   });
+// }
+// function requestAvailableWorkflows() {
+//   socketClient.publish({
+//     destination: '/app/getworkflows',
+//     body: JSON.stringify({}),
+//   });
+// }
+
+async function loadWorkflows() {
+  const response = await fetch('./mia/workflows/workflows.json');
+  const workflowsJson = await response.json();
+
+  setWorkflows(workflowsJson.workflows);
 }
 
 function NavPage() {
-  if (socketClient.connected) requestAvailableWorkflows();
+  loadWorkflows();
 
   return (
     <main class="space-y-0">
@@ -72,27 +77,32 @@ function NavPage() {
                     src={workflow.thumbnail}
                     class="justify-center justify-self-center w-full max-w-lg rounded-lg shadow-lg aspect-square content-center"
                   />
-                  <div class="bg-white rounded-lg opacity-75 hover:opacity-0 animate transition-opacity duration-150" style="position:absolute; top:0; left:0; width:100%; height:100%"/>
+                  <div
+                    class="bg-white rounded-lg opacity-75 hover:opacity-0 animate transition-opacity duration-150"
+                    style="position:absolute; top:0; left:0; width:100%; height:100%"
+                  />
                 </div>
-              <Show when={Object.keys(workflow.banner).length != 0}>
+                <Show when={workflow.banner}>
+                  <div
+                    class={`absolute transform -rotate-45 text-center ${workflow.banner.colour} text-white font-semibold py-1 left-[-42px] top-[26px] w-[170px]`}
+                  >
+                    {workflow.banner.text}
+                  </div>
+                </Show>
                 <div
-                  class={`absolute transform -rotate-45 text-center ${workflow.banner.colour} text-white font-semibold py-1 left-[-42px] top-[26px] w-[170px]`}
+                  class={
+                    'text-violet-600 text-3xl group-hover:hidden drop-shadow-[0_1px_1px_rgba(0,0,0,1)] animate transition-transform duration-150'
+                  }
+                  style="pointer-events: none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"
                 >
-                  {workflow.banner.text}
+                  {workflow.displayname}
                 </div>
-              </Show>
-              <div
-                class={'text-violet-600 text-3xl group-hover:hidden drop-shadow-[0_1px_1px_rgba(0,0,0,1)] animate transition-transform duration-150'}
-                style="pointer-events: none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"
-              >
-                {workflow.displayname}
               </div>
-            </div>
             </a>
           )}
-      </For>
-    </div>
-    </main >
+        </For>
+      </div>
+    </main>
   );
 }
 

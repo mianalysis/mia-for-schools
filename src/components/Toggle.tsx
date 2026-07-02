@@ -2,6 +2,7 @@ import { sendParameter } from '../lib/util';
 
 interface Props {
   parameter: ParameterJSON;
+  updatePage: Function;
 }
 
 export default function Toggle(props: Props) {
@@ -17,7 +18,8 @@ export default function Toggle(props: Props) {
           props.parameter.name,
           Boolean((e.target as HTMLInputElement).checked).toString(),
           props.parameter.parentGroupName,
-          props.parameter.groupCollectionNumber
+          props.parameter.groupCollectionNumber,
+          props.updatePage
         )
       }
     />

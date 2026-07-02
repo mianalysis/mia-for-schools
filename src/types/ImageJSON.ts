@@ -6,7 +6,7 @@ type ImageJSON = {
   showprobecontrol: boolean;
   showselectcontrol: boolean;
   showzoomcontrol: boolean;
-  defaultcontrol: "Move" | "Probe" | "Select";
+  defaultcontrol: 'Move' | 'Probe' | 'Select';
 };
 
 type ChannelJSON = {

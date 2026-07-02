@@ -2,6 +2,7 @@ import { sendParameter } from '../lib/util';
 
 interface Props {
   parameter: ParameterJSON;
+  updatePage: Function;
 }
 
 export default function TextEntry(props: Props) {
@@ -17,7 +18,8 @@ export default function TextEntry(props: Props) {
           props.parameter.name,
           (e.target as HTMLInputElement).value,
           props.parameter.parentGroupName,
-          props.parameter.groupCollectionNumber
+          props.parameter.groupCollectionNumber,
+          props.updatePage
         )
       }
       onKeyDown={(e) => {
@@ -27,7 +29,8 @@ export default function TextEntry(props: Props) {
             props.parameter.name,
             (e.target as HTMLInputElement).value,
             props.parameter.parentGroupName,
-            props.parameter.groupCollectionNumber
+            props.parameter.groupCollectionNumber,
+            props.updatePage
           );
       }}
       style="text-align:center"

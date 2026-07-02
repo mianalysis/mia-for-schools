@@ -4,6 +4,6 @@ type ResultJSON = {
   image: ImageJSON;
   message: [MessageJSON];
   modules: [ModuleJSON];
-  overlays: OverlayJSON;
+  overlays: [OverlayJSON];
   workflowName: string;
 };

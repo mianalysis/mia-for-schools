@@ -8,12 +8,10 @@ interface Props {
 
 export default function OverlayComponent(props: Props) {
   onMount(() => {
-    if (props.overlay === undefined)
-      return;
+    if (props.overlay === undefined) return;
 
     props.overlay.initialise();
     props.overlay.drawOverlay(props.overlays);
-    
   });
 
   return props.overlay.render();
