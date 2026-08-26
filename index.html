@@ -101,6 +101,8 @@
           window.cj = cj;
 
           console.log('Initialising');
+          const testClass = await cj.io.github.mianalysis.mia.MIA;
+          console.log('Test class '+testClass);
           const Initialiser = await cj.io.github.mianalysis.miaserver.utils.Initialiser;
           const initialiser = await new Initialiser();
           console.log('Initialiser ' + initialiser);
