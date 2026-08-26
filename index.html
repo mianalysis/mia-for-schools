@@ -100,9 +100,12 @@
 
           window.cj = cj;
 
+          console.log('Initialising');
           const Initialiser = await cj.io.github.mianalysis.miaserver.utils.Initialiser;
           const initialiser = await new Initialiser();
+          console.log('Initialiser ' + initialiser);
           await initialiser.initialise();
+          console.log('Initialised');
 
           const AvailableModules = await cj.io.github.mianalysis.mia.module.AvailableModules;
 
