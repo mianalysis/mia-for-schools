@@ -101,6 +101,10 @@
           window.cj = cj;
 
           console.log('Initialising');
+          const Class = await cj.java.lang.Class;
+          const clazz = await Class.forName('io.github.mianalysis.mia.MIA');
+          console.log(clazz);
+
           const testClass = await cj.io.github.mianalysis.mia.MIA;
           console.log('Test class '+testClass);
           const Initialiser = await cj.io.github.mianalysis.miaserver.utils.Initialiser;
