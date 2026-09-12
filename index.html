@@ -102,11 +102,17 @@
 
           console.log('Initialising');
           const Class = await cj.java.lang.Class;
-          const clazz = await Class.forName('io.github.mianalysis.mia.MIA');
-          console.log(clazz);
+
+          try {
+            console.log('Testing class loading');
+            const clazz = await Class.forName('io.github.mianalysis.mia.MIA');
+            console.log('Found:', clazz);
+          } catch (e) {
+            console.error('Class.forName failed:', e);
+          }
 
           const testClass = await cj.io.github.mianalysis.mia.MIA;
-          console.log('Test class '+testClass);
+          console.log('Test class ' + testClass);
           const Initialiser = await cj.io.github.mianalysis.miaserver.utils.Initialiser;
           console.log('Initialiser class ' + Initialiser);
           const initialiser = await new Initialiser();
