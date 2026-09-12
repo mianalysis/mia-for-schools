@@ -93,7 +93,7 @@
             //   '/lt/8/lib/tzdb.dat': [0, 131072],
             // },
           });
-          
+
 
           const cj = await cheerpjRunLibrary(
             '/app/mia-for-schools/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar'
@@ -101,23 +101,9 @@
 
           window.cj = cj;
 
-          console.log('Initialising');
           const Class = await cj.java.lang.Class;
-
-          try {
-            console.log('Testing class loading');
-            const clazz = await Class.forName('io.github.mianalysis.mia.MIA');
-            console.log('Found:', clazz);
-          } catch (e) {
-            console.error('Class.forName failed:', e);
-          }
-
-          const testClass = await cj.io.github.mianalysis.mia.MIA;
-          console.log('Test class ' + testClass);
           const Initialiser = await cj.io.github.mianalysis.miaserver.utils.Initialiser;
-          console.log('Initialiser class ' + Initialiser);
           const initialiser = await new Initialiser();
-          // console.log('Initialiser ' + initialiser);
           await initialiser.initialise();
           console.log('Initialised');
 
