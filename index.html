@@ -42,7 +42,7 @@
                 if (done) break;
 
                 loadedBytes += value.length;
-                console.log('Loaded ' + loadedBytes);
+                // console.log('Loaded ' + loadedBytes);
                 window.localLoadedBytes = loadedBytes;
                 updateProgress(loadedBytes);
               }
@@ -104,8 +104,9 @@
           const testClass = await cj.io.github.mianalysis.mia.MIA;
           console.log('Test class '+testClass);
           const Initialiser = await cj.io.github.mianalysis.miaserver.utils.Initialiser;
+          console.log('Initialiser class ' + Initialiser);
           const initialiser = await new Initialiser();
-          console.log('Initialiser ' + initialiser);
+          // console.log('Initialiser ' + initialiser);
           await initialiser.initialise();
           console.log('Initialised');
 
