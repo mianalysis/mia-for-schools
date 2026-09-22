@@ -1,5 +1,7 @@
 type ImageJSON = {
   channels: [ChannelJSON];
+  imagetype: 'composite' | 'simple';
+  pixels: Int8Array;
   name: string;
   hashcode: string;
   showchannelcontrols: boolean;

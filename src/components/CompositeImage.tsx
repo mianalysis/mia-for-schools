@@ -22,6 +22,7 @@ export default class CompositeImage {
     this.h = this.loadedIms.get(0).height;
 
     this.compiledIm = this.compileImage(this.loadedIms, this.source);
+    
   }
 
   compileImage(loadedIms: Map<number, any>, source: [ChannelJSON]) {

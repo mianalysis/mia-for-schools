@@ -1,7 +1,7 @@
 import { For, Match, Show, Switch, createSignal } from 'solid-js';
 
 import Choice from '../components/Choice';
-import Im from '../components/Im';
+import SimpleIm from '../components/SimpleIm';
 import TextEntry from '../components/TextEntry';
 import Toggle from '../components/Toggle';
 
@@ -15,6 +15,7 @@ import Graph from '../components/Graph';
 import MenuBar from '../components/MenuBar';
 import ParameterSlider from '../components/ParameterSlider';
 import WorkflowNav from '../components/WorkflowNav';
+import Im from '../components/Im';
 
 var workflowName: String = '';
 
@@ -164,7 +165,7 @@ async function initialiseWorkflow(workflowName: String) {
   // Initialise the workflow
   const response = await processController.setWorkflow(workflowXML, workflowPath);
   const resultJSON: ResultJSON = await JSON.parse(response);
-
+  console.log(resultJSON);
   setLoading(false);
 
   await updatePage(resultJSON);
@@ -185,6 +186,7 @@ async function updatePage(resultJSON: ResultJSON) {
 }
 
 function App() {
+  console.log('Creating page');
   setLoading(true);
   setOverlays(undefined);
   // setParams(undefined);
@@ -292,15 +294,30 @@ function App() {
               </div>
             </Show>
             <Show when={image()}>
-              <Im
-                image={image()!}
-                graphJSON={graph()}
-                graph={graph}
-                setGraph={setGraph}
-                overlaysJSON={overlays()}
-                overlays={overlays}
-                clickListener={clickListener}
-              />
+              <Switch>
+                <Match when={image().imagetype === 'composite'}>
+                  <Im
+                    image={image()!}
+                    graphJSON={graph()}
+                    graph={graph}
+                    setGraph={setGraph}
+                    overlaysJSON={overlays()}
+                    overlays={overlays}
+                    clickListener={clickListener}
+                  />
+                </Match>
+                <Match when={image().imagetype === 'simple'}>
+                  <SimpleIm
+                    image={image()!}
+                    graphJSON={graph()}
+                    graph={graph}
+                    setGraph={setGraph}
+                    overlaysJSON={overlays()}
+                    overlays={overlays}
+                    clickListener={clickListener}
+                  />
+                </Match>
+              </Switch>
             </Show>
           </div>
 

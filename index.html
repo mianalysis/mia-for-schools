@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#56afca" />
-    <script src="https://cjrtnc.leaningtech.com/4.2/loader.js"></script>
+    <script src="https://cjrtnc.leaningtech.com/4.3/loader.js"></script>
     <title>MIA for Schools</title>
   </head>
 
@@ -94,7 +94,6 @@
             // },
           });
 
-
           const cj = await cheerpjRunLibrary(
             '/app/mia-for-schools/mia-local-server-0.0.1-SNAPSHOT-jar-with-dependencies.jar'
           );
@@ -106,6 +105,13 @@
           const initialiser = await new Initialiser();
           await initialiser.initialise();
           console.log('Initialised');
+
+          const MIA = await cj.io.github.mianalysis.mia.MIA;
+          const Level = await cj.io.github.mianalysis.mia.process.logging.LogRenderer$Level;
+          const meth = await MIA.getMainRenderer();
+          console.log(meth);
+          await meth.setWriteEnabled(Level.MEMORY, true);
+          console.log("Set level");
 
           const AvailableModules = await cj.io.github.mianalysis.mia.module.AvailableModules;
 
