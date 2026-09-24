@@ -7,7 +7,7 @@ import ZoomSlider from './ZoomSlider';
 import ChannelSlider from './ChannelSlider';
 
 interface Props {
-  image: ImageJSON;
+  image: any;
   graphJSON: GraphJSON;
   graph: Function;
   setGraph: Function;
@@ -43,10 +43,12 @@ export default function SimpleIm(props: Props) {
     on(
       () => props.image,
       () => {
-        setShowProbeControl(props.image.showprobecontrol);
-        setShowSelectControl(props.image.showselectcontrol);
-        setShowZoomControl(props.image.showzoomcontrol);
-
+        console.log("herer");
+        let t1 = Date.now();
+        // setShowProbeControl(props.image.showprobecontrol);
+        // setShowSelectControl(props.image.showselectcontrol);
+        // setShowZoomControl(props.image.showzoomcontrol);
+        let t2 = Date.now();
         // if (props.image.channels.length) {
         //   // Checking if this has already got assigned brightness values
         //   if (BrightnessStore.values.has(props.image.name))
@@ -57,32 +59,35 @@ export default function SimpleIm(props: Props) {
         image_canvas.height = 512;
         image_context = image_canvas.getContext('2d', { willReadFrequently: false })!;
         image_context.imageSmoothingEnabled = false;
-
+        let t3 = Date.now();
         if (image_context == undefined) return;
 
         image_context.clearRect(0, 0, image_canvas.width, image_canvas.height);
-
+        let t4 = Date.now();
         // var new_im = new Image();
         // // new_im.src = props.image.pixels;
         // new_im.src = 'data:image/png;base64,' + props.image.pixels;
         // new_im.onload = function () {
         //   image_context.drawImage(new_im, 0, 0);
         // };
-      
-        const imageData = image_context.createImageData(image_canvas.width, image_canvas.height);
-        const rgba  = imageData.data;
-        
-        for (let i = 0; i < props.image.pixels.length; i++) {
-          const value = props.image.pixels[i];
 
+        const imageData = image_context.createImageData(image_canvas.width, image_canvas.height);
+        let t5 = Date.now();
+        const rgba = imageData.data;
+        let t6 = Date.now();
+
+        console.log(props.image);
+        for (let i = 0; i < props.image.reds.length; i++) {
           const j = i * 4;
-          rgba[j] = value;
-          rgba[j + 1] = value;
-          rgba[j + 2] = value;
+          rgba[j] = props.image.reds[i] & 0xff;
+          rgba[j + 1] = props.image.greens[i] & 0xff;
+          rgba[j + 2] = props.image.blues[i] & 0xff;
           rgba[j + 3] = 255;
         }
+        let t7 = Date.now();
 
         image_context.putImageData(imageData, 0, 0);
+        let t8 = Date.now();
 
         var image_panel = document.getElementById('image_panel') as HTMLElement;
         var panelWidth = image_panel.clientWidth;
@@ -90,7 +95,7 @@ export default function SimpleIm(props: Props) {
         image_region.style.height = `${panelWidth}px`;
         image_canvas.style.width = `${panelWidth}px`;
         image_canvas.style.height = `${panelWidth}px`;
-
+        let t9 = Date.now();
         //   panzoom = Panzoom(image_region!, {
         //     maxScale: 10,
         //     contain: 'outside',
@@ -103,7 +108,7 @@ export default function SimpleIm(props: Props) {
         // }
 
         setControlStateByName(props.image.defaultcontrol);
-
+        let t10 = Date.now();
         // if (props.overlaysJSON != undefined) {
         //   if (overlay() == undefined) setOverlay(new Overlay(panelWidth));
         //   else overlay().drawOverlay(props.overlaysJSON);
@@ -115,6 +120,18 @@ export default function SimpleIm(props: Props) {
           updateGraphJSON();
           updateGraph();
         }
+        let t11 = Date.now();
+
+        console.log(t2 - t1);
+        console.log(t3 - t2);
+        console.log(t4 - t3);
+        console.log(t5 - t4);
+        console.log(t6 - t5);
+        console.log(t7 - t6);
+        console.log(t8 - t7);
+        console.log(t9 - t8);
+        console.log(t10 - t9);
+        console.log(t11 - t10);
       }
     )
   );

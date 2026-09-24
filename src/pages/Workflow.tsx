@@ -23,7 +23,7 @@ var workflowName: String = '';
 // const [hasNext, setHasNext] = createSignal(true);
 // const [params, setParams] = createSignal<ModuleJSON[]>();
 const [loading, setLoading] = createSignal(false);
-const [image, setImage] = createSignal<ImageJSON>();
+const [image, setImage] = createSignal<any>();
 const [background, setBackground] = createSignal<BackgroundJSON>();
 const [message, setMessage] = createSignal<[MessageJSON]>();
 const [graph, setGraph] = createSignal<GraphJSON | undefined>();
@@ -163,26 +163,29 @@ async function initialiseWorkflow(workflowName: String) {
   window.proCon = processController;
 
   // Initialise the workflow
-  const response = await processController.setWorkflow(workflowXML, workflowPath);
-  const resultJSON: ResultJSON = await JSON.parse(response);
-  console.log(resultJSON);
+  const result = await processController.setWorkflow(workflowXML, workflowPath);
+
   setLoading(false);
 
-  await updatePage(resultJSON);
+  await updatePage(result);
 }
 
-async function updatePage(resultJSON: ResultJSON) {
-  var clickParameter = getClickListenerParameter(resultJSON.modules);
+async function updatePage(result: any) {
+  // var clickParameter = getClickListenerParameter(result.modules);
 
-  if (clickParameter !== undefined)
-    if (clickListener() == undefined)
-      setClickListener(new ClickListener(clickParameter, updatePage));
+  // if (clickParameter !== undefined)
+  //   if (clickListener() == undefined)
+  //     setClickListener(new ClickListener(clickParameter, updatePage));
 
-  setOverlays(resultJSON.overlays);
-  setMessage(resultJSON.message);
-  setGraph(resultJSON.graph);
+  // setOverlays(resultJSON.overlays);
+  console.log('Here in updatePage');
+  var message = await (await result.getMessage()).toString();
+  setMessage(await JSON.parse(message));
+
+  setImage(result);
+  // setGraph(resultJSON.graph);
   setShowNav(true);
-  setImage(resultJSON.image);
+  setImage(result);
 }
 
 function App() {
@@ -294,30 +297,15 @@ function App() {
               </div>
             </Show>
             <Show when={image()}>
-              <Switch>
-                <Match when={image().imagetype === 'composite'}>
-                  <Im
-                    image={image()!}
-                    graphJSON={graph()}
-                    graph={graph}
-                    setGraph={setGraph}
-                    overlaysJSON={overlays()}
-                    overlays={overlays}
-                    clickListener={clickListener}
-                  />
-                </Match>
-                <Match when={image().imagetype === 'simple'}>
-                  <SimpleIm
-                    image={image()!}
-                    graphJSON={graph()}
-                    graph={graph}
-                    setGraph={setGraph}
-                    overlaysJSON={overlays()}
-                    overlays={overlays}
-                    clickListener={clickListener}
-                  />
-                </Match>
-              </Switch>
+              <SimpleIm
+                image={image()!}
+                graphJSON={graph()}
+                graph={graph}
+                setGraph={setGraph}
+                overlaysJSON={overlays()}
+                overlays={overlays}
+                clickListener={clickListener}
+              />
             </Show>
           </div>
 

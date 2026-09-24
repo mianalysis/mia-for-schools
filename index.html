@@ -110,7 +110,8 @@
           const Level = await cj.io.github.mianalysis.mia.process.logging.LogRenderer$Level;
           const meth = await MIA.getMainRenderer();
           console.log(meth);
-          await meth.setWriteEnabled(Level.MEMORY, true);
+          // await meth.setWriteEnabled(Level.MEMORY, true);
+          await meth.setWriteEnabled(Level.DEBUG, true);
           console.log("Set level");
 
           const AvailableModules = await cj.io.github.mianalysis.mia.module.AvailableModules;

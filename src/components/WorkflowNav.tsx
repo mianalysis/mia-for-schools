@@ -14,18 +14,17 @@ export default function WorkflowNav(props: Props) {
 
   async function requestPreviousGroup() {
     const processController = window.proCon;
-    const response = await processController.previousGroup();
-    const resultJSON: ResultJSON = JSON.parse(response);
+    const result = await processController.previousGroup();
 
-    props.updatePage(resultJSON);
+    props.updatePage(result);
   }
 
   async function requestNextGroup() {
+    console.log("Request next group");
     const processController = window.proCon;
-    const response = await processController.nextGroup();
-    const resultJSON: ResultJSON = JSON.parse(response);
+    const result = await processController.nextGroup();
 
-    props.updatePage(resultJSON);
+    await props.updatePage(result);
   }
 
   return (
