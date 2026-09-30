@@ -355,7 +355,7 @@ export default function Im(props: Props) {
       <Show when={probeVisible()}>
         <div
           id="probe"
-          class="rounded-lg overflow-visible shadow-lg bg-white p-2"
+          class="rounded-2xl overflow-visible shadow-lg bg-white p-2"
           style="position: absolute; z-index: 97"
         >
           <div
@@ -368,14 +368,14 @@ export default function Im(props: Props) {
       </Show>
 
       <div
-        class="flex-none rounded-lg overflow-visible shadow-lg animate-in fade-in duration-1000 ease-in-out"
+        class="flex-none rounded-2xl overflow-visible shadow-lg animate-in fade-in duration-1000 ease-in-out"
         style="position:relative"
       >
         <div class="group flex w-full ml-2 pr-2" style="position: absolute; left: 0; z-index: 99">
           <Show when={showProbeControl()}>
             <button
               id="probe_radio"
-              class={`${props.image.defaultcontrol === 'Probe' ? 'button-selected' : 'button'} flex-none rounded-lg overflow-visible shadow-lg bg-white disabled:bg-red-500 opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
+              class={`${props.image.defaultcontrol === 'Probe' ? 'button-selected' : 'button'} flex-none rounded-2xl overflow-visible shadow-lg bg-white disabled:bg-red-500 opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
               onclick={() => setControlState(ControlState.PROBE)}
             >
               <img class="h-6 w-6 m-1" src="./images/target.svg" />
@@ -384,7 +384,7 @@ export default function Im(props: Props) {
           <Show when={showSelectControl()}>
             <button
               id="select_radio"
-              class={`${props.image.defaultcontrol === 'Select' ? 'button-selected' : 'button'} flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
+              class={`${props.image.defaultcontrol === 'Select' ? 'button-selected' : 'button'} flex-none button rounded-2xl overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
               onclick={() => setControlState(ControlState.SELECT)}
             >
               <img class="h-6 w-6 m-1" src="./images/select.svg" />
@@ -393,7 +393,7 @@ export default function Im(props: Props) {
           <Show when={showZoomControl()}>
             <button
               id="move_radio"
-              class={`${props.image.defaultcontrol === 'Move' ? 'button-selected' : 'button'} flex-none button rounded-lg overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
+              class={`${props.image.defaultcontrol === 'Move' ? 'button-selected' : 'button'} flex-none button rounded-2xl overflow-visible shadow-lg bg-white opacity-40 group-hover:opacity-100 w-8 h-8 m-2 ml-0 p-0 border-0 transition duration-150 ease-in-out`}
               onclick={() => setControlState(ControlState.MOVE)}
             >
               <img class="h-6 w-6 m-1" src="./images/move.svg" />

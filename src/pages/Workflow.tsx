@@ -1,21 +1,19 @@
-import { For, Match, Show, Switch, createSignal } from 'solid-js';
+import { Show, createSignal } from 'solid-js';
 
-import Choice from '../components/Choice';
 import SimpleIm from '../components/SimpleIm';
-import TextEntry from '../components/TextEntry';
-import Toggle from '../components/Toggle';
 
 // import { setStore } from '../lib/store';
 
 import { useLocation } from '@solidjs/router';
 import Background from '../components/Background';
-import Button from '../components/Button';
 import { ClickListener } from '../components/ClickListener';
 import Graph from '../components/Graph';
 import MenuBar from '../components/MenuBar';
-import ParameterSlider from '../components/ParameterSlider';
-import WorkflowNav from '../components/WorkflowNav';
-import Im from '../components/Im';
+import WorkflowNav from '../components/panels/WorkflowNav';
+// import Im from '../components/Im';
+import Panel from '../components/panels/Panel';
+import LoadingBar from '../components/panels/LoadingBar';
+import Message from '../components/panels/Message';
 
 var workflowName: String = '';
 
@@ -178,7 +176,6 @@ async function updatePage(result: any) {
   //     setClickListener(new ClickListener(clickParameter, updatePage));
 
   // setOverlays(resultJSON.overlays);
-  console.log('Here in updatePage');
   var message = await (await result.getMessage()).toString();
   setMessage(await JSON.parse(message));
 
@@ -188,8 +185,7 @@ async function updatePage(result: any) {
   setImage(result);
 }
 
-function App() {
-  console.log('Creating page');
+export default function Workflow() {
   setLoading(true);
   setOverlays(undefined);
   // setParams(undefined);
@@ -214,52 +210,6 @@ function App() {
     }
   });
 
-  function createControls(parameters: [ParameterJSON]) {
-    return [<For each={parameters}>{(parameter) => createControl(parameter)}</For>];
-  }
-
-  function createTextOrSliderInput(parameter: ParameterJSON) {
-    if (parameter.nickname.match(/(.+)S{(.+)}/) == null)
-      return <TextEntry parameter={parameter} updatePage={updatePage} />;
-    else return <ParameterSlider parameter={parameter} updatePage={updatePage} />;
-  }
-
-  function createControl(parameter: ParameterJSON) {
-    return [
-      <div class="flex items-center" style="display: inline;">
-        <Switch>
-          <Match when={parameter.type === 'BooleanP'}>
-            <Toggle parameter={parameter} updatePage={updatePage} />
-          </Match>
-          <Match when={parameter.type === 'ClickP'}>
-            <Button parameter={parameter} updatePage={updatePage} />
-          </Match>
-          <Match
-            when={
-              parameter.type === 'ChoiceP' ||
-              parameter.type === 'InputImageP' ||
-              parameter.type === 'InputObjectsP'
-            }
-          >
-            <Choice parameter={parameter} updatePage={updatePage} />
-          </Match>
-          <Match
-            when={
-              parameter.type === 'DoubleP' ||
-              parameter.type == 'IntegerP' ||
-              parameter.type == 'StringP'
-            }
-          >
-            {createTextOrSliderInput(parameter)}
-          </Match>
-          <Match when={parameter.type === 'ParameterGroup'}>
-            {createControls(parameter.collections)}
-          </Match>
-        </Switch>
-      </div>,
-    ];
-  }
-
   return (
     <main class="space-y-0">
       <Show when={background()}>
@@ -267,34 +217,20 @@ function App() {
       </Show>
 
       <Show when={loading()}>
-        <div
-          class="rounded-lg shadow-lg bg-white p-4 fade-in fade-out duration-1000 ease-in-out w-64"
-          style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75); z-index: 1"
-        >
-          <div class="text-2xl text-gray-600">Loading...</div>
-          <div class="w-full bg-neutral-quaternary rounded-full">
-            <div
-              class="mt-4 bg-violet-500 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full h-4 flex items-center justify-center"
-              style={
-                'width: ' +
-                Math.max(10, Math.min(100, 100 * ((loadedBytes() - startingBytes) / finalBytes))) +
-                '%'
-              }
-            ></div>
-          </div>
-        </div>
+        <LoadingBar
+          startingBytes={startingBytes}
+          finalBytes={finalBytes}
+          loadedBytes={loadedBytes}
+        />
       </Show>
 
       <Show when={!loading()}>
         <div class="container grid sm:grid-cols-2 gap-4">
           <div class="flex flex-col">
             <Show when={image() || message() || graph()}>
-              <div
-                class="flex-1 text-xl max-w-lg rounded-lg shadow-lg p-4 mb-4 animate-in fade-in duration-1000 ease-in-out"
-                style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75); z-index: 1"
-              >
+              <Panel class="flex-1 max-w-lg mb-4">
                 <MenuBar title={useLocation().query.name} ismainpage={false} />
-              </div>
+              </Panel>
             </Show>
             <Show when={image()}>
               <SimpleIm
@@ -311,52 +247,17 @@ function App() {
 
           <div class="flex flex-col">
             <Show when={message()}>
-              <div
-                class="flex-1 text-xl max-w-lg rounded-lg shadow-lg p-4 animate-in fade-in duration-1000 ease-in-out"
-                style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75); z-index: 1"
-              >
-                <For each={message()}>
-                  {(content) => (
-                    <Switch>
-                      <Match when={content.type === 'parameter'}>
-                        {createControl(content.data as ParameterJSON)}
-                      </Match>
-                      <Match when={content.type === 'text'}>
-                        <span
-                          style="white-space: pre-line;"
-                          class="text-gray-600"
-                          innerHTML={content.data as string}
-                        ></span>
-                      </Match>
-                    </Switch>
-                  )}
-                </For>
-              </div>
+              <Message message={message} updatePage={updatePage} />
             </Show>
 
             <Show when={graph()}>
-              <div
-                class="flex flex-1 justify-center flex-auto rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-1000 ease-in-out"
-                style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75)"
-              >
+              <Panel class="flex flex-1 justify-center flex-auto mt-4">
                 <Graph graphJSON={graph()} imageJSON={image()}></Graph>
-              </div>
+              </Panel>
             </Show>
 
             <Show when={showNav()}>
-              <div
-                class="flex container m-auto grid grid-cols-2 gap-4 w-full rounded-lg shadow-lg bg-white p-4 mt-4 animate-in fade-in duration-1000 ease-in-out"
-                style="backdrop-filter: blur(16px); background-color: rgba(255,255,255,0.75)"
-              >
-                <div class="flex-1 col-start-1">
-                  {/* <WorkflowNav mode="Previous" disabled={!hasPrevious()} updatePage={updatePage} /> */}
-                  <WorkflowNav mode="Previous" disabled={false} updatePage={updatePage} />
-                </div>
-                <div class="flex-1 col-start-2">
-                  {/* <WorkflowNav mode="Next" disabled={!hasNext()} updatePage={updatePage} /> */}
-                  <WorkflowNav mode="Next" disabled={false} updatePage={updatePage} />
-                </div>
-              </div>
+              <WorkflowNav previousDisabled={false} nextDisabled={false} updatePage={updatePage} />
             </Show>
           </div>
         </div>
@@ -364,5 +265,3 @@ function App() {
     </main>
   );
 }
-
-export default App;

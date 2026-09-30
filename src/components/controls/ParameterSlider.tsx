@@ -1,4 +1,4 @@
-import { sendParameter } from '../lib/util';
+import { sendParameter } from '../../lib/util';
 
 import { createUniqueId, onMount } from 'solid-js';
 import noUiSlider from 'nouislider';
@@ -10,7 +10,7 @@ interface Props {
   updatePage: Function;
 }
 
-export default function ParameterSlider(props: Props) {
+export default function Slider(props: Props) {
   const sliderId = createUniqueId();
   var sliderWidth: number = 64;
 

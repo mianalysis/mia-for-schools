@@ -7,7 +7,7 @@ interface Props {
 
 export default function MenuBar(props: Props) {
   return (
-    <div class="flex flex-1 items-center justify-center sm:items-stretch" style="z-index: 1">
+    <div class="flex flex-1 items-center justify-center sm:items-stretch">
       <Show when={!props.ismainpage}>
         <a
           href="./"

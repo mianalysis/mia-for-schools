@@ -75,10 +75,10 @@ function NavPage() {
                 <div>
                   <img
                     src={workflow.thumbnail}
-                    class="justify-center justify-self-center w-full max-w-lg rounded-lg shadow-lg aspect-square content-center"
+                    class="justify-center justify-self-center w-full max-w-lg rounded-2xl shadow-lg aspect-square content-center"
                   />
                   <div
-                    class="bg-white rounded-lg opacity-75 hover:opacity-0 animate transition-opacity duration-150"
+                    class="bg-white rounded-2xl opacity-75 hover:opacity-0 animate transition-opacity duration-150"
                     style="position:absolute; top:0; left:0; width:100%; height:100%"
                   />
                 </div>

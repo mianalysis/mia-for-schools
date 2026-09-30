@@ -1,4 +1,4 @@
-import { sendParameter } from '../lib/util';
+import { sendParameter } from '../../lib/util';
 
 interface Props {
   parameter: ParameterJSON;
