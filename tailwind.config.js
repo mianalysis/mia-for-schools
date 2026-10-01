@@ -1,27 +1,5 @@
 import { transform } from 'typescript';
 
-const variants = ['sm', 'md', 'lg', 'xl', '2xl', '5xl'];
-
-const patterns = [
-  /text-.*/,
-  /font-.*/,
-  /bg-.*/,
-  /w-.*/,
-  /h-.*/,
-  /mr-.*/,
-  /ml-.*/,
-  /mt-.*/,
-  /mb-.*/,
-  /rounded-.*/,
-  /border/,
-  /flex/,
-  /items-.*/,
-  /shadow-.*/,
-  /transform/,
-  /rotate-.*/,
-  /inline-.*/,
-];
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
@@ -42,8 +20,24 @@ export default {
     },
   },
   plugins: [require('@tailwindcss/forms'), require('tailwindcss-animate')],
-  safelist: patterns.map(pattern => ({
-    pattern,
-    variants,
-  })),
+  safelist: [ 
+    { pattern: /text-./,
+      variants = ['sm', 'md', 'lg', 'xl', '2xl', '5xl']}, 
+    { pattern: /font-./ }, 
+    { pattern: /bg-./ }, 
+    { pattern: /w-./ }, 
+    { pattern: /h-./ }, 
+    { pattern: /mr-./ }, 
+    { pattern: /ml-./ }, 
+    { pattern: /mt-./ }, 
+    { pattern: /mb-./ }, 
+    { pattern: /rounded-./ }, 
+    { pattern: /border/ }, 
+    { pattern: /flex/ }, 
+    { pattern: /border-./ }, 
+    { pattern: /items-./ }, 
+    { pattern: /shadow-./ }, 
+    { pattern: /transform/ }, 
+    { pattern: /rotate-./ }, 
+    { pattern: /inline-./ }, ],
 };
