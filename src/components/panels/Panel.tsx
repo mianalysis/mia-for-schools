@@ -3,7 +3,7 @@ import { JSX } from 'solid-js';
 type Props = {
   children: JSX.Element;
   class?: string;
-  style?: JSX.CSSProperties;
+  style?: string;
 };
 
 export default function Panel(props: Props) {

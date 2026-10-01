@@ -1,9 +1,8 @@
-import { JSX } from 'solid-js';
 import Panel from '../panels/Panel';
 
 type Props = {
   class?: string;
-  style?: JSX.CSSProperties;
+  style?: string;
   startingBytes: number;
   finalBytes: number;
   loadedBytes: Function;
@@ -11,7 +10,7 @@ type Props = {
 
 export default function LoadingBar(props: Props) {
   return (
-    <Panel class="fade-out w-64">
+    <Panel class={`fade-out w-64 ${props.class ?? ""}`} style={props.style ?? ""}>
       <div class="text-2xl text-gray-600">Loading...</div>
       <div class="w-full bg-neutral-quaternary rounded-full">
         <div

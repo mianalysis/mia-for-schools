@@ -1,49 +1,11 @@
-import { For, Show, createSignal } from 'solid-js';
+import { For, createSignal } from 'solid-js';
 
-import MenuBar from '../components/MenuBar';
 import Background, { getDefaultBackground } from '../components/Background';
+import WelcomeBar from '../components/panels/WelcomeBar';
+import WorkflowTile from '../components/panels/WorkflowTile';
 
 const [workflows, setWorkflows] = createSignal<WorkflowJSON[]>();
 
-// const awaitConnect = async (awaitConnectConfig) => {
-//   const { retries = 3, curr = 0, timeinterval = 100 } = {};
-
-//   return new Promise((resolve, reject) => {
-//     setTimeout(async () => {
-//       if (socketClient.connected) {
-//         subscribeToWorkflows();
-//         resolve(undefined);
-//       } else {
-//         if (curr >= retries) {
-//           reject();
-//         } else {
-//           try {
-//             await awaitConnect({ ...awaitConnectConfig, curr: curr + 1 });
-//             resolve(undefined);
-//           } catch (e) {
-//             reject(e);
-//           }
-//         }
-//       }
-//     }, timeinterval);
-//   });
-// };
-
-// await awaitConnect(undefined);
-
-// function subscribeToWorkflows() {
-//   socketClient.subscribe('/user/queue/workflows', (data) => {
-//     const response = JSON.parse(data.body);
-//     const workflowsJson = JSON.parse(response.body).workflows;
-//     setWorkflows(workflowsJson);
-//   });
-// }
-// function requestAvailableWorkflows() {
-//   socketClient.publish({
-//     destination: '/app/getworkflows',
-//     body: JSON.stringify({}),
-//   });
-// }
 
 async function loadWorkflows() {
   const response = await fetch('./mia/workflows/workflows.json');
@@ -57,48 +19,12 @@ function NavPage() {
 
   return (
     <main class="space-y-0">
-      <Show when={workflows()}>
-        <MenuBar title="" ismainpage={true} />
-      </Show>
       <Background backgroundJSON={getDefaultBackground()} n={window.innerWidth / 20} />
-      <h1 class="pb-8 text-white text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)] w-full">
-        Click a picture to learn more
-      </h1>
       <div class="container m-auto grid sm:grid-cols-2 md:grid-cols-3 gap-4 items-center">
+        <WelcomeBar class="mb-4 text-2xl sm:col-span-2 md:col-span-3"/>
         <For each={workflows()}>
           {(workflow) => (
-            <a href={'./workflow?name=' + workflow.fullname}>
-              <div
-                class="w-full hover:scale-105 overflow-hidden group animate transition-transform duration-150"
-                style="position:relative;text-align:center"
-              >
-                <div>
-                  <img
-                    src={workflow.thumbnail}
-                    class="justify-center justify-self-center w-full max-w-lg rounded-2xl shadow-lg aspect-square content-center"
-                  />
-                  <div
-                    class="bg-white rounded-2xl opacity-75 hover:opacity-0 animate transition-opacity duration-150"
-                    style="position:absolute; top:0; left:0; width:100%; height:100%"
-                  />
-                </div>
-                <Show when={workflow.banner}>
-                  <div
-                    class={`absolute transform -rotate-45 text-center ${workflow.banner.colour} text-white font-semibold py-1 left-[-42px] top-[26px] w-[170px]`}
-                  >
-                    {workflow.banner.text}
-                  </div>
-                </Show>
-                <div
-                  class={
-                    'text-violet-600 text-3xl group-hover:hidden drop-shadow-[0_1px_1px_rgba(0,0,0,1)] animate transition-transform duration-150'
-                  }
-                  style="pointer-events: none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"
-                >
-                  {workflow.displayname}
-                </div>
-              </div>
-            </a>
+            <WorkflowTile workflow={workflow} />
           )}
         </For>
       </div>
