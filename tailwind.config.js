@@ -1,6 +1,6 @@
 import { transform } from 'typescript';
 
-const variants = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl'];
+const variants = ['sm', 'md', 'lg', 'xl', '2xl', '5xl'];
 
 const patterns = [
   /text-.*/,
