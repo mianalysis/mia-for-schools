@@ -9,7 +9,7 @@ export default function WorkflowTile(props: Props) {
     <div class="flex hover:scale-105 animate duration-150">
       <a
         href={'./workflow?name=' + props.workflow.fullname}
-        class="w-full overflow-hidden group animate-in fade-in duration-1000 ease-in"
+        class="w-full overflow-hidden group animate-in fade-in duration-1000 ease-in-out"
         style="position:relative;text-align:center"
       >
         <div class="rounded-2xl " style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.65);">
