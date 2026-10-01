@@ -12,15 +12,16 @@ export default function WorkflowTile(props: Props) {
         class="w-full overflow-hidden group animate-in fade-in duration-1000 ease-in"
         style="position:relative;text-align:center"
       >
-        <div>
+        <div class="rounded-2xl " style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.65);">
           <img
             src={props.workflow.thumbnail}
-            class="justify-center justify-self-center w-full max-w-lg rounded-2xl shadow-lg aspect-square content-center"
+            class="opacity-20 justify-center justify-self-center w-full max-w-lg rounded-2xl shadow-lg aspect-square content-center"
+            style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75);"
           />
-          <div
-            class="bg-white rounded-2xl opacity-80"
+          {/* <div
+            class="rounded-2xl opacity-80"
             style="position:absolute; top:0; left:0; width:100%; height:100%"
-          />
+          /> */}
         </div>
         <Show when={props.workflow.banner}>
           <div
