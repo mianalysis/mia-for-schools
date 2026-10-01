@@ -27,11 +27,11 @@ export default function ZoomSlider(props: Props) {
   });
 
   return (
-    <div class="container flex flex-grow min-w-0 overflow-visible rounded-2xl shadow-lg bg-white opacity-40 group-hover:opacity-100 m-2 ml-0 transition duration-150 ease-in-out">
+    <div class="container flex flex-grow min-w-0 overflow-visible rounded-xl shadow-lg bg-white opacity-40 group-hover:opacity-75 m-2 ml-0 transition duration-150 ease-in-out">
       <img class="flex-none w-6 m-1" src="./images/zoom-svgrepo-com.svg" />
       <div
         id="zoomSlider"
-        class="w-full slider-tooltip-below ml-1 mr-3 mt-2.5 h-3 rounded-full bg-purple-600 transition duration-150 ease-in-out hover:bg-orange-500 active:bg-orange-500"
+        class="w-full slider-tooltip-below ml-1 mr-3 mt-2 h-4 rounded-full bg-purple-600 transition duration-150 ease-in-out hover:bg-orange-500 active:bg-orange-500"
       ></div>
     </div>
   );

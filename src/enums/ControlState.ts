@@ -1,4 +1,0 @@
-enum ControlState {
-  MOVE,
-  PROBE,
-}

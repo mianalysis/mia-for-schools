@@ -1,5 +1,5 @@
 import { onMount } from 'solid-js';
-import { Overlay } from './Overlay';
+import { Overlay } from './image/Overlay';
 
 interface Props {
   overlay: Overlay;

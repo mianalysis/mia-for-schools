@@ -15,7 +15,7 @@ export default function Choice(props: Props) {
     <Popover defaultOpen={false} class="m-1 inline-block">
       {({ isOpen }): JSX.Element => (
         <>
-          <PopoverButton class="range h-10 p-0 w-32 rounded-full bg-amber-500 items-center transition duration-150 ease-in-out hover:scale-110">
+          <PopoverButton class="range h-10 p-0 w-32 rounded-xl bg-orange-500 hover:bg-cyan-500 items-center transition duration-150 ease-in-out hover:scale-110">
             {props.parameter.value}
           </PopoverButton>
           <Transition

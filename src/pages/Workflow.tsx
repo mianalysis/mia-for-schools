@@ -1,16 +1,13 @@
 import { Show, createSignal } from 'solid-js';
 
-import SimpleIm from '../components/SimpleIm';
-
-// import { setStore } from '../lib/store';
+import Image from '../components/image/Image';
+import Background from '../components/Background';
 
 import { useLocation } from '@solidjs/router';
-import Background from '../components/Background';
-import { ClickListener } from '../components/ClickListener';
+import { ClickListener } from '../components/image/ClickListener';
 import Graph from '../components/Graph';
 import MenuBar from '../components/panels/MenuBar';
 import WorkflowNav from '../components/panels/WorkflowNav';
-// import Im from '../components/Im';
 import Panel from '../components/panels/Panel';
 import LoadingBar from '../components/panels/LoadingBar';
 import Message from '../components/panels/Message';
@@ -175,22 +172,20 @@ async function updatePage(result: any) {
   //   if (clickListener() == undefined)
   //     setClickListener(new ClickListener(clickParameter, updatePage));
 
-  // setOverlays(resultJSON.overlays);
+  setOverlays(result.overlays);
   var message = await (await result.getMessage()).toString();
   setMessage(await JSON.parse(message));
-
   setImage(result);
-  // setGraph(resultJSON.graph);
+  setGraph(result.graph);
   setShowNav(true);
 }
 
 export default function Workflow() {
   setLoading(true);
   setOverlays(undefined);
-  // setParams(undefined);
   setImage(undefined);
   setGraph(undefined);
-  // setMessage(undefined);
+  setMessage(undefined);
   setShowNav(false);
 
   // Request first workflow page
@@ -226,15 +221,14 @@ export default function Workflow() {
       <Show when={!loading()}>
         <div class="container grid sm:grid-cols-2 gap-4">
           <div class="flex flex-col">
+
             <Show when={image() || message() || graph()}>
               <MenuBar />
             </Show>
+
             <Show when={image()}>
-              <SimpleIm
+              <Image
                 image={image()!}
-                graphJSON={graph()}
-                graph={graph}
-                setGraph={setGraph}
                 overlaysJSON={overlays()}
                 overlays={overlays}
                 clickListener={clickListener}
@@ -243,13 +237,13 @@ export default function Workflow() {
           </div>
 
           <div class="flex flex-col">
-            {/* <Show when={message()}> */}
+            <Show when={message()}>
               <Message message={message} updatePage={updatePage} />
-            {/* </Show> */}
+            </Show>
 
             <Show when={graph()}>
               <Panel class="flex flex-1 justify-center flex-auto mt-4">
-                <Graph graphJSON={graph()} imageJSON={image()}></Graph>
+                <Graph graphJSON={graph()} />
               </Panel>
             </Show>
 

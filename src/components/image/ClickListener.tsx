@@ -1,4 +1,4 @@
-import { debounce, sendParameter } from '../lib/util';
+import { debounce, sendParameter } from '../../lib/util';
 
 export class ClickListener {
   parameter: ParameterJSON;

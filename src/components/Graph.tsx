@@ -6,7 +6,6 @@ Chart.register(ChartDataLabels);
 
 interface Props {
   graphJSON: GraphJSON;
-  imageJSON: ImageJSON;
 }
 
 let chart = undefined;
@@ -19,7 +18,7 @@ export default function Graph(props: Props) {
       () => props.graphJSON,
       () => {
         const graph_canvas = document.getElementById('chart-canvas') as HTMLCanvasElement;
-        if (chart != undefined && props.imageJSON != undefined) {
+        if (chart != undefined) {
           chart.destroy();
           chart = undefined;
         }
