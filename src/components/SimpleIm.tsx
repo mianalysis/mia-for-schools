@@ -1,10 +1,9 @@
 import Panzoom, { PanzoomObject } from '@panzoom/panzoom';
-import { For, Show, createEffect, createSignal, on, onCleanup } from 'solid-js';
-import BrightnessStore from './BrightnessStore';
+import { Show, createEffect, createSignal, on, onCleanup } from 'solid-js';
 import { Overlay } from './Overlay';
 import OverlayComponent from './OverlayComponent';
 import ZoomSlider from './ZoomSlider';
-import ChannelSlider from './ChannelSlider';
+import { resolve } from 'chart.js/helpers';
 
 interface Props {
   image: any;
@@ -43,40 +42,28 @@ export default function SimpleIm(props: Props) {
     on(
       () => props.image,
       () => {
-        console.log("herer");
-        let t1 = Date.now();
-        // setShowProbeControl(props.image.showprobecontrol);
-        // setShowSelectControl(props.image.showselectcontrol);
-        // setShowZoomControl(props.image.showzoomcontrol);
-        let t2 = Date.now();
-        // if (props.image.channels.length) {
-        //   // Checking if this has already got assigned brightness values
-        //   if (BrightnessStore.values.has(props.image.name))
-        //     BrightnessStore.updateChannelsJSON(props.image.name, props.image.channels);
-        //   else BrightnessStore.addNewValues(props.image.name, props.image.channels);
+        (async () => {
+          const imageJSON : ImageJSON = JSON.parse(await (await props.image.getImage()).toString());
+        
+        setShowProbeControl(imageJSON.showprobecontrol);
+        setShowSelectControl(imageJSON.showselectcontrol);
+        setShowZoomControl(imageJSON.showzoomcontrol);
+
+        })();
+
 
         image_canvas.width = 512;
         image_canvas.height = 512;
         image_context = image_canvas.getContext('2d', { willReadFrequently: false })!;
         image_context.imageSmoothingEnabled = false;
-        let t3 = Date.now();
+
         if (image_context == undefined) return;
 
         image_context.clearRect(0, 0, image_canvas.width, image_canvas.height);
-        let t4 = Date.now();
-        // var new_im = new Image();
-        // // new_im.src = props.image.pixels;
-        // new_im.src = 'data:image/png;base64,' + props.image.pixels;
-        // new_im.onload = function () {
-        //   image_context.drawImage(new_im, 0, 0);
-        // };
 
         const imageData = image_context.createImageData(image_canvas.width, image_canvas.height);
-        let t5 = Date.now();
         const rgba = imageData.data;
-        let t6 = Date.now();
 
-        console.log(props.image);
         for (let i = 0; i < props.image.reds.length; i++) {
           const j = i * 4;
           rgba[j] = props.image.reds[i] & 0xff;
@@ -84,10 +71,8 @@ export default function SimpleIm(props: Props) {
           rgba[j + 2] = props.image.blues[i] & 0xff;
           rgba[j + 3] = 255;
         }
-        let t7 = Date.now();
 
         image_context.putImageData(imageData, 0, 0);
-        let t8 = Date.now();
 
         var image_panel = document.getElementById('image_panel') as HTMLElement;
         var panelWidth = image_panel.clientWidth;
@@ -95,43 +80,30 @@ export default function SimpleIm(props: Props) {
         image_region.style.height = `${panelWidth}px`;
         image_canvas.style.width = `${panelWidth}px`;
         image_canvas.style.height = `${panelWidth}px`;
-        let t9 = Date.now();
-        //   panzoom = Panzoom(image_region!, {
-        //     maxScale: 10,
-        //     contain: 'outside',
-        //     roundPixels: false,
-        //   });
-        //   panzoom.zoom(currZoom);
-        //   panzoom.pan(currPan.x, currPan.y);
-        //   image_region?.parentElement?.addEventListener('click', updatePan);
-        //   setZoomControl(panzoom);
-        // }
 
+        panzoom = Panzoom(image_region!, {
+          maxScale: 10,
+          contain: 'outside',
+          roundPixels: false,
+        });
+        panzoom.zoom(currZoom);
+        panzoom.pan(currPan.x, currPan.y);
+        image_region?.parentElement?.addEventListener('click', updatePan);
+        setZoomControl(panzoom);
+        
         setControlStateByName(props.image.defaultcontrol);
-        let t10 = Date.now();
-        // if (props.overlaysJSON != undefined) {
-        //   if (overlay() == undefined) setOverlay(new Overlay(panelWidth));
-        //   else overlay().drawOverlay(props.overlaysJSON);
-        // } else {
-        //   setOverlay(undefined);
-        // }
+
+        if (props.overlaysJSON != undefined) {
+          if (overlay() == undefined) setOverlay(new Overlay(panelWidth));
+          else overlay().drawOverlay(props.overlaysJSON);
+        } else {
+          setOverlay(undefined);
+        }
 
         if (props.setGraph != undefined && props.graphJSON != undefined) {
           updateGraphJSON();
           updateGraph();
         }
-        let t11 = Date.now();
-
-        console.log(t2 - t1);
-        console.log(t3 - t2);
-        console.log(t4 - t3);
-        console.log(t5 - t4);
-        console.log(t6 - t5);
-        console.log(t7 - t6);
-        console.log(t8 - t7);
-        console.log(t9 - t8);
-        console.log(t10 - t9);
-        console.log(t11 - t10);
       }
     )
   );
@@ -175,7 +147,7 @@ export default function SimpleIm(props: Props) {
   });
 
   function getChannelComponentsDataJSON() {
-    var dataJSON: DataJSON = { labels: [], datasets: [] };
+    // var dataJSON: DataJSON = { labels: [], datasets: [] };
 
     // for (var cIdx = 0; cIdx < props.image.channels.length; cIdx++) {
     //   var channel = props.image.channels[cIdx];
@@ -200,7 +172,8 @@ export default function SimpleIm(props: Props) {
     //   );
     // }
 
-    return dataJSON;
+    // return dataJSON;
+    return undefined;
   }
 
   function getImageIntensityHistogramDataJSON() {
@@ -230,26 +203,9 @@ export default function SimpleIm(props: Props) {
     //   };
     //   dataJSON.datasets.push(datasetJSON);
     // }
-
+    // 
     // return dataJSON;
-    return null;
-  }
-
-  function updateBC(value: number, channel: number) {
-    // BrightnessStore.updateValue(props.image.name, channel, value);
-    // var imagedata = image_context?.getImageData(
-    //   0,
-    //   0,
-    //   compositeIm.getWidth(),
-    //   compositeIm.getHeight()
-    // )!;
-    // if (imagedata == null) return;
-    // compositeIm.setChannelBrightness(imagedata, channel, value);
-    // image_context?.putImageData(imagedata, 0, 0);
-    // if (props.setGraph != undefined && props.graphJSON != undefined) {
-    //   updateGraphJSON();
-    //   updateGraph();
-    // }
+    return undefined;
   }
 
   function updateZoom(zoomFactor: number) {
@@ -264,28 +220,28 @@ export default function SimpleIm(props: Props) {
   }
 
   function updateProbe(event: PointerEvent) {
-    // if (!probeVisible()) return;
-    // var probe = document.getElementById('probe');
-    // if (event.pointerType === 'touch') {
-    //   probe.style.left = (event.clientX - probe.clientWidth / 2).toString() + 'px';
-    //   probe.style.top = (event.clientY - probe.clientHeight - 10).toString() + 'px';
-    // } else {
-    //   probe.style.left = (event.clientX + 10).toString() + 'px';
-    //   probe.style.top = (event.clientY + 10).toString() + 'px';
-    // }
-    // var [x, y] = getPosition(event);
-    // var pixels = image_context.getImageData(x, y, 1, 1).data;
-    // var probeText = document.getElementById('probe_text');
+    if (!probeVisible()) return;
+    var probe = document.getElementById('probe');
+    if (event.pointerType === 'touch') {
+      probe.style.left = (event.clientX - probe.clientWidth / 2).toString() + 'px';
+      probe.style.top = (event.clientY - probe.clientHeight - 10).toString() + 'px';
+    } else {
+      probe.style.left = (event.clientX + 10).toString() + 'px';
+      probe.style.top = (event.clientY + 10).toString() + 'px';
+    }
+    var [x, y] = getPosition(event);
+    var pixels = image_context.getImageData(x, y, 1, 1).data;
+    var probeText = document.getElementById('probe_text');
     // var r = props.image.channels[0].red;
     // var g = props.image.channels[0].green;
     // var b = props.image.channels[0].blue;
     // if (props.image.channels.length == 1 && r == g && r == b)
-    //   probeText.innerText = 'Value = ' + pixels[0];
+      // probeText.innerText = 'Value = ' + pixels[0];
     // else
-    //   probeText.innerText =
-    //     'Red = ' + pixels[0] + ', green = ' + pixels[1] + ', blue = ' + pixels[2];
-    // var colourCell = document.getElementById('colour_cell');
-    // colourCell.style.background = 'rgb(' + pixels[0] + ',' + pixels[1] + ',' + pixels[2] + ')';
+      probeText.innerHTML =
+        '<b><span class="text-red-500">Red: ' + pixels[0] + '</span><br><span class="text-green-500">Green: ' + pixels[1] + '</span><br><span class="text-blue-500">Blue: ' + pixels[2] + '</span></b>';
+    var colourCell = document.getElementById('colour_cell');
+    colourCell.style.background = 'rgb(' + pixels[0] + ',' + pixels[1] + ',' + pixels[2] + ')';
   }
 
   function getPosition(event: PointerEvent) {
@@ -317,42 +273,42 @@ export default function SimpleIm(props: Props) {
   }
 
   function setControlState(newControlState: ControlState) {
-    // controlState = newControlState;
-    // var probeRadio = document.getElementById('probe_radio') as HTMLButtonElement;
-    // var moveRadio = document.getElementById('move_radio') as HTMLButtonElement;
-    // var selectRadio = document.getElementById('select_radio') as HTMLButtonElement;
-    // switch (controlState) {
-    //   case ControlState.MOVE:
-    //     probeEnabled = false;
-    //     zoomControl().setOptions({ disablePan: false, cursor: 'move' });
-    //     if (moveRadio !== null && !moveRadio.classList.contains('button-selected'))
-    //       moveRadio.classList.toggle('button-selected');
-    //     if (probeRadio !== null && probeRadio.classList.contains('button-selected'))
-    //       probeRadio.classList.toggle('button-selected');
-    //     if (selectRadio !== null && selectRadio.classList.contains('button-selected'))
-    //       selectRadio.classList.toggle('button-selected');
-    //     break;
-    //   case ControlState.PROBE:
-    //     probeEnabled = true;
-    //     zoomControl().setOptions({ disablePan: true, cursor: 'crosshair' });
-    //     if (moveRadio !== null && moveRadio.classList.contains('button-selected'))
-    //       moveRadio.classList.toggle('button-selected');
-    //     if (probeRadio !== null && !probeRadio.classList.contains('button-selected'))
-    //       probeRadio.classList.toggle('button-selected');
-    //     if (selectRadio !== null && selectRadio.classList.contains('button-selected'))
-    //       selectRadio.classList.toggle('button-selected');
-    //     break;
-    //   case ControlState.SELECT:
-    //     probeEnabled = false;
-    //     zoomControl().setOptions({ disablePan: true, cursor: 'crosshair' });
-    //     if (probeRadio !== null && probeRadio.classList.contains('button-selected'))
-    //       probeRadio.classList.toggle('button-selected');
-    //     if (moveRadio !== null && moveRadio.classList.contains('button-selected'))
-    //       moveRadio.classList.toggle('button-selected');
-    //     if (selectRadio !== null && !selectRadio.classList.contains('button-selected'))
-    //       selectRadio.classList.toggle('button-selected');
-    //     break;
-    // }
+    controlState = newControlState;
+    var probeRadio = document.getElementById('probe_radio') as HTMLButtonElement;
+    var moveRadio = document.getElementById('move_radio') as HTMLButtonElement;
+    var selectRadio = document.getElementById('select_radio') as HTMLButtonElement;
+    switch (controlState) {
+      case ControlState.MOVE:
+        probeEnabled = false;
+        zoomControl().setOptions({ disablePan: false, cursor: 'move' });
+        if (moveRadio !== null && !moveRadio.classList.contains('button-selected'))
+          moveRadio.classList.toggle('button-selected');
+        if (probeRadio !== null && probeRadio.classList.contains('button-selected'))
+          probeRadio.classList.toggle('button-selected');
+        if (selectRadio !== null && selectRadio.classList.contains('button-selected'))
+          selectRadio.classList.toggle('button-selected');
+        break;
+      case ControlState.PROBE:
+        probeEnabled = true;
+        zoomControl().setOptions({ disablePan: true, cursor: 'crosshair' });
+        if (moveRadio !== null && moveRadio.classList.contains('button-selected'))
+          moveRadio.classList.toggle('button-selected');
+        if (probeRadio !== null && !probeRadio.classList.contains('button-selected'))
+          probeRadio.classList.toggle('button-selected');
+        if (selectRadio !== null && selectRadio.classList.contains('button-selected'))
+          selectRadio.classList.toggle('button-selected');
+        break;
+      case ControlState.SELECT:
+        probeEnabled = false;
+        zoomControl().setOptions({ disablePan: true, cursor: 'crosshair' });
+        if (probeRadio !== null && probeRadio.classList.contains('button-selected'))
+          probeRadio.classList.toggle('button-selected');
+        if (moveRadio !== null && moveRadio.classList.contains('button-selected'))
+          moveRadio.classList.toggle('button-selected');
+        if (selectRadio !== null && !selectRadio.classList.contains('button-selected'))
+          selectRadio.classList.toggle('button-selected');
+        break;
+    }
   }
 
   function updateGraphJSON() {
@@ -372,15 +328,15 @@ export default function SimpleIm(props: Props) {
       <Show when={probeVisible()}>
         <div
           id="probe"
-          class="rounded-2xl overflow-visible shadow-lg bg-white p-2"
+          class="flex items-center rounded-2xl overflow-visible shadow-lg bg-white p-2"
           style="position: absolute; z-index: 97"
         >
           <div
             id="colour_cell"
-            class="rounded-full w-6 h-6 mr-2 border-2 border-black animate-in fade-in"
+            class="rounded-xl w-6 h-20 mr-2 border-2 border-black animate-in fade-in"
             style="position: relative; z-index: 98; display: inline; float:left"
           />
-          <div id="probe_text" style="display:inline; float:right" />
+          <div id="probe_text" class="text-left" style="display:inline" />
         </div>
       </Show>
 
@@ -423,17 +379,6 @@ export default function SimpleIm(props: Props) {
           class="group flex w-full ml-2 pr-2"
           style="position: absolute; left: 0; bottom:0; z-index: 99"
         >
-          <Show when={props.image.showchannelcontrols}>
-            <For each={props.image.channels}>
-              {(channel) => (
-                <ChannelSlider
-                  image={props.image}
-                  channel={channel}
-                  updateBC={updateBC}
-                ></ChannelSlider>
-              )}
-            </For>
-          </Show>
         </div>
 
         <div
@@ -444,7 +389,7 @@ export default function SimpleIm(props: Props) {
           onpointerleave={() => setProbeVisible(false)}
           onpointermove={(e) => updateProbe(e)}
         >
-          <canvas ref={image_canvas} class="rounded-2xl cursor-default" style="position:absolute" />
+          <canvas ref={image_canvas} class="cursor-default" style="position:absolute" />
           <Show when={overlay()}>
             <OverlayComponent overlay={overlay()} overlays={props.overlaysJSON}></OverlayComponent>
           </Show>

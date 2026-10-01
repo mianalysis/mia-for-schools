@@ -13,10 +13,10 @@
       },
       "banner": { "text": "Beta", "colour": "bg-amber-500" },
       "displayname": "Aligning images",
-      "fullname": "Aligning_images_fast",
+      "fullname": "Aligning_images",
       "memory": 4332003,
-      "path": "mia/workflows/Aligning_images_fast.mia",
-      "thumbnail": "mia/thumbnails/Aligning_images_fast.png"
+      "path": "mia/workflows/Aligning_images.mia",
+      "thumbnail": "mia/thumbnails/Aligning_images.png"
     }
   ]
 }

@@ -182,7 +182,6 @@ async function updatePage(result: any) {
   setImage(result);
   // setGraph(resultJSON.graph);
   setShowNav(true);
-  setImage(result);
 }
 
 export default function Workflow() {
