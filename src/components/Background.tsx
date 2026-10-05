@@ -104,7 +104,7 @@ export default function Background(props: Props) {
           const path = randomPath(window.innerWidth, window.innerHeight);
           return (
             <img
-              class="bg-item animate-in fade-in duration-1000"
+              class="bg-item"
               src={src}
               style={{
                 'offset-path': path,
