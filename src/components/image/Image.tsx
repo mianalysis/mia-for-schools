@@ -206,6 +206,7 @@ export default function Image(props: Props) {
     var y = (h - h / zoom) / 2 + imY / zoom - zoomControl()?.getPan().y;
 
     return [x, y];
+
   }
 
   return (
@@ -213,23 +214,20 @@ export default function Image(props: Props) {
       <Show when={probeVisible()}>
         <div
           id="probe"
-          class="flex items-center rounded-2xl overflow-visible shadow-lg bg-white p-2"
-          style="position: absolute; z-index: 97"
+          class="absolute flex items-center rounded-2xl overflow-visible shadow-lg bg-white p-2 z-20"
         >
           <div
             id="colour_cell"
-            class="rounded-xl w-6 h-20 mr-2 border-2 border-black animate-in fade-in"
-            style="position: relative; z-index: 98; display: inline; float:left"
+            class="relative inline float-left rounded-xl w-6 h-20 mr-2 border-2 border-black animate-in fade-in z-10"
           />
-          <div id="probe_text" class="text-left" style="display:inline" />
+          <div id="probe_text" class="inline text-left" />
         </div>
       </Show>
 
       <div
-        class="flex-none rounded-2xl overflow-visible shadow-lg animate-in fade-in duration-1000 ease-in-out"
-        style="position:relative"
+        class="relative flex-none rounded-2xl overflow-visible shadow-lg animate-in fade-in duration-1000 ease-in-out"
       >
-        <div class=" group flex w-full ml-2 pr-2" style="position: absolute; left: 0; z-index: 99">
+        <div class="absolute left-0 group flex w-full ml-2 pr-2 z-10">
           <Show when={showProbeControl()}>
             <ImageControlButton
               thisControlState={ControlState.PROBE}
@@ -258,19 +256,17 @@ export default function Image(props: Props) {
         </div>
 
         <div
-          class="group flex w-full ml-2 pr-2"
-          style="position: absolute; left: 0; bottom:0; z-index: 99"
+          class="absolute left-0 group flex w-full ml-2 pr-2 z-20"
         ></div>
 
         <div
           ref={image_region}
-          class="w-full h-auto animate-in"
-          style="position:relative"
+          class="relative w-full h-auto animate-in"
           onpointerenter={() => setProbeVisible(true && probeEnabled)}
           onpointerleave={() => setProbeVisible(false)}
           onpointermove={(e) => updateProbe(e)}
         >
-          <canvas ref={image_canvas} class="cursor-default" style="position:absolute" />
+          <canvas ref={image_canvas} class="absolute cursor-default"/>
           <Show when={overlay()}>
             <OverlayComponent overlay={overlay()} overlays={props.overlaysJSON}></OverlayComponent>
           </Show>

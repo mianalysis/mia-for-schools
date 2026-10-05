@@ -2,7 +2,7 @@ import { Route, Router } from '@solidjs/router';
 
 import WorkflowSelector from './pages/WorkflowSelector';
 import Workflow from './pages/Workflow';
-import Intro from './pages/Intro';
+import Intro from './pages/Welcome';
 
 function App() {
   const App = (props) => <>{props.children}</>;

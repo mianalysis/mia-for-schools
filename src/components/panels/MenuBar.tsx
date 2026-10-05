@@ -1,5 +1,7 @@
-import { Show } from 'solid-js';
+import { createSignal, Show } from 'solid-js';
 import Panel from './Panel';
+import Button from '../controls/Button';
+import Intro from './Help';
 
 interface Props {
   class?: string;
@@ -7,18 +9,32 @@ interface Props {
 }
 
 export default function MenuBar(props: Props) {
+  const [showHelp, setShowHelp] = createSignal(false);
+
+  function closeHelpPanel() {
+    setShowHelp(false);
+  }
+
   return (
-    <Panel
-      class={`flex max-w-lg mb-4 items-center justify-center sm:items-stretch ${props.class ?? ''}`}
-      style={props.style ?? ''}
-    >
-      <a
-        href="./workflows"
-        class="flex flex-shrink-0 items-center transition duration-150 ease-in-out hover:scale-110"
+    <div class={`flex w-full mb-4 ${props.class ?? ''}`} style={props.style ?? ''}>
+      <Panel
+        class="mr-4 aspect-square w-auto transition duration-150 ease-in-out hover:scale-110 text-gray-600 text-3xl cursor-pointer"
+        onClick={() => setShowHelp(!showHelp())}
       >
-        <img class="h-10 w-auto" src="./images/home-svgrepo-com.svg" alt="Go to home" />
-        <h2 class="text-gray-600 ml-4 text-3xl">Select a new game</h2>
+        ?
+      </Panel>
+
+      <a href="./workflows" class="flex-1 w-full">
+        <Panel
+          class={`justify-center w-full transition duration-150 ease-in-out hover:scale-105 text-gray-600 text-3xl`}
+        >
+          Select a new game
+        </Panel>
       </a>
-    </Panel>
+
+      <Show when={showHelp()}>
+        <Intro welcomeScreen={false} closePanel={closeHelpPanel}/>
+      </Show>
+    </div>
   );
 }
