@@ -17,7 +17,7 @@ export default function Intro(props: Props) {
     >
       <h1 class="text-gray-600 mt-8 mb-8 text-4xl md:text-6xl font-bold">Image Explorers</h1>
       <p class="text-gray-600 ml-2 mr-2 text-2xl mb-16">
-        In this activity, you'll play a series of games that will teach you about pictures and how
+        As image explorers, you'll play a series of games that will teach you about pictures and how
         computers can understand them.
         <br />
         <br />
