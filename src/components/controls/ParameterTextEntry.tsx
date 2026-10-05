@@ -8,7 +8,7 @@ interface Props {
 export default function TextEntry(props: Props) {
   return (
     <input
-      class="h-10 m-1 text-xl w-auto rounded-full bg-rose-500 text-white hover:shadow-md transition duration-150 ease-in-out hover:scale-110"
+      class="h-10 m-1 text-2xl w-auto rounded-full bg-rose-500 text-white hover:shadow-md transition duration-150 ease-in-out hover:scale-110"
       type="text"
       name="fname"
       value={props.parameter.value}

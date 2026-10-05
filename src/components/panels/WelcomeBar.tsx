@@ -11,7 +11,7 @@ export default function WelcomeBar(props: Props) {
       class={`items-center justify-center sm:items-stretch ${props.class ?? ''}`}
       style={props.style ?? ''}
     >
-      <div class="text-2xl text-gray-600">Click a picture to learn more</div>
+      <div class="font-[pixel] text-3xl text-gray-600">Click a tile to start a game</div>
     </Panel>
   );
 }

@@ -22,7 +22,7 @@ export default {
   plugins: [require('@tailwindcss/forms'), require('tailwindcss-animate')],
   safelist: [ 
     { pattern: /text-./,
-      variants: ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl']}, 
+      variants: ['sm', 'md']}, 
     { pattern: /font-./ }, 
     { pattern: /bg-./ }, 
     { pattern: /w-./ }, 

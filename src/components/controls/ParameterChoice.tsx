@@ -15,7 +15,7 @@ export default function Choice(props: Props) {
     <Popover defaultOpen={false} class="m-1 inline-block">
       {({ isOpen }): JSX.Element => (
         <>
-          <PopoverButton class="range h-10 p-0 w-32 rounded-xl bg-orange-500 hover:bg-cyan-500 items-center transition duration-150 ease-in-out hover:scale-110">
+          <PopoverButton class="range h-10 p-0 w-32 text-2xl rounded-xl bg-orange-500 hover:bg-cyan-500 items-center transition duration-150 ease-in-out hover:scale-110">
             {props.parameter.value}
           </PopoverButton>
           <Transition
@@ -36,7 +36,7 @@ export default function Choice(props: Props) {
                   {(choice) => (
                     <MenuItem
                       as="button"
-                      class="p-1 text-left rounded-2xl hover:bg-cyan-600 hover:text-white"
+                      class="p-1 pl-2 text-2xl text-left rounded-xl hover:bg-cyan-600 hover:text-white"
                       onClick={(event: Event) => {
                         var value = (event.target as Element).innerHTML;
                         if (currVal != value) {

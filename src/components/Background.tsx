@@ -82,6 +82,9 @@ export function getDefaultBackground() {
       'images/background/square_lg.png',
       'images/background/cross.png',
       'images/background/circle.png',
+      'images/background/leaf.png',
+      'images/background/cell.png',
+      'images/background/diatom3.png',
     ],
   };
 

@@ -23,16 +23,16 @@ export default function WorkflowTile(props: Props) {
             style="position:absolute; top:0; left:0; width:100%; height:100%"
           /> */}
         </div>
-        <Show when={props.workflow.banner}>
+        {/* <Show when={props.workflow.banner}>
           <div
             class={`absolute transform -rotate-45 text-center ${props.workflow.banner.colour} text-white font-semibold py-1 left-[-42px] top-[26px] w-[170px]`}
           >
             {props.workflow.banner.text}
           </div>
-        </Show>
+        </Show> */}
         <div
           class={
-            'text-violet-600 text-3xl drop-shadow-[0_1px_1px_rgba(0,0,0,1)]'
+            'font-[pixel] text-violet-600 text-3xl drop-shadow-[0_1px_1px_rgba(0,0,0,1)]'
           }
           style="pointer-events: none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"
         >

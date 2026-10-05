@@ -69,7 +69,7 @@ export default function Message(props: Props) {
             <Match when={content.type === 'text'}>
               <span
                 style="white-space: pre-line;"
-                class="text-gray-600"
+                class="text-gray-600 text-2xl"
                 innerHTML={content.data as string}
               ></span>
             </Match>
