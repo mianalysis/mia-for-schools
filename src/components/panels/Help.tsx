@@ -12,7 +12,7 @@ export default function Intro(props: Props) {
 
   return (
     <div
-      class="absolute bottom-20 left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 h-fit z-40 rounded-2xl shadow-lg p-4"
+      class="text-gray-600 absolute bottom-20 left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 h-fit z-40 rounded-2xl shadow-lg p-4"
       style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75);"
     >
       <h1 class="mt-8 mb-8 text-6xl font-bold">Image Explorers</h1>
