@@ -12,7 +12,7 @@ import Panel from '../components/panels/Panel';
 import LoadingBar from '../components/panels/LoadingBar';
 import Message from '../components/panels/Message';
 
-var workflowName: String = '';
+var workflowName: string | string[] = '';
 
 // const [hasPrevious, setHasPrevious] = createSignal(true);
 // const [hasNext, setHasNext] = createSignal(true);
@@ -145,7 +145,7 @@ async function loadWorkflowConfig() {
   setLoading(true);
 }
 
-async function initialiseWorkflow(workflowName: String) {
+async function initialiseWorkflow(workflowName: string | string[]) {
   // Read workflow XML from file
   const workflowPath: string = `./mia/workflows/${workflowName}.mia`;
   const workflowFile = await fetch(workflowPath);
