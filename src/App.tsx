@@ -1,15 +1,16 @@
+import { lazy } from 'solid-js';
 import { Route, Router } from '@solidjs/router';
 
-import WorkflowSelector from './pages/WorkflowSelector';
-import Workflow from './pages/Workflow';
-import Intro from './pages/Welcome';
+const WorkflowSelector = lazy(() => import('./pages/WorkflowSelector'));
+const Workflow = lazy(() => import('./pages/Workflow'));
+const Welcome = lazy(() => import('./pages/Welcome'));
 
 function App() {
   const App = (props) => <>{props.children}</>;
 
   return (
     <Router root={App} base="/mia-for-schools">
-      <Route path="/" component={Intro} />
+      <Route path="/" component={Welcome} />
       <Route path="/workflows" component={WorkflowSelector} />
       <Route path="/workflow" component={Workflow} />
     </Router>

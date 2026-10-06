@@ -18,7 +18,7 @@ export default function MenuBar(props: Props) {
   return (
     <div class={`flex w-full mb-4 ${props.class ?? ''}`} style={props.style ?? ''}>
       <Panel
-        class="mr-4 aspect-square w-auto transition duration-150 ease-in-out hover:scale-110 text-gray-600 text-3xl cursor-pointer"
+        class="mr-4 aspect-square w-auto transition !duration-150 ease-in-out hover:scale-110 text-gray-600 text-3xl cursor-pointer"
         onClick={() => setShowHelp(!showHelp())}
       >
         ?
@@ -26,7 +26,7 @@ export default function MenuBar(props: Props) {
 
       <a href="./workflows" class="flex-1 w-full">
         <Panel
-          class={`justify-center w-full transition duration-150 ease-in-out hover:scale-105 text-gray-600 text-3xl`}
+          class={`justify-center w-full transition !duration-150 ease-in-out hover:scale-105 text-gray-600 text-3xl`}
         >
           Select a new game
         </Panel>

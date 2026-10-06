@@ -1,6 +1,8 @@
 import { For } from 'solid-js';
 
 interface Props {
+  class?: string;
+  firstLoad?: boolean;
   backgroundJSON: BackgroundJSON;
   n: number;
 }
@@ -70,6 +72,7 @@ function randomPath(maxX: number, maxY: number) {
   }
 
   return `path("M${x0},${y0} C${x1},${y1} ${x2},${y2} ${x3},${y3}")`;
+
 }
 
 export function getDefaultBackground() {
@@ -95,10 +98,17 @@ export default function Background(props: Props) {
   if (props.backgroundJSON === undefined) props.backgroundJSON = getDefaultBackground();
 
   const items = pickItems(props.backgroundJSON.iconPaths, props.n);
+
+  console.log(props.firstLoad);
+  if (props.firstLoad)
+    document.body.classList.add('no-transition');
+  else if (document.body.classList.contains('no-transition'))
+    document.body.classList.remove('no-transition');
+  
   document.body.style.background = `${props.backgroundJSON.colour}`;
 
   return (
-    <div class="background">
+    <div class={`background ${props.class ?? ''}`}>
       <For each={items}>
         {(src) => {
           const path = randomPath(window.innerWidth, window.innerHeight);

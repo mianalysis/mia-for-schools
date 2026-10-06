@@ -18,7 +18,7 @@ export default function Intro(props: Props) {
       <h1 class="text-gray-600 mt-8 mb-8 text-4xl md:text-6xl font-bold">Image Explorers</h1>
       <p class="text-gray-600 ml-2 mr-2 text-2xl mb-16">
         As image explorers, you'll play a series of games that will teach you about pictures and how
-        computers can understand them.
+        computers can understand and work with them.
         <br />
         <br />
         Complete challenges to earn ⭐ stars. You can see how many stars you have in the top-right
@@ -26,12 +26,12 @@ export default function Intro(props: Props) {
       </p>
       <Switch>
         <Match when={props.welcomeScreen}>
-          <Button class="!w-fit ml-auto mr-auto mb-8 h-auto" onClick={() => navigate('./workflows')}>
+          <Button class="!w-fit ml-auto mr-auto pl-4 pr-4 mb-8 h-auto" onClick={() => navigate('./workflows')}>
             Ready? Let's get started!
           </Button>
         </Match>
         <Match when={!props.welcomeScreen}>
-          <Button class="!w-fit ml-auto mr-auto mb-8 h-auto" onClick={() => props.closePanel()}>
+          <Button class="!w-fit ml-auto mr-auto pl-4 pr-4 mb-8 h-auto" onClick={() => props.closePanel()}>
             Close
           </Button>
         </Match>

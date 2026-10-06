@@ -14,7 +14,7 @@
       "banner": { "text": "Beta", "colour": "bg-amber-500" },
       "displayname": "Aligning images",
       "fullname": "Aligning_images",
-      "memory": 4332003,
+      "memory": 7113678,
       "path": "mia/workflows/Aligning_images.mia",
       "thumbnail": "mia/thumbnails/Aligning_images.png"
     }

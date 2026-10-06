@@ -184,11 +184,11 @@ export default function Image(props: Props) {
     probeText.innerHTML =
       '<div class=text-xl>' +
       '<b><span class="text-red-500">Red: ' +
-      pixels[0] +
+      Math.round(pixels[0]/2.55) +
       '</span><br><span class="text-green-500">Green: ' +
-      pixels[1] +
+      Math.round(pixels[1]/2.55) +
       '</span><br><span class="text-blue-500">Blue: ' +
-      pixels[2] +
+      Math.round(pixels[2]/2.55) +
       '</span></b></div>';
     var colourCell = document.getElementById('colour_cell');
     colourCell.style.background = 'rgb(' + pixels[0] + ',' + pixels[1] + ',' + pixels[2] + ')';

@@ -42,7 +42,7 @@
                 if (done) break;
 
                 loadedBytes += value.length;
-                // console.log('Loaded ' + loadedBytes);
+                // console.log('[W] Loaded ' + loadedBytes);
                 window.localLoadedBytes = loadedBytes;
                 updateProgress(loadedBytes);
               }
@@ -108,7 +108,6 @@
           const MIA = await cj.io.github.mianalysis.mia.MIA;
           const Level = await cj.io.github.mianalysis.mia.process.logging.LogRenderer$Level;
           const meth = await MIA.getMainRenderer();
-          console.log(meth);
           // await meth.setWriteEnabled(Level.MEMORY, true);
           await meth.setWriteEnabled(Level.DEBUG, true);
 
