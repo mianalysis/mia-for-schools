@@ -25,12 +25,14 @@
 @source inline("text-purple-400");
 @source inline("italic");
 @source inline("text-3xl");
+@source inline("mb-{1,2,4,8,20}");
 @source inline("ml-{2,12,20}");
 @source inline("border-4");
 @source inline("border-black");
 @source inline("w-12");
 @source inline("h-12");
 @source inline("shadow-equal");
+@source inline("flex");
 
 @font-face {
   font-family: pixel;
