@@ -31,7 +31,7 @@ export default function Intro(props: Props) {
           </Button>
         </Match>
         <Match when={!props.welcomeScreen}>
-          <Button class="!w-fit ml-auto mr-auto pl-4 pr-4 mb-8 h-auto" onClick={() => props.closePanel()}>
+          <Button class="!w-fit ml-auto mr-auto pl-8 pr-8 mb-8 h-auto" onClick={() => props.closePanel()}>
             Close
           </Button>
         </Match>
