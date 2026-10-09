@@ -8,5 +8,6 @@ declare global {
     localLoadedBytes: number;
     TOTAL_INIT_BYTES: number;
     proCon: any;
+    starStore: any;
   }
 }

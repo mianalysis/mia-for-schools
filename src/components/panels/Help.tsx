@@ -26,12 +26,12 @@ export default function Intro(props: Props) {
       </p>
       <Switch>
         <Match when={props.welcomeScreen}>
-          <Button class="!w-fit ml-auto mr-auto pl-4 pr-4 mb-8 h-auto" onClick={() => navigate('./workflows')}>
+          <Button class="!w-fit ml-auto mr-auto p-2 pl-4 pr-4 mb-8 h-auto" onClick={() => navigate('./workflows')}>
             Ready? Let's get started!
           </Button>
         </Match>
         <Match when={!props.welcomeScreen}>
-          <Button class="!w-fit ml-auto mr-auto pl-8 pr-8 mb-8 h-auto" onClick={() => props.closePanel()}>
+          <Button class="!w-fit ml-auto mr-auto p-2 pl-8 pr-8 mb-8 h-auto" onClick={() => props.closePanel()}>
             Close
           </Button>
         </Match>

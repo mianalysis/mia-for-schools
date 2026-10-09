@@ -1,16 +1,54 @@
 @import "tailwindcss";
 
 @theme {
-  --animate-growshrink: growshrink 0.5s ease-in infinite;
+  --animate-grow-shrink: growshrink 0.5s ease-in infinite;
   --shadow-equal: 0 0 18px 4px currentColor;
   
-  @keyframes growshrink {
+  @keyframes grow-shrink {
     0%, 100% {
       transform: scale(1);
     }
     
     50% {
       transform: scale(1.05);
+    }
+  }
+
+  --animate-spin-once: spin-once 1s linear;
+
+  @keyframes spin-once {
+    0% {
+      transform: scale(1) rotate(0deg);
+    }
+    
+    50% {
+      transform: scale(2) rotate(360deg);
+    }
+
+    100% {
+      transform: scale(1) rotate(720deg);
+    }
+  }
+
+  --animate-colour-flash: colour-flash 1s linear;
+
+  @keyframes colour-flash {
+    0% {
+      color: #4a5565;
+      stroke: #4a5565;
+      fill: none
+    }
+    
+    50% {
+      color: oklch(75% 0.183 55.934);
+      stroke: oklch(75% 0.183 55.934);
+      fill: oklch(96.2% 0.059 95.617)
+    }
+
+    100% {
+      color: #4a5565;
+      stroke: #4a5565;
+      fill: none
     }
   }
 }
@@ -38,9 +76,6 @@
 @source inline("rotate-90");
 @source inline("rotate-180");
 @source inline("-scale-100");
-@source inline("[&_button]:bg-emerald-400");
-@source inline("!m-0");
-@source inline("!p-0");
 
 @font-face {
   font-family: pixel;
@@ -102,17 +137,9 @@ h1 {
   line-height: 1.1;
 }
 
-/* button {
-  border-radius: 8px;
-  border: 1px solid rgb(75 85 99);
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+button {
   cursor: pointer;
-  transition: border-color 0.25s;
-} */
+}
 
 /* button:hover {
   border-color: #646cff;

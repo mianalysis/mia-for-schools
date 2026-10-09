@@ -26,6 +26,7 @@ const [showNav, setShowNav] = createSignal(false);
 const [overlays, setOverlays] = createSignal<[OverlayJSON] | undefined>();
 const [clickListener, setClickListener] = createSignal<ClickListener | undefined>();
 const [loadedBytes, setLoadedBytes] = createSignal(0);
+const [starCount, setStarCount] = createSignal(0);
 
 window.setLoadedBytes = setLoadedBytes;
 var startingBytes = 0;
@@ -223,7 +224,7 @@ export default function Workflow() {
           <div class="flex flex-col">
 
             <Show when={image() || message() || graph()}>
-              <MenuBar />
+              <MenuBar starCount={starCount} setStarCount={setStarCount}/>
             </Show>
 
             <Show when={image()}>
