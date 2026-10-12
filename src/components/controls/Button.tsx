@@ -13,7 +13,7 @@ export default function Button(props: Props) {
     <button
       class={`w-full h-12 p-0 m-0 rounded-xl bg-violet-500 text-3xl text-white border-none 
         disabled:opacity-50 disabled:hover:bg-violet-500 transition duration-150 ease-in-out 
-        hover:scale-110 disabled:hover:scale-100 hover:bg-orange-500 ${props.class ?? ""}`}
+        hover:scale-110 disabled:hover:scale-100 hover:bg-orange-500 ${props.class ?? ""} ${props.disabled ? "cursor-default" : "cursor-pointer"}`}
       style={`${props.style ?? ""}`}
       onClick={() => props.onClick()}
       disabled={props.disabled ?? false}

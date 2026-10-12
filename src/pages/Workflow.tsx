@@ -14,8 +14,8 @@ import Message from '../components/panels/Message';
 
 var workflowName: string | string[] = '';
 
-// const [hasPrevious, setHasPrevious] = createSignal(true);
-// const [hasNext, setHasNext] = createSignal(true);
+const [hasPrevious, setHasPrevious] = createSignal(true);
+const [hasNext, setHasNext] = createSignal(true);
 // const [params, setParams] = createSignal<ModuleJSON[]>();
 const [loading, setLoading] = createSignal(false);
 const [image, setImage] = createSignal<any>();
@@ -32,20 +32,6 @@ window.setLoadedBytes = setLoadedBytes;
 var startingBytes = 0;
 var finalBytes = 0;
 
-// function requestHasPreviousGroup() {
-//   socketClient.publish({
-//     destination: '/app/haspreviousgroup',
-//     body: JSON.stringify({}),
-//   });
-// }
-
-// function requestHasNextGroup() {
-//   socketClient.publish({
-//     destination: '/app/hasnextgroup',
-//     body: JSON.stringify({}),
-//   });
-// }
-
 function getClickListenerParameter(modules: [ModuleJSON]) {
   if (modules == undefined) return undefined;
 
@@ -61,6 +47,7 @@ function getClickListenerParameter(modules: [ModuleJSON]) {
   });
 
   return clickParameter;
+
 }
 
 // const awaitConnect = async (awaitConnectConfig) => {
@@ -164,6 +151,7 @@ async function initialiseWorkflow(workflowName: string | string[]) {
   setLoading(false);
 
   await updatePage(result);
+
 }
 
 async function updatePage(result: any) {
@@ -176,9 +164,12 @@ async function updatePage(result: any) {
   setOverlays(result.overlays);
   var message = await (await result.getMessage()).toString();
   setMessage(await JSON.parse(message));
+  setHasPrevious(await result.hasPreviousGroup());
+  setHasNext(await result.hasNextGroup());
   setImage(result);
   setGraph(result.graph);
   setShowNav(true);
+
 }
 
 export default function Workflow() {
@@ -249,7 +240,7 @@ export default function Workflow() {
             </Show>
 
             <Show when={showNav()}>
-              <WorkflowNav previousDisabled={false} nextDisabled={false} updatePage={updatePage} />
+              <WorkflowNav previousDisabled={!hasPrevious()} nextDisabled={!hasNext()} updatePage={updatePage} />
             </Show>
           </div>
         </div>

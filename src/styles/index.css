@@ -137,9 +137,13 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+/* button {
   cursor: pointer;
 }
+
+button :disabled {
+  cursor: default;
+} */
 
 /* button:hover {
   border-color: #646cff;

@@ -9,9 +9,6 @@ interface Props {
 }
 
 export default function WorkflowNav(props: Props) {
-  const debouncedRequestPreviousGroup = debounce(requestPreviousGroup, 100);
-  const debouncedRequestNextGroup = debounce(requestNextGroup, 100);
-
   async function requestPreviousGroup() {
     const processController = window.proCon;
     const result = await processController.previousGroup();
