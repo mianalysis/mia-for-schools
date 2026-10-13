@@ -84,8 +84,8 @@
 @source inline("italic");
 @source inline("text-3xl");
 @source inline("m-{0,2}");
-@source inline("mb-{1,2,4,8,20}");
-@source inline("mt-{8}");
+@source inline("mb-{1,2,4,6,8,20}");
+@source inline("mt-{6,8}");
 @source inline("ml-{2,12,16,20,auto}");
 @source inline("mr-{auto}");
 @source inline("border-4");
