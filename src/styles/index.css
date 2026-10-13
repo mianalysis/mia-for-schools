@@ -51,6 +51,25 @@
       fill: none
     }
   }
+
+  --equal-shadow: 0 0 18px rgba(132, 204, 22, 0.6);
+
+  @keyframes drift {
+    0% {
+      offset-distance: 0%;
+      opacity: 0;
+    }
+    5% {
+      opacity: 1;
+    }
+    95% {
+      opacity: 1;
+    }
+    100% {
+      offset-distance: 100%;
+      opacity: 0;
+    }
+  }
 }
 
 @source "../";
@@ -60,17 +79,19 @@
 @source inline("{bg,text}-amber-400");
 @source inline("{bg,text}-yellow-400");
 @source inline("{bg,text}-lime-{400,500}");
+@source inline("hover:text-white");
 @source inline("text-purple-400");
 @source inline("italic");
 @source inline("text-3xl");
 @source inline("m-{0,2}");
 @source inline("mb-{1,2,4,8,20}");
 @source inline("mt-{8}");
-@source inline("ml-{2,12,16,20}");
+@source inline("ml-{2,12,16,20,auto}");
+@source inline("mr-{auto}");
 @source inline("border-4");
 @source inline("border-black");
-@source inline("w-{8,12,full}");
-@source inline("h-{8,12,full}");
+@source inline("w-{8,12,fit,full}");
+@source inline("h-{8,12,fit,full}");
 @source inline("shadow-equal");
 @source inline("-rotate-90");
 @source inline("rotate-90");
@@ -240,27 +261,6 @@ svg {
   width: 32px;
   height: 32px;
   animation: drift 60s infinite linear;
-}
-
-@keyframes drift {
-  0% {
-    offset-distance: 0%;
-    opacity: 0;
-  }
-  5% {
-    opacity: 1;
-  }
-  95% {
-    opacity: 1;
-  }
-  100% {
-    offset-distance: 100%;
-    opacity: 0;
-  }
-}
-
-@theme {
-  --equal-shadow: 0 0 18px rgba(132, 204, 22, 0.6);
 }
 
 .equal-shadow {
