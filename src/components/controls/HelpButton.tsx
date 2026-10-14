@@ -12,7 +12,7 @@ export default function HelpButton() {
   return (
     <div class="flex">
       <Panel
-        class="aspect-square w-auto transition !duration-150 ease-in-out hover:scale-110 text-gray-600 text-3xl cursor-pointer"
+        class="w-18 transition !duration-150 ease-in-out hover:scale-110 text-gray-600 text-3xl cursor-pointer"
         onClick={() => setShowHelp(!showHelp())}
       >
         ?

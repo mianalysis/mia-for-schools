@@ -12,10 +12,10 @@ type Props = {
 
 export default function WelcomeBar(props: Props) {
   return (
-    <div class={`flex w-full ${props.class ?? ''}`} style={props.style ?? ''}>
-      <StarCounter class="mr-4" starCount={props.starCount} setStarCount={props.setStarCount} />
+    <div class={`flex w-full gap-4 ${props.class ?? ''}`} style={props.style ?? ''}>
+      <StarCounter starCount={props.starCount} setStarCount={props.setStarCount} />
 
-      <Panel class="items-center justify-center sm:items-stretch mr-4 w-full">
+      <Panel class="flex-1 items-center justify-center">
         <div class="font-[pixel] text-3xl text-gray-600">Click a tile</div>
       </Panel>
 
