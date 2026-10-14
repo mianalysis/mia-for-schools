@@ -47,7 +47,6 @@ function getClickListenerParameter(modules: [ModuleJSON]) {
   });
 
   return clickParameter;
-
 }
 
 // const awaitConnect = async (awaitConnectConfig) => {
@@ -151,7 +150,6 @@ async function initialiseWorkflow(workflowName: string | string[]) {
   setLoading(false);
 
   await updatePage(result);
-
 }
 
 async function updatePage(result: any) {
@@ -166,6 +164,13 @@ async function updatePage(result: any) {
   setMessage(await JSON.parse(message));
   setHasPrevious(await result.hasPreviousGroup());
   setHasNext(await result.hasNextGroup());
+  
+  const currStarCount = await result.getStarCount();
+  if (currStarCount > window.starCount) {
+    setStarCount(currStarCount);
+    window.starCount = currStarCount;
+  }
+
   setImage(result);
   setGraph(result.graph);
   setShowNav(true);
@@ -213,9 +218,8 @@ export default function Workflow() {
       <Show when={!loading()}>
         <div class="container grid sm:grid-cols-2 gap-4">
           <div class="flex flex-col">
-
             <Show when={image() || message() || graph()}>
-              <MenuBar starCount={starCount} setStarCount={setStarCount}/>
+              <MenuBar starCount={starCount} setStarCount={setStarCount} />
             </Show>
 
             <Show when={image()}>
@@ -240,7 +244,11 @@ export default function Workflow() {
             </Show>
 
             <Show when={showNav()}>
-              <WorkflowNav previousDisabled={!hasPrevious()} nextDisabled={!hasNext()} updatePage={updatePage} />
+              <WorkflowNav
+                previousDisabled={!hasPrevious()}
+                nextDisabled={!hasNext()}
+                updatePage={updatePage}
+              />
             </Show>
           </div>
         </div>
