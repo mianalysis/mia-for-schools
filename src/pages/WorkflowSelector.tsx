@@ -23,7 +23,7 @@ export default function WorkflowSelector() {
       <Background backgroundJSON={getDefaultBackground()} n={window.innerWidth / 20} />
       <Show when={workflows()}>
         <div class="container m-auto grid grid-cols-2 md:grid-cols-3 gap-4 items-center">
-          <WelcomeBar class="mb-2 text-2xl col-span-2 md:col-span-3" starCount={starCount} setStarCount={setStarCount}/>
+          <WelcomeBar class="text-2xl col-span-2 md:col-span-3" starCount={starCount} setStarCount={setStarCount}/>
           <For each={workflows()}>{(workflow) => <WorkflowTile workflow={workflow} />}</For>
         </div>
       </Show>
