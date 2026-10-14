@@ -16,7 +16,7 @@ export default function WelcomeBar(props: Props) {
       <StarCounter class="mr-4" starCount={props.starCount} setStarCount={props.setStarCount} />
 
       <Panel class="items-center justify-center sm:items-stretch mr-4 w-full">
-        <div class="font-[pixel] text-3xl text-gray-600">Click a tile to start a game</div>
+        <div class="font-[pixel] text-3xl text-gray-600">Click a tile</div>
       </Panel>
 
       <HelpButton />
