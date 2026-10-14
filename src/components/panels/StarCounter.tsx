@@ -2,6 +2,8 @@ import { Accessor, createEffect, createSignal, on, Setter } from 'solid-js';
 import Panel from './Panel';
 
 interface Props {
+  class?: string;
+  style?: string;
   starCount: Accessor<number>;
   setStarCount: Setter<number>;
 }
@@ -13,8 +15,8 @@ export default function StarCounter(props: Props) {
 
   return (
     <Panel
-      class="flex mr-4 w-auto text-gray-600 text-3xl items-center !p-0 "
-      // onClick={() => props.setStarCount(props.starCount()+1)}
+      class={`flex w-auto text-gray-600 text-3xl items-center !p-0 ${props.class ?? ''}`}
+      style={props.style ?? ''}
     >
       <svg
         class={`w-8 ml-4 mr-2 !mt-0 !mb-0 ${rotAnimation() ? 'animate-spin-once' : ''}`}

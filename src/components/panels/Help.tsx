@@ -21,7 +21,7 @@ export default function Intro(props: Props) {
         computers can understand and work with them.
         <br />
         <br />
-        Complete challenges to earn ⭐ stars. You can see how many stars you have in the top-right
+        Complete challenges to earn ⭐ stars. You can see how many stars you have in the top-left
         corner.
       </p>
       <Switch>

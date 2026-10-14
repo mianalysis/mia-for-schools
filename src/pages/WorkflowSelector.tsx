@@ -5,6 +5,7 @@ import WelcomeBar from '../components/panels/WelcomeBar';
 import WorkflowTile from '../components/panels/WorkflowTile';
 
 const [workflows, setWorkflows] = createSignal<WorkflowJSON[]>();
+const [starCount, setStarCount] = createSignal(0);
 
 async function loadWorkflows() {
   const response = await fetch('./mia/workflows/workflows.json');
@@ -15,13 +16,14 @@ async function loadWorkflows() {
 
 export default function WorkflowSelector() {
   loadWorkflows();
+  setStarCount(window.starCount);
 
   return (
     <main class="space-y-0">
       <Background backgroundJSON={getDefaultBackground()} n={window.innerWidth / 20} />
       <Show when={workflows()}>
         <div class="container m-auto grid grid-cols-2 md:grid-cols-3 gap-4 items-center">
-          <WelcomeBar class="mb-2 text-2xl col-span-2 md:col-span-3" />
+          <WelcomeBar class="mb-2 text-2xl col-span-2 md:col-span-3" starCount={starCount} setStarCount={setStarCount}/>
           <For each={workflows()}>{(workflow) => <WorkflowTile workflow={workflow} />}</For>
         </div>
       </Show>
