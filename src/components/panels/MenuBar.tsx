@@ -1,4 +1,4 @@
-import { createSignal, Show } from 'solid-js';
+import { Accessor, createSignal, Setter, Show } from 'solid-js';
 import Panel from './Panel';
 import Intro from './Help';
 import StarCounter from './StarCounter';
@@ -6,8 +6,8 @@ import StarCounter from './StarCounter';
 interface Props {
   class?: string;
   style?: string;
-  starCount: Function;
-  setStarCount: Function;
+  starCount: Accessor<number>;
+  setStarCount: Setter<number>;
 }
 
 export default function MenuBar(props: Props) {
