@@ -12,7 +12,10 @@ export default function WorkflowTile(props: Props) {
         class="w-full overflow-hidden group animate-in fade-in duration-1000 ease-in-out"
         style="position:relative;text-align:center"
       >
-        <div class="rounded-2xl " style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.65);">
+        <div
+          class="rounded-2xl "
+          style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.65);"
+        >
           <img
             src={props.workflow.thumbnail}
             class="opacity-20 justify-center justify-self-center w-full max-w-lg rounded-2xl shadow-lg aspect-square content-center"
@@ -31,9 +34,7 @@ export default function WorkflowTile(props: Props) {
           </div>
         </Show> */}
         <div
-          class={
-            'font-[pixel] text-violet-600 text-3xl drop-shadow-[0_1px_1px_rgba(0,0,0,1)]'
-          }
+          class={'font-[pixel] text-violet-600 text-3xl drop-shadow-[0_1px_1px_rgba(0,0,0,1)]'}
           style="pointer-events: none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"
         >
           {props.workflow.displayname}

@@ -11,7 +11,7 @@ interface Props {
 export default function StarCounter(props: Props) {
   const [rotAnimation, setRotateAnimation] = createSignal(false);
 
-  createEffect(on(props.starCount, () => setRotateAnimation(true), {defer: true}));
+  createEffect(on(props.starCount, () => setRotateAnimation(true), { defer: true }));
 
   return (
     <Panel

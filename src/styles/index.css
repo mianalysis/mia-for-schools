@@ -1,14 +1,15 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --animate-grow-shrink: growshrink 0.5s ease-in infinite;
   --shadow-equal: 0 0 18px 4px currentColor;
-  
+
   @keyframes grow-shrink {
-    0%, 100% {
+    0%,
+    100% {
       transform: scale(1);
     }
-    
+
     50% {
       transform: scale(1.05);
     }
@@ -20,7 +21,7 @@
     0% {
       transform: scale(1) rotate(0deg);
     }
-    
+
     50% {
       transform: scale(3) rotate(360deg);
     }
@@ -36,19 +37,19 @@
     0% {
       color: #4a5565;
       stroke: #4a5565;
-      fill: none
+      fill: none;
     }
-    
+
     50% {
       color: oklch(75% 0.183 55.934);
       stroke: oklch(75% 0.183 55.934);
-      fill: oklch(96.2% 0.059 95.617)
+      fill: oklch(96.2% 0.059 95.617);
     }
 
     100% {
       color: #4a5565;
       stroke: #4a5565;
-      fill: none
+      fill: none;
     }
   }
 
@@ -102,14 +103,14 @@
   font-family: pixel;
   font-style: normal;
   font-weight: 400;
-  src: url("/fonts/PixelOperator.ttf");
+  src: url('/fonts/PixelOperator.ttf');
 }
 
 @font-face {
   font-family: pixel;
   font-style: normal;
   font-weight: 700;
-  src: url("/fonts/PixelOperator-Bold.ttf");
+  src: url('/fonts/PixelOperator-Bold.ttf');
 }
 
 :root {
@@ -122,7 +123,6 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  /* padding: 1rem; */
   text-align: center;
 }
 

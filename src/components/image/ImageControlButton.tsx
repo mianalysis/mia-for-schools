@@ -1,10 +1,10 @@
-import { ControlState } from "./Image";
+import { ControlState } from './Image';
 
 interface Props {
-    thisControlState: ControlState;
-    iconPath: string;
-    controlState: Function;
-    setControlState: Function;
+  thisControlState: ControlState;
+  iconPath: string;
+  controlState: Function;
+  setControlState: Function;
 }
 
 export default function ImageControlButton(props: Props) {

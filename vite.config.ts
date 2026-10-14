@@ -5,11 +5,7 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 export default defineConfig({
   base: '/mia-for-schools/',
-  plugins: [
-    solid(),
-    nodePolyfills(),
-    tailwindcss(),
-  ],
+  plugins: [solid(), nodePolyfills(), tailwindcss()],
   build: {
     target: 'esnext',
   },

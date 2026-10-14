@@ -10,7 +10,7 @@ type Props = {
 
 export default function LoadingBar(props: Props) {
   return (
-    <Panel class={`fade-out w-64 ${props.class ?? ""}`} style={props.style ?? ""}>
+    <Panel class={`fade-out w-64 ${props.class ?? ''}`} style={props.style ?? ''}>
       <div class="text-3xl text-gray-600">Loading...</div>
       <div class="w-full bg-neutral-quaternary rounded-full">
         <div

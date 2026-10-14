@@ -11,7 +11,7 @@ export default function ParameterButton(props: Props) {
       class=" h-12 w-auto !p-0 !m-0 rounded-xl bg-cyan-500 text-3xl text-white border-none 
       disabled:opacity-50 disabled:hover:bg-violet-500 transition duration-150 ease-in-out 
       hover:scale-110 disabled:hover:scale-100 hover:bg-orange-500"
-      
+
       name="fname"
       innerHTML={props.parameter.nickname}
       onClick={() =>

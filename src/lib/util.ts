@@ -28,7 +28,6 @@ export async function sendParameter(
   );
 
   updatePage(result);
-  
 }
 
 // From https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb (Accessed 2024-07-19)

@@ -45,7 +45,6 @@ export default function Image(props: Props) {
           setShowProbeControl(imageJSON.showprobecontrol);
           setShowSelectControl(imageJSON.showselectcontrol);
           setShowZoomControl(imageJSON.showzoomcontrol);
-          
         })();
 
         image_canvas.width = 512;
@@ -184,11 +183,11 @@ export default function Image(props: Props) {
     probeText.innerHTML =
       '<div class=text-xl>' +
       '<b><span class="text-red-500">Red: ' +
-      Math.round(pixels[0]/2.55) +
+      Math.round(pixels[0] / 2.55) +
       '</span><br><span class="text-green-500">Green: ' +
-      Math.round(pixels[1]/2.55) +
+      Math.round(pixels[1] / 2.55) +
       '</span><br><span class="text-blue-500">Blue: ' +
-      Math.round(pixels[2]/2.55) +
+      Math.round(pixels[2] / 2.55) +
       '</span></b></div>';
     var colourCell = document.getElementById('colour_cell');
     colourCell.style.background = 'rgb(' + pixels[0] + ',' + pixels[1] + ',' + pixels[2] + ')';
@@ -206,7 +205,6 @@ export default function Image(props: Props) {
     var y = (h - h / zoom) / 2 + imY / zoom - zoomControl()?.getPan().y;
 
     return [x, y];
-
   }
 
   return (
@@ -224,9 +222,7 @@ export default function Image(props: Props) {
         </div>
       </Show>
 
-      <div
-        class="relative flex-none rounded-2xl overflow-visible shadow-lg animate-in fade-in duration-1000 ease-in-out"
-      >
+      <div class="relative flex-none rounded-2xl overflow-visible shadow-lg animate-in fade-in duration-1000 ease-in-out">
         <div class="absolute left-0 group flex w-full ml-2 pr-2 z-10">
           <Show when={showProbeControl()}>
             <ImageControlButton
@@ -255,9 +251,7 @@ export default function Image(props: Props) {
           </Show>
         </div>
 
-        <div
-          class="absolute left-0 group flex w-full ml-2 pr-2 z-20"
-        ></div>
+        <div class="absolute left-0 group flex w-full ml-2 pr-2 z-20"></div>
 
         <div
           ref={image_region}
@@ -266,7 +260,7 @@ export default function Image(props: Props) {
           onpointerleave={() => setProbeVisible(false)}
           onpointermove={(e) => updateProbe(e)}
         >
-          <canvas ref={image_canvas} class="absolute cursor-default"/>
+          <canvas ref={image_canvas} class="absolute cursor-default" />
           <Show when={overlay()}>
             <OverlayComponent overlay={overlay()} overlays={props.overlaysJSON}></OverlayComponent>
           </Show>

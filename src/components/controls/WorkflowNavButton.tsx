@@ -11,7 +11,12 @@ interface Props {
 
 export default function WorkflowNavButton(props: Props) {
   return (
-    <Button disabled={props.disabled} onClick={props.onClick} class={props.class} style={props.style}>
+    <Button
+      disabled={props.disabled}
+      onClick={props.onClick}
+      class={props.class}
+      style={props.style}
+    >
       {props.children}
     </Button>
   );

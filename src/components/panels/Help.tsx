@@ -15,7 +15,9 @@ export default function Intro(props: Props) {
       class="absolute bottom-20 left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 w-[95vw] max-w-4xl h-fit z-40 rounded-2xl shadow-lg p-2"
       style="backdrop-filter: blur(6px); background-color: rgba(255,255,255,0.75);"
     >
-      <h1 class="text-gray-600 mt-8 mb-8 text-4xl md:text-6xl font-bold">Welcome, Image Explorers!</h1>
+      <h1 class="text-gray-600 mt-8 mb-8 text-4xl md:text-6xl font-bold">
+        Welcome, Image Explorers!
+      </h1>
       <p class="text-gray-600 ml-2 mr-2 text-2xl mb-16">
         As image explorers, you'll play a series of games that will teach you about pictures and how
         computers can understand and work with them.
@@ -26,12 +28,18 @@ export default function Intro(props: Props) {
       </p>
       <Switch>
         <Match when={props.welcomeScreen}>
-          <Button class="!w-fit ml-auto mr-auto p-2 pl-4 pr-4 mb-8 h-auto" onClick={() => navigate('./workflows')}>
+          <Button
+            class="!w-fit ml-auto mr-auto p-2 pl-4 pr-4 mb-8 h-auto"
+            onClick={() => navigate('./workflows')}
+          >
             Ready? Let's get started!
           </Button>
         </Match>
         <Match when={!props.welcomeScreen}>
-          <Button class="!w-fit ml-auto mr-auto p-2 pl-8 pr-8 mb-8 h-auto" onClick={() => props.closePanel()}>
+          <Button
+            class="!w-fit ml-auto mr-auto p-2 pl-8 pr-8 mb-8 h-auto"
+            onClick={() => props.closePanel()}
+          >
             Close
           </Button>
         </Match>

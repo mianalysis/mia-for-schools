@@ -164,7 +164,7 @@ async function updatePage(result: any) {
   setMessage(await JSON.parse(message));
   setHasPrevious(await result.hasPreviousGroup());
   setHasNext(await result.hasNextGroup());
-  
+
   const currStarCount = await result.getStarCount();
   if (currStarCount > window.starCount) {
     setStarCount(currStarCount);
@@ -174,7 +174,6 @@ async function updatePage(result: any) {
   setImage(result);
   setGraph(result.graph);
   setShowNav(true);
-
 }
 
 export default function Workflow() {

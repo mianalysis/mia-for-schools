@@ -12,11 +12,9 @@ interface Props {
 }
 
 export default function MenuBar(props: Props) {
-  
-
   return (
     <div class={`flex w-full mb-4 ${props.class ?? ''}`} style={props.style ?? ''}>
-      <StarCounter class="mr-4" starCount={props.starCount} setStarCount={props.setStarCount}/>
+      <StarCounter class="mr-4" starCount={props.starCount} setStarCount={props.setStarCount} />
 
       <a href="./workflows" class="flex-1 w-full mr-4">
         <Panel
@@ -25,9 +23,8 @@ export default function MenuBar(props: Props) {
           Home
         </Panel>
       </a>
-      
+
       <HelpButton />
-      
     </div>
   );
 }
