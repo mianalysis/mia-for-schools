@@ -17,9 +17,8 @@ async function loadWorkflows() {
 export default function WorkflowSelector() {
   loadWorkflows();
   var totalStarCount = 0;
-  
-  for (var workflowName in window.starCount.keys())
-    totalStarCount = totalStarCount + window.starCount.get(workflowName);
+  for (var currStarCount of window.starCount.values())
+    totalStarCount = totalStarCount + currStarCount;
 
   setStarCount(totalStarCount);
 

@@ -98,7 +98,6 @@ export default function Background(props: Props) {
 
   const items = pickItems(props.backgroundJSON.iconPaths, props.n);
 
-  console.log(props.firstLoad);
   if (props.firstLoad) document.body.classList.add('no-transition');
   else if (document.body.classList.contains('no-transition'))
     document.body.classList.remove('no-transition');
