@@ -16,7 +16,12 @@ async function loadWorkflows() {
 
 export default function WorkflowSelector() {
   loadWorkflows();
-  setStarCount(window.starCount);
+  var totalStarCount = 0;
+  
+  for (var workflowName in window.starCount.keys())
+    totalStarCount = totalStarCount + window.starCount.get(workflowName);
+
+  setStarCount(totalStarCount);
 
   return (
     <main class="space-y-0">

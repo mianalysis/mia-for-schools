@@ -8,6 +8,6 @@ declare global {
     localLoadedBytes: number;
     TOTAL_INIT_BYTES: number;
     proCon: any;
-    starCount: number;
+    starCount: Map<String,number>;
   }
 }

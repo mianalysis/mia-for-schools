@@ -6,4 +6,6 @@ type WorkflowJSON = {
   memory: number;
   path: string;
   thumbnail: string;
+  completedStars: number;
+  totalStars: number;
 };
