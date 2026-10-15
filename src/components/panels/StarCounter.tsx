@@ -19,7 +19,7 @@ export default function StarCounter(props: Props) {
       class={`flex w-auto text-gray-600 text-3xl items-center !p-0 ${props.class ?? ''}`}
       style={props.style ?? ''}
     >
-      <Star svgClass={`ml-4 mr-2 !mt-0 !mb-0 ${rotAnimation() ? 'animate-spin-once' : ''}`} pathClass={rotAnimation() ? 'animate-colour-flash' : ''} pathStyle='fill:none;stroke:#4a5565'/>
+      <Star svgClass={`w-8 ml-4 mr-2 !mt-0 !mb-0 ${rotAnimation() ? 'animate-spin-once' : ''}`} pathClass={rotAnimation() ? 'animate-colour-flash' : ''} pathStyle='fill:none;stroke:#4a5565'/>
 
       <div
         class={`text-3xl mr-4 ${rotAnimation() ? 'animate-colour-flash ' : ''}`}

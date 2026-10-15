@@ -8,7 +8,7 @@ interface Props {
 export default function Star(props: Props) {
     return (
         <svg
-        class={`w-8 ${props.svgClass ?? ""}`}
+        class={`${props.svgClass ?? ""}`}
         style={props.svgStyle}
         viewBox="0 0 48 48"
         xmlns="http://www.w3.org/2000/svg"
