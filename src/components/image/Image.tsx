@@ -1,9 +1,11 @@
 import Panzoom, { PanzoomObject } from '@panzoom/panzoom';
 import { Show, createEffect, createSignal, on, onCleanup } from 'solid-js';
+import AboutButton from '../controls/AboutButton';
+import AboutImage from '../panels/AboutImage';
+import ImageControlButton from './ImageControlButton';
 import { Overlay } from './Overlay';
 import OverlayComponent from './OverlayComponent';
 import ZoomSlider from './ZoomSlider';
-import ImageControlButton from './ImageControlButton';
 
 interface Props {
   image: any;
@@ -27,6 +29,8 @@ export default function Image(props: Props) {
   let image_canvas: HTMLCanvasElement;
   let image_region: HTMLDivElement;
 
+  const [showAbout, setShowAbout] = createSignal(false);
+  const [aboutText, setAboutText] = createSignal("");
   const [showProbeControl, setShowProbeControl] = createSignal(false);
   const [showSelectControl, setShowSelectControl] = createSignal(false);
   const [showZoomControl, setShowZoomControl] = createSignal(false);
@@ -45,6 +49,7 @@ export default function Image(props: Props) {
           setShowProbeControl(imageJSON.showprobecontrol);
           setShowSelectControl(imageJSON.showselectcontrol);
           setShowZoomControl(imageJSON.showzoomcontrol);
+          setAboutText(imageJSON.aboutText);
         })();
 
         image_canvas.width = 512;
@@ -251,7 +256,7 @@ export default function Image(props: Props) {
           </Show>
         </div>
 
-        <div class="absolute left-0 group flex w-full ml-2 pr-2 z-20"></div>
+        <AboutButton showAbout={showAbout} setShowAbout={setShowAbout} />
 
         <div
           ref={image_region}
@@ -267,6 +272,10 @@ export default function Image(props: Props) {
         </div>
       </div>
       <div class="flex ml-4 mr-4"></div>
+
+      <Show when={showAbout()}>
+        <AboutImage closePanel={() => setShowAbout(false)} aboutText={aboutText}/>
+      </Show>
     </div>
   );
 }

@@ -4,10 +4,10 @@ import Button from '../controls/Button';
 
 interface Props {
   welcomeScreen: boolean;
-  closePanel?: Function;
+  closePanel: Function;
 }
 
-export default function Intro(props: Props) {
+export default function Help(props: Props) {
   const navigate = useNavigate();
 
   return (

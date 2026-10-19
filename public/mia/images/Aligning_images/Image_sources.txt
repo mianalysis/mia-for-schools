@@ -1,0 +1,3 @@
+Brain slice examples are from Bianca Ambrogina Silva. (2021). Serial Coronal Sections Of An Adult Mouse Brain - Sample Dataset [Dataset]. Zenodo. https://doi.org/10.5281/zenodo.6592478.  Slices 33 and 34 were used.  From these, the first channel was used (DAPI), converted to a square image with black pixel padding and downsampled to 512 x 512 resolution.
+
+CLEM examples are from https://www.ebi.ac.uk/biostudies/bioimages/studies/S-BSST1075
