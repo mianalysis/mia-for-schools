@@ -4,7 +4,7 @@ import Button from '../controls/Button';
 
 interface Props {
   welcomeScreen: boolean;
-  closePanel: Function;
+  closePanel?: Function;
 }
 
 export default function Help(props: Props) {
