@@ -21,3 +21,7 @@ $ cp .env.example .env
 ```bash
 $ npm run dev
 ```
+
+## ProGuard for minimising jar file
+1. Run `/usr/libexec/java_home -v 1.8` to get Java path
+2. Run ./proguard.sh -injars \[MIA uberjar\] -outjars MIA_min.jar -libraryjars \[java path from above\]/jre/lib/rt.jar @cheerpj.pro

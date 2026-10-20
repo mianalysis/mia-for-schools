@@ -1,0 +1,1637 @@
+-dontobfuscate
+-dontoptimize
+-dontwarn
+-keepattributes *Annotation*
+-keepattributes Signature,InnerClasses,EnclosingMethod
+-keep class io.github.mianalysis.mia.** { *; }
+-keep class io.github.mianalysis.miaserver.** { *; }
+-keep @org.scijava.plugin.Plugin class * { *; }
+-keepattributes Signature,*Annotation*
+-keep class ij.** { *; }
+-keep class net.imagej.legacy.** { *; }
+-keep class net.imagej.patcher.** { *; }
+-keep class io.github.mianalysis.mia.module.Module
+-keepnames class io.github.mianalysis.mia.module.Module { *; }
+-keep class sun.reflect.GeneratedMethodAccessor4
+-keepnames class sun.reflect.GeneratedMethodAccessor4 { *; }
+-keepclassmembers class sun.reflect.GeneratedMethodAccessor4 { *; }
+-keep class sun.reflect.GeneratedConstructorAccessor7
+-keepnames class sun.reflect.GeneratedConstructorAccessor7 { *; }
+-keepclassmembers class sun.reflect.GeneratedConstructorAccessor7 { *; }
+-keep class bsh.BlockNameSpace
+-keepnames class bsh.BlockNameSpace { *; }
+-keep class bsh.BSHBlock
+-keepnames class bsh.BSHBlock { *; }
+-keep class bsh.BSHIfStatement
+-keepnames class bsh.BSHIfStatement { *; }
+-keep class sun.reflect.GeneratedConstructorAccessor6
+-keepnames class sun.reflect.GeneratedConstructorAccessor6 { *; }
+-keepclassmembers class sun.reflect.GeneratedConstructorAccessor6 { *; }
+-keep class mpicbg.ij.InverseTransformMapping
+-keepnames class mpicbg.ij.InverseTransformMapping { *; }
+-keep class mpicbg.models.InverseCoordinateTransform
+-keepnames class mpicbg.models.InverseCoordinateTransform { *; }
+-keep class mpicbg.models.AbstractModel
+-keepnames class mpicbg.models.AbstractModel { *; }
+-keep class mpicbg.models.AffineModel2D
+-keepnames class mpicbg.models.AffineModel2D { *; }
+-keep class bsh.BSHUnaryExpression
+-keepnames class bsh.BSHUnaryExpression { *; }
+-keep class bsh.BSHBinaryExpression
+-keepnames class bsh.BSHBinaryExpression { *; }
+-keep class bsh.BSHAssignment
+-keepnames class bsh.BSHAssignment { *; }
+-keep class ij.plugin.frame.ContrastAdjuster
+-keepnames class ij.plugin.frame.ContrastAdjuster { *; }
+-keep class ij.Undo
+-keepnames class ij.Undo { *; }
+-keep class ij.plugin.HyperStackConverter
+-keepnames class ij.plugin.HyperStackConverter { *; }
+-keep class ij.plugin.Concatenator
+-keepnames class ij.plugin.Concatenator { *; }
+-keep class io.github.mianalysis.mia.process.analysishandling.AnalysisTester
+-keepnames class io.github.mianalysis.mia.process.analysishandling.AnalysisTester { *; }
+-keep class io.github.mianalysis.miaserver.utils.JSONWriter
+-keepnames class io.github.mianalysis.miaserver.utils.JSONWriter { *; }
+-keep class org.scijava.module.event.ModuleExecutedEvent
+-keepnames class org.scijava.module.event.ModuleExecutedEvent { *; }
+-keepclassmembers class org.scijava.module.event.ModuleExecutedEvent { *; }
+-keep class bsh.Reflect$DummyCollection
+-keepnames class bsh.Reflect$DummyCollection { *; }
+-keep class bsh.BshClassManager$SignatureKey
+-keepnames class bsh.BshClassManager$SignatureKey { *; }
+-keep class bsh.Types$1
+-keepnames class bsh.Types$1 { *; }
+-keep class bsh.Reflect$1
+-keepnames class bsh.Reflect$1 { *; }
+-keep class bsh.Reflect
+-keepnames class bsh.Reflect { *; }
+-keep class bsh.BSHLiteral
+-keepnames class bsh.BSHLiteral { *; }
+-keep class bsh.BSHArguments
+-keepnames class bsh.BSHArguments { *; }
+-keep class bsh.Node
+-keepnames class bsh.Node { *; }
+-keep class bsh.LHS
+-keepnames class bsh.LHS { *; }
+-keep class bsh.Primitive$Special$2
+-keepnames class bsh.Primitive$Special$2 { *; }
+-keep class bsh.Primitive$Special
+-keepnames class bsh.Primitive$Special { *; }
+-keep class bsh.Primitive
+-keepnames class bsh.Primitive { *; }
+-keep class bsh.classpath.ClassManagerImpl
+-keepnames class bsh.classpath.ClassManagerImpl { *; }
+-keepclassmembers class bsh.classpath.ClassManagerImpl { *; }
+-keep class bsh.Capabilities
+-keepnames class bsh.Capabilities { *; }
+-keep class bsh.Parser$JJCalls
+-keepnames class bsh.Parser$JJCalls { *; }
+-keep class bsh.Parser
+-keepnames class bsh.Parser { *; }
+-keep class bsh.Name
+-keepnames class bsh.Name { *; }
+-keep class ij.plugin.RGBStackConverter
+-keepnames class ij.plugin.RGBStackConverter { *; }
+-keep class bsh.NameSpace
+-keepnames class bsh.NameSpace { *; }
+-keep class org.scijava.event.bushe.PublicationStatus
+-keepnames class org.scijava.event.bushe.PublicationStatus { *; }
+-keep class org.scijava.util.FileUtils
+-keepnames class org.scijava.util.FileUtils { *; }
+-keep class org.scijava.module.ModuleRunner
+-keepnames class org.scijava.module.ModuleRunner { *; }
+-keepclassmembers class org.scijava.module.ModuleRunner { *; }
+-keep class org.scijava.parsington.Literals
+-keepnames class org.scijava.parsington.Literals { *; }
+-keep class org.scijava.parsington.Position
+-keepnames class org.scijava.parsington.Position { *; }
+-keep class org.scijava.parsington.SyntaxTree
+-keepnames class org.scijava.parsington.SyntaxTree { *; }
+-keep class org.scijava.parsington.ParseOperation
+-keepnames class org.scijava.parsington.ParseOperation { *; }
+-keep class org.scijava.parsington.Operator
+-keepnames class org.scijava.parsington.Operator { *; }
+-keep class org.scijava.parsington.Operators
+-keepnames class org.scijava.parsington.Operators { *; }
+-keepclassmembers class org.scijava.parsington.Operators { *; }
+-keep class org.scijava.parsington.eval.TreeEvaluator$1
+-keepnames class org.scijava.parsington.eval.TreeEvaluator$1 { *; }
+-keep class org.scijava.parsington.eval.StandardTreeEvaluator
+-keepnames class org.scijava.parsington.eval.StandardTreeEvaluator { *; }
+-keep class org.scijava.module.event.ModuleExecutingEvent
+-keepnames class org.scijava.module.event.ModuleExecutingEvent { *; }
+-keepclassmembers class org.scijava.module.event.ModuleExecutingEvent { *; }
+-keep class org.scijava.parsington.eval.StandardEvaluator
+-keepnames class org.scijava.parsington.eval.StandardEvaluator { *; }
+-keep class org.scijava.parsington.eval.AbstractEvaluator
+-keepnames class org.scijava.parsington.eval.AbstractEvaluator { *; }
+-keep class org.scijava.parsington.eval.AbstractStandardEvaluator
+-keepnames class org.scijava.parsington.eval.AbstractStandardEvaluator { *; }
+-keep class org.scijava.parsington.eval.DefaultTreeEvaluator
+-keepnames class org.scijava.parsington.eval.DefaultTreeEvaluator { *; }
+-keep class bsh.Variable
+-keepnames class bsh.Variable { *; }
+-keep class org.scijava.parse.DefaultParseService$ItemsList
+-keepnames class org.scijava.parse.DefaultParseService$ItemsList { *; }
+-keep class org.scijava.module.AbstractModuleItem
+-keepnames class org.scijava.module.AbstractModuleItem { *; }
+-keep class org.scijava.module.DefaultMutableModuleItem
+-keepnames class org.scijava.module.DefaultMutableModuleItem { *; }
+-keep class org.scijava.script.process.ParameterScriptProcessor
+-keepnames class org.scijava.script.process.ParameterScriptProcessor { *; }
+-keepclassmembers class org.scijava.script.process.ParameterScriptProcessor { *; }
+-keep class org.scijava.util.ConversionUtils
+-keepnames class org.scijava.util.ConversionUtils { *; }
+-keep class org.scijava.script.process.DirectiveScriptProcessor
+-keepnames class org.scijava.script.process.DirectiveScriptProcessor { *; }
+-keepclassmembers class org.scijava.script.process.DirectiveScriptProcessor { *; }
+-keep class org.scijava.script.process.ScriptDirectiveScriptProcessor
+-keepnames class org.scijava.script.process.ScriptDirectiveScriptProcessor { *; }
+-keepclassmembers class org.scijava.script.process.ScriptDirectiveScriptProcessor { *; }
+-keep class org.scijava.module.MethodRef
+-keepnames class org.scijava.module.MethodRef { *; }
+-keep class sun.reflect.GeneratedMethodAccessor1
+-keepnames class sun.reflect.GeneratedMethodAccessor1 { *; }
+-keepclassmembers class sun.reflect.GeneratedMethodAccessor1 { *; }
+-keep class org.scijava.app.SciJavaApp
+-keepnames class org.scijava.app.SciJavaApp { *; }
+-keepclassmembers class org.scijava.app.SciJavaApp { *; }
+-keep class org.scijava.convert.NumberConverters$ShortToLongConverter
+-keepnames class org.scijava.convert.NumberConverters$ShortToLongConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$ShortToLongConverter { *; }
+-keep class org.scijava.convert.NumberConverters$ShortToIntegerConverter
+-keepnames class org.scijava.convert.NumberConverters$ShortToIntegerConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$ShortToIntegerConverter { *; }
+-keep class org.scijava.convert.NumberConverters$ShortToDoubleConverter
+-keepnames class org.scijava.convert.NumberConverters$ShortToDoubleConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$ShortToDoubleConverter { *; }
+-keep class org.scijava.convert.NumberConverters$ShortToBigIntegerConverter
+-keepnames class org.scijava.convert.NumberConverters$ShortToBigIntegerConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$ShortToBigIntegerConverter { *; }
+-keep class org.scijava.convert.NumberConverters$LongToBigIntegerConverter
+-keepnames class org.scijava.convert.NumberConverters$LongToBigIntegerConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$LongToBigIntegerConverter { *; }
+-keep class org.scijava.convert.NumberConverters$LongToBigDecimalConverter
+-keepnames class org.scijava.convert.NumberConverters$LongToBigDecimalConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$LongToBigDecimalConverter { *; }
+-keep class org.scijava.convert.NumberConverters$IntegerToLongConverter
+-keepnames class org.scijava.convert.NumberConverters$IntegerToLongConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$IntegerToLongConverter { *; }
+-keep class org.scijava.convert.NumberConverters$IntegerToDoubleConverter
+-keepnames class org.scijava.convert.NumberConverters$IntegerToDoubleConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$IntegerToDoubleConverter { *; }
+-keep class org.scijava.convert.NumberConverters$IntegerToBigDecimalConverter
+-keepnames class org.scijava.convert.NumberConverters$IntegerToBigDecimalConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$IntegerToBigDecimalConverter { *; }
+-keep class org.scijava.convert.NumberConverters$FloatToBigDecimalConverter
+-keepnames class org.scijava.convert.NumberConverters$FloatToBigDecimalConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$FloatToBigDecimalConverter { *; }
+-keep class org.scijava.convert.NumberToShortConverter
+-keepnames class org.scijava.convert.NumberToShortConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberToShortConverter { *; }
+-keep class org.scijava.convert.NumberConverters$ByteToShortConverter
+-keepnames class org.scijava.convert.NumberConverters$ByteToShortConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$ByteToShortConverter { *; }
+-keep class org.scijava.convert.NumberToLongConverter
+-keepnames class org.scijava.convert.NumberToLongConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberToLongConverter { *; }
+-keep class org.scijava.convert.NumberToIntegerConverter
+-keepnames class org.scijava.convert.NumberToIntegerConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberToIntegerConverter { *; }
+-keep class org.scijava.convert.NumberToFloatConverter
+-keepnames class org.scijava.convert.NumberToFloatConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberToFloatConverter { *; }
+-keep class org.scijava.convert.NumberConverters$ByteToBigIntegerConverter
+-keepnames class org.scijava.convert.NumberConverters$ByteToBigIntegerConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$ByteToBigIntegerConverter { *; }
+-keep class org.scijava.convert.NumberConverters$ByteToBigDecimalConverter
+-keepnames class org.scijava.convert.NumberConverters$ByteToBigDecimalConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$ByteToBigDecimalConverter { *; }
+-keep class org.scijava.convert.NumberToBigDecimalConverter
+-keepnames class org.scijava.convert.NumberToBigDecimalConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberToBigDecimalConverter { *; }
+-keep class org.scijava.convert.NumberConverters$BigIntegerToBigDecimalConverter
+-keepnames class org.scijava.convert.NumberConverters$BigIntegerToBigDecimalConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$BigIntegerToBigDecimalConverter { *; }
+-keep class org.scijava.convert.FileListConverters$StringToFileArrayConverter
+-keepnames class org.scijava.convert.FileListConverters$StringToFileArrayConverter { *; }
+-keepclassmembers class org.scijava.convert.FileListConverters$StringToFileArrayConverter { *; }
+-keep class org.scijava.convert.FileListConverters$FileArrayToStringConverter
+-keepnames class org.scijava.convert.FileListConverters$FileArrayToStringConverter { *; }
+-keepclassmembers class org.scijava.convert.FileListConverters$FileArrayToStringConverter { *; }
+-keep class org.scijava.convert.ArrayConverters$ShortArrayWrapper
+-keepnames class org.scijava.convert.ArrayConverters$ShortArrayWrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$ShortArrayWrapper { *; }
+-keep class org.scijava.convert.ArrayConverters$LongArrayUnwrapper
+-keepnames class org.scijava.convert.ArrayConverters$LongArrayUnwrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$LongArrayUnwrapper { *; }
+-keep class org.scijava.convert.ArrayConverters$IntArrayWrapper
+-keepnames class org.scijava.convert.ArrayConverters$IntArrayWrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$IntArrayWrapper { *; }
+-keep class org.scijava.convert.ArrayConverters$FloatArrayWrapper
+-keepnames class org.scijava.convert.ArrayConverters$FloatArrayWrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$FloatArrayWrapper { *; }
+-keep class org.scijava.convert.ArrayConverters$FloatArrayUnwrapper
+-keepnames class org.scijava.convert.ArrayConverters$FloatArrayUnwrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$FloatArrayUnwrapper { *; }
+-keep class org.scijava.convert.PrimitiveArrayWrapper
+-keepnames class org.scijava.convert.PrimitiveArrayWrapper { *; }
+-keepclassmembers class org.scijava.convert.PrimitiveArrayWrapper { *; }
+-keep class org.scijava.convert.CastingConverter
+-keepnames class org.scijava.convert.CastingConverter { *; }
+-keepclassmembers class org.scijava.convert.CastingConverter { *; }
+-keep class org.scijava.convert.NullConverter
+-keepnames class org.scijava.convert.NullConverter { *; }
+-keepclassmembers class org.scijava.convert.NullConverter { *; }
+-keep class org.scijava.module.AbstractModule
+-keepnames class org.scijava.module.AbstractModule { *; }
+-keepclassmembers class org.scijava.module.AbstractModule { *; }
+-keep class org.scijava.script.ScriptModule
+-keepnames class org.scijava.script.ScriptModule { *; }
+-keepclassmembers class org.scijava.script.ScriptModule { *; }
+-keep class ij.plugin.frame.Channels
+-keepnames class ij.plugin.frame.Channels { *; }
+-keep class ij.plugin.Duplicator
+-keepnames class ij.plugin.Duplicator { *; }
+-keep class ij.process.LUT
+-keepnames class ij.process.LUT { *; }
+-keep class ij.process.ByteBlitter
+-keepnames class ij.process.ByteBlitter { *; }
+-keep class ij.process.TypeConverter
+-keepnames class ij.process.TypeConverter { *; }
+-keep class org.scijava.convert.NumberToNumberConverter
+-keepnames class org.scijava.convert.NumberToNumberConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberToNumberConverter { *; }
+-keep class io.github.mianalysis.mia.process.string.CommaSeparatedStringInterpreter
+-keepnames class io.github.mianalysis.mia.process.string.CommaSeparatedStringInterpreter { *; }
+-keep class io.github.mianalysis.mia.object.image.renderer.ImagePlusRenderer
+-keepnames class io.github.mianalysis.mia.object.image.renderer.ImagePlusRenderer { *; }
+-keep class io.github.mianalysis.mia.object.image.Image
+-keepnames class io.github.mianalysis.mia.object.image.Image { *; }
+-keep class io.github.mianalysis.mia.object.image.ImageFactory
+-keepnames class io.github.mianalysis.mia.object.image.ImageFactory { *; }
+-keep class io.github.mianalysis.mia.object.units.TemporalUnit
+-keepnames class io.github.mianalysis.mia.object.units.TemporalUnit { *; }
+-keep class ome.units.UNITS
+-keepnames class ome.units.UNITS { *; }
+-keep class io.github.mianalysis.mia.object.units.SpatialUnit
+-keepnames class io.github.mianalysis.mia.object.units.SpatialUnit { *; }
+-keep class ij.process.ByteProcessor
+-keepnames class ij.process.ByteProcessor { *; }
+-keep class ij.io.ImageReader
+-keepnames class ij.io.ImageReader { *; }
+-keep class ij.io.FileInfo
+-keepnames class ij.io.FileInfo { *; }
+-keep class ij.io.RandomAccessStream
+-keepnames class ij.io.RandomAccessStream { *; }
+-keep class ij.io.TiffDecoder
+-keepnames class ij.io.TiffDecoder { *; }
+-keep class ij.io.OpenDialog
+-keepnames class ij.io.OpenDialog { *; }
+-keep class sun.reflect.GeneratedMethodAccessor7
+-keepnames class sun.reflect.GeneratedMethodAccessor7 { *; }
+-keepclassmembers class sun.reflect.GeneratedMethodAccessor7 { *; }
+-keep class ij.util.Tools
+-keepnames class ij.util.Tools { *; }
+-keep class org.scijava.convert.AbstractConverter
+-keepnames class org.scijava.convert.AbstractConverter { *; }
+-keepclassmembers class org.scijava.convert.AbstractConverter { *; }
+-keep class org.scijava.convert.ArrayToStringConverter
+-keepnames class org.scijava.convert.ArrayToStringConverter { *; }
+-keepclassmembers class org.scijava.convert.ArrayToStringConverter { *; }
+-keep class org.scijava.convert.StringToArrayConverter
+-keepnames class org.scijava.convert.StringToArrayConverter { *; }
+-keepclassmembers class org.scijava.convert.StringToArrayConverter { *; }
+-keep class io.github.mianalysis.mia.module.Module$1
+-keepnames class io.github.mianalysis.mia.module.Module$1 { *; }
+-keep class org.scijava.ui.headless.HeadlessUI
+-keepnames class org.scijava.ui.headless.HeadlessUI { *; }
+-keepclassmembers class org.scijava.ui.headless.HeadlessUI { *; }
+-keep class io.github.mianalysis.mia.process.logging.LogRenderer$Level
+-keepnames class io.github.mianalysis.mia.process.logging.LogRenderer$Level { *; }
+-keep class io.github.mianalysis.mia.process.logging.BasicLogRenderer$1
+-keepnames class io.github.mianalysis.mia.process.logging.BasicLogRenderer$1 { *; }
+-keep class io.github.mianalysis.miaserver.utils.ProcessResult
+-keepnames class io.github.mianalysis.miaserver.utils.ProcessResult { *; }
+-keep class io.github.mianalysis.miaserver.utils.ModuleGroups
+-keepnames class io.github.mianalysis.miaserver.utils.ModuleGroups { *; }
+-keep class io.github.mianalysis.mia.object.system.Status
+-keepnames class io.github.mianalysis.mia.object.system.Status { *; }
+-keep class io.github.mianalysis.mia.object.metadata.Metadata
+-keepnames class io.github.mianalysis.mia.object.metadata.Metadata { *; }
+-keepclassmembers class io.github.mianalysis.mia.object.metadata.Metadata { *; }
+-keep class io.github.mianalysis.mia.object.Workspaces
+-keepnames class io.github.mianalysis.mia.object.Workspaces { *; }
+-keep class sun.reflect.GeneratedConstructorAccessor5
+-keepnames class sun.reflect.GeneratedConstructorAccessor5 { *; }
+-keepclassmembers class sun.reflect.GeneratedConstructorAccessor5 { *; }
+-keep class io.github.mianalysis.mia.module.images.configure.SetLookupTable$DisplayModes
+-keepnames class io.github.mianalysis.mia.module.images.configure.SetLookupTable$DisplayModes { *; }
+-keep class org.scijava.convert.ArrayConverters$BoolArrayUnwrapper
+-keepnames class org.scijava.convert.ArrayConverters$BoolArrayUnwrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$BoolArrayUnwrapper { *; }
+-keep class ij.plugin.frame.PlugInDialog
+-keepnames class ij.plugin.frame.PlugInDialog { *; }
+-keep class ij.io.FileInfo
+-keepnames class ij.io.FileInfo { *; }
+-keep class io.github.mianalysis.mia.module.images.configure.SetLookupTable
+-keepnames class io.github.mianalysis.mia.module.images.configure.SetLookupTable { *; }
+-keepclassmembers class io.github.mianalysis.mia.module.images.configure.SetLookupTable { *; }
+-keep class io.github.mianalysis.mia.module.images.transform.registration.AffineFixedTransform$FillModes
+-keepnames class io.github.mianalysis.mia.module.images.transform.registration.AffineFixedTransform$FillModes { *; }
+-keep class io.github.mianalysis.miaserver.modules.CreateMessage$OutputTypes
+-keepnames class io.github.mianalysis.miaserver.modules.CreateMessage$OutputTypes { *; }
+-keep class io.github.mianalysis.mia.module.system.GUISeparator
+-keepnames class io.github.mianalysis.mia.module.system.GUISeparator { *; }
+-keepclassmembers class io.github.mianalysis.mia.module.system.GUISeparator { *; }
+-keep class io.github.mianalysis.mia.module.script.RunScript$1
+-keepnames class io.github.mianalysis.mia.module.script.RunScript$1 { *; }
+-keep class io.github.mianalysis.mia.module.script.RunScript$ParameterTypes
+-keepnames class io.github.mianalysis.mia.module.script.RunScript$ParameterTypes { *; }
+-keep class org.scijava.parsington.Group
+-keepnames class org.scijava.parsington.Group { *; }
+-keep class io.github.mianalysis.mia.module.script.GeneralOutputter$InputObjectsInclusiveP
+-keepnames class io.github.mianalysis.mia.module.script.GeneralOutputter$InputObjectsInclusiveP { *; }
+-keep class io.github.mianalysis.mia.object.image.ImagePlusImage
+-keepnames class io.github.mianalysis.mia.object.image.ImagePlusImage { *; }
+-keep class io.github.mianalysis.mia.object.parameters.objects.OutputObjectsP
+-keepnames class io.github.mianalysis.mia.object.parameters.objects.OutputObjectsP { *; }
+-keep class io.github.mianalysis.mia.module.script.RunScript
+-keepnames class io.github.mianalysis.mia.module.script.RunScript { *; }
+-keepclassmembers class io.github.mianalysis.mia.module.script.RunScript { *; }
+-keep class io.github.mianalysis.mia.module.inputoutput.ImageLoader$OutputBitDepths
+-keepnames class io.github.mianalysis.mia.module.inputoutput.ImageLoader$OutputBitDepths { *; }
+-keep class io.github.mianalysis.mia.module.inputoutput.ImageLoader$PadIntensityModes
+-keepnames class io.github.mianalysis.mia.module.inputoutput.ImageLoader$PadIntensityModes { *; }
+-keep class io.github.mianalysis.mia.object.parameters.abstrakt.ObjectNamesType
+-keepnames class io.github.mianalysis.mia.object.parameters.abstrakt.ObjectNamesType { *; }
+-keep class io.github.mianalysis.mia.object.parameters.InputObjectsP
+-keepnames class io.github.mianalysis.mia.object.parameters.InputObjectsP { *; }
+-keep class io.github.mianalysis.mia.module.inputoutput.ImageLoader$CropModes
+-keepnames class io.github.mianalysis.mia.module.inputoutput.ImageLoader$CropModes { *; }
+-keep class io.github.mianalysis.mia.module.inputoutput.ImageLoader$NameFormats
+-keepnames class io.github.mianalysis.mia.module.inputoutput.ImageLoader$NameFormats { *; }
+-keep class io.github.mianalysis.mia.module.inputoutput.ImageLoader$Readers
+-keepnames class io.github.mianalysis.mia.module.inputoutput.ImageLoader$Readers { *; }
+-keep class io.github.mianalysis.mia.module.images.transform.ExtractSubstack$SelectionModes
+-keepnames class io.github.mianalysis.mia.module.images.transform.ExtractSubstack$SelectionModes { *; }
+-keep class io.github.mianalysis.mia.object.parameters.abstrakt.ImageNamesType
+-keepnames class io.github.mianalysis.mia.object.parameters.abstrakt.ImageNamesType { *; }
+-keep class io.github.mianalysis.mia.module.images.transform.ExtractSubstack
+-keepnames class io.github.mianalysis.mia.module.images.transform.ExtractSubstack { *; }
+-keepclassmembers class io.github.mianalysis.mia.module.images.transform.ExtractSubstack { *; }
+-keep class io.github.mianalysis.miaserver.modules.SimpleImageLoader$ImportModes
+-keepnames class io.github.mianalysis.miaserver.modules.SimpleImageLoader$ImportModes { *; }
+-keep class io.github.mianalysis.miaserver.modules.SimpleImageLoader
+-keepnames class io.github.mianalysis.miaserver.modules.SimpleImageLoader { *; }
+-keepclassmembers class io.github.mianalysis.miaserver.modules.SimpleImageLoader { *; }
+-keep class io.github.mianalysis.mia.module.system.GlobalVariables$1
+-keepnames class io.github.mianalysis.mia.module.system.GlobalVariables$1 { *; }
+-keep class io.github.mianalysis.miaserver.modules.AddPathsToMetadata
+-keepnames class io.github.mianalysis.miaserver.modules.AddPathsToMetadata { *; }
+-keepclassmembers class io.github.mianalysis.miaserver.modules.AddPathsToMetadata { *; }
+-keep class org.scijava.convert.NumberToBigIntegerConverter
+-keepnames class org.scijava.convert.NumberToBigIntegerConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberToBigIntegerConverter { *; }
+-keep class io.github.mianalysis.mia.object.refs.MetadataRef
+-keepnames class io.github.mianalysis.mia.object.refs.MetadataRef { *; }
+-keep class io.github.mianalysis.mia.moduledependencies.Dependencies
+-keepnames class io.github.mianalysis.mia.moduledependencies.Dependencies { *; }
+-keep class io.github.mianalysis.mia.module.core.OutputControl$SummaryModes
+-keepnames class io.github.mianalysis.mia.module.core.OutputControl$SummaryModes { *; }
+-keep class io.github.mianalysis.mia.module.core.OutputControl$SaveNameModes
+-keepnames class io.github.mianalysis.mia.module.core.OutputControl$SaveNameModes { *; }
+-keep class io.github.mianalysis.mia.module.core.OutputControl$GroupSaveLocations
+-keepnames class io.github.mianalysis.mia.module.core.OutputControl$GroupSaveLocations { *; }
+-keep class io.github.mianalysis.mia.module.core.OutputControl$IndividualSaveLocations
+-keepnames class io.github.mianalysis.mia.module.core.OutputControl$IndividualSaveLocations { *; }
+-keep class io.github.mianalysis.mia.module.core.OutputControl$ExportModes
+-keepnames class io.github.mianalysis.mia.module.core.OutputControl$ExportModes { *; }
+-keep class io.github.mianalysis.mia.module.script.RunMacro$MacroModes
+-keepnames class io.github.mianalysis.mia.module.script.RunMacro$MacroModes { *; }
+-keep class io.github.mianalysis.mia.module.script.AbstractMacroRunner$1
+-keepnames class io.github.mianalysis.mia.module.script.AbstractMacroRunner$1 { *; }
+-keep class io.github.mianalysis.mia.module.script.AbstractMacroRunner$VariableTypes
+-keepnames class io.github.mianalysis.mia.module.script.AbstractMacroRunner$VariableTypes { *; }
+-keep class io.github.mianalysis.mia.module.script.AbstractMacroRunner
+-keepnames class io.github.mianalysis.mia.module.script.AbstractMacroRunner { *; }
+-keep class io.github.mianalysis.mia.module.core.OutputControl
+-keepnames class io.github.mianalysis.mia.module.core.OutputControl { *; }
+-keepclassmembers class io.github.mianalysis.mia.module.core.OutputControl { *; }
+-keep class io.github.mianalysis.mia.object.parameters.text.IntegerP
+-keepnames class io.github.mianalysis.mia.object.parameters.text.IntegerP { *; }
+-keep class io.github.mianalysis.mia.object.parameters.ParameterGroup$1
+-keepnames class io.github.mianalysis.mia.object.parameters.ParameterGroup$1 { *; }
+-keep class io.github.mianalysis.mia.object.parameters.ParameterGroup
+-keepnames class io.github.mianalysis.mia.object.parameters.ParameterGroup { *; }
+-keep class io.github.mianalysis.mia.object.units.TemporalUnit$AvailableUnits
+-keepnames class io.github.mianalysis.mia.object.units.TemporalUnit$AvailableUnits { *; }
+-keep class io.github.mianalysis.mia.module.core.InputControl$AvailableTemporalUnits
+-keepnames class io.github.mianalysis.mia.module.core.InputControl$AvailableTemporalUnits { *; }
+-keep class io.github.mianalysis.mia.object.parameters.abstrakt.BooleanType
+-keepnames class io.github.mianalysis.mia.object.parameters.abstrakt.BooleanType { *; }
+-keep class io.github.mianalysis.mia.object.parameters.BooleanP
+-keepnames class io.github.mianalysis.mia.object.parameters.BooleanP { *; }
+-keep class io.github.mianalysis.mia.module.core.InputControl$SeriesModes
+-keepnames class io.github.mianalysis.mia.module.core.InputControl$SeriesModes { *; }
+-keep class io.github.mianalysis.mia.object.parameters.abstrakt.ChoiceType
+-keepnames class io.github.mianalysis.mia.object.parameters.abstrakt.ChoiceType { *; }
+-keep class io.github.mianalysis.mia.object.parameters.ChoiceP
+-keepnames class io.github.mianalysis.mia.object.parameters.ChoiceP { *; }
+-keep class io.github.mianalysis.mia.object.parameters.OutputImageP
+-keepnames class io.github.mianalysis.mia.object.parameters.OutputImageP { *; }
+-keep class io.github.mianalysis.mia.object.parameters.abstrakt.TextSwitchableParameter
+-keepnames class io.github.mianalysis.mia.object.parameters.abstrakt.TextSwitchableParameter { *; }
+-keep class io.github.mianalysis.mia.object.parameters.abstrakt.FileFolderType
+-keepnames class io.github.mianalysis.mia.object.parameters.abstrakt.FileFolderType { *; }
+-keep class io.github.mianalysis.mia.object.parameters.ParameterState
+-keepnames class io.github.mianalysis.mia.object.parameters.ParameterState { *; }
+-keep class io.github.mianalysis.mia.object.parameters.text.TextAreaP
+-keepnames class io.github.mianalysis.mia.object.parameters.text.TextAreaP { *; }
+-keep class io.github.mianalysis.mia.object.parameters.text.MessageP
+-keepnames class io.github.mianalysis.mia.object.parameters.text.MessageP { *; }
+-keep class io.github.mianalysis.mia.object.parameters.abstrakt.Parameter
+-keepnames class io.github.mianalysis.mia.object.parameters.abstrakt.Parameter { *; }
+-keep class io.github.mianalysis.mia.object.parameters.SeparatorP
+-keepnames class io.github.mianalysis.mia.object.parameters.SeparatorP { *; }
+-keep class org.apache.commons.io.FilenameUtils
+-keepnames class org.apache.commons.io.FilenameUtils { *; }
+-keep class io.github.mianalysis.mia.object.refs.collections.PartnerRefs
+-keepnames class io.github.mianalysis.mia.object.refs.collections.PartnerRefs { *; }
+-keep class io.github.mianalysis.mia.object.refs.collections.ParentChildRefs
+-keepnames class io.github.mianalysis.mia.object.refs.collections.ParentChildRefs { *; }
+-keep class bsh.BSHImportDeclaration
+-keepnames class bsh.BSHImportDeclaration { *; }
+-keep class io.github.mianalysis.mia.object.refs.collections.ObjMetadataRefs
+-keepnames class io.github.mianalysis.mia.object.refs.collections.ObjMetadataRefs { *; }
+-keep class io.github.mianalysis.mia.object.refs.collections.ObjMeasurementRefs
+-keepnames class io.github.mianalysis.mia.object.refs.collections.ObjMeasurementRefs { *; }
+-keep class io.github.mianalysis.mia.object.refs.collections.ImageMeasurementRefs
+-keepnames class io.github.mianalysis.mia.object.refs.collections.ImageMeasurementRefs { *; }
+-keep class io.github.mianalysis.mia.object.parameters.Parameters
+-keepnames class io.github.mianalysis.mia.object.parameters.Parameters { *; }
+-keep class io.github.mianalysis.mia.module.core.InputControl
+-keepnames class io.github.mianalysis.mia.module.core.InputControl { *; }
+-keepclassmembers class io.github.mianalysis.mia.module.core.InputControl { *; }
+-keep class org.scijava.util.VersionUtils
+-keepnames class org.scijava.util.VersionUtils { *; }
+-keep class sun.reflect.GeneratedConstructorAccessor10
+-keepnames class sun.reflect.GeneratedConstructorAccessor10 { *; }
+-keepclassmembers class sun.reflect.GeneratedConstructorAccessor10 { *; }
+-keep class bsh.BSHMethodInvocation
+-keepnames class bsh.BSHMethodInvocation { *; }
+-keep class io.github.mianalysis.mia.module.core.OutputControl$AppendDateTimeModes
+-keepnames class io.github.mianalysis.mia.module.core.OutputControl$AppendDateTimeModes { *; }
+-keep class ij.gui.Line
+-keepnames class ij.gui.Line { *; }
+-keep class io.github.mianalysis.mia.module.core.InputControl$FilterTypes
+-keepnames class io.github.mianalysis.mia.module.core.InputControl$FilterTypes { *; }
+-keep class ij.plugin.Colors
+-keepnames class ij.plugin.Colors { *; }
+-keep class net.imagej.patcher.LegacyExtensions
+-keepnames class net.imagej.patcher.LegacyExtensions { *; }
+-keep class javassist.bytecode.CodeIterator
+-keepnames class javassist.bytecode.CodeIterator { *; }
+-keep class org.scijava.event.bushe.Logger$LoggerType
+-keepnames class org.scijava.event.bushe.Logger$LoggerType { *; }
+-keep class ij.plugin.SubHyperstackMaker
+-keepnames class ij.plugin.SubHyperstackMaker { *; }
+-keep class org.scijava.service.event.ServicesLoadedEvent
+-keepnames class org.scijava.service.event.ServicesLoadedEvent { *; }
+-keepclassmembers class org.scijava.service.event.ServicesLoadedEvent { *; }
+-keep class javassist.expr.FieldAccess
+-keepnames class javassist.expr.FieldAccess { *; }
+-keep class org.scijava.convert.NumberConverters$ByteToDoubleConverter
+-keepnames class org.scijava.convert.NumberConverters$ByteToDoubleConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$ByteToDoubleConverter { *; }
+-keep class org.scijava.util.Types$TypeUtils
+-keepnames class org.scijava.util.Types$TypeUtils { *; }
+-keep class bsh.SimpleNode$1
+-keepnames class bsh.SimpleNode$1 { *; }
+-keep class mpicbg.models.AbstractAffineModel2D
+-keepnames class mpicbg.models.AbstractAffineModel2D { *; }
+-keep class javassist.compiler.MemberCodeGen
+-keepnames class javassist.compiler.MemberCodeGen { *; }
+-keep class org.scijava.module.event.ModuleEvent
+-keepnames class org.scijava.module.event.ModuleEvent { *; }
+-keepclassmembers class org.scijava.module.event.ModuleEvent { *; }
+-keep class io.github.mianalysis.miaserver.utils.CloudModuleGroups
+-keepnames class io.github.mianalysis.miaserver.utils.CloudModuleGroups { *; }
+-keep class org.scijava.service.ServiceHelper
+-keepnames class org.scijava.service.ServiceHelper { *; }
+-keepclassmembers class org.scijava.service.ServiceHelper { *; }
+-keep class io.github.mianalysis.miaserver.utils.CloudModules
+-keepnames class io.github.mianalysis.miaserver.utils.CloudModules { *; }
+-keep class io.github.mianalysis.miaserver.utils.CloudWorkspace
+-keepnames class io.github.mianalysis.miaserver.utils.CloudWorkspace { *; }
+-keep class sun.reflect.GeneratedMethodAccessor9
+-keepnames class sun.reflect.GeneratedMethodAccessor9 { *; }
+-keepclassmembers class sun.reflect.GeneratedMethodAccessor9 { *; }
+-keep class io.github.mianalysis.miaserver.controllers.ProcessController
+-keepnames class io.github.mianalysis.miaserver.controllers.ProcessController { *; }
+-keep class io.github.mianalysis.mia.object.refs.abstrakt.Ref
+-keepnames class io.github.mianalysis.mia.object.refs.abstrakt.Ref { *; }
+-keepclassmembers class io.github.mianalysis.mia.object.refs.abstrakt.Ref { *; }
+-keep class io.github.mianalysis.mia.module.Module
+-keepnames class io.github.mianalysis.mia.module.Module { *; }
+-keepclassmembers class io.github.mianalysis.mia.module.Module { *; }
+-keep class org.json.JSONArray
+-keepnames class org.json.JSONArray { *; }
+-keep class org.json.JSONTokener
+-keepnames class org.json.JSONTokener { *; }
+-keep class org.json.JSONObject$Null
+-keepnames class org.json.JSONObject$Null { *; }
+-keep class org.json.JSONObject
+-keepnames class org.json.JSONObject { *; }
+-keep class bsh.Parser$LookaheadSuccess
+-keepnames class bsh.Parser$LookaheadSuccess { *; }
+-keep class org.scijava.util.AbstractPrimitiveArray
+-keepnames class org.scijava.util.AbstractPrimitiveArray { *; }
+-keep class bsh.BSHPrimarySuffix
+-keepnames class bsh.BSHPrimarySuffix { *; }
+-keep class io.github.mianalysis.mia.object.parameters.FilePathP
+-keepnames class io.github.mianalysis.mia.object.parameters.FilePathP { *; }
+-keep class org.scijava.convert.NumberConverters$FloatToDoubleConverter
+-keepnames class org.scijava.convert.NumberConverters$FloatToDoubleConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$FloatToDoubleConverter { *; }
+-keep class org.scijava.convert.ArrayConverters$DoubleArrayUnwrapper
+-keepnames class org.scijava.convert.ArrayConverters$DoubleArrayUnwrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$DoubleArrayUnwrapper { *; }
+-keep class org.scijava.script.AbstractScriptLanguage
+-keepnames class org.scijava.script.AbstractScriptLanguage { *; }
+-keep class javassist.bytecode.CodeIterator$Gap
+-keepnames class javassist.bytecode.CodeIterator$Gap { *; }
+-keep class org.scijava.app.event.StatusEvent
+-keepnames class org.scijava.app.event.StatusEvent { *; }
+-keepclassmembers class org.scijava.app.event.StatusEvent { *; }
+-keep class io.github.mianalysis.mia.object.parameters.MetadataItemP
+-keepnames class io.github.mianalysis.mia.object.parameters.MetadataItemP { *; }
+-keep class org.scijava.annotations.IndexReader
+-keepnames class org.scijava.annotations.IndexReader { *; }
+-keep class org.scijava.script.ScriptInfo
+-keepnames class org.scijava.script.ScriptInfo { *; }
+-keepclassmembers class org.scijava.script.ScriptInfo { *; }
+-keep class io.github.mianalysis.mia.object.parameters.ParameterGroup$ParameterUpdaterAndGetter
+-keepnames class io.github.mianalysis.mia.object.parameters.ParameterGroup$ParameterUpdaterAndGetter { *; }
+-keep class org.scijava.module.ModuleItem
+-keepnames class org.scijava.module.ModuleItem { *; }
+-keep class org.scijava.module.Module
+-keepnames class org.scijava.module.Module { *; }
+-keepclassmembers class org.scijava.module.Module { *; }
+-keep class javassist.CtPrimitiveType
+-keepnames class javassist.CtPrimitiveType { *; }
+-keep class org.scijava.module.ModuleIndex
+-keepnames class org.scijava.module.ModuleIndex { *; }
+-keep class org.scijava.event.bushe.Logger$Level
+-keepnames class org.scijava.event.bushe.Logger$Level { *; }
+-keep class org.scijava.event.bushe.Logger$1
+-keepnames class org.scijava.event.bushe.Logger$1 { *; }
+-keep class org.scijava.util.Types$TypeUtils$WildcardTypeImpl
+-keepnames class org.scijava.util.Types$TypeUtils$WildcardTypeImpl { *; }
+-keep class org.scijava.event.bushe.ReferenceStrength
+-keepnames class org.scijava.event.bushe.ReferenceStrength { *; }
+-keep class com.sun.proxy.$Proxy4
+-keepnames class com.sun.proxy.$Proxy4 { *; }
+-keepclassmembers class com.sun.proxy.$Proxy4 { *; }
+-keep class javassist.ClassClassPath
+-keepnames class javassist.ClassClassPath { *; }
+-keep class org.scijava.script.ScriptLanguageIndex
+-keepnames class org.scijava.script.ScriptLanguageIndex { *; }
+-keep class bsh.engine.BshScriptEngine$WriterOutputStream
+-keepnames class bsh.engine.BshScriptEngine$WriterOutputStream { *; }
+-keep class org.scijava.script.ScriptLanguage
+-keepnames class org.scijava.script.ScriptLanguage { *; }
+-keep class io.github.mianalysis.mia.object.parameters.InputImageP
+-keepnames class io.github.mianalysis.mia.object.parameters.InputImageP { *; }
+-keep class org.scijava.convert.ConversionRequest
+-keepnames class org.scijava.convert.ConversionRequest { *; }
+-keep class org.scijava.event.bushe.Prioritized
+-keepnames class org.scijava.event.bushe.Prioritized { *; }
+-keep class org.scijava.event.DefaultEventService$ProxySubscriber
+-keepnames class org.scijava.event.DefaultEventService$ProxySubscriber { *; }
+-keep class org.scijava.event.bushe.EventSubscriber
+-keepnames class org.scijava.event.bushe.EventSubscriber { *; }
+-keep class org.scijava.event.EventSubscriber
+-keepnames class org.scijava.event.EventSubscriber { *; }
+-keep class ome.units.unit.Unit
+-keepnames class ome.units.unit.Unit { *; }
+-keep class org.scijava.event.bushe.ThreadSafeEventService
+-keepnames class org.scijava.event.bushe.ThreadSafeEventService { *; }
+-keep class bsh.engine.BshScriptEngineFactory
+-keepnames class bsh.engine.BshScriptEngineFactory { *; }
+-keep class ij.plugin.frame.ColorPicker
+-keepnames class ij.plugin.frame.ColorPicker { *; }
+-keep class bsh.ClassIdentifier
+-keepnames class bsh.ClassIdentifier { *; }
+-keep class org.scijava.service.ServiceIndex
+-keepnames class org.scijava.service.ServiceIndex { *; }
+-keep class org.scijava.script.DefaultScriptService
+-keepnames class org.scijava.script.DefaultScriptService { *; }
+-keepclassmembers class org.scijava.script.DefaultScriptService { *; }
+-keep class org.scijava.object.LazyObjects
+-keepnames class org.scijava.object.LazyObjects { *; }
+-keep class org.scijava.plugin.DefaultPluginService
+-keepnames class org.scijava.plugin.DefaultPluginService { *; }
+-keepclassmembers class org.scijava.plugin.DefaultPluginService { *; }
+-keep class org.scijava.parse.ParseService
+-keepnames class org.scijava.parse.ParseService { *; }
+-keepclassmembers class org.scijava.parse.ParseService { *; }
+-keep class org.scijava.module.ModuleService
+-keepnames class org.scijava.module.ModuleService { *; }
+-keepclassmembers class org.scijava.module.ModuleService { *; }
+-keep class org.scijava.module.DefaultModuleService
+-keepnames class org.scijava.module.DefaultModuleService { *; }
+-keepclassmembers class org.scijava.module.DefaultModuleService { *; }
+-keep class sun.reflect.GeneratedConstructorAccessor2
+-keepnames class sun.reflect.GeneratedConstructorAccessor2 { *; }
+-keepclassmembers class sun.reflect.GeneratedConstructorAccessor2 { *; }
+-keep class javassist.NotFoundException
+-keepnames class javassist.NotFoundException { *; }
+-keep class org.scijava.util.ClassUtils
+-keepnames class org.scijava.util.ClassUtils { *; }
+-keep class org.scijava.display.DefaultDisplayService
+-keepnames class org.scijava.display.DefaultDisplayService { *; }
+-keepclassmembers class org.scijava.display.DefaultDisplayService { *; }
+-keep class org.scijava.convert.DefaultConvertService
+-keepnames class org.scijava.convert.DefaultConvertService { *; }
+-keepclassmembers class org.scijava.convert.DefaultConvertService { *; }
+-keep class org.scijava.plugin.HandlerService
+-keepnames class org.scijava.plugin.HandlerService { *; }
+-keepclassmembers class org.scijava.plugin.HandlerService { *; }
+-keep class org.scijava.plugin.AbstractHandlerService
+-keepnames class org.scijava.plugin.AbstractHandlerService { *; }
+-keepclassmembers class org.scijava.plugin.AbstractHandlerService { *; }
+-keep class org.scijava.command.CommandService
+-keepnames class org.scijava.command.CommandService { *; }
+-keepclassmembers class org.scijava.command.CommandService { *; }
+-keep class org.scijava.ItemVisibility
+-keepnames class org.scijava.ItemVisibility { *; }
+-keepclassmembers class org.scijava.ItemVisibility { *; }
+-keep class org.scijava.app.DefaultStatusService
+-keepnames class org.scijava.app.DefaultStatusService { *; }
+-keepclassmembers class org.scijava.app.DefaultStatusService { *; }
+-keep class org.scijava.app.AppService
+-keepnames class org.scijava.app.AppService { *; }
+-keepclassmembers class org.scijava.app.AppService { *; }
+-keep class org.scijava.app.DefaultAppService
+-keepnames class org.scijava.app.DefaultAppService { *; }
+-keepclassmembers class org.scijava.app.DefaultAppService { *; }
+-keep class sun.reflect.GeneratedConstructorAccessor9
+-keepnames class sun.reflect.GeneratedConstructorAccessor9 { *; }
+-keepclassmembers class sun.reflect.GeneratedConstructorAccessor9 { *; }
+-keep class org.scijava.util.Types
+-keepnames class org.scijava.util.Types { *; }
+-keep class javassist.bytecode.IntegerInfo
+-keepnames class javassist.bytecode.IntegerInfo { *; }
+-keep class org.scijava.log.DefaultLogger
+-keepnames class org.scijava.log.DefaultLogger { *; }
+-keep class org.scijava.log.AbstractLogService
+-keepnames class org.scijava.log.AbstractLogService { *; }
+-keepclassmembers class org.scijava.log.AbstractLogService { *; }
+-keep class org.scijava.log.StderrLogService
+-keepnames class org.scijava.log.StderrLogService { *; }
+-keepclassmembers class org.scijava.log.StderrLogService { *; }
+-keep class org.scijava.event.EventService
+-keepnames class org.scijava.event.EventService { *; }
+-keepclassmembers class org.scijava.event.EventService { *; }
+-keep class org.scijava.event.DefaultEventBus$2
+-keepnames class org.scijava.event.DefaultEventBus$2 { *; }
+-keep class org.scijava.module.AbstractModuleInfo
+-keepnames class org.scijava.module.AbstractModuleInfo { *; }
+-keepclassmembers class org.scijava.module.AbstractModuleInfo { *; }
+-keep class org.scijava.plugin.AbstractSingletonService
+-keepnames class org.scijava.plugin.AbstractSingletonService { *; }
+-keepclassmembers class org.scijava.plugin.AbstractSingletonService { *; }
+-keep class org.scijava.event.bushe.ThreadSafeEventService$PrioritizedSubscriberComparator
+-keepnames class org.scijava.event.bushe.ThreadSafeEventService$PrioritizedSubscriberComparator { *; }
+-keep class org.scijava.ItemIO
+-keepnames class org.scijava.ItemIO { *; }
+-keep class bsh.This$Handler
+-keepnames class bsh.This$Handler { *; }
+-keep class org.scijava.convert.PathToFileConverter
+-keepnames class org.scijava.convert.PathToFileConverter { *; }
+-keepclassmembers class org.scijava.convert.PathToFileConverter { *; }
+-keep class org.scijava.plugin.Parameter
+-keepnames class org.scijava.plugin.Parameter { *; }
+-keepclassmembers class org.scijava.plugin.Parameter { *; }
+-keep class org.scijava.util.Query
+-keepnames class org.scijava.util.Query { *; }
+-keep class org.scijava.util.MiscUtils
+-keepnames class org.scijava.util.MiscUtils { *; }
+-keep class org.scijava.util.ClassUtils$MethodCache
+-keepnames class org.scijava.util.ClassUtils$MethodCache { *; }
+-keep class javassist.compiler.ast.NewExpr
+-keepnames class javassist.compiler.ast.NewExpr { *; }
+-keep class org.scijava.util.ClassUtils$FieldCache
+-keepnames class org.scijava.util.ClassUtils$FieldCache { *; }
+-keep class io.github.mianalysis.mia.module.system.GlobalVariables
+-keepnames class io.github.mianalysis.mia.module.system.GlobalVariables { *; }
+-keepclassmembers class io.github.mianalysis.mia.module.system.GlobalVariables { *; }
+-keep class org.scijava.util.ObjectArray
+-keepnames class org.scijava.util.ObjectArray { *; }
+-keep class org.scijava.Priority
+-keepnames class org.scijava.Priority { *; }
+-keep class org.scijava.convert.Converter
+-keepnames class org.scijava.convert.Converter { *; }
+-keepclassmembers class org.scijava.convert.Converter { *; }
+-keep class javassist.compiler.Parser
+-keepnames class javassist.compiler.Parser { *; }
+-keep class org.scijava.script.process.ScriptProcessor
+-keepnames class org.scijava.script.process.ScriptProcessor { *; }
+-keepclassmembers class org.scijava.script.process.ScriptProcessor { *; }
+-keep class sun.reflect.GeneratedConstructorAccessor1
+-keepnames class sun.reflect.GeneratedConstructorAccessor1 { *; }
+-keepclassmembers class sun.reflect.GeneratedConstructorAccessor1 { *; }
+-keep class org.scijava.app.App
+-keepnames class org.scijava.app.App { *; }
+-keepclassmembers class org.scijava.app.App { *; }
+-keep class javassist.bytecode.stackmap.TypeData$UninitThis
+-keepnames class javassist.bytecode.stackmap.TypeData$UninitThis { *; }
+-keep class org.scijava.ui.UserInterface
+-keepnames class org.scijava.ui.UserInterface { *; }
+-keepclassmembers class org.scijava.ui.UserInterface { *; }
+-keep class org.scijava.parsington.Tokens
+-keepnames class org.scijava.parsington.Tokens { *; }
+-keep class org.scijava.Typed
+-keepnames class org.scijava.Typed { *; }
+-keepclassmembers class org.scijava.Typed { *; }
+-keep class bsh.BshClassManager
+-keepnames class bsh.BshClassManager { *; }
+-keep class org.scijava.app.StatusService
+-keepnames class org.scijava.app.StatusService { *; }
+-keepclassmembers class org.scijava.app.StatusService { *; }
+-keep class org.scijava.plugin.Attr
+-keepnames class org.scijava.plugin.Attr { *; }
+-keep class org.scijava.plugin.Menu
+-keepnames class org.scijava.plugin.Menu { *; }
+-keep class org.scijava.parsington.Token
+-keepnames class org.scijava.parsington.Token { *; }
+-keep class io.github.mianalysis.mia.object.system.Status
+-keepnames class io.github.mianalysis.mia.object.system.Status { *; }
+-keep class org.scijava.annotations.IndexItem$1
+-keepnames class org.scijava.annotations.IndexItem$1 { *; }
+-keep class net.imagej.patcher.Utils
+-keepnames class net.imagej.patcher.Utils { *; }
+-keep class org.scijava.Versioned
+-keepnames class org.scijava.Versioned { *; }
+-keepclassmembers class org.scijava.Versioned { *; }
+-keep class org.scijava.script.process.ScriptProcessorService
+-keepnames class org.scijava.script.process.ScriptProcessorService { *; }
+-keepclassmembers class org.scijava.script.process.ScriptProcessorService { *; }
+-keep class javassist.compiler.CompileError
+-keepnames class javassist.compiler.CompileError { *; }
+-keep class io.github.mianalysis.mia.process.logging.LogRenderer
+-keepnames class io.github.mianalysis.mia.process.logging.LogRenderer { *; }
+-keep class org.scijava.module.event.ModuleExecutionEvent
+-keepnames class org.scijava.module.event.ModuleExecutionEvent { *; }
+-keepclassmembers class org.scijava.module.event.ModuleExecutionEvent { *; }
+-keep class org.scijava.annotations.AbstractIndexWriter
+-keepnames class org.scijava.annotations.AbstractIndexWriter { *; }
+-keep class org.scijava.annotations.DirectoryIndexer
+-keepnames class org.scijava.annotations.DirectoryIndexer { *; }
+-keep class org.scijava.ItemIO
+-keepnames class org.scijava.ItemIO { *; }
+-keepclassmembers class org.scijava.ItemIO { *; }
+-keep class org.scijava.annotations.Index
+-keepnames class org.scijava.annotations.Index { *; }
+-keep class org.scijava.UIDetails
+-keepnames class org.scijava.UIDetails { *; }
+-keepclassmembers class org.scijava.UIDetails { *; }
+-keep class org.scijava.convert.FileListConverters$FileToStringConverter
+-keepnames class org.scijava.convert.FileListConverters$FileToStringConverter { *; }
+-keepclassmembers class org.scijava.convert.FileListConverters$FileToStringConverter { *; }
+-keep class com.sun.proxy.$Proxy0
+-keepnames class com.sun.proxy.$Proxy0 { *; }
+-keepclassmembers class com.sun.proxy.$Proxy0 { *; }
+-keep class org.scijava.AbstractUIDetails
+-keepnames class org.scijava.AbstractUIDetails { *; }
+-keepclassmembers class org.scijava.AbstractUIDetails { *; }
+-keep class javassist.bytecode.MethodTypeInfo
+-keepnames class javassist.bytecode.MethodTypeInfo { *; }
+-keep class org.scijava.plugin.HandlerPlugin
+-keepnames class org.scijava.plugin.HandlerPlugin { *; }
+-keepclassmembers class org.scijava.plugin.HandlerPlugin { *; }
+-keep class net.imagej.patcher.CodeHacker$7
+-keepnames class net.imagej.patcher.CodeHacker$7 { *; }
+-keep class org.scijava.plugin.DefaultPluginFinder$SysPropBlocklist
+-keepnames class org.scijava.plugin.DefaultPluginFinder$SysPropBlocklist { *; }
+-keep class javassist.util.proxy.DefineClassHelper
+-keepnames class javassist.util.proxy.DefineClassHelper { *; }
+-keep class org.scijava.plugin.PluginIndex
+-keepnames class org.scijava.plugin.PluginIndex { *; }
+-keep class org.scijava.object.ObjectIndex
+-keepnames class org.scijava.object.ObjectIndex { *; }
+-keep class org.scijava.ui.UIService
+-keepnames class org.scijava.ui.UIService { *; }
+-keepclassmembers class org.scijava.ui.UIService { *; }
+-keep class org.scijava.plugin.PTService
+-keepnames class org.scijava.plugin.PTService { *; }
+-keepclassmembers class org.scijava.plugin.PTService { *; }
+-keep class org.scijava.event.EventHandler
+-keepnames class org.scijava.event.EventHandler { *; }
+-keepclassmembers class org.scijava.event.EventHandler { *; }
+-keep class bsh.JavaCharStream
+-keepnames class bsh.JavaCharStream { *; }
+-keep class org.scijava.Identifiable
+-keepnames class org.scijava.Identifiable { *; }
+-keepclassmembers class org.scijava.Identifiable { *; }
+-keep class org.scijava.Prioritized
+-keepnames class org.scijava.Prioritized { *; }
+-keepclassmembers class org.scijava.Prioritized { *; }
+-keep class org.scijava.Contextual
+-keepnames class org.scijava.Contextual { *; }
+-keepclassmembers class org.scijava.Contextual { *; }
+-keep class javassist.bytecode.ByteArray
+-keepnames class javassist.bytecode.ByteArray { *; }
+-keep class org.scijava.service.Service
+-keepnames class org.scijava.service.Service { *; }
+-keepclassmembers class org.scijava.service.Service { *; }
+-keep class org.scijava.thread.ThreadService
+-keepnames class org.scijava.thread.ThreadService { *; }
+-keepclassmembers class org.scijava.thread.ThreadService { *; }
+-keep class org.scijava.plugin.PluginService
+-keepnames class org.scijava.plugin.PluginService { *; }
+-keepclassmembers class org.scijava.plugin.PluginService { *; }
+-keep class org.scijava.Disposable
+-keepnames class org.scijava.Disposable { *; }
+-keepclassmembers class org.scijava.Disposable { *; }
+-keep class javassist.expr.ExprEditor$NewOp
+-keepnames class javassist.expr.ExprEditor$NewOp { *; }
+-keep class io.github.mianalysis.mia.process.logging.Log
+-keepnames class io.github.mianalysis.mia.process.logging.Log { *; }
+-keepclassmembers class io.github.mianalysis.mia.process.logging.Log { *; }
+-keep class io.github.mianalysis.mia.process.logging.LogHistory
+-keepnames class io.github.mianalysis.mia.process.logging.LogHistory { *; }
+-keep class io.github.mianalysis.mia.process.logging.BasicLogRenderer
+-keepnames class io.github.mianalysis.mia.process.logging.BasicLogRenderer { *; }
+-keep class ij.gui.Roi
+-keepnames class ij.gui.Roi { *; }
+-keep class org.scijava.prefs.PrefService
+-keepnames class org.scijava.prefs.PrefService { *; }
+-keepclassmembers class org.scijava.prefs.PrefService { *; }
+-keep class io.github.mianalysis.mia.process.logging.ProgressBar
+-keepnames class io.github.mianalysis.mia.process.logging.ProgressBar { *; }
+-keep class sun.reflect.GeneratedMethodAccessor6
+-keepnames class sun.reflect.GeneratedMethodAccessor6 { *; }
+-keepclassmembers class sun.reflect.GeneratedMethodAccessor6 { *; }
+-keep class io.github.mianalysis.mia.module.lostandfound.LostAndFound
+-keepnames class io.github.mianalysis.mia.module.lostandfound.LostAndFound { *; }
+-keep class javassist.compiler.ast.Variable
+-keepnames class javassist.compiler.ast.Variable { *; }
+-keep class org.scijava.parsington.ExpressionParser
+-keepnames class org.scijava.parsington.ExpressionParser { *; }
+-keep class io.github.mianalysis.mia.module.script.GeneralOutputter$OutputterParameterUpdaterAndGetter
+-keepnames class io.github.mianalysis.mia.module.script.GeneralOutputter$OutputterParameterUpdaterAndGetter { *; }
+-keep class org.scijava.convert.ArrayConverters$CharArrayUnwrapper
+-keepnames class org.scijava.convert.ArrayConverters$CharArrayUnwrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$CharArrayUnwrapper { *; }
+-keep class org.scijava.plugin.SingletonService
+-keepnames class org.scijava.plugin.SingletonService { *; }
+-keepclassmembers class org.scijava.plugin.SingletonService { *; }
+-keep class ij.plugin.frame.Recorder
+-keepnames class ij.plugin.frame.Recorder { *; }
+-keep class ij.macro.Interpreter
+-keepnames class ij.macro.Interpreter { *; }
+-keep class org.scijava.log.LogLevel
+-keepnames class org.scijava.log.LogLevel { *; }
+-keep class ij.io.Opener
+-keepnames class ij.io.Opener { *; }
+-keep class ij.WindowManager
+-keepnames class ij.WindowManager { *; }
+-keep class javassist.bytecode.Bytecode
+-keepnames class javassist.bytecode.Bytecode { *; }
+-keep class io.github.mianalysis.mia.MIA
+-keepnames class io.github.mianalysis.mia.MIA { *; }
+-keepclassmembers class io.github.mianalysis.mia.MIA { *; }
+-keep class org.scijava.parse.DefaultParseService
+-keepnames class org.scijava.parse.DefaultParseService { *; }
+-keepclassmembers class org.scijava.parse.DefaultParseService { *; }
+-keep class io.github.mianalysis.miaserver.parameters.ClickP
+-keepnames class io.github.mianalysis.miaserver.parameters.ClickP { *; }
+-keep class javassist.compiler.Javac$3
+-keepnames class javassist.compiler.Javac$3 { *; }
+-keep class org.scijava.log.AbstractLogService$RootLogger
+-keepnames class org.scijava.log.AbstractLogService$RootLogger { *; }
+-keep class ij.plugin.frame.PlugInFrame
+-keepnames class ij.plugin.frame.PlugInFrame { *; }
+-keep class ij.Menus
+-keepnames class ij.Menus { *; }
+-keep class org.scijava.Initializable
+-keepnames class org.scijava.Initializable { *; }
+-keepclassmembers class org.scijava.Initializable { *; }
+-keep class javassist.compiler.ast.InstanceOfExpr
+-keepnames class javassist.compiler.ast.InstanceOfExpr { *; }
+-keep class io.github.mianalysis.mia.module.core.InputControl$FilterSources
+-keepnames class io.github.mianalysis.mia.module.core.InputControl$FilterSources { *; }
+-keep class ij.ImageJ
+-keepnames class ij.ImageJ { *; }
+-keepclassmembers class ij.ImageJ { *; }
+-keep class javassist.compiler.MemberResolver
+-keepnames class javassist.compiler.MemberResolver { *; }
+-keep class net.imagej.patcher.EssentialLegacyHooks
+-keepnames class net.imagej.patcher.EssentialLegacyHooks { *; }
+-keep class ij.IJ
+-keepnames class ij.IJ { *; }
+-keepclassmembers class ij.IJ { *; }
+-keep class io.github.mianalysis.mia.object.parameters.text.SeriesListSelectorP
+-keepnames class io.github.mianalysis.mia.object.parameters.text.SeriesListSelectorP { *; }
+-keep class javassist.bytecode.stackmap.TypedBlock$Maker
+-keepnames class javassist.bytecode.stackmap.TypedBlock$Maker { *; }
+-keep class javassist.bytecode.FieldInfo
+-keepnames class javassist.bytecode.FieldInfo { *; }
+-keep class org.scijava.convert.NumberConverters$IntegerToBigIntegerConverter
+-keepnames class org.scijava.convert.NumberConverters$IntegerToBigIntegerConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$IntegerToBigIntegerConverter { *; }
+-keep class ij.CompositeImage
+-keepnames class ij.CompositeImage { *; }
+-keep class org.scijava.Locatable
+-keepnames class org.scijava.Locatable { *; }
+-keepclassmembers class org.scijava.Locatable { *; }
+-keep class io.github.mianalysis.mia.module.script.RunScript$ScriptModes
+-keepnames class io.github.mianalysis.mia.module.script.RunScript$ScriptModes { *; }
+-keep class io.github.mianalysis.miaserver.parameters.InputGraphP
+-keepnames class io.github.mianalysis.miaserver.parameters.InputGraphP { *; }
+-keep class javassist.util.proxy.DefineClassHelper$Helper
+-keepnames class javassist.util.proxy.DefineClassHelper$Helper { *; }
+-keep class javassist.util.proxy.DefineClassHelper$Java7
+-keepnames class javassist.util.proxy.DefineClassHelper$Java7 { *; }
+-keep class net.imagej.patcher.JavaAgent
+-keepnames class net.imagej.patcher.JavaAgent { *; }
+-keep class javassist.expr.Cast$ProceedForCast
+-keepnames class javassist.expr.Cast$ProceedForCast { *; }
+-keep class org.scijava.event.bushe.Logger
+-keepnames class org.scijava.event.bushe.Logger { *; }
+-keep class javassist.bytecode.CodeIterator$Branch
+-keepnames class javassist.bytecode.CodeIterator$Branch { *; }
+-keep class javassist.bytecode.CodeIterator$Branch16
+-keepnames class javassist.bytecode.CodeIterator$Branch16 { *; }
+-keep class org.scijava.util.ClassUtils$CacheMap
+-keepnames class org.scijava.util.ClassUtils$CacheMap { *; }
+-keep class javassist.bytecode.CodeIterator$If16
+-keepnames class javassist.bytecode.CodeIterator$If16 { *; }
+-keep class javassist.bytecode.CodeIterator$Pointers
+-keepnames class javassist.bytecode.CodeIterator$Pointers { *; }
+-keep class io.github.mianalysis.mia.module.images.configure.SetLookupTable$LookupTables
+-keepnames class io.github.mianalysis.mia.module.images.configure.SetLookupTable$LookupTables { *; }
+-keep class net.imagej.patcher.CodeHacker$4
+-keepnames class net.imagej.patcher.CodeHacker$4 { *; }
+-keep class net.imagej.patcher.LegacyEnvironment$3
+-keepnames class net.imagej.patcher.LegacyEnvironment$3 { *; }
+-keep class org.scijava.parsington.eval.Evaluator
+-keepnames class org.scijava.parsington.eval.Evaluator { *; }
+-keep class net.imagej.patcher.CodeHacker$10
+-keepnames class net.imagej.patcher.CodeHacker$10 { *; }
+-keep class javassist.compiler.Javac$2
+-keepnames class javassist.compiler.Javac$2 { *; }
+-keep class javassist.expr.NewArray
+-keepnames class javassist.expr.NewArray { *; }
+-keep class javassist.ClassPath
+-keepnames class javassist.ClassPath { *; }
+-keep class javassist.bytecode.BootstrapMethodsAttribute
+-keepnames class javassist.bytecode.BootstrapMethodsAttribute { *; }
+-keep class javassist.bytecode.InvokeDynamicInfo
+-keepnames class javassist.bytecode.InvokeDynamicInfo { *; }
+-keep class net.imagej.patcher.CodeHacker$1
+-keepnames class net.imagej.patcher.CodeHacker$1 { *; }
+-keep class org.scijava.object.ObjectService
+-keepnames class org.scijava.object.ObjectService { *; }
+-keepclassmembers class org.scijava.object.ObjectService { *; }
+-keep class sun.reflect.GeneratedMethodAccessor3
+-keepnames class sun.reflect.GeneratedMethodAccessor3 { *; }
+-keepclassmembers class sun.reflect.GeneratedMethodAccessor3 { *; }
+-keep class io.github.mianalysis.miaserver.modules.CreateMessage
+-keepnames class io.github.mianalysis.miaserver.modules.CreateMessage { *; }
+-keepclassmembers class io.github.mianalysis.miaserver.modules.CreateMessage { *; }
+-keep class javassist.compiler.ProceedHandler
+-keepnames class javassist.compiler.ProceedHandler { *; }
+-keep class javassist.expr.ExprEditor$LoopContext
+-keepnames class javassist.expr.ExprEditor$LoopContext { *; }
+-keep class net.imagej.patcher.CodeHacker$EagerExprEditor
+-keepnames class net.imagej.patcher.CodeHacker$EagerExprEditor { *; }
+-keep class javassist.bytecode.CodeIterator$Jump16
+-keepnames class javassist.bytecode.CodeIterator$Jump16 { *; }
+-keep class javassist.expr.Cast
+-keepnames class javassist.expr.Cast { *; }
+-keep class javassist.bytecode.stackmap.TypeData$ArrayElement
+-keepnames class javassist.bytecode.stackmap.TypeData$ArrayElement { *; }
+-keep class javassist.bytecode.CodeIterator$AlignmentException
+-keepnames class javassist.bytecode.CodeIterator$AlignmentException { *; }
+-keep class javassist.compiler.ast.MethodDecl
+-keepnames class javassist.compiler.ast.MethodDecl { *; }
+-keep class javassist.expr.Expr
+-keepnames class javassist.expr.Expr { *; }
+-keep class javassist.bytecode.stackmap.TypeData$AbsTypeVar
+-keepnames class javassist.bytecode.stackmap.TypeData$AbsTypeVar { *; }
+-keep class javassist.bytecode.stackmap.TypeData$ClassName
+-keepnames class javassist.bytecode.stackmap.TypeData$ClassName { *; }
+-keep class javassist.bytecode.stackmap.BasicBlock$Catch
+-keepnames class javassist.bytecode.stackmap.BasicBlock$Catch { *; }
+-keep class net.imagej.patcher.LegacyEnvironment$2
+-keepnames class net.imagej.patcher.LegacyEnvironment$2 { *; }
+-keep class javassist.bytecode.stackmap.BasicBlock$Mark
+-keepnames class javassist.bytecode.stackmap.BasicBlock$Mark { *; }
+-keep class org.scijava.event.bushe.Logger$Level
+-keepnames class org.scijava.event.bushe.Logger$Level { *; }
+-keep class javassist.bytecode.stackmap.BasicBlock
+-keepnames class javassist.bytecode.stackmap.BasicBlock { *; }
+-keep class javassist.bytecode.stackmap.TypedBlock
+-keepnames class javassist.bytecode.stackmap.TypedBlock { *; }
+-keep class javassist.bytecode.stackmap.Tracer
+-keepnames class javassist.bytecode.stackmap.Tracer { *; }
+-keep class javassist.bytecode.FloatInfo
+-keepnames class javassist.bytecode.FloatInfo { *; }
+-keep class io.github.mianalysis.mia.object.parameters.ModuleP
+-keepnames class io.github.mianalysis.mia.object.parameters.ModuleP { *; }
+-keep class org.scijava.util.Types$TypeUtils$WildcardTypeBuilder
+-keepnames class org.scijava.util.Types$TypeUtils$WildcardTypeBuilder { *; }
+-keep class org.scijava.convert.ArrayConverters$LongArrayWrapper
+-keepnames class org.scijava.convert.ArrayConverters$LongArrayWrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$LongArrayWrapper { *; }
+-keep class org.scijava.convert.NumberConverters$ByteToIntegerConverter
+-keepnames class org.scijava.convert.NumberConverters$ByteToIntegerConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$ByteToIntegerConverter { *; }
+-keep class org.scijava.plugin.RichPlugin
+-keepnames class org.scijava.plugin.RichPlugin { *; }
+-keepclassmembers class org.scijava.plugin.RichPlugin { *; }
+-keep class javassist.bytecode.AnnotationsAttribute
+-keepnames class javassist.bytecode.AnnotationsAttribute { *; }
+-keep class javassist.compiler.ast.CondExpr
+-keepnames class javassist.compiler.ast.CondExpr { *; }
+-keep class javassist.bytecode.AttributeInfo
+-keepnames class javassist.bytecode.AttributeInfo { *; }
+-keep class javassist.compiler.ast.StringL
+-keepnames class javassist.compiler.ast.StringL { *; }
+-keep class javassist.compiler.ast.Expr
+-keepnames class javassist.compiler.ast.Expr { *; }
+-keep class javassist.compiler.ast.Member
+-keepnames class javassist.compiler.ast.Member { *; }
+-keep class javassist.Modifier
+-keepnames class javassist.Modifier { *; }
+-keep class org.scijava.object.SortedObjectIndex
+-keepnames class org.scijava.object.SortedObjectIndex { *; }
+-keep class javassist.compiler.ast.Symbol
+-keepnames class javassist.compiler.ast.Symbol { *; }
+-keep class org.scijava.app.AbstractApp
+-keepnames class org.scijava.app.AbstractApp { *; }
+-keepclassmembers class org.scijava.app.AbstractApp { *; }
+-keep class org.scijava.object.NamedObjectIndex
+-keepnames class org.scijava.object.NamedObjectIndex { *; }
+-keep class javassist.compiler.ast.Keyword
+-keepnames class javassist.compiler.ast.Keyword { *; }
+-keep class javassist.compiler.ast.ASTree
+-keepnames class javassist.compiler.ast.ASTree { *; }
+-keep class javassist.compiler.ast.ASTList
+-keepnames class javassist.compiler.ast.ASTList { *; }
+-keep class javassist.compiler.KeywordTable
+-keepnames class javassist.compiler.KeywordTable { *; }
+-keep class org.scijava.prefs.DefaultPrefService
+-keepnames class org.scijava.prefs.DefaultPrefService { *; }
+-keepclassmembers class org.scijava.prefs.DefaultPrefService { *; }
+-keep class javassist.compiler.Lex
+-keepnames class javassist.compiler.Lex { *; }
+-keep class javassist.compiler.SymbolTable
+-keepnames class javassist.compiler.SymbolTable { *; }
+-keep class javassist.bytecode.stackmap.TypeData$BasicType
+-keepnames class javassist.bytecode.stackmap.TypeData$BasicType { *; }
+-keep class javassist.compiler.TypeChecker
+-keepnames class javassist.compiler.TypeChecker { *; }
+-keep class javassist.compiler.JvstTypeChecker
+-keepnames class javassist.compiler.JvstTypeChecker { *; }
+-keep class javassist.bytecode.DoubleInfo
+-keepnames class javassist.bytecode.DoubleInfo { *; }
+-keep class javassist.compiler.Javac$1
+-keepnames class javassist.compiler.Javac$1 { *; }
+-keep class javassist.compiler.ast.Visitor
+-keepnames class javassist.compiler.ast.Visitor { *; }
+-keep class javassist.compiler.CodeGen
+-keepnames class javassist.compiler.CodeGen { *; }
+-keep class org.scijava.convert.ArrayConverters$DoubleArrayWrapper
+-keepnames class org.scijava.convert.ArrayConverters$DoubleArrayWrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$DoubleArrayWrapper { *; }
+-keep class javassist.compiler.ast.CastExpr
+-keepnames class javassist.compiler.ast.CastExpr { *; }
+-keep class javassist.compiler.JvstCodeGen
+-keepnames class javassist.compiler.JvstCodeGen { *; }
+-keep class javassist.bytecode.ByteVector
+-keepnames class javassist.bytecode.ByteVector { *; }
+-keep class javassist.bytecode.AccessFlag
+-keepnames class javassist.bytecode.AccessFlag { *; }
+-keep class javassist.bytecode.stackmap.MapMaker
+-keepnames class javassist.bytecode.stackmap.MapMaker { *; }
+-keep class net.imagej.patcher.LegacyHooks
+-keepnames class net.imagej.patcher.LegacyHooks { *; }
+-keepclassmembers class net.imagej.patcher.LegacyHooks { *; }
+-keep class javassist.compiler.MemberResolver$Method
+-keepnames class javassist.compiler.MemberResolver$Method { *; }
+-keep class javassist.bytecode.SignatureAttribute
+-keepnames class javassist.bytecode.SignatureAttribute { *; }
+-keep class net.imagej.patcher.CodeHacker$3
+-keepnames class net.imagej.patcher.CodeHacker$3 { *; }
+-keep class javassist.expr.NewExpr
+-keepnames class javassist.expr.NewExpr { *; }
+-keep class javassist.bytecode.StackMapTable$Shifter
+-keepnames class javassist.bytecode.StackMapTable$Shifter { *; }
+-keep class javassist.bytecode.InnerClassesAttribute
+-keepnames class javassist.bytecode.InnerClassesAttribute { *; }
+-keep class javassist.bytecode.StackMapTable
+-keepnames class javassist.bytecode.StackMapTable { *; }
+-keep class javassist.bytecode.LocalVariableAttribute
+-keepnames class javassist.bytecode.LocalVariableAttribute { *; }
+-keep class org.scijava.script.ScriptService
+-keepnames class org.scijava.script.ScriptService { *; }
+-keepclassmembers class org.scijava.script.ScriptService { *; }
+-keep class javassist.bytecode.CodeAttribute
+-keepnames class javassist.bytecode.CodeAttribute { *; }
+-keep class javassist.bytecode.MethodInfo
+-keepnames class javassist.bytecode.MethodInfo { *; }
+-keep class javassist.bytecode.DeprecatedAttribute
+-keepnames class javassist.bytecode.DeprecatedAttribute { *; }
+-keep class javassist.bytecode.ExceptionTableEntry
+-keepnames class javassist.bytecode.ExceptionTableEntry { *; }
+-keep class javassist.bytecode.Utf8Info
+-keepnames class javassist.bytecode.Utf8Info { *; }
+-keep class javassist.bytecode.StringInfo
+-keepnames class javassist.bytecode.StringInfo { *; }
+-keep class javassist.bytecode.FieldrefInfo
+-keepnames class javassist.bytecode.FieldrefInfo { *; }
+-keep class javassist.bytecode.ConstInfo
+-keepnames class javassist.bytecode.ConstInfo { *; }
+-keep class javassist.bytecode.LongVector
+-keepnames class javassist.bytecode.LongVector { *; }
+-keep class javassist.bytecode.ConstPool
+-keepnames class javassist.bytecode.ConstPool { *; }
+-keep class io.github.mianalysis.mia.module.Modules
+-keepnames class io.github.mianalysis.mia.module.Modules { *; }
+-keepclassmembers class io.github.mianalysis.mia.module.Modules { *; }
+-keep class sun.reflect.GeneratedMethodAccessor5
+-keepnames class sun.reflect.GeneratedMethodAccessor5 { *; }
+-keepclassmembers class sun.reflect.GeneratedMethodAccessor5 { *; }
+-keep class javassist.bytecode.ClassFile
+-keepnames class javassist.bytecode.ClassFile { *; }
+-keep class io.github.mianalysis.mia.module.inputoutput.ImageLoader$ImportModes
+-keepnames class io.github.mianalysis.mia.module.inputoutput.ImageLoader$ImportModes { *; }
+-keep class org.scijava.convert.StringToNumberConverter
+-keepnames class org.scijava.convert.StringToNumberConverter { *; }
+-keepclassmembers class org.scijava.convert.StringToNumberConverter { *; }
+-keep class javassist.bytecode.stackmap.TypeData$NullType
+-keepnames class javassist.bytecode.stackmap.TypeData$NullType { *; }
+-keep class javassist.CtClassType
+-keepnames class javassist.CtClassType { *; }
+-keep class javassist.bytecode.SourceFileAttribute
+-keepnames class javassist.bytecode.SourceFileAttribute { *; }
+-keep class javassist.ClassPathList
+-keepnames class javassist.ClassPathList { *; }
+-keep class javassist.ClassPool
+-keepnames class javassist.ClassPool { *; }
+-keep class net.imagej.patcher.LegacyEnvironment$4
+-keepnames class net.imagej.patcher.LegacyEnvironment$4 { *; }
+-keep class javassist.bytecode.Descriptor
+-keepnames class javassist.bytecode.Descriptor { *; }
+-keep class sun.reflect.GeneratedMethodAccessor8
+-keepnames class sun.reflect.GeneratedMethodAccessor8 { *; }
+-keepclassmembers class sun.reflect.GeneratedMethodAccessor8 { *; }
+-keep class javassist.bytecode.LongInfo
+-keepnames class javassist.bytecode.LongInfo { *; }
+-keep class bsh.This
+-keepnames class bsh.This { *; }
+-keep class org.scijava.plugin.DefaultPluginFinder$PluginBlocklist
+-keepnames class org.scijava.plugin.DefaultPluginFinder$PluginBlocklist { *; }
+-keep class javassist.bytecode.ConstInfo
+-keepnames class javassist.bytecode.ConstInfo { *; }
+-keep class javassist.CtMember
+-keepnames class javassist.CtMember { *; }
+-keep class io.github.mianalysis.mia.object.parameters.FolderPathP
+-keepnames class io.github.mianalysis.mia.object.parameters.FolderPathP { *; }
+-keep class javassist.CtConstructor
+-keepnames class javassist.CtConstructor { *; }
+-keep class sun.reflect.GeneratedConstructorAccessor3
+-keepnames class sun.reflect.GeneratedConstructorAccessor3 { *; }
+-keepclassmembers class sun.reflect.GeneratedConstructorAccessor3 { *; }
+-keep class org.scijava.annotations.Index$IndexItemIterator
+-keepnames class org.scijava.annotations.Index$IndexItemIterator { *; }
+-keep class javassist.CtNewMethod
+-keepnames class javassist.CtNewMethod { *; }
+-keep class org.scijava.script.AdaptedScriptLanguage
+-keepnames class org.scijava.script.AdaptedScriptLanguage { *; }
+-keep class javassist.compiler.ast.IntConst
+-keepnames class javassist.compiler.ast.IntConst { *; }
+-keep class javassist.ClassPoolTail
+-keepnames class javassist.ClassPoolTail { *; }
+-keep class javassist.CtMember$Cache
+-keepnames class javassist.CtMember$Cache { *; }
+-keep class io.github.mianalysis.mia.object.parameters.FileFolderPathP
+-keepnames class io.github.mianalysis.mia.object.parameters.FileFolderPathP { *; }
+-keep class mpicbg.models.Affine2D
+-keepnames class mpicbg.models.Affine2D { *; }
+-keep class javassist.CtMethod
+-keepnames class javassist.CtMethod { *; }
+-keep class javassist.bytecode.NameAndTypeInfo
+-keepnames class javassist.bytecode.NameAndTypeInfo { *; }
+-keep class bsh.Interpreter
+-keepnames class bsh.Interpreter { *; }
+-keep class javassist.expr.ExprEditor
+-keepnames class javassist.expr.ExprEditor { *; }
+-keep class javassist.expr.Handler
+-keepnames class javassist.expr.Handler { *; }
+-keep class javassist.expr.MethodCall
+-keepnames class javassist.expr.MethodCall { *; }
+-keep class io.github.mianalysis.mia.object.Workspace
+-keepnames class io.github.mianalysis.mia.object.Workspace { *; }
+-keepclassmembers class io.github.mianalysis.mia.object.Workspace { *; }
+-keep class org.scijava.convert.ArrayConverters$BoolArrayWrapper
+-keepnames class org.scijava.convert.ArrayConverters$BoolArrayWrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$BoolArrayWrapper { *; }
+-keep class javassist.bytecode.ConstInfoPadding
+-keepnames class javassist.bytecode.ConstInfoPadding { *; }
+-keep class org.scijava.module.event.ModuleFinishedEvent
+-keepnames class org.scijava.module.event.ModuleFinishedEvent { *; }
+-keepclassmembers class org.scijava.module.event.ModuleFinishedEvent { *; }
+-keep class javassist.compiler.Javac
+-keepnames class javassist.compiler.Javac { *; }
+-keep class org.scijava.convert.NumberConverters$ByteToFloatConverter
+-keepnames class org.scijava.convert.NumberConverters$ByteToFloatConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$ByteToFloatConverter { *; }
+-keep class io.github.mianalysis.mia.module.system.GlobalVariables$VariableTypes
+-keepnames class io.github.mianalysis.mia.module.system.GlobalVariables$VariableTypes { *; }
+-keep class javassist.expr.ConstructorCall
+-keepnames class javassist.expr.ConstructorCall { *; }
+-keep class bsh.Token
+-keepnames class bsh.Token { *; }
+-keep class javassist.bytecode.stackmap.BasicBlock$Maker
+-keepnames class javassist.bytecode.stackmap.BasicBlock$Maker { *; }
+-keep class io.github.mianalysis.mia.object.refs.abstrakt.ExportableRef
+-keepnames class io.github.mianalysis.mia.object.refs.abstrakt.ExportableRef { *; }
+-keep class org.scijava.convert.ArrayConverters$ShortArrayUnwrapper
+-keepnames class org.scijava.convert.ArrayConverters$ShortArrayUnwrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$ShortArrayUnwrapper { *; }
+-keep class org.scijava.prefs.AbstractPrefService
+-keepnames class org.scijava.prefs.AbstractPrefService { *; }
+-keepclassmembers class org.scijava.prefs.AbstractPrefService { *; }
+-keep class org.scijava.plugin.Plugin
+-keepnames class org.scijava.plugin.Plugin { *; }
+-keepclassmembers class org.scijava.plugin.Plugin { *; }
+-keep class org.scijava.plugin.TypedService
+-keepnames class org.scijava.plugin.TypedService { *; }
+-keepclassmembers class org.scijava.plugin.TypedService { *; }
+-keep class bsh.classpath.BshClassPath
+-keepnames class bsh.classpath.BshClassPath { *; }
+-keep class org.scijava.MenuPath
+-keepnames class org.scijava.MenuPath { *; }
+-keep class org.scijava.convert.NumberConverters$DoubleToBigDecimalConverter
+-keepnames class org.scijava.convert.NumberConverters$DoubleToBigDecimalConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$DoubleToBigDecimalConverter { *; }
+-keep class javassist.bytecode.StackMapTable$OffsetShifter
+-keepnames class javassist.bytecode.StackMapTable$OffsetShifter { *; }
+-keep class org.scijava.plugin.AbstractTypedPlugin
+-keepnames class org.scijava.plugin.AbstractTypedPlugin { *; }
+-keepclassmembers class org.scijava.plugin.AbstractTypedPlugin { *; }
+-keep class javassist.bytecode.Opcode
+-keepnames class javassist.bytecode.Opcode { *; }
+-keep class bsh.CallStack
+-keepnames class bsh.CallStack { *; }
+-keep class io.github.mianalysis.miaserver.utils.Initialiser
+-keepnames class io.github.mianalysis.miaserver.utils.Initialiser { *; }
+-keep class org.scijava.log.LogSource
+-keepnames class org.scijava.log.LogSource { *; }
+-keep class javassist.bytecode.stackmap.TypeData$TypeVar
+-keepnames class javassist.bytecode.stackmap.TypeData$TypeVar { *; }
+-keep class bsh.BSHPrimaryExpression
+-keepnames class bsh.BSHPrimaryExpression { *; }
+-keep class org.scijava.convert.ArrayConverters$ByteArrayWrapper
+-keepnames class org.scijava.convert.ArrayConverters$ByteArrayWrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$ByteArrayWrapper { *; }
+-keep class net.imagej.patcher.CodeHacker$2
+-keepnames class net.imagej.patcher.CodeHacker$2 { *; }
+-keep class javassist.bytecode.MethodrefInfo
+-keepnames class javassist.bytecode.MethodrefInfo { *; }
+-keep class bsh.SimpleNode
+-keepnames class bsh.SimpleNode { *; }
+-keep class javassist.bytecode.ConstantAttribute
+-keepnames class javassist.bytecode.ConstantAttribute { *; }
+-keep class org.scijava.convert.FileToPathConverter
+-keepnames class org.scijava.convert.FileToPathConverter { *; }
+-keepclassmembers class org.scijava.convert.FileToPathConverter { *; }
+-keep class ij.gui.NewImage
+-keepnames class ij.gui.NewImage { *; }
+-keep class javassist.bytecode.stackmap.TypeData$UninitData
+-keepnames class javassist.bytecode.stackmap.TypeData$UninitData { *; }
+-keep class org.scijava.Context
+-keepnames class org.scijava.Context { *; }
+-keep class javassist.bytecode.stackmap.TypeData$UninitTypeVar
+-keepnames class javassist.bytecode.stackmap.TypeData$UninitTypeVar { *; }
+-keep class bsh.engine.ScriptContextEngineView
+-keepnames class bsh.engine.ScriptContextEngineView { *; }
+-keep class ij.process.ColorProcessor
+-keepnames class ij.process.ColorProcessor { *; }
+-keep class org.scijava.display.DisplayService
+-keepnames class org.scijava.display.DisplayService { *; }
+-keepclassmembers class org.scijava.display.DisplayService { *; }
+-keep class io.github.mianalysis.mia.module.script.GeneralOutputter$OutputTypes
+-keepnames class io.github.mianalysis.mia.module.script.GeneralOutputter$OutputTypes { *; }
+-keep class javassist.compiler.ast.Stmnt
+-keepnames class javassist.compiler.ast.Stmnt { *; }
+-keep class org.scijava.ui.DefaultUIService
+-keepnames class org.scijava.ui.DefaultUIService { *; }
+-keepclassmembers class org.scijava.ui.DefaultUIService { *; }
+-keep class javassist.bytecode.StackMapTable$Walker
+-keepnames class javassist.bytecode.StackMapTable$Walker { *; }
+-keep class org.scijava.convert.AbstractConvertService
+-keepnames class org.scijava.convert.AbstractConvertService { *; }
+-keepclassmembers class org.scijava.convert.AbstractConvertService { *; }
+-keep class io.github.mianalysis.mia.process.ClassHunter
+-keepnames class io.github.mianalysis.mia.process.ClassHunter { *; }
+-keep class io.github.mianalysis.miaserver.utils.ModuleGroup$1
+-keepnames class io.github.mianalysis.miaserver.utils.ModuleGroup$1 { *; }
+-keep class javassist.bytecode.stackmap.TypedBlock
+-keepnames class javassist.bytecode.stackmap.TypedBlock { *; }
+-keep class ij.process.ImageProcessor
+-keepnames class ij.process.ImageProcessor { *; }
+-keep class io.github.mianalysis.miaserver.parameters.ParameterP
+-keepnames class io.github.mianalysis.miaserver.parameters.ParameterP { *; }
+-keep class io.github.mianalysis.mia.module.inputoutput.ImageLoader$ScaleModes
+-keepnames class io.github.mianalysis.mia.module.inputoutput.ImageLoader$ScaleModes { *; }
+-keep class javassist.bytecode.stackmap.TypeData
+-keepnames class javassist.bytecode.stackmap.TypeData { *; }
+-keep class org.scijava.script.process.DefaultScriptProcessorService
+-keepnames class org.scijava.script.process.DefaultScriptProcessorService { *; }
+-keepclassmembers class org.scijava.script.process.DefaultScriptProcessorService { *; }
+-keep class org.scijava.convert.PrimitiveArrayUnwrapper
+-keepnames class org.scijava.convert.PrimitiveArrayUnwrapper { *; }
+-keepclassmembers class org.scijava.convert.PrimitiveArrayUnwrapper { *; }
+-keep class io.github.mianalysis.mia.object.parameters.abstrakt.TextType
+-keepnames class io.github.mianalysis.mia.object.parameters.abstrakt.TextType { *; }
+-keep class org.scijava.plugins.scripting.beanshell.BeanshellScriptLanguage
+-keepnames class org.scijava.plugins.scripting.beanshell.BeanshellScriptLanguage { *; }
+-keep class org.scijava.command.DefaultCommandService
+-keepnames class org.scijava.command.DefaultCommandService { *; }
+-keepclassmembers class org.scijava.command.DefaultCommandService { *; }
+-keep class javassist.compiler.ast.Pair
+-keepnames class javassist.compiler.ast.Pair { *; }
+-keep class javassist.expr.Instanceof
+-keepnames class javassist.expr.Instanceof { *; }
+-keep class org.scijava.log.Logger
+-keepnames class org.scijava.log.Logger { *; }
+-keepclassmembers class org.scijava.log.Logger { *; }
+-keep class io.github.mianalysis.mia.module.inputoutput.ImageLoader
+-keepnames class io.github.mianalysis.mia.module.inputoutput.ImageLoader { *; }
+-keepclassmembers class io.github.mianalysis.mia.module.inputoutput.ImageLoader { *; }
+-keep class ij.gui.Toolbar
+-keepnames class ij.gui.Toolbar { *; }
+-keep class sun.reflect.GeneratedMethodAccessor2
+-keepnames class sun.reflect.GeneratedMethodAccessor2 { *; }
+-keepclassmembers class sun.reflect.GeneratedMethodAccessor2 { *; }
+-keep class bsh.JJTParserState
+-keepnames class bsh.JJTParserState { *; }
+-keep class org.scijava.annotations.IndexItem
+-keepnames class org.scijava.annotations.IndexItem { *; }
+-keep class io.github.mianalysis.mia.object.parameters.text.DoubleP
+-keepnames class io.github.mianalysis.mia.object.parameters.text.DoubleP { *; }
+-keep class io.github.mianalysis.mia.process.analysishandling.AnalysisReader
+-keepnames class io.github.mianalysis.mia.process.analysishandling.AnalysisReader { *; }
+-keep class javassist.bytecode.LineNumberAttribute
+-keepnames class javassist.bytecode.LineNumberAttribute { *; }
+-keep class org.scijava.parsington.eval.TreeEvaluator
+-keepnames class org.scijava.parsington.eval.TreeEvaluator { *; }
+-keep class javassist.bytecode.stackmap.BasicBlock
+-keepnames class javassist.bytecode.stackmap.BasicBlock { *; }
+-keep class org.scijava.log.LogService
+-keepnames class org.scijava.log.LogService { *; }
+-keepclassmembers class org.scijava.log.LogService { *; }
+-keep class org.scijava.plugin.AbstractPTService
+-keepnames class org.scijava.plugin.AbstractPTService { *; }
+-keepclassmembers class org.scijava.plugin.AbstractPTService { *; }
+-keep class org.scijava.parsington.Operator$Associativity
+-keepnames class org.scijava.parsington.Operator$Associativity { *; }
+-keep class io.github.mianalysis.miaserver.utils.StarCounter
+-keepnames class io.github.mianalysis.miaserver.utils.StarCounter { *; }
+-keepclassmembers class io.github.mianalysis.miaserver.utils.StarCounter { *; }
+-keep class io.github.mianalysis.mia.module.inputoutput.ImageLoader$DimensionMismatchModes
+-keepnames class io.github.mianalysis.mia.module.inputoutput.ImageLoader$DimensionMismatchModes { *; }
+-keep class javassist.bytecode.MethodHandleInfo
+-keepnames class javassist.bytecode.MethodHandleInfo { *; }
+-keep class org.scijava.convert.ArrayConverters$ByteArrayUnwrapper
+-keepnames class org.scijava.convert.ArrayConverters$ByteArrayUnwrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$ByteArrayUnwrapper { *; }
+-keep class javassist.bytecode.StackMapTable$Writer
+-keepnames class javassist.bytecode.StackMapTable$Writer { *; }
+-keep class org.scijava.ItemVisibility
+-keepnames class org.scijava.ItemVisibility { *; }
+-keep class org.scijava.annotations.EclipseHelper
+-keepnames class org.scijava.annotations.EclipseHelper { *; }
+-keep class javassist.CtField
+-keepnames class javassist.CtField { *; }
+-keep class org.scijava.convert.NumberToDoubleConverter
+-keepnames class org.scijava.convert.NumberToDoubleConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberToDoubleConverter { *; }
+-keep class javassist.bytecode.stackmap.TypeData$ArrayType
+-keepnames class javassist.bytecode.stackmap.TypeData$ArrayType { *; }
+-keep class org.scijava.convert.NumberConverters$ShortToBigDecimalConverter
+-keepnames class org.scijava.convert.NumberConverters$ShortToBigDecimalConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$ShortToBigDecimalConverter { *; }
+-keep class ij.io.FileOpener
+-keepnames class ij.io.FileOpener { *; }
+-keep class io.github.mianalysis.mia.module.core.InputControl$AvailableSpatialUnits
+-keepnames class io.github.mianalysis.mia.module.core.InputControl$AvailableSpatialUnits { *; }
+-keep class com.sun.proxy.$Proxy2
+-keepnames class com.sun.proxy.$Proxy2 { *; }
+-keepclassmembers class com.sun.proxy.$Proxy2 { *; }
+-keep class org.scijava.event.bushe.ProxySubscriber
+-keepnames class org.scijava.event.bushe.ProxySubscriber { *; }
+-keep class io.github.mianalysis.mia.object.refs.collections.MetadataRefs
+-keepnames class io.github.mianalysis.mia.object.refs.collections.MetadataRefs { *; }
+-keep class org.scijava.service.AbstractService
+-keepnames class org.scijava.service.AbstractService { *; }
+-keepclassmembers class org.scijava.service.AbstractService { *; }
+-keep class net.imagej.patcher.LegacyInjector$Callback
+-keepnames class net.imagej.patcher.LegacyInjector$Callback { *; }
+-keep class javassist.util.proxy.SecurityActions
+-keepnames class javassist.util.proxy.SecurityActions { *; }
+-keep class org.scijava.module.ModuleInfo
+-keepnames class org.scijava.module.ModuleInfo { *; }
+-keepclassmembers class org.scijava.module.ModuleInfo { *; }
+-keep class bsh.BSHAmbiguousName
+-keepnames class bsh.BSHAmbiguousName { *; }
+-keep class org.scijava.convert.DefaultConverter
+-keepnames class org.scijava.convert.DefaultConverter { *; }
+-keepclassmembers class org.scijava.convert.DefaultConverter { *; }
+-keep class javassist.bytecode.LocalVariableTypeAttribute
+-keepnames class javassist.bytecode.LocalVariableTypeAttribute { *; }
+-keep class bsh.Types
+-keepnames class bsh.Types { *; }
+-keep class javassist.compiler.Token
+-keepnames class javassist.compiler.Token { *; }
+-keep class ij.Prefs
+-keepnames class ij.Prefs { *; }
+-keep class javassist.bytecode.stackmap.TypeTag
+-keepnames class javassist.bytecode.stackmap.TypeTag { *; }
+-keep class org.scijava.convert.ConvertService
+-keepnames class org.scijava.convert.ConvertService { *; }
+-keepclassmembers class org.scijava.convert.ConvertService { *; }
+-keep class javassist.util.proxy.SecurityActions$3
+-keepnames class javassist.util.proxy.SecurityActions$3 { *; }
+-keep class javassist.bytecode.ExceptionsAttribute
+-keepnames class javassist.bytecode.ExceptionsAttribute { *; }
+-keep class org.scijava.plugin.HasPluginInfo
+-keepnames class org.scijava.plugin.HasPluginInfo { *; }
+-keepclassmembers class org.scijava.plugin.HasPluginInfo { *; }
+-keep class org.scijava.event.bushe.AbstractProxySubscriber
+-keepnames class org.scijava.event.bushe.AbstractProxySubscriber { *; }
+-keep class org.scijava.event.DefaultEventService
+-keepnames class org.scijava.event.DefaultEventService { *; }
+-keepclassmembers class org.scijava.event.DefaultEventService { *; }
+-keep class bsh.ParserTokenManager
+-keepnames class bsh.ParserTokenManager { *; }
+-keep class javassist.CtBehavior
+-keepnames class javassist.CtBehavior { *; }
+-keep class javassist.bytecode.ExceptionTable
+-keepnames class javassist.bytecode.ExceptionTable { *; }
+-keep class net.imagej.patcher.LegacyInjector
+-keepnames class net.imagej.patcher.LegacyInjector { *; }
+-keep class org.scijava.convert.ArrayConverters$IntArrayUnwrapper
+-keepnames class org.scijava.convert.ArrayConverters$IntArrayUnwrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$IntArrayUnwrapper { *; }
+-keep class io.github.mianalysis.mia.process.logging.LogRenderer$Level
+-keepnames class io.github.mianalysis.mia.process.logging.LogRenderer$Level { *; }
+-keep class io.github.mianalysis.miaserver.modules.DisplaySimpleImage$DefaultControls
+-keepnames class io.github.mianalysis.miaserver.modules.DisplaySimpleImage$DefaultControls { *; }
+-keep class org.scijava.util.Types$GenericTypeReflector
+-keepnames class org.scijava.util.Types$GenericTypeReflector { *; }
+-keep class io.github.mianalysis.mia.module.AvailableModules
+-keepnames class io.github.mianalysis.mia.module.AvailableModules { *; }
+-keep class javassist.expr.NewExpr$ProceedForNew
+-keepnames class javassist.expr.NewExpr$ProceedForNew { *; }
+-keep class io.github.mianalysis.miaserver.modules.PerformAction
+-keepnames class io.github.mianalysis.miaserver.modules.PerformAction { *; }
+-keepclassmembers class io.github.mianalysis.miaserver.modules.PerformAction { *; }
+-keep class javassist.CtArray
+-keepnames class javassist.CtArray { *; }
+-keep class org.scijava.module.event.ModuleStartedEvent
+-keepnames class org.scijava.module.event.ModuleStartedEvent { *; }
+-keepclassmembers class org.scijava.module.event.ModuleStartedEvent { *; }
+-keep class javassist.compiler.NoFieldException
+-keepnames class javassist.compiler.NoFieldException { *; }
+-keep class javassist.compiler.ast.AssignExpr
+-keepnames class javassist.compiler.ast.AssignExpr { *; }
+-keep class javassist.bytecode.MemberrefInfo
+-keepnames class javassist.bytecode.MemberrefInfo { *; }
+-keep class io.github.mianalysis.mia.module.script.GeneralOutputter
+-keepnames class io.github.mianalysis.mia.module.script.GeneralOutputter { *; }
+-keepclassmembers class io.github.mianalysis.mia.module.script.GeneralOutputter { *; }
+-keep class javassist.compiler.ast.CallExpr
+-keepnames class javassist.compiler.ast.CallExpr { *; }
+-keep class org.scijava.plugin.PluginInfo
+-keepnames class org.scijava.plugin.PluginInfo { *; }
+-keep class ij.ImageStack
+-keepnames class ij.ImageStack { *; }
+-keep class ij.measure.Calibration
+-keepnames class ij.measure.Calibration { *; }
+-keep class io.github.mianalysis.miaserver.utils.ModuleGroup
+-keepnames class io.github.mianalysis.miaserver.utils.ModuleGroup { *; }
+-keep class io.github.mianalysis.mia.module.inputoutput.ImageLoader$SeriesModes
+-keepnames class io.github.mianalysis.mia.module.inputoutput.ImageLoader$SeriesModes { *; }
+-keep class javassist.bytecode.InterfaceMethodrefInfo
+-keepnames class javassist.bytecode.InterfaceMethodrefInfo { *; }
+-keep class bsh.engine.BshScriptEngine
+-keepnames class bsh.engine.BshScriptEngine { *; }
+-keep class org.scijava.AbstractBasicDetails
+-keepnames class org.scijava.AbstractBasicDetails { *; }
+-keepclassmembers class org.scijava.AbstractBasicDetails { *; }
+-keep class javassist.compiler.ast.Declarator
+-keepnames class javassist.compiler.ast.Declarator { *; }
+-keep class io.github.mianalysis.miaserver.modules.DisplaySimpleImage
+-keepnames class io.github.mianalysis.miaserver.modules.DisplaySimpleImage { *; }
+-keepclassmembers class io.github.mianalysis.miaserver.modules.DisplaySimpleImage { *; }
+-keep class ij.ImagePlus
+-keepnames class ij.ImagePlus { *; }
+-keep class org.scijava.object.DefaultObjectService
+-keepnames class org.scijava.object.DefaultObjectService { *; }
+-keepclassmembers class org.scijava.object.DefaultObjectService { *; }
+-keep class org.scijava.util.Prefs
+-keepnames class org.scijava.util.Prefs { *; }
+-keep class org.scijava.script.process.ShebangScriptProcessor
+-keepnames class org.scijava.script.process.ShebangScriptProcessor { *; }
+-keepclassmembers class org.scijava.script.process.ShebangScriptProcessor { *; }
+-keep class io.github.mianalysis.mia.module.script.RunScript$ScriptLanguages
+-keepnames class io.github.mianalysis.mia.module.script.RunScript$ScriptLanguages { *; }
+-keep class javassist.compiler.ast.BinExpr
+-keepnames class javassist.compiler.ast.BinExpr { *; }
+-keep class net.imagej.patcher.CodeHacker
+-keepnames class net.imagej.patcher.CodeHacker { *; }
+-keep class org.scijava.convert.ArrayConverters$CharArrayWrapper
+-keepnames class org.scijava.convert.ArrayConverters$CharArrayWrapper { *; }
+-keepclassmembers class org.scijava.convert.ArrayConverters$CharArrayWrapper { *; }
+-keep class io.github.mianalysis.mia.module.images.transform.registration.AffineFixedTransform
+-keepnames class io.github.mianalysis.mia.module.images.transform.registration.AffineFixedTransform { *; }
+-keepclassmembers class io.github.mianalysis.mia.module.images.transform.registration.AffineFixedTransform { *; }
+-keep class javassist.LoaderClassPath
+-keepnames class javassist.LoaderClassPath { *; }
+-keep class org.scijava.plugin.AbstractHandlerPlugin
+-keepnames class org.scijava.plugin.AbstractHandlerPlugin { *; }
+-keepclassmembers class org.scijava.plugin.AbstractHandlerPlugin { *; }
+-keep class org.scijava.convert.FileListConverters$StringToFileConverter
+-keepnames class org.scijava.convert.FileListConverters$StringToFileConverter { *; }
+-keepclassmembers class org.scijava.convert.FileListConverters$StringToFileConverter { *; }
+-keep class org.scijava.parse.Items
+-keepnames class org.scijava.parse.Items { *; }
+-keep class net.imagej.patcher.CodeHacker$8
+-keepnames class net.imagej.patcher.CodeHacker$8 { *; }
+-keep class javassist.CtClass
+-keepnames class javassist.CtClass { *; }
+-keep class org.scijava.ui.console.ConsolePane
+-keepnames class org.scijava.ui.console.ConsolePane { *; }
+-keep class io.github.mianalysis.miaserver.modules.CreateMessage$1
+-keepnames class io.github.mianalysis.miaserver.modules.CreateMessage$1 { *; }
+-keep class org.scijava.AbstractContextual
+-keepnames class org.scijava.AbstractContextual { *; }
+-keepclassmembers class org.scijava.AbstractContextual { *; }
+-keep class io.github.mianalysis.mia.object.parameters.text.StringP
+-keepnames class io.github.mianalysis.mia.object.parameters.text.StringP { *; }
+-keep class sun.reflect.GeneratedConstructorAccessor4
+-keepnames class sun.reflect.GeneratedConstructorAccessor4 { *; }
+-keepclassmembers class sun.reflect.GeneratedConstructorAccessor4 { *; }
+-keep class org.scijava.plugin.PluginFinder
+-keepnames class org.scijava.plugin.PluginFinder { *; }
+-keep class bsh.Primitive$Special$1
+-keepnames class bsh.Primitive$Special$1 { *; }
+-keep class net.imagej.patcher.LegacyEnvironment
+-keepnames class net.imagej.patcher.LegacyEnvironment { *; }
+-keep class org.scijava.plugin.AbstractRichPlugin
+-keepnames class org.scijava.plugin.AbstractRichPlugin { *; }
+-keepclassmembers class org.scijava.plugin.AbstractRichPlugin { *; }
+-keep class bsh.ExternalNameSpace
+-keepnames class bsh.ExternalNameSpace { *; }
+-keep class org.scijava.event.ContextCreatedEvent
+-keepnames class org.scijava.event.ContextCreatedEvent { *; }
+-keepclassmembers class org.scijava.event.ContextCreatedEvent { *; }
+-keep class io.github.mianalysis.mia.module.IL2Support
+-keepnames class io.github.mianalysis.mia.module.IL2Support { *; }
+-keep class org.scijava.thread.DefaultThreadService
+-keepnames class org.scijava.thread.DefaultThreadService { *; }
+-keepclassmembers class org.scijava.thread.DefaultThreadService { *; }
+-keep class sun.reflect.GeneratedConstructorAccessor8
+-keepnames class sun.reflect.GeneratedConstructorAccessor8 { *; }
+-keepclassmembers class sun.reflect.GeneratedConstructorAccessor8 { *; }
+-keep class javassist.bytecode.ClassInfo
+-keepnames class javassist.bytecode.ClassInfo { *; }
+-keep class org.scijava.plugin.DefaultPluginFinder
+-keepnames class org.scijava.plugin.DefaultPluginFinder { *; }
+-keep class org.scijava.convert.NumberConverters$ShortToFloatConverter
+-keepnames class org.scijava.convert.NumberConverters$ShortToFloatConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$ShortToFloatConverter { *; }
+-keep class org.scijava.event.DefaultEventBus
+-keepnames class org.scijava.event.DefaultEventBus { *; }
+-keep class org.scijava.convert.NumberConverters$ByteToLongConverter
+-keepnames class org.scijava.convert.NumberConverters$ByteToLongConverter { *; }
+-keepclassmembers class org.scijava.convert.NumberConverters$ByteToLongConverter { *; }
+-keep class org.scijava.util.NumberUtils
+-keepnames class org.scijava.util.NumberUtils { *; }
+-keep class io.github.mianalysis.mia.module.images.configure.SetLookupTable$ChannelModes
+-keepnames class io.github.mianalysis.mia.module.images.configure.SetLookupTable$ChannelModes { *; }
+-keep class javassist.bytecode.stackmap.BasicBlock$Mark
+-keepnames class javassist.bytecode.stackmap.BasicBlock$Mark { *; }
+-keep class org.scijava.event.SciJavaEvent
+-keepnames class org.scijava.event.SciJavaEvent { *; }
+-keepclassmembers class org.scijava.event.SciJavaEvent { *; }
+-keep class io.github.mianalysis.mia.object.units.SpatialUnit$AvailableUnits
+-keepnames class io.github.mianalysis.mia.object.units.SpatialUnit$AvailableUnits { *; }
