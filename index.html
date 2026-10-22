@@ -15,7 +15,6 @@
       (async () => {
         try {
           // Setting values to be accessible from other classes
-          window.starCount = new Map();
           window.setLoadedBytes = null;
           window.TOTAL_INIT_BYTES = 7570530;
           window.localLoadedBytes = 0;
@@ -43,7 +42,7 @@
                 if (done) break;
 
                 loadedBytes += value.length;
-                console.log('[W] Loaded ' + loadedBytes);
+                // console.log('[W] Loaded ' + loadedBytes);
                 window.localLoadedBytes = loadedBytes;
                 updateProgress(loadedBytes);
               }

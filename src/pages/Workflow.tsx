@@ -165,14 +165,15 @@ async function updatePage(result: any) {
   setHasPrevious(await result.hasPreviousGroup());
   setHasNext(await result.hasNextGroup());
 
-  const wfName = workflowName.toString();
+  const wfName = "Star_"+workflowName.toString();
   const currStarCount = await result.getStarCount();
-  if (!window.starCount.has(wfName))
-    window.starCount.set(wfName,0);
+  if (sessionStorage.getItem(wfName) == null)
+    sessionStorage.setItem(wfName, "0");
 
-  if (currStarCount > window.starCount.get(wfName)) {
+  const storedStarCount = Number(sessionStorage.getItem(wfName) ?? 0);
+  if (currStarCount > storedStarCount) {
     setStarCount(currStarCount);
-    window.starCount.set(wfName,currStarCount);
+    sessionStorage.setItem(wfName, currStarCount);
   }
 
   setImage(result);

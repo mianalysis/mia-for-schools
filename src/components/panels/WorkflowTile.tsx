@@ -6,7 +6,8 @@ interface Props {
 
 export default function WorkflowTile(props: Props) {
   const stars = Array(props.workflow.totalStars).fill(false);
-  for (var i=0;i<window.starCount.get(props.workflow.fullname);i++)
+  const starCount = Number(sessionStorage.getItem("Star_"+props.workflow.fullname) ?? 0);
+  for (var i=0;i<starCount;i++)
     stars[i] = true;
   
   return (
