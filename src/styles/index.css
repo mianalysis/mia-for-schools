@@ -83,6 +83,7 @@
 @source inline("hover:text-white");
 @source inline("text-purple-400");
 @source inline("italic");
+@source inline("text-xl");
 @source inline("text-{2,3,4,5}xl");
 @source inline("m-{0,2}");
 @source inline("mb-{1,2,4,6,8,20}");

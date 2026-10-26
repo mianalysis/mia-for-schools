@@ -18,9 +18,7 @@ export default function AboutImage(props: Props) {
       <h1 class="text-gray-600 mt-8 mb-8 text-4xl md:text-6xl font-bold">
         About this picture
       </h1>
-      <p class="text-gray-600 ml-2 mr-2 text-2xl mb-16">
-        {props.aboutText()}
-      </p>
+      <p class="text-gray-600 ml-2 mr-2 text-2xl mb-16" innerHTML={props.aboutText()} />
       <Button
         class="!w-fit ml-auto mr-auto p-2 pl-8 pr-8 mb-8 h-auto"
         onClick={() => props.closePanel()}
