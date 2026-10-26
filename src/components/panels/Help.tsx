@@ -1,6 +1,8 @@
 import { Match, Switch } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
 import Button from '../controls/Button';
+import Star from '../svgs/Star';
+import Lightbulb from '../svgs/Lightbulb';
 
 interface Props {
   welcomeScreen: boolean;
@@ -23,8 +25,11 @@ export default function Help(props: Props) {
         computers can understand and work with them.
         <br />
         <br />
-        Complete challenges to earn ⭐ stars. You can see how many stars you have in the top-left
+        Complete challenges to earn <Star svgClass='inline w-6 mb-1' pathStyle='fill:none;stroke:#4a5565'/>. You can see how many stars you have in the top-left
         corner.
+        <br />
+        <br />
+        To learn more about any of the pictures you see, click the <Lightbulb svgClass='inline w-7 mb-2' svgStyle="fill:none; stroke:#4a5565"/> button in the bottom-left corner of each picture.
       </p>
       <Switch>
         <Match when={props.welcomeScreen}>

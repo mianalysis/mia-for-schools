@@ -14,7 +14,7 @@ interface Props {
 export default function Message(props: Props) {
   function createControl(parameter: ParameterJSON) {
     return [
-      <div class="flex items-center" style="display: inline;">
+      <div class="inline items-center">
         <Switch>
           <Match when={parameter.type === 'BooleanP'}>
             <ParameterToggle parameter={parameter} updatePage={props.updatePage} />
@@ -60,22 +60,30 @@ export default function Message(props: Props) {
 
   return (
     <Panel class="flex-1 max-w-lg z-10">
-      <For each={props.message()}>
-        {(content) => (
-          <Switch>
-            <Match when={content.type === 'parameter'}>
-              {createControl(content.data as ParameterJSON)}
-            </Match>
-            <Match when={content.type === 'text'}>
-              <span
-                style="white-space: pre-line;"
-                class="text-gray-600 text-2xl"
-                innerHTML={content.data as string}
-              ></span>
-            </Match>
-          </Switch>
-        )}
-      </For>
+      <div class="contents">
+
+        {/* <div>
+  <div style="display: contents;">
+    <div class="inline">C1 sadsad sdfs dfsd fsd f sdf sd fsdf sd fsd fsdf sdf sadfs fsdf sdf sdf sdf sf sdf sdf Long text that wraps onto another line</div>
+  </div>
+  <div class="inline">C2</div>
+</div> */}
+        <For each={props.message()}>
+          {(content) => (
+            <Switch>
+              <Match when={content.type === 'parameter'}>
+                {createControl(content.data as ParameterJSON)}
+              </Match>
+              <Match when={content.type === 'text'}>
+                <div
+                  class="inline text-gray-600 text-2xl"
+                  innerHTML={content.data as string}
+                ></div>
+              </Match>
+            </Switch>
+          )}
+        </For>
+      </div>
     </Panel>
   );
 }
